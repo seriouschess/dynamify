@@ -7,11 +7,20 @@ import { HttpService } from '../http.service';
 })
 export class FetchDataComponent {
   public forecasts: WeatherForecast[];
+  public admins: Admin[];
 
   constructor(private _httpService:HttpService) {
-    this._httpService.get_data().subscribe(result => {
+    this.allAdmins();
+  }
+
+  newAdmin(){
+    this._httpService.post_admin();
+  }
+
+  allAdmins(){
+    this._httpService.get_admins().subscribe(result => {
       if(result){
-        this.forecasts = result;
+        this.admins = result;
       }
     }, error => console.error(error));
   }
@@ -23,3 +32,12 @@ interface WeatherForecast {
   temperatureF: number;
   summary: string;
 }
+
+interface Admin {
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  Password: string;
+}
+
+

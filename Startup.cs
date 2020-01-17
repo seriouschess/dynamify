@@ -32,7 +32,8 @@ namespace dynamify
                 configuration.RootPath = "ClientApp/dist";
             });
             string mySqlConnection = Configuration["DBInfo:ConnectionString"];
-            services.AddDbContext<SiteContext>(options => options.UseMySql(mySqlConnection));
+            System.Console.WriteLine(mySqlConnection);
+            services.AddDbContext<MyContext>(options => options.UseMySql(mySqlConnection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
