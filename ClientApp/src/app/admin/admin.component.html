@@ -1,0 +1,40 @@
+<h1 id="tableLabel">Registration</h1>
+
+<p *ngIf="!admins"><em>Loading...</em></p>
+
+<form (submit)="postAdminToService()">
+  <label>First Name: </label><input name="firstName"[(ngModel)]="newAdminObject.firstName">
+  <label>Last Name: </label><input name="lastName" [(ngModel)]="newAdminObject.lastName">
+  <label>email: </label><input name="email" [(ngModel)]="newAdminObject.email">
+  <label>password: </label><input name="password" type="password" [(ngModel)]="newAdminObject.password">
+  <input type="submit" value="Post new Admin">
+</form>
+
+<p>All admin data*: not for production</p>
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="admins">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>email</th>
+      <th>password</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let admin of admins">
+      <td>{{ admin.adminId }}</td>
+      <td>{{ admin.firstName }}</td>
+      <td>{{ admin.lastName }}</td>
+      <td>{{ admin.email }}</td>
+      <td>{{ admin.password }}</td>
+      <td><button class="btn btn-success" (click)="openEditor(admin)">Edit</button></td>
+      <td><button class="btn btn-info" (click)="deleteAdminByID(admin.adminId)">Delete :O</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<app-edit-admin *ngIf="open_editor" [editAdminObject]="editAdminObject">hi</app-edit-admin>
+
+<p>Footer :D</p>

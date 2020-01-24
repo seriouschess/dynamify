@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Text.Json;
 using dynamify.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,30 +32,34 @@ namespace dynamify.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Admin> Post([FromBody] Admin NewAdmin){
+        public ActionResult<Admin> Post([FromBody] string _NewAdmin){
+            Admin NewAdmin = JsonSerializer.Deserialize<Admin>(_NewAdmin);
             dbContext.Add(NewAdmin);
             dbContext.SaveChanges();
-            System.Console.WriteLine("%%%%%%%%%%%%posted%%%%%%%%%%%");
-            Admin[] result = {NewAdmin}; 
-            return NewAdmin;
+            Admin queryAdmin = new Admin();
+            queryAdmin.email = NewAdmin.email;
+            queryAdmin = dbContext.Admins.FirstOrDefault(x => x.email == queryAdmin.email);
+            return queryAdmin;
         }
 
         [HttpDelete]
-        public ActionResult<Admin> Destroy([FromBody] Admin TargetAdmin){
-            Admin FoundAdmin = dbContext.Admins.SingleOrDefault(x => x.AdminId == TargetAdmin.AdminId);
-            Admin r = FoundAdmin;
+        [Route("/[controller]/{admin_id}")]
+        public ActionResult<Admin> Destroy(int admin_id){
+            System.Console.WriteLine("Admin Deleted >:O");
+            Admin FoundAdmin = dbContext.Admins.SingleOrDefault(x => x.adminId == admin_id);
             dbContext.Remove( FoundAdmin );
             dbContext.SaveChanges();
-            return r;
+            return FoundAdmin;
         }
 
         [HttpPut]
-        public ActionResult<Admin> Update([FromBody] Admin TargetAdmin){
-            Admin FoundAdmin = dbContext.Admins.FirstOrDefault(Admin => Admin.AdminId == TargetAdmin.AdminId);
-            FoundAdmin.FirstName = TargetAdmin.FirstName;
-            FoundAdmin.LastName = TargetAdmin.LastName;
-            FoundAdmin.Email = TargetAdmin.Email; //must validate unique email
-            FoundAdmin.Password = TargetAdmin.Password;
+        public ActionResult<Admin> Update([FromBody] string _TargetAdmin){
+            Admin TargetAdmin = JsonSerializer.Deserialize<Admin>(_TargetAdmin);
+            Admin FoundAdmin = dbContext.Admins.FirstOrDefault(Admin => Admin.adminId == TargetAdmin.adminId);
+            FoundAdmin.firstName = TargetAdmin.firstName;
+            FoundAdmin.lastName = TargetAdmin.lastName;
+            //email cannot be changed
+            FoundAdmin.password = TargetAdmin.password;
             FoundAdmin.UpdatedAt = DateTime.Now;
             dbContext.SaveChanges();
             return FoundAdmin;

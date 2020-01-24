@@ -23,9 +23,15 @@ namespace dynamify
         public void ConfigureServices(IServiceCollection services)
         {
             //I don't think we need this to work with APIs
-            // services.AddMvc().
-            //     AddNewtonsoftJson(); 
+            services.AddMvc(options =>
+                    {
+                        options.InputFormatters.Insert(0, new RawJsonBodyInputFormatter());
+                    }
+                );
+                //.AddNewtonsoftJson();
+
             services.AddControllersWithViews();
+             
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

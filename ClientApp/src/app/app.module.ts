@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AppFrontendRoutesModule} from './app-frontend-routes.module';
+import { AdminComponent } from './admin/admin.component';
+import { EditAdminComponent } from './edit-admin/edit-admin.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +19,9 @@ import { AppFrontendRoutesModule} from './app-frontend-routes.module';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent,
-    ProfileComponent
+    ProfileComponent,
+    AdminComponent,
+    EditAdminComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
