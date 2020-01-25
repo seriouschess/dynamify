@@ -21,9 +21,9 @@ export class EditAdminComponent implements OnInit {
 }
 
 interface Admin {
-  adminId: number;
-  firstName: string;
-  lastName: string;
+  admin_id: number;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
 }

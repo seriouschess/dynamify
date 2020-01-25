@@ -12,6 +12,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { AppFrontendRoutesModule} from './app-frontend-routes.module';
 import { AdminComponent } from './admin/admin.component';
 import { EditAdminComponent } from './edit-admin/edit-admin.component';
+import { SiteEditorComponent } from './site-editor/site-editor.component';
+import { LiveSiteComponent } from './live-site/live-site.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { EditAdminComponent } from './edit-admin/edit-admin.component';
     CounterComponent,
     ProfileComponent,
     AdminComponent,
-    EditAdminComponent
+    EditAdminComponent,
+    SiteEditorComponent,
+    LiveSiteComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

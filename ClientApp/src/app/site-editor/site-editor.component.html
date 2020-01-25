@@ -1,0 +1,9 @@
+
+<p>{{site|json}}</p>
+
+<div *ngFor="let box of site.paragraph_boxes">
+    <h1 *ngIf="start"> {{box.title}}</h1>
+    <p *ngIf="start">{{box.content}}</p>
+</div>
+
+

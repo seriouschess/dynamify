@@ -16,17 +16,17 @@ export class AdminComponent {
   constructor(private _httpService:HttpService) {
     this.allAdmins();
     this.newAdminObject = {
-      adminId: 0,
-      firstName: "",
-      lastName: "",
+      admin_id: 0,
+      first_name: "",
+      last_name: "",
       email: "",
       password: ""
     }
 
     this.editAdminObject = {
-      adminId: 0,
-      firstName: "",
-      lastName: "",
+      admin_id: 0,
+      first_name: "",
+      last_name: "",
       email: "",
       password: ""
     }
@@ -36,7 +36,7 @@ export class AdminComponent {
 
   postAdminToService(){
     console.log(this.newAdminObject);
-    //this.newAdminObject.adminId = 0; //will be changed on the backend
+    //this.newAdminObject.admin_id = 0; //will be changed on the backend
     this._httpService.postAdmin(this.newAdminObject).subscribe(
       result => {
         console.log(result);
@@ -44,7 +44,7 @@ export class AdminComponent {
       });
   }
 
-  deleteAdminByID(id:Admin["adminId"]){
+  deleteAdminByID(id:Admin["admin_id"]){
     this._httpService.deleteAdmin(id).subscribe(result =>{
       console.log(result);
       this.allAdmins();
@@ -66,9 +66,9 @@ export class AdminComponent {
 }
 
 interface Admin {
-  adminId: number
-  firstName: string;
-  lastName: string;
+  admin_id: number
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
 }

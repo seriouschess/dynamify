@@ -46,7 +46,7 @@ namespace dynamify.Controllers
         [Route("/[controller]/{admin_id}")]
         public ActionResult<Admin> Destroy(int admin_id){
             System.Console.WriteLine("Admin Deleted >:O");
-            Admin FoundAdmin = dbContext.Admins.SingleOrDefault(x => x.adminId == admin_id);
+            Admin FoundAdmin = dbContext.Admins.SingleOrDefault(x => x.admin_id == admin_id);
             dbContext.Remove( FoundAdmin );
             dbContext.SaveChanges();
             return FoundAdmin;
@@ -55,9 +55,9 @@ namespace dynamify.Controllers
         [HttpPut]
         public ActionResult<Admin> Update([FromBody] string _TargetAdmin){
             Admin TargetAdmin = JsonSerializer.Deserialize<Admin>(_TargetAdmin);
-            Admin FoundAdmin = dbContext.Admins.FirstOrDefault(Admin => Admin.adminId == TargetAdmin.adminId);
-            FoundAdmin.firstName = TargetAdmin.firstName;
-            FoundAdmin.lastName = TargetAdmin.lastName;
+            Admin FoundAdmin = dbContext.Admins.FirstOrDefault(Admin => Admin.admin_id == TargetAdmin.admin_id);
+            FoundAdmin.first_name = TargetAdmin.first_name;
+            FoundAdmin.last_name = TargetAdmin.last_name;
             //email cannot be changed
             FoundAdmin.password = TargetAdmin.password;
             FoundAdmin.UpdatedAt = DateTime.Now;

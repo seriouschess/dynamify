@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import{ HttpClient } from '@angular/common/http';
+import { AdminComponent } from './admin/admin.component';
 
 @Injectable({
   providedIn: 'root'
@@ -19,28 +20,48 @@ export class HttpService {
    return this._http.post('admin', NewAdmin);
   }
 
-  deleteAdmin(adminId:Admin["adminId"]){
-    console.log(`Admin ID for deletion:${adminId}`);
-    return this._http.delete(`admin/${adminId}`);
+  deleteAdmin(admin_id:Admin["admin_id"]){
+    console.log(`Admin ID for deletion:${admin_id}`);
+    return this._http.delete(`admin/${admin_id}`);
   }
 
   editAdmin(AdminToEdit:Admin){
     console.log(JSON.stringify(AdminToEdit));
     return this._http.put('admin', AdminToEdit);
   }
-}
 
-interface WeatherForecast{
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+  postSite(input_site:Site){
+    return this._http.post('site/create_site', input_site);
+  }
+
+  postParagraphBox(paragraph_box:ParagraphBox){
+    return this._http.post(`site/create_paragraph_box`, paragraph_box);
+  }
+
+  getSite(site_id_parameter:number){
+    return this._http.get(`site/get/${site_id_parameter}`);
+  }
 }
 
 interface Admin{
-  adminId: number;
-  firstName: string;
-  lastName: string;
+  admin_id: number;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
+}
+
+interface ParagraphBox{
+  paragraph_box_id: number;
+  title: string;
+  content: string;
+  site_id:number;
+}
+
+interface Site{
+  site_id: number;
+  title: string;
+  admin_id: number;
+  owner: Admin;
+  paragraph_boxes: ParagraphBox[];
 }
