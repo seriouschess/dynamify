@@ -1,16 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
+import { LiveSiteComponent } from './live-site/live-site.component';
 import { AdminComponent } from './admin/admin.component';
 import { SiteEditorComponent } from './site-editor/site-editor.component';
 
 const routes: Routes = [
-    { path: '', component: HomeComponent, pathMatch: 'full' },
-    { path: 'counter', component: CounterComponent },
+    { path: '', component: LiveSiteComponent, pathMatch: 'full' },
     { path: 'admin_display', component: AdminComponent },
-    { path: 'edit_site', component: SiteEditorComponent }
+    { path: 'edit_site/:current_site_id/:current_admin_id', component: SiteEditorComponent,  }
   ]
 
 @NgModule({

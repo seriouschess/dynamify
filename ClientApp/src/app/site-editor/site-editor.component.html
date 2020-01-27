@@ -1,9 +1,17 @@
 
-<p>{{site|json}}</p>
 
-<div *ngFor="let box of site.paragraph_boxes">
-    <h1 *ngIf="start"> {{box.title}}</h1>
-    <p *ngIf="start">{{box.content}}</p>
+<div class="text-center" *ngIf="current_site.site_id != 0">
+    <h1> {{current_site.title}} </h1>
+   
+    <div *ngFor="let box of current_site.paragraph_boxes">
+      <h3>{{ box.title }}</h3>
+      <p>{{ box.content }}</p> 
+    </div>
+    <form (submit)=postParagraphBoxToService()>
+      <p><label>Title: </label><input name="title" [(ngModel)]="new_paragraph_box.title"></p>
+      <p><label>Content: </label><textarea name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>
+      <p><input type="submit" class="btn btn-warning" value="Add Paragraph Box"></p>
+    </form> 
 </div>
 
 

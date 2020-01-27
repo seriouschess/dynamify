@@ -10,10 +10,13 @@ import { HttpService } from '../http.service';
 export class AdminComponent {
   public admins: Admin[];
   public newAdminObject: Admin;
-  public open_editor;
+  public open_editor: boolean;
   public editAdminObject: Admin;
+  public current_admin_id: number;
 
-  constructor(private _httpService:HttpService) {
+  constructor(private _httpService:HttpService) {}
+
+  ngOnInit() {
     this.allAdmins();
     this.newAdminObject = {
       admin_id: 0,
@@ -32,6 +35,7 @@ export class AdminComponent {
     }
     
     this.open_editor = false;
+    this.current_admin_id
   }
 
   postAdminToService(){
@@ -62,6 +66,10 @@ export class AdminComponent {
         this.admins = result;
       }
     }, error => console.log(error));
+  }
+
+  selectAdmin(admin_id:number){
+    this.current_admin_id = admin_id;
   }
 }
 

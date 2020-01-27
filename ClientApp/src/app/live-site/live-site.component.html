@@ -1,1 +1,19 @@
-<p>live-site works!</p>
+<div *ngIf="current_site.site_id == 0 && start == true">
+    <h1>Make your website with Dynamify!</h1>
+    <p>Steps to build website:</p>
+    <ul>
+      <li>Create an Admin</li>
+      <li>Create a site as an admin</li>
+      <li>Add paragraph boxes to the site.</li>
+    </ul>
+    <p>Your dreams are waiting for you to seize them.</p>
+  </div>
+  <!-- <p>{{current_site|json}}</p> -->
+  <div *ngIf="current_site.site_id != 0 && start == true">
+    <h1> {{current_site.title}} </h1>
+   
+    <div *ngFor="let box of current_site.paragraph_boxes">
+      <h1> {{box.title}}</h1>
+      <p>{{box.content}}</p>
+    </div>
+  </div> 

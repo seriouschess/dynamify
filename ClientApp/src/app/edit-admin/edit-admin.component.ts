@@ -15,9 +15,8 @@ export class EditAdminComponent implements OnInit {
   }
 
   ngOnInit() { }
-  editAdminFromService(admin_to_edit:Admin){
+    editAdminFromService(admin_to_edit:Admin){
   }
-
 }
 
 interface Admin {

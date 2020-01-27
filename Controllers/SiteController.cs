@@ -27,6 +27,49 @@ namespace dynamify.Controllers
             dbContext = context;
         }
 
+        [HttpGet] //all sites by admin
+        [Route("/[controller]/get_by_admin/{admin_id}")]
+        public IEnumerable<Site> GetByAdmnId(int admin_id){
+            List<Site> OwnedSites = dbContext.Sites.Where(x => x.admin_id == admin_id).ToList();
+            return OwnedSites;
+        }
+
+        [HttpGet]
+        [Route("/[controller]/get/{site_id_parameter}")]
+        public ActionResult<Site> GetSiteById(int site_id_parameter){
+
+            System.Console.WriteLine($"Query id: {site_id_parameter}");
+            
+            Site foundSite = dbContext.Sites.Where(x => x.site_id == site_id_parameter).Select( site => new Site()
+            {
+                site_id = site_id_parameter,
+                title = site.title,
+                active = site.active,
+                admin_id = site.admin_id,
+                owner = dbContext.Admins.Where(x => x.admin_id == site.admin_id).Select(s => new Admin()
+                {
+                    admin_id = s.admin_id,
+                    first_name = s.first_name,
+                    last_name = s.last_name,
+                    email = s.email,
+                    password = s.password
+                }).FirstOrDefault(),
+                paragraph_boxes = dbContext.ParagraphBoxes.Where(x => x.site_id == site.site_id).Select(box => new ParagraphBox()
+                {
+                    paragraph_box_id = box.paragraph_box_id,
+                    title = box.title,
+                    content = box.content,
+                    site_id = site.site_id
+                }).Where(x => x.site_id == site_id_parameter).ToList()
+
+            }).FirstOrDefault();
+
+            if(foundSite.owner != null){
+                System.Console.WriteLine($"Site owner: {foundSite.owner.first_name}");
+            }
+            return foundSite;
+        }
+
         [HttpGet] //first active site
         [Route("/[controller]/get_active")]
         public ActionResult<Site> GetActiveSite(){
@@ -34,10 +77,34 @@ namespace dynamify.Controllers
             System.Console.WriteLine(AllSites);
             if(AllSites.Count < 1){ //no sites active
                 Site default_site = new Site();
+                default_site.site_id = 0; //non-standard sql id acts as null value
+                default_site.title = "No Active Site";
                 return default_site;
             }else{ //return first active site found
-                return AllSites[0];
+                System.Console.WriteLine(JsonSerializer.Serialize(GetSiteById(AllSites[0].site_id)));
+                return GetSiteById(AllSites[0].site_id);
             }
+        }
+
+        [HttpPost]
+        [Route("/[controller]/set_active")]
+        public ActionResult<Site> SetActiveSite([FromBody] string _NewActiveSite){
+            Site NewActiveSite = JsonSerializer.Deserialize<Site>(_NewActiveSite);
+            List<Site> AllSites = dbContext.Sites.Where(x => x.active == true).Include(x=>x.paragraph_boxes).ToList();
+            List<Site> SiteToSetActive = dbContext.Sites.Where(x => x.site_id == NewActiveSite.site_id).ToList();
+            System.Console.WriteLine(JsonSerializer.Serialize(SiteToSetActive));
+            if(SiteToSetActive.Count == 1){ //must be one and only one
+                for(int x = 0; x < AllSites.Count; x++){ 
+                if(AllSites[x].active != false){ //clear all active sites
+                    AllSites[x].active = false;
+                    }
+                }
+                SiteToSetActive[0].active = true; //set new active site
+                System.Console.WriteLine("doe");
+                dbContext.SaveChanges();
+            }
+            System.Console.WriteLine("ray");
+            return GetActiveSite();
         }
 
         [HttpPost]
@@ -69,40 +136,16 @@ namespace dynamify.Controllers
             return r;
         }
 
-        [HttpGet]
-        [Route("/[controller]/get/{site_id_parameter}")]
-        public ActionResult<Site> GetSiteById(int site_id_parameter){
 
-            System.Console.WriteLine($"Query id: {site_id_parameter}");
-            
-            Site foundSite = dbContext.Sites.Select( site => new Site()
-            {
-                site_id = site_id_parameter,
-                title = site.title,
-                active = site.active,
-                admin_id = site.admin_id,
-                owner = dbContext.Admins.Select(s => new Admin()
-                {
-                    admin_id = s.admin_id,
-                    first_name = s.first_name,
-                    last_name = s.last_name,
-                    email = s.email,
-                    password = s.password
-                }).FirstOrDefault(),
-                paragraph_boxes = dbContext.ParagraphBoxes.Where(x => x.site_id == site.site_id).Select(box => new ParagraphBox()
-                {
-                    paragraph_box_id = box.paragraph_box_id,
-                    title = box.title,
-                    content = box.content,
-                    site_id = site.site_id
-                }).ToList()
 
-            }).FirstOrDefault();
-
-            if(foundSite.owner != null){
-                System.Console.WriteLine($"Site owner: {foundSite.owner.first_name}");
-            }
-            return foundSite;
+        [HttpDelete]
+        [Route("/[controller]/delete/{site_id_parameter}")]
+        public ActionResult<Site> DestroySite(int site_id_parameter){
+            System.Console.WriteLine("Site Deleted >:O");
+            Site FoundSite = dbContext.Sites.SingleOrDefault(x => x.site_id == site_id_parameter);
+            dbContext.Remove( FoundSite );
+            dbContext.SaveChanges();
+            return FoundSite;
         }
     }
 }

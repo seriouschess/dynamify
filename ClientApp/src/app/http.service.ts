@@ -1,6 +1,5 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import{ HttpClient } from '@angular/common/http';
-import { AdminComponent } from './admin/admin.component';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +8,8 @@ import { AdminComponent } from './admin/admin.component';
 export class HttpService {
   // @Inject('BASE_URL') baseUrl: string
   constructor(private _http:HttpClient) { }
+
+  //admin services
 
   getAdmins(){
     var data:any = this._http.get<Admin[]>('admin');
@@ -30,17 +31,39 @@ export class HttpService {
     return this._http.put('admin', AdminToEdit);
   }
 
-  postSite(input_site:Site){
-    return this._http.post('site/create_site', input_site);
+  //site services
+
+  deleteSite(site_id:number){
+    return this._http.delete(`site/delete/${site_id}`)
   }
 
-  postParagraphBox(paragraph_box:ParagraphBox){
-    return this._http.post(`site/create_paragraph_box`, paragraph_box);
+  postSite(input_site:Site){
+    return this._http.post('site/create_site', input_site);
   }
 
   getSite(site_id_parameter:number){
     return this._http.get(`site/get/${site_id_parameter}`);
   }
+
+  getSitesByAdmin(admin_id: number) {
+    return this._http.get(`site/get_by_admin/${admin_id}`);
+  }
+
+  getActiveSite(){
+    return this._http.get('site/get_active');
+  }
+  
+  setActiveSite(new_active_site:Site){
+    return this._http.post(`site/set_active`, new_active_site);
+  }
+  
+
+  //site configuration services
+
+  postParagraphBox(paragraph_box:ParagraphBox){
+    return this._http.post(`site/create_paragraph_box`, paragraph_box);
+  }
+
 }
 
 interface Admin{

@@ -1,40 +1,47 @@
-<h1 id="tableLabel">Registration</h1>
+<div *ngIf="current_admin_id == null">
+  <h1 id="tableLabel">Registration</h1>
 
-<p *ngIf="!admins"><em>Loading...</em></p>
+  <p *ngIf="!admins"><em>Loading...</em></p>
 
-<form (submit)="postAdminToService()">
-  <label>First Name: </label><input name="first_name"[(ngModel)]="newAdminObject.first_name">
-  <label>Last Name: </label><input name="last_name" [(ngModel)]="newAdminObject.last_name">
-  <label>email: </label><input name="email" [(ngModel)]="newAdminObject.email">
-  <label>password: </label><input name="password" type="password" [(ngModel)]="newAdminObject.password">
-  <input type="submit" value="Post new Admin">
-</form>
+  <form (submit)="postAdminToService()">
+    <label>First Name: </label><input name="first_name"[(ngModel)]="newAdminObject.first_name">
+    <label>Last Name: </label><input name="last_name" [(ngModel)]="newAdminObject.last_name">
+    <label>email: </label><input name="email" [(ngModel)]="newAdminObject.email">
+    <label>password: </label><input name="password" type="password" [(ngModel)]="newAdminObject.password">
+    <input type="submit" value="Post new Admin">
+  </form>
 
-<p>All admin data*: not for production</p>
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="admins">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>email</th>
-      <th>password</th>
-      <th>Delete</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let admin of admins">
-      <td>{{ admin.admin_id }}</td>
-      <td>{{ admin.first_name }}</td>
-      <td>{{ admin.last_name }}</td>
-      <td>{{ admin.email }}</td>
-      <td>{{ admin.password }}</td>
-      <td><button class="btn btn-success" (click)="openEditor(admin)">Edit</button></td>
-      <td><button class="btn btn-info" (click)="deleteAdminByID(admin.admin_id)">Delete :O</button></td>
-    </tr>
-  </tbody>
-</table>
+  <p>All admin data*: not for production</p>
+  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="admins">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>email</th>
+        <th>password</th>
+        <th>Delete</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let admin of admins">
+        <td>{{ admin.admin_id }}</td>
+        <td>{{ admin.first_name }}</td>
+        <td>{{ admin.last_name }}</td>
+        <td>{{ admin.email }}</td>
+        <td>{{ admin.password }}</td>
+        <td><button class="btn btn-success" (click)="openEditor(admin)">Edit</button></td>
+        <td><button class="btn btn-info" (click)="selectAdmin(admin.admin_id)">Select :D</button></td>
+        <td><button class="btn btn-warning" (click)="deleteAdminByID(admin.admin_id)">Delete :O</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-<app-edit-admin *ngIf="open_editor" [editAdminObject]="editAdminObject">hi</app-edit-admin>
+<p *ngIf="current_admin_id != null">hi</p>
+<app-display-sites *ngIf="current_admin_id != null" [current_admin_id]="current_admin_id"></app-display-sites>
+
+<app-edit-admin *ngIf="open_editor" [editAdminObject]="editAdminObject"></app-edit-admin>
 
 <p>Footer :D</p>
