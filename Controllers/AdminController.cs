@@ -31,15 +31,55 @@ namespace dynamify.Controllers
             return results;
         }
 
+        [HttpGet]
+        [Route("/[controller]/by_email/{login_email}/{login_password}")]
+        public ActionResult<Admin> GetByEmail(string login_email, string login_password){
+            Login LoginModel = new Login();
+            LoginModel.email = login_email;
+            LoginModel.password = login_password;
+
+            //validate email and password
+            List<Admin> FoundAdmin = dbContext.Admins.Where(x => x.email == LoginModel.email).ToList();
+            if(FoundAdmin.Count == 1){
+                if(FoundAdmin[0].password == LoginModel.password){
+                    //success
+                    return FoundAdmin[0];
+                }else{
+                    Admin ErrorAdmin = new Admin();
+                    ErrorAdmin.first_name = "<ACCESS DENIED, Password Invalid>";
+                    ErrorAdmin.last_name = "<ACCESS DENIED, Password Invalid>";
+                    ErrorAdmin.email = "<ACCESS DENIED, Password Invalid>";
+                    ErrorAdmin.password = "<ACCESS DENIED, Password Invalid>";
+                    return ErrorAdmin;
+                }  
+            }else{
+                    Admin ErrorAdmin = new Admin();
+                    ErrorAdmin.first_name = "<NOT FOUND, Email invalid>";
+                    ErrorAdmin.last_name = "<NOT FOUND, Email invalid>";
+                    ErrorAdmin.email = "<NOT FOUND, Email invalid>";
+                    ErrorAdmin.password = "<NOT FOUND, Email invalid>";
+                    return ErrorAdmin; 
+            }
+        }
+
         [HttpPost]
         public ActionResult<Admin> Post([FromBody] string _NewAdmin){
             Admin NewAdmin = JsonSerializer.Deserialize<Admin>(_NewAdmin);
-            dbContext.Add(NewAdmin);
-            dbContext.SaveChanges();
-            Admin queryAdmin = new Admin();
-            queryAdmin.email = NewAdmin.email;
-            queryAdmin = dbContext.Admins.FirstOrDefault(x => x.email == queryAdmin.email);
-            return queryAdmin;
+            List<Admin> validation_query = dbContext.Admins.Where(x => x.email == NewAdmin.email).ToList();
+            if(validation_query.Count != 0){
+                NewAdmin.first_name = "<NOT ENTERED, Duplicate email>";
+                NewAdmin.last_name = "<NOT_ENTERED, Duplicate email>";
+                NewAdmin.email = "<NOT_ENTERED, Duplicate email>";
+                NewAdmin.password = "<NOT_ENTERED, Duplicate email>";
+                return NewAdmin;
+            }else{
+                dbContext.Add(NewAdmin);
+                dbContext.SaveChanges();
+                Admin queryAdmin = new Admin();
+                queryAdmin.email = NewAdmin.email;
+                queryAdmin = dbContext.Admins.FirstOrDefault(x => x.email == NewAdmin.email);
+                return queryAdmin;
+            }
         }
 
         [HttpDelete]
