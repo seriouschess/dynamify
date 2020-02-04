@@ -12,6 +12,7 @@ import { EditAdminComponent } from './edit-admin/edit-admin.component';
 import { SiteEditorComponent } from './site-editor/site-editor.component';
 import { LiveSiteComponent } from './live-site/live-site.component';
 import { DisplaySitesComponent } from './display-sites/display-sites.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DisplaySitesComponent } from './display-sites/display-sites.component';
     EditAdminComponent,
     SiteEditorComponent,
     LiveSiteComponent,
-    DisplaySitesComponent
+    DisplaySitesComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

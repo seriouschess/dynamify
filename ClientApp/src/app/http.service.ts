@@ -11,12 +11,16 @@ export class HttpService {
 
   //admin services
 
-  getAdmins(){
+  getAdmins<Admin>(){
     var data:any = this._http.get<Admin[]>('admin');
     return data;
   }
 
-  postAdmin(NewAdmin:Admin){
+  getAdminByEmail(login_payload:Login){
+    return this._http.get(`admin/by_email/${login_payload.email}/${login_payload.password}`);
+  }
+
+  postAdmin<Admin>(NewAdmin:Admin){
    console.log(JSON.stringify(NewAdmin));
    return this._http.post('admin', NewAdmin);
   }
@@ -41,7 +45,7 @@ export class HttpService {
     return this._http.post('site/create_site', input_site);
   }
 
-  getSite(site_id_parameter:number){
+  getSite<Site>(site_id_parameter:number){
     return this._http.get(`site/get/${site_id_parameter}`);
   }
 
@@ -49,7 +53,7 @@ export class HttpService {
     return this._http.get(`site/get_by_admin/${admin_id}`);
   }
 
-  getActiveSite(){
+  getActiveSite<Site>(){
     return this._http.get('site/get_active');
   }
   
@@ -57,9 +61,7 @@ export class HttpService {
     return this._http.post(`site/set_active`, new_active_site);
   }
   
-
   //site configuration services
-
   postParagraphBox(paragraph_box:ParagraphBox){
     return this._http.post(`site/create_paragraph_box`, paragraph_box);
   }
@@ -87,4 +89,9 @@ interface Site{
   admin_id: number;
   owner: Admin;
   paragraph_boxes: ParagraphBox[];
+}
+
+interface Login{
+  email: string;
+  password: string;
 }

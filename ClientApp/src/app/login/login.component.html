@@ -1,0 +1,19 @@
+<h3>Register A New Admin Here</h3>
+
+<form (submit)="postAdminToService()">
+    <label>First Name: </label><input name="first_name"[(ngModel)]="newAdminObject.first_name">
+    <label>Last Name: </label><input name="last_name" [(ngModel)]="newAdminObject.last_name">
+    <label>email: </label><input name="email" [(ngModel)]="newAdminObject.email">
+    <label>password: </label><input name="password" type="password" [(ngModel)]="newAdminObject.password">
+    <input type="submit" value="Post new Admin">
+  </form>
+
+<h3>If you have an account, you may log in:</h3>
+  <form (submit)="loginAdmin()">
+    <label>email: </label><input name="email" [(ngModel)]="entered_email">
+    <label>password: </label><input name="password" type="password" [(ngModel)]="entered_password">
+    <input type="submit" value="Login as New Admin">
+  </form>
+
+  <p>{{entered_email}} -- {{entered_password}}</p>
+  <p>Logger logged admin id: {{logged_admin_id}}</p>

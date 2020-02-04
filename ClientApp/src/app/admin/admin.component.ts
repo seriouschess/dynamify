@@ -7,24 +7,17 @@ import { HttpService } from '../http.service';
   styleUrls: ['./admin.component.css']
 })
 
-export class AdminComponent {
+export class AdminComponent implements OnInit{
   public admins: Admin[];
   public newAdminObject: Admin;
   public open_editor: boolean;
   public editAdminObject: Admin;
-  public current_admin_id: number;
+  public current_admin_id: number; //for testing
 
   constructor(private _httpService:HttpService) {}
 
   ngOnInit() {
     this.allAdmins();
-    this.newAdminObject = {
-      admin_id: 0,
-      first_name: "",
-      last_name: "",
-      email: "",
-      password: ""
-    }
 
     this.editAdminObject = {
       admin_id: 0,
@@ -35,17 +28,11 @@ export class AdminComponent {
     }
     
     this.open_editor = false;
-    this.current_admin_id
+    this.current_admin_id = 0; //default impossible value
   }
 
-  postAdminToService(){
-    console.log(this.newAdminObject);
-    //this.newAdminObject.admin_id = 0; //will be changed on the backend
-    this._httpService.postAdmin(this.newAdminObject).subscribe(
-      result => {
-        console.log(result);
-        this.allAdmins();
-      });
+  recieveAdminIdFromLogin($event){
+    this.current_admin_id = $event;
   }
 
   deleteAdminByID(id:Admin["admin_id"]){
@@ -53,6 +40,10 @@ export class AdminComponent {
       console.log(result);
       this.allAdmins();
     });
+  }
+
+  selectAdmin(admin_id:number){
+    this.current_admin_id = admin_id; 
   }
 
   openEditor(admin:Admin){
@@ -66,10 +57,6 @@ export class AdminComponent {
         this.admins = result;
       }
     }, error => console.log(error));
-  }
-
-  selectAdmin(admin_id:number){
-    this.current_admin_id = admin_id;
   }
 }
 
