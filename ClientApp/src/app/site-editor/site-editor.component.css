@@ -1,0 +1,14 @@
+*{
+    vertical-align:top;
+}
+
+.title_box {
+    width:400px;
+    margin-left:5px;
+}
+
+.input_box {
+    width: 400px;
+    height: 80px;
+    margin-left:5px;
+}

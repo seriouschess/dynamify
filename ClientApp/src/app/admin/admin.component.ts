@@ -61,7 +61,7 @@ export class AdminComponent implements OnInit{
 }
 
 interface Admin {
-  admin_id: number
+  admin_id: number;
   first_name: string;
   last_name: string;
   email: string;

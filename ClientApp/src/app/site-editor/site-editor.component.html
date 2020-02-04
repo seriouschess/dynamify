@@ -8,8 +8,8 @@
       <p>{{ box.content }}</p> 
     </div>
     <form (submit)=postParagraphBoxToService()>
-      <p><label>Title: </label><input name="title" [(ngModel)]="new_paragraph_box.title"></p>
-      <p><label>Content: </label><textarea name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>
+      <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
+      <p><label>Content: </label><textarea class="input_box" name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>
       <p><input type="submit" class="btn btn-warning" value="Add Paragraph Box"></p>
     </form> 
 </div>
