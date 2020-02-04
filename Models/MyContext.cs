@@ -12,6 +12,12 @@ namespace dynamify.Models
 
         public DbSet<ParagraphBox>  ParagraphBoxes {get;set;}
 
+        public DbSet<Image> Images {get;set;}
+
+        public DbSet<Portrait> Portraits {get;set;}
+
+        public DbSet<TwoColumnBox> TwoColumnBoxes {get;set;}
+
         public DbSet<Site> Sites {get;set;}
     }
 }
