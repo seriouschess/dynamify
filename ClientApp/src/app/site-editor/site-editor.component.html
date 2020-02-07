@@ -1,12 +1,31 @@
 
 
 <div class="text-center" *ngIf="current_site.site_id != 0">
-    <h1> {{current_site.title}} </h1>
-   
-    <div *ngFor="let box of current_site.paragraph_boxes">
-      <h3>{{ box.title }}</h3>
-      <p>{{ box.content }}</p> 
+    <h1> {{formatted_site.title}} </h1>
+
+    <!-- <p>{{formatted_site|json}}</p> -->
+
+    <div *ngFor="let site_component of formatted_site.site_components">
+      <!-- <p>{{ site_component|json }}</p> -->
+      <h2>{{site_component.title}}</h2>
+      <div *ngIf="site_component.type === 'p_box'">
+        <p> {{site_component.content}} </p>
+      </div>
+      <div *ngIf="site_component.type === 'image'">
+        <img src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
+      </div>
+      <div *ngIf="site_component.type === 'portrait'">
+        <img src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
+        <p>{{site_component.content}}</p>
+      </div>
+      <div *ngIf="site_component.type === '2c_box'">
+        <h3> {{site_component.header_one}} </h3>
+        <p>{{site_component.content_one}}</p>
+        <h3> {{site_component.header_two}} </h3>
+        <p>{{site_component.content_two}}</p>
+      </div>
     </div>
+
     <form (submit)=postParagraphBoxToService()>
       <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
       <p><label>Content: </label><textarea class="input_box" name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>

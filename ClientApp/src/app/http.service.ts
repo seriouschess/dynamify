@@ -37,6 +37,10 @@ export class HttpService {
 
   //site services
 
+  getSitesByAdmin(admin_id: number) {
+    return this._http.get(`site/get_by_admin/${admin_id}`);
+  }
+
   deleteSite(site_id:number){
     return this._http.delete(`site/delete/${site_id}`)
   }
@@ -45,25 +49,21 @@ export class HttpService {
     return this._http.post('site/create_site', input_site);
   }
 
-  getSite<Site>(site_id_parameter:number){
-    return this._http.get(`site/get/${site_id_parameter}`);
-  }
-
-  getSitesByAdmin(admin_id: number) {
-    return this._http.get(`site/get_by_admin/${admin_id}`);
+  getSite<Site>(site_id:number){
+    return this._http.get(`site/get/${site_id}`);
   }
 
   getActiveSite<Site>(){
     return this._http.get('site/get_active');
   }
-  
+
   setActiveSite(new_active_site:Site){
     return this._http.post(`site/set_active`, new_active_site);
   }
   
   //site configuration services
   postParagraphBox(paragraph_box:ParagraphBox){
-    return this._http.post(`site/create_paragraph_box`, paragraph_box);
+    return this._http.post(`site/create/paragraph_box`, paragraph_box);
   }
 
 }
@@ -89,6 +89,13 @@ interface Site{
   admin_id: number;
   owner: Admin;
   paragraph_boxes: ParagraphBox[];
+}
+
+interface SiteExport{ //unused
+  site_id: number;
+  title: string;
+  admin_id: number;
+  SiteComponents: any[];
 }
 
 interface Login{

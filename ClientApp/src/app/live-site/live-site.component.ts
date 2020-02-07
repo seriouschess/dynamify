@@ -8,34 +8,65 @@ import { HttpService } from '../http.service';
 })
 export class LiveSiteComponent implements OnInit {
 
-  current_site:any; 
+  formatted_site:any;
   start:boolean;
 
   constructor( private _httpService:HttpService){ }
   ngOnInit(){
 
     this.start = false;
-
-    this.current_site = {
-      site_id: 0, //set as default parameter
-      title : "Default",
-      admin_id: 0,
-      owner: null,
-      paragraph_boxes: null
-    };
+    this.formatted_site = {
+      site_id: 0,
+      title: null,
+      admin_id: null,
+      SiteComponents: null
+    }
 
     this.requireSite(); //query database for site with active == true
   }
 
   requireSite(){
-    this._httpService.getActiveSite().subscribe(results => {
-      console.log(results);
-      this.current_site = results;
-      this.start = true;
-      console.log("This is being rendered?: "+JSON.stringify(this.current_site));
-    }, error => console.log(error));
-  }
+    this._httpService.getActiveSite().subscribe(data =>{
+    var s:any = data; //just for now I swear!
+    var unformatted_site = {
+      site_id: s.site_id,
+      title: s.title,
+      admin_id: s.admin_id,
+      priority: s.priority,
+      paragraph_boxes: s.paragraph_boxes,
+      portraits: s.portraits,
+      two_column_boxes: s.two_column_boxes,
+      images: s.images,
+    }
+   
+    var sorted_list_of_site_components = [];
 
+    for(var x=0; x<unformatted_site.paragraph_boxes.length; x++){
+      sorted_list_of_site_components.push(unformatted_site.paragraph_boxes[x]);
+    };
+    for(var x=0; x<unformatted_site.portraits.length; x++){
+      sorted_list_of_site_components.push(unformatted_site.portraits[x]);
+    };
+    for(var x=0; x<unformatted_site.two_column_boxes.length; x++){
+      sorted_list_of_site_components.push(unformatted_site.two_column_boxes[x]);
+    };
+    for(var x=0; x<unformatted_site.images.length; x++){
+      sorted_list_of_site_components.push(unformatted_site.images[x]);
+    }
+
+    sorted_list_of_site_components.sort((a, b) => (a.priority > b.priority) ? 1 : -1)
+
+    var formatted_site: any = {
+      site_id: unformatted_site.site_id,
+      title: unformatted_site.title,
+      admin_id: unformatted_site.admin_id,
+      site_components: sorted_list_of_site_components
+    }
+      console.log(formatted_site);
+
+      this.formatted_site = formatted_site;
+    });
+  }
  }
 
  interface Admin{
