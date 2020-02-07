@@ -1,7 +1,7 @@
 namespace dynamify.Models.JsonModels
 {
-    public interface JsonResponse
+    public abstract class JsonResponse
     {
-        string response {get;set;}
+        public string response {get;set;}
     }
 }

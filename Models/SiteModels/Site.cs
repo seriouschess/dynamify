@@ -22,7 +22,7 @@ namespace dynamify.Models.SiteModels
         public List<Image> images {get;set;}
         public List<TwoColumnBox> two_column_boxes {get;set;}
 
-        public List<Portrait> Portraits {get;set;}
+        public List<Portrait> portraits {get;set;}
 
         //public list[Admin] colaberators {get;set;}
 
