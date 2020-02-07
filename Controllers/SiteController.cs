@@ -58,15 +58,45 @@ namespace dynamify.Controllers
                 {
                     paragraph_box_id = box.paragraph_box_id,
                     title = box.title,
+                    priority = box.priority,
                     content = box.content,
-                    site_id = site.site_id
-                }).Where(x => x.site_id == site_id_parameter).ToList()
+                    site_id = box.site_id
+                }).Where(x => x.site_id == site_id_parameter).ToList(),
+                images = dbContext.Images.Where(x => x.site_id == site.site_id).Select(i => new Image()
+                {
+                    image_id = i.image_id,
+                    title = i.title,
+                    priority = i.priority,
+                    image_src = i.image_src,
+                    site_id = i.site_id
+                }).Where(x => x.site_id == site_id_parameter).ToList(),
 
+                portraits = dbContext.Portraits.Where(x => x.site_id == site.site_id).Select(p => new Portrait()
+                {
+                    portrait_id = p.portrait_id,
+                    title = p.title,
+                    priority = p.priority,
+                    content = p.content,
+                    site_id = p.site_id
+                }).Where(x => x.site_id == site_id_parameter).ToList(),
+
+                two_column_boxes = dbContext.TwoColumnBoxes.Where(x => x.site_id == site.site_id).Select(tcb => new TwoColumnBox()
+                {
+                    two_column_box_id = tcb.two_column_box_id,
+                    title = tcb.title,
+                    priority = tcb.priority,
+                    heading_one = tcb.heading_one,
+                    heading_two = tcb.heading_two,
+                    content_one = tcb.content_one,
+                    content_two = tcb.content_two,
+                    site_id = tcb.site_id
+                }).Where(x => x.site_id == site_id_parameter).ToList()
             }).FirstOrDefault();
 
             if(foundSite.owner != null){
                 System.Console.WriteLine($"Site owner: {foundSite.owner.first_name}");
             }
+            
             return foundSite;
         }
 
@@ -100,10 +130,8 @@ namespace dynamify.Controllers
                     }
                 }
                 SiteToSetActive[0].active = true; //set new active site
-                System.Console.WriteLine("doe");
                 dbContext.SaveChanges();
             }
-            System.Console.WriteLine("ray");
             return GetActiveSite();
         }
 
@@ -114,19 +142,21 @@ namespace dynamify.Controllers
             Site NewSite = JsonSerializer.Deserialize<Site>(_NewSite);
             List<Site> test = dbContext.Sites.Where(x => x.title == NewSite.title).ToList();
             if( test.Count > 0 ){
-                JsonResponse message = new JsonFailure("Site must not have duplicate title with existing site.");
-                return message;
+                JsonResponse r = new JsonFailure("Site must not have duplicate title with existing site.");
+                return r;
             }else{
                 dbContext.Add(NewSite);
                 dbContext.SaveChanges();
                 Site querySite = dbContext.Sites.FirstOrDefault(x => x.title == NewSite.title); //title must be unique
-                JsonResponse message = new JsonSuccess($"Site created with title: ${NewSite.title}");
-                return message;
+                JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
+                return r;
             }
         }
 
+        //create site components
+
         [HttpPost] //create paragraph box
-        [Route("/[controller]/create_paragraph_box")]
+        [Route("/[controller]/create/paragraph_box")]
         [Produces("application/json")]
         public JsonResponse PostBox([FromBody] string _paragraph_box){
             ParagraphBox NewBox = JsonSerializer.Deserialize<ParagraphBox>(_paragraph_box);
@@ -136,7 +166,38 @@ namespace dynamify.Controllers
             return r;
         }
 
+        [HttpPost] //create image
+        [Route("/[controller]/create/image")]
+        [Produces("application/json")]
+        public JsonResponse PostImage([FromBody] string _image){
+            Image NewImage = JsonSerializer.Deserialize<Image>(_image);
+            dbContext.Add(NewImage);
+            dbContext.SaveChanges();
+            JsonResponse r = new JsonSuccess("Image posted sucessfully!");
+            return r;
+        }
 
+        [HttpPost] //create portrait
+        [Route("/[controller]/create/portrait")]
+        [Produces("application/json")]
+        public JsonResponse PostPortrait([FromBody] string _portrait){
+            Portrait NewPortrait = JsonSerializer.Deserialize<Portrait>(_portrait);
+            dbContext.Add(NewPortrait);
+            dbContext.SaveChanges();
+            JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
+            return r;
+        }
+
+        [HttpPost] //create two column box
+        [Route("/[controller]/create/2c_box")]
+        [Produces("application/json")]
+        public JsonResponse PostTwoColumnBox([FromBody] string _two_column_box){
+            TwoColumnBox TwoColumnBox = JsonSerializer.Deserialize<TwoColumnBox>(_two_column_box);
+            dbContext.Add( TwoColumnBox );
+            dbContext.SaveChanges();
+            JsonResponse r = new JsonSuccess("Two column box posted sucessfully!");
+            return r;
+        }
 
         [HttpDelete]
         [Route("/[controller]/delete/{site_id_parameter}")]
