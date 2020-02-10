@@ -76,6 +76,7 @@ namespace dynamify.Controllers
                     portrait_id = p.portrait_id,
                     title = p.title,
                     priority = p.priority,
+                    image_src = p.image_src,
                     content = p.content,
                     site_id = p.site_id
                 }).Where(x => x.site_id == site_id_parameter).ToList(),
@@ -170,6 +171,8 @@ namespace dynamify.Controllers
         [Route("/[controller]/create/image")]
         [Produces("application/json")]
         public JsonResponse PostImage([FromBody] string _image){
+            System.Console.WriteLine("77777777777777777777777777777777777777777");
+            System.Console.WriteLine(_image);
             Image NewImage = JsonSerializer.Deserialize<Image>(_image);
             dbContext.Add(NewImage);
             dbContext.SaveChanges();

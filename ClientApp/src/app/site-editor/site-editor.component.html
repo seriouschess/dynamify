@@ -1,36 +1,91 @@
 
 
-<div class="text-center" *ngIf="current_site.site_id != 0">
+<div class="text-center" *ngIf="current_site_id != 0">
     <h1> {{formatted_site.title}} </h1>
 
     <!-- <p>{{formatted_site|json}}</p> -->
 
     <div *ngFor="let site_component of formatted_site.site_components">
       <!-- <p>{{ site_component|json }}</p> -->
-      <h2>{{site_component.title}}</h2>
+      <h2 class="title">{{site_component.title}}</h2>
+
       <div *ngIf="site_component.type === 'p_box'">
-        <p> {{site_component.content}} </p>
+        <p class="text-format"> {{site_component.content}} </p>
       </div>
+
       <div *ngIf="site_component.type === 'image'">
-        <img src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
+        <img class="image" src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
       </div>
+
       <div *ngIf="site_component.type === 'portrait'">
-        <img src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
-        <p>{{site_component.content}}</p>
+        <img class="image" src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
+        <p class="text-format">{{site_component.content}}</p>
       </div>
+
       <div *ngIf="site_component.type === '2c_box'">
-        <h3> {{site_component.header_one}} </h3>
-        <p>{{site_component.content_one}}</p>
-        <h3> {{site_component.header_two}} </h3>
-        <p>{{site_component.content_two}}</p>
+        <div class="column-block">
+          <h3 class="title"> {{site_component.heading_one}} </h3>
+          <p>{{site_component.content_one}}</p>
+        </div>
+        
+        <div class="column-block">
+          <h3 class="title"> {{site_component.heading_two}} </h3>
+          <p>{{site_component.content_two}}</p>
+        </div>  
       </div>
     </div>
 
-    <form (submit)=postParagraphBoxToService()>
-      <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
-      <p><label>Content: </label><textarea class="input_box" name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>
-      <p><input type="submit" class="btn btn-warning" value="Add Paragraph Box"></p>
-    </form> 
+  <div *ngIf="open_next_component === '' ">
+    <h3>(Add a new Element by selecting from the following options:)</h3>
+    <button class="btn btn-success" (click)=setPboxEdit()>New Paragraph Box</button>
+    <button class="btn btn-info" (click)="set2cBoxEdit()">New Two Column Box</button>
+    <button class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
+    <button class="btn btn-info" (click)="setImageEdit()">New Image</button>
+  </div>
+
+    <button class="btn btn-info" *ngIf="open_next_component != ''" (click)=resetEditOptions()>Go Back To Options</button>
+    
+    <div class="editor-form" *ngIf="open_next_component === '2c_box'">
+      <p> Add a two column box </p>
+      <form (submit)=postTwoColumnBoxToService()>
+        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_2c_box.title"></p>
+        <p><label>Column One Heading: </label><input class="title_box" name="heading_one" [(ngModel)]="new_2c_box.heading_one"></p>
+        <p><label>Column One Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_one" [(ngModel)]="new_2c_box.content_one"></textarea></p>
+        <p><label>Column Two Heading: </label><input class="title_box" name="heading_two" [(ngModel)]="new_2c_box.heading_two"></p>
+        <p><label>Column Two Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_two" [(ngModel)]="new_2c_box.content_two"></textarea></p>
+        <p><input type="submit" class="btn btn-warning" value="Add Two Column Box"></p>
+      </form>
+    </div>
+
+    <div class="editor-form" *ngIf="open_next_component === 'image'">
+      <p> Add an image </p>
+      <form (submit)=postImageToService()>
+        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_image.title"></p>
+        <p><label>Image URL: </label><input name="image_src" [(ngModel)]="new_image.image_src"></p>
+        <p><input type="submit" class="btn btn-warning" value="Add Image"></p>
+      </form>
+    </div>
+
+    <div class="editor-form" *ngIf="open_next_component === 'portrait'">
+      <p> Add a portrait </p>
+      <form (submit)=postPortraitToService()>
+        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_portrait.title"></p>
+        <p><label>Image URL: </label><input name="image_src" [(ngModel)]="new_portrait.image_src"></p>
+        <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_portrait.content"></textarea></p>
+        <p><input type="submit" class="btn btn-warning" value="Add Portrait"></p>
+      </form>
+    </div>
+    
+    <div class="editor-form" *ngIf="open_next_component === 'p_box'">
+      <p> Add a paragraph box </p>
+      <form (submit)=postParagraphBoxToService()>
+        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
+        <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>
+        <p><input type="submit" class="btn btn-warning" value="Add Paragraph Box"></p>
+      </form>
+    </div>
+    
+    <h4 *ngIf="open_next_component === ''">(Additional Site Elements Will Be Created Here)</h4>
 </div>
 
 

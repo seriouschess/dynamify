@@ -61,12 +61,32 @@ export class HttpService {
     return this._http.post(`site/set_active`, new_active_site);
   }
   
+
+
   //site configuration services
+
   postParagraphBox(paragraph_box:ParagraphBox){
     return this._http.post(`site/create/paragraph_box`, paragraph_box);
   }
 
+  postImage(image: Image){
+    console.log("dliaufasld;nflkasd");
+    console.log(image);
+    console.log("fliakidsjhbfb;kasdbf");
+    return this._http.post(`site/create/image`, image);
+  }
+
+  postPortrait(portrait: Portrait){
+    return this._http.post(`site/create/portrait`, portrait);
+  }
+
+  postTwoColumnBox(two_column_box: TwoColumnBox){
+    return this._http.post(`site/create/2c_box`, two_column_box);
+  }
 }
+
+
+//admin interfaces 
 
 interface Admin{
   admin_id: number;
@@ -76,12 +96,13 @@ interface Admin{
   password: string;
 }
 
-interface ParagraphBox{
-  paragraph_box_id: number;
-  title: string;
-  content: string;
-  site_id:number;
+interface Login{
+  email: string;
+  password: string;
 }
+
+
+//site interfaces
 
 interface Site{
   site_id: number;
@@ -91,14 +112,40 @@ interface Site{
   paragraph_boxes: ParagraphBox[];
 }
 
-interface SiteExport{ //unused
-  site_id: number;
+interface ParagraphBox{
   title: string;
-  admin_id: number;
-  SiteComponents: any[];
+  priority: number;
+  site_id: number;
+
+  content: string;
 }
 
-interface Login{
-  email: string;
-  password: string;
+interface Image{
+  title: string;
+  priority:number;
+  site_id: number;
+
+  image_src: string;
 }
+
+interface Portrait{
+  title: string;
+  priority:number;
+  site_id: number;
+
+  image_src: string;
+  content: string;
+}
+
+interface TwoColumnBox{
+  title:string;
+  priority:number;
+  site_id:number;
+
+  heading_one:string;
+  heading_two:string;
+  content_one:string;
+  content_two:string;
+}
+
+

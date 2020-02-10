@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from '../http.service';
 import { Router } from '@angular/router';
-import { SiteEditorComponent } from '../site-editor/site-editor.component';
 
 @Component({
   selector: 'app-display-sites',
@@ -83,12 +82,7 @@ interface Admin{
   password: string;
 }
 
-interface ParagraphBox{
-  paragraph_box_id: number;
-  title: string;
-  content: string;
-  site_id:number;
-}
+//site interfaces
 
 interface Site{
   site_id: number;
@@ -97,3 +91,41 @@ interface Site{
   owner: Admin;
   paragraph_boxes: ParagraphBox[];
 }
+
+interface ParagraphBox{
+  title: string;
+  priority: number;
+  site_id: number;
+
+  content: string;
+}
+
+interface Image{
+  title: string;
+  priority:number;
+  site_id: number;
+
+  image_src: string;
+}
+
+interface Portrait{
+  title: string;
+  priority:number;
+  site_id: number;
+
+  image_src: string;
+  content: string;
+}
+
+interface TwoColumnBox{
+  title:string;
+  priority:number;
+  site_id:number;
+
+  heading_one:string;
+  heading_two:string;
+  content_one:string;
+  content_two:string;
+}
+
+

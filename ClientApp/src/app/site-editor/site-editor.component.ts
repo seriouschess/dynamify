@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ActivatedRoute } from '@angular/router';
-import { observable } from 'rxjs';
 
 @Component({
   selector: 'app-site-editor',
@@ -11,13 +10,17 @@ import { observable } from 'rxjs';
 export class SiteEditorComponent implements OnInit {
 
   //route parameters
-  current_site_id:number;
-  current_admin_id:number;
+  current_site_id: number;
+  current_admin_id: number;
 
-  test:any;
-  current_site:any; //seriously though, it's a Site type
+  open_next_component: string;
+  formatted_site: any; //seriously though, it's a Site type
+
+  //site component types
   new_paragraph_box: ParagraphBox;
-  formatted_site: any;
+  new_2c_box: TwoColumnBox;
+  new_image: Image;
+  new_portrait: Portrait;
 
   constructor( private _httpService:HttpService, private _Activatedroute:ActivatedRoute) { }
 
@@ -32,45 +35,44 @@ export class SiteEditorComponent implements OnInit {
       SiteComponents: null
     }
 
-    this.current_site = {
-      site_id: 0, //set as default parameter
-      title : "Default",
-      admin_id: 0,
-      owner: null,
-      paragraph_boxes: null,
-      images: null,
-      two_column_boxes: null,
-      portraits: null
-    }
-
     this.new_paragraph_box = {
-      paragraph_box_id: 0,
       title: "",
-      type: "p_box",
       priority: 0,
       content: "",
       site_id: this.current_site_id,
     }
 
-    this.getSiteFromService(); //based on this.current_admin_id
+    this.new_2c_box = {
+      title: "",
+      priority: 0,
+      site_id: this.current_site_id,
+      heading_one: "",
+      heading_two: "",
+      content_one: "",
+      content_two: ""
+    }
 
-    //test!
-    this.getSiteFormatted();
-  }
+    this.new_image = {
+      title: "",
+      priority: 0,
+      site_id: this.current_site_id,
+      image_src: "",
+    }
 
-  postSiteToService(new_site:Site){
-    this._httpService.postSite(new_site).subscribe(result =>{
-      console.log(result);
-    }, error => console.log(error));
+    this.new_portrait = {
+      title: "",
+      priority: 0,
+      site_id: this.current_site_id,
+      image_src: "",
+      content: ""
+    }
+
+    this.getSiteFromService();
+    this.open_next_component = ""; //used to select editor
+    
   }
 
   getSiteFromService(){
-    this._httpService.getSite(this.current_site_id).subscribe(result =>{
-      this.current_site = result; //better be a site though
-    });
-  }
-
-  getSiteFormatted(){
     this._httpService.getSite(this.current_site_id).subscribe(data =>{
     var s:any = data; //just for now I swear!
     var unformatted_site = {
@@ -108,26 +110,78 @@ export class SiteEditorComponent implements OnInit {
       site_components: sorted_list_of_site_components
     }
       console.log(formatted_site);
-
       this.formatted_site = formatted_site;
+
+      //sets new component to the highest priority +100 by default to ensure it is deplayed on the bottom
+      if(this.formatted_site.site_components.length < 1){
+        this.new_paragraph_box.priority = 0; //first element
+      }else{
+        let new_priority = this.formatted_site.site_components[formatted_site.site_components.length-1].priority+100; 
+        this.new_paragraph_box.priority = new_priority;
+        this.new_2c_box.priority = new_priority;
+        this.new_image.priority = new_priority;
+        this.new_portrait.priority = new_priority;
+        console.log("New "+JSON.stringify(this.new_paragraph_box));
+      }
     });
   }
 
+  //set editors
+  setPboxEdit(){
+    this.open_next_component="p_box";
+  }
+
+  set2cBoxEdit(){
+    this.open_next_component="2c_box";
+  }
+
+  setPortraitEdit(){
+    this.open_next_component="portrait";
+  }
+
+  setImageEdit(){
+    this.open_next_component="image";
+  }
+
+  resetEditOptions(){
+    this.open_next_component='';
+  }
 
   postParagraphBoxToService(){
       this._httpService.postParagraphBox(this.new_paragraph_box).subscribe(results =>{
       console.log(results);
       this.getSiteFromService();
+      this.open_next_component=""; //reset editing tool options
     }, error => console.log(error));
   }
 
-  editSite(site_id:number, admin_id:number){
-      this._httpService.getActiveSite().subscribe(results => {
+  postTwoColumnBoxToService(){
+    this._httpService.postTwoColumnBox(this.new_2c_box).subscribe(results =>{
       console.log(results);
-      this.current_site = results;
-      console.log("This is being rendered?: "+JSON.stringify(this.current_site));
+      this.getSiteFromService();
+      this.open_next_component="";
     }, error => console.log(error));
   }
+
+  postImageToService(){
+    console.log(this.new_image);
+    this._httpService.postImage(this.new_image).subscribe(results =>{
+      console.log(results);
+      this.getSiteFromService();
+      this.open_next_component="";
+
+    }, error => console.log(error));
+  }
+
+  postPortraitToService(){
+    this._httpService.postPortrait(this.new_portrait).subscribe(results =>{
+      console.log(results);
+      this.getSiteFromService();
+      this.open_next_component="";
+
+    }, error => console.log(error));
+  }
+
 }
 
 interface Admin{
@@ -139,29 +193,39 @@ interface Admin{
 }
 
 interface ParagraphBox{
-  paragraph_box_id: number;
   title: string;
-  type: string;
   priority: number;
-  content: string;
   site_id: number;
-}
 
-interface Portrait{
-  portrait_id: number;
-  title: string;
-  type: string;
-  priority: number;
-  image_src: string;
   content: string;
 }
 
 interface Image{
-  image_id: number;
   title: string;
-  type: string;
-  priority: number;
+  priority:number;
+  site_id: number;
+
   image_src: string;
+}
+
+interface Portrait{
+  title: string;
+  priority:number;
+  site_id: number;
+
+  image_src: string;
+  content: string;
+}
+
+interface TwoColumnBox{
+  title:string;
+  priority:number;
+  site_id:number;
+
+  heading_one:string;
+  heading_two:string;
+  content_one:string;
+  content_two:string;
 }
 
 interface Site{
