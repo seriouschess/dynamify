@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using dynamify.Models;
 using Microsoft.EntityFrameworkCore;
-
+using dynamify.Models.QueryModel;
 
 namespace dynamify
 {
@@ -40,6 +40,7 @@ namespace dynamify
             string mySqlConnection = Configuration["DBInfo:ConnectionString"];
             System.Console.WriteLine(mySqlConnection);
             services.AddDbContext<MyContext>(options => options.UseMySql(mySqlConnection));
+            services.AddScoped<QueryModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

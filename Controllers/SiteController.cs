@@ -1,15 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System;
 using System.Text.Json;
-using dynamify.Models;
 using dynamify.Models.SiteModels;
 using dynamify.Models.JsonModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-
+using dynamify.Models.QueryModel;
 
 namespace dynamify.Controllers
 {
@@ -17,20 +12,20 @@ namespace dynamify.Controllers
     [Route("[controller]")]
     public class SiteController : ControllerBase
     {
-        private MyContext dbContext;
+        private QueryModel theQueryer;
 
         private readonly ILogger<SiteController> _logger;
 
-        public SiteController(ILogger<SiteController> logger, MyContext context)
+        public SiteController(ILogger<SiteController> logger, QueryModel _queryModel)
         {
             _logger = logger;
-            dbContext = context;
+            theQueryer = _queryModel;
         }
 
         [HttpGet] //all sites by admin
         [Route("/[controller]/get_by_admin/{admin_id}")]
         public IEnumerable<Site> GetByAdmnId(int admin_id){
-            List<Site> OwnedSites = dbContext.Sites.Where(x => x.admin_id == admin_id).ToList();
+            List<Site> OwnedSites = theQueryer.QuerySitesByAdmin(admin_id);
             return OwnedSites;
         }
 
@@ -40,59 +35,7 @@ namespace dynamify.Controllers
 
             System.Console.WriteLine($"Query id: {site_id_parameter}");
             
-            Site foundSite = dbContext.Sites.Where(x => x.site_id == site_id_parameter).Select( site => new Site()
-            {
-                site_id = site_id_parameter,
-                title = site.title,
-                active = site.active,
-                admin_id = site.admin_id,
-                owner = dbContext.Admins.Where(x => x.admin_id == site.admin_id).Select(s => new Admin()
-                {
-                    admin_id = s.admin_id,
-                    first_name = s.first_name,
-                    last_name = s.last_name,
-                    email = s.email,
-                    password = s.password
-                }).FirstOrDefault(),
-                paragraph_boxes = dbContext.ParagraphBoxes.Where(x => x.site_id == site.site_id).Select(box => new ParagraphBox()
-                {
-                    paragraph_box_id = box.paragraph_box_id,
-                    title = box.title,
-                    priority = box.priority,
-                    content = box.content,
-                    site_id = box.site_id
-                }).Where(x => x.site_id == site_id_parameter).ToList(),
-                images = dbContext.Images.Where(x => x.site_id == site.site_id).Select(i => new Image()
-                {
-                    image_id = i.image_id,
-                    title = i.title,
-                    priority = i.priority,
-                    image_src = i.image_src,
-                    site_id = i.site_id
-                }).Where(x => x.site_id == site_id_parameter).ToList(),
-
-                portraits = dbContext.Portraits.Where(x => x.site_id == site.site_id).Select(p => new Portrait()
-                {
-                    portrait_id = p.portrait_id,
-                    title = p.title,
-                    priority = p.priority,
-                    image_src = p.image_src,
-                    content = p.content,
-                    site_id = p.site_id
-                }).Where(x => x.site_id == site_id_parameter).ToList(),
-
-                two_column_boxes = dbContext.TwoColumnBoxes.Where(x => x.site_id == site.site_id).Select(tcb => new TwoColumnBox()
-                {
-                    two_column_box_id = tcb.two_column_box_id,
-                    title = tcb.title,
-                    priority = tcb.priority,
-                    heading_one = tcb.heading_one,
-                    heading_two = tcb.heading_two,
-                    content_one = tcb.content_one,
-                    content_two = tcb.content_two,
-                    site_id = tcb.site_id
-                }).Where(x => x.site_id == site_id_parameter).ToList()
-            }).FirstOrDefault();
+            Site foundSite = theQueryer.QuerySiteById(site_id_parameter);
 
             if(foundSite.owner != null){
                 System.Console.WriteLine($"Site owner: {foundSite.owner.first_name}");
@@ -103,52 +46,48 @@ namespace dynamify.Controllers
 
         [HttpGet] //first active site
         [Route("/[controller]/get_active")]
-        public ActionResult<Site> GetActiveSite(){
-            List<Site> AllSites = dbContext.Sites.Where(x => x.active == true).Include(x=>x.paragraph_boxes).ToList();
-            System.Console.WriteLine(AllSites);
-            if(AllSites.Count < 1){ //no sites active
+        public ActionResult<Site> GetActiveSiteId(){
+
+            List<Site> ActiveSites = theQueryer.QueryActiveSite();
+
+            if(ActiveSites.Count < 1){ //no sites active
                 Site default_site = new Site();
-                default_site.site_id = 0; //non-standard sql id acts as null value
-                default_site.title = "No Active Site";
-                return default_site;
+                default_site.site_id = 0; //impossible SQL id signifies no sites are active.
+                default_site.title = "No site active";
+                return default;
             }else{ //return first active site found
-                System.Console.WriteLine(JsonSerializer.Serialize(GetSiteById(AllSites[0].site_id)));
-                return GetSiteById(AllSites[0].site_id);
+                System.Console.WriteLine(JsonSerializer.Serialize(GetSiteById(ActiveSites[0].site_id)));
+                return ActiveSites[0];
             }
         }
 
         [HttpPost]
         [Route("/[controller]/set_active")]
-        public ActionResult<Site> SetActiveSite([FromBody] string _NewActiveSite){
+        public JsonResponse SetActiveSite([FromBody] string _NewActiveSite){
+
             Site NewActiveSite = JsonSerializer.Deserialize<Site>(_NewActiveSite);
-            List<Site> AllSites = dbContext.Sites.Where(x => x.active == true).Include(x=>x.paragraph_boxes).ToList();
-            List<Site> SiteToSetActive = dbContext.Sites.Where(x => x.site_id == NewActiveSite.site_id).ToList();
-            System.Console.WriteLine(JsonSerializer.Serialize(SiteToSetActive));
-            if(SiteToSetActive.Count == 1){ //must be one and only one
-                for(int x = 0; x < AllSites.Count; x++){ 
-                if(AllSites[x].active != false){ //clear all active sites
-                    AllSites[x].active = false;
-                    }
-                }
-                SiteToSetActive[0].active = true; //set new active site
-                dbContext.SaveChanges();
-            }
-            return GetActiveSite();
-        }
+            List<Site> SiteToSetActive = theQueryer.QueryFeaturelessSiteById(NewActiveSite.site_id);
+            if(SiteToSetActive.Count != 1){ //ensure only one site
+                JsonResponse r = new JsonFailure($"Set Active API route failure: Ensure correct site id was sent.");
+                return r;
+            }else{
+                theQueryer.SetActiveSite(SiteToSetActive[0]);
+                JsonResponse r = new JsonSuccess($"Site Title: < {SiteToSetActive[0].title} > is now active!");
+                return r;
+            } 
+        }            
 
         [HttpPost]
         [Route("/[controller]/create_site")]
         [Produces("application/json")]
         public JsonResponse Post([FromBody] string _NewSite){
             Site NewSite = JsonSerializer.Deserialize<Site>(_NewSite);
-            List<Site> test = dbContext.Sites.Where(x => x.title == NewSite.title).ToList();
+            List<Site> test = theQueryer.QueryFeaturelessSiteByTitle(NewSite.title);
             if( test.Count > 0 ){
                 JsonResponse r = new JsonFailure("Site must not have duplicate title with existing site.");
                 return r;
             }else{
-                dbContext.Add(NewSite);
-                dbContext.SaveChanges();
-                Site querySite = dbContext.Sites.FirstOrDefault(x => x.title == NewSite.title); //title must be unique
+                theQueryer.AddSite(NewSite);
                 JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
                 return r;
             }
@@ -161,8 +100,7 @@ namespace dynamify.Controllers
         [Produces("application/json")]
         public JsonResponse PostBox([FromBody] string _paragraph_box){
             ParagraphBox NewBox = JsonSerializer.Deserialize<ParagraphBox>(_paragraph_box);
-            dbContext.Add(NewBox);
-            dbContext.SaveChanges();
+            theQueryer.AddParagraphBox(NewBox);
             JsonResponse r = new JsonSuccess("Paragraph box posted sucessfully!");
             return r;
         }
@@ -171,11 +109,8 @@ namespace dynamify.Controllers
         [Route("/[controller]/create/image")]
         [Produces("application/json")]
         public JsonResponse PostImage([FromBody] string _image){
-            System.Console.WriteLine("77777777777777777777777777777777777777777");
-            System.Console.WriteLine(_image);
             Image NewImage = JsonSerializer.Deserialize<Image>(_image);
-            dbContext.Add(NewImage);
-            dbContext.SaveChanges();
+            theQueryer.AddImage(NewImage);
             JsonResponse r = new JsonSuccess("Image posted sucessfully!");
             return r;
         }
@@ -185,8 +120,7 @@ namespace dynamify.Controllers
         [Produces("application/json")]
         public JsonResponse PostPortrait([FromBody] string _portrait){
             Portrait NewPortrait = JsonSerializer.Deserialize<Portrait>(_portrait);
-            dbContext.Add(NewPortrait);
-            dbContext.SaveChanges();
+            theQueryer.AddPortrait(NewPortrait);
             JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
             return r;
         }
@@ -196,8 +130,7 @@ namespace dynamify.Controllers
         [Produces("application/json")]
         public JsonResponse PostTwoColumnBox([FromBody] string _two_column_box){
             TwoColumnBox TwoColumnBox = JsonSerializer.Deserialize<TwoColumnBox>(_two_column_box);
-            dbContext.Add( TwoColumnBox );
-            dbContext.SaveChanges();
+            theQueryer.AddTwoColumnBox( TwoColumnBox );
             JsonResponse r = new JsonSuccess("Two column box posted sucessfully!");
             return r;
         }
@@ -206,10 +139,8 @@ namespace dynamify.Controllers
         [Route("/[controller]/delete/{site_id_parameter}")]
         public ActionResult<Site> DestroySite(int site_id_parameter){
             System.Console.WriteLine("Site Deleted >:O");
-            Site FoundSite = dbContext.Sites.SingleOrDefault(x => x.site_id == site_id_parameter);
-            dbContext.Remove( FoundSite );
-            dbContext.SaveChanges();
-            return FoundSite;
+            Site DeletedSite = theQueryer.DeleteSiteById(site_id_parameter);
+            return DeletedSite;
         }
     }
 }
