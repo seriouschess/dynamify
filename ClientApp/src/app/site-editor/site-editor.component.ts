@@ -14,7 +14,7 @@ export class SiteEditorComponent implements OnInit {
   current_admin_id: number;
 
   open_next_component: string;
-  formatted_site: any; //seriously though, it's a Site type
+  formatted_site: any; //not a Site type technically
 
   //site component types
   new_paragraph_box: ParagraphBox;
@@ -234,7 +234,7 @@ interface Site{
   admin_id: number;
   owner: Admin;
   paragraph_boxes: ParagraphBox[];
-  images: Image[]
-  two_column_boxes: Portrait[]
-  portraits: Portrait[]
+  images: Image[];
+  two_column_boxes: TwoColumnBox[];
+  portraits: Portrait[];
 }

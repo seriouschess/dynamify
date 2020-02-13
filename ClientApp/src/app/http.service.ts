@@ -16,8 +16,8 @@ export class HttpService {
     return data;
   }
 
-  getAdminByEmail(login_payload:Login){
-    return this._http.get(`admin/by_email/${login_payload.email}/${login_payload.password}`);
+  getAdminByEmail<Admin>(login_payload:Login){
+    return this._http.get<Admin>(`admin/by_email/${login_payload.email}/${login_payload.password}`);
   }
 
   postAdmin<Admin>(NewAdmin:Admin){
@@ -37,27 +37,28 @@ export class HttpService {
 
   //site services
 
+  getSite<Site>(site_id: number){
+    return this._http.get<Site>(`site/get/${site_id}`);
+  }
+
+  getActiveSite<Site>(){
+    return this._http.get<Site>('site/get_active');
+  }
+
+
   getSitesByAdmin(admin_id: number) {
     return this._http.get(`site/get_by_admin/${admin_id}`);
   }
 
-  deleteSite(site_id:number){
+  deleteSite(site_id: number){
     return this._http.delete(`site/delete/${site_id}`)
   }
 
-  postSite(input_site:Site){
+  postSite(input_site: Site){
     return this._http.post('site/create_site', input_site);
   }
 
-  getSite<Site>(site_id:number){
-    return this._http.get(`site/get/${site_id}`);
-  }
-
-  getActiveSite<Site>(){
-    return this._http.get('site/get_active');
-  }
-
-  setActiveSite(new_active_site:Site){
+  setActiveSite(new_active_site: Site){
     return this._http.post(`site/set_active`, new_active_site);
   }
   
@@ -65,7 +66,7 @@ export class HttpService {
 
   //site configuration services
 
-  postParagraphBox(paragraph_box:ParagraphBox){
+  postParagraphBox(paragraph_box: ParagraphBox){
     return this._http.post(`site/create/paragraph_box`, paragraph_box);
   }
 
@@ -110,6 +111,9 @@ interface Site{
   admin_id: number;
   owner: Admin;
   paragraph_boxes: ParagraphBox[];
+  images: Image[];
+  two_column_boxes: TwoColumnBox[];
+  portraits: Portrait[];
 }
 
 interface ParagraphBox{

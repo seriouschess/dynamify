@@ -23,7 +23,10 @@ export class DisplaySitesComponent implements OnInit {
       title : "Default",
       admin_id: this.current_admin_id,
       owner: null,
-      paragraph_boxes: null
+      paragraph_boxes: null,
+      images: null,
+      two_column_boxes: null,
+      portraits: null
     };
   }
 
@@ -38,7 +41,7 @@ export class DisplaySitesComponent implements OnInit {
   }
 
   setSiteActive(site_id:number){
-    var setMyIdActive:Site = { //created only to pass id, preferred over parameter
+    var setMyIdActive:any = { //created only to pass id, preferred over parameter
       site_id: site_id,
       title: "",
       admin_id: 0,
@@ -84,14 +87,6 @@ interface Admin{
 
 //site interfaces
 
-interface Site{
-  site_id: number;
-  title: string;
-  admin_id: number;
-  owner: Admin;
-  paragraph_boxes: ParagraphBox[];
-}
-
 interface ParagraphBox{
   title: string;
   priority: number;
@@ -126,6 +121,17 @@ interface TwoColumnBox{
   heading_two:string;
   content_one:string;
   content_two:string;
+}
+
+interface Site{
+  site_id: number;
+  title: string;
+  admin_id: number;
+  owner: Admin;
+  paragraph_boxes: ParagraphBox[];
+  images: Image[];
+  two_column_boxes: TwoColumnBox[];
+  portraits: Portrait[];
 }
 
 

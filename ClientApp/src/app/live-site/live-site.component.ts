@@ -28,11 +28,11 @@ export class LiveSiteComponent implements OnInit {
   requireSite(){
     this._httpService.getActiveSite().subscribe(data =>{
     var s:any = data; //just for now I swear!
-    var unformatted_site = {
+    var unformatted_site:Site = {
       site_id: s.site_id,
       title: s.title,
       admin_id: s.admin_id,
-      priority: s.priority,
+      owner: s.owner,
       paragraph_boxes: s.paragraph_boxes,
       portraits: s.portraits,
       two_column_boxes: s.two_column_boxes,
@@ -78,10 +78,39 @@ export class LiveSiteComponent implements OnInit {
 }
 
 interface ParagraphBox{
-  paragraph_box_id: number;
   title: string;
+  priority: number;
+  site_id: number;
+
   content: string;
+}
+
+interface Image{
+  title: string;
+  priority:number;
+  site_id: number;
+
+  image_src: string;
+}
+
+interface Portrait{
+  title: string;
+  priority:number;
+  site_id: number;
+
+  image_src: string;
+  content: string;
+}
+
+interface TwoColumnBox{
+  title:string;
+  priority:number;
   site_id:number;
+
+  heading_one:string;
+  heading_two:string;
+  content_one:string;
+  content_two:string;
 }
 
 interface Site{
@@ -90,4 +119,7 @@ interface Site{
   admin_id: number;
   owner: Admin;
   paragraph_boxes: ParagraphBox[];
+  images: Image[];
+  two_column_boxes: TwoColumnBox[];
+  portraits: Portrait[];
 }
