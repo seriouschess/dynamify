@@ -135,12 +135,44 @@ namespace dynamify.Controllers
             return r;
         }
 
+        //delete site
+
         [HttpDelete]
-        [Route("/[controller]/delete/{site_id_parameter}")]
+        [Route("/[controller]/delete/{site_id_parameter}")] //not secure yet
         public ActionResult<Site> DestroySite(int site_id_parameter){
             System.Console.WriteLine("Site Deleted >:O");
             Site DeletedSite = theQueryer.DeleteSiteById(site_id_parameter);
             return DeletedSite;
+        }
+
+        //delete site components
+
+        [HttpPost]
+        [Route("/[controller]/delete/site_component")]
+        [Produces("application/json")]
+        public JsonResponse DeleteSiteComponent([FromBody] string _component_reference){
+            ComponentReference Component = JsonSerializer.Deserialize<ComponentReference>(_component_reference);
+            if(Component.component_type == "p_box"){
+                ParagraphBox DeletedSite = theQueryer.DeleteParagraphBox(Component.component_id);
+                JsonResponse r = new JsonSuccess("Paragraph box deleted sucessfully!");
+                return r;
+            }else if(Component.component_type == "image"){
+                Image DeletedSite = theQueryer.DeleteImage(Component.component_id);
+                JsonResponse r = new JsonSuccess("Image deleted sucessfully!");
+                return r;
+            }else if(Component.component_type == "portrait"){
+                Portrait portrait = theQueryer.DeletePortrait(Component.component_id);
+                JsonResponse r = new JsonSuccess("Portrait component deleted sucessfully!");
+                return r;
+            }else if(Component.component_type == "2c_box"){
+                TwoColumnBox portrait = theQueryer.DeleteTwoColumnBox(Component.component_id);
+                JsonResponse r = new JsonSuccess("Two Column Box component deleted sucessfully!");
+                return r;
+            }else{
+                JsonResponse r = new JsonSuccess("Type mismatch. Type does not match any known components.");
+                return r;
+            }
+            
         }
     }
 }

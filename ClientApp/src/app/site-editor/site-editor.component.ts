@@ -126,6 +126,13 @@ export class SiteEditorComponent implements OnInit {
     });
   }
 
+  deleteSiteComponentByIdAndType(component_id:number, type:string){
+    this._httpService.deleteSiteComponent(component_id, type).subscribe(result =>{
+      this.getSiteFromService()
+      console.log(result)
+    });  
+  }
+
   //set editors
   setPboxEdit(){
     this.open_next_component="p_box";
@@ -228,7 +235,7 @@ interface TwoColumnBox{
   content_two:string;
 }
 
-interface Site{
+interface Site {
   site_id: number;
   title: string;
   admin_id: number;

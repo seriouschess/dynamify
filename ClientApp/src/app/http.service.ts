@@ -45,13 +45,12 @@ export class HttpService {
     return this._http.get<Site>('site/get_active');
   }
 
-
   getSitesByAdmin(admin_id: number) {
     return this._http.get(`site/get_by_admin/${admin_id}`);
   }
 
   deleteSite(site_id: number){
-    return this._http.delete(`site/delete/${site_id}`)
+    return this._http.delete(`site/delete/${site_id}`);
   }
 
   postSite(input_site: Site){
@@ -62,9 +61,14 @@ export class HttpService {
     return this._http.post(`site/set_active`, new_active_site);
   }
   
-
-
   //site configuration services
+  deleteSiteComponent(component_id:number, component_type:string){
+    var component_reference: ComponentReference = {
+      component_id: component_id,
+      component_type:component_type
+    }
+    return this._http.post(`site/delete/site_component`, component_reference);
+  }
 
   postParagraphBox(paragraph_box: ParagraphBox){
     return this._http.post(`site/create/paragraph_box`, paragraph_box);
@@ -86,7 +90,6 @@ export class HttpService {
   }
 }
 
-
 //admin interfaces 
 
 interface Admin{
@@ -101,7 +104,6 @@ interface Login{
   email: string;
   password: string;
 }
-
 
 //site interfaces
 
@@ -150,6 +152,11 @@ interface TwoColumnBox{
   heading_two:string;
   content_one:string;
   content_two:string;
+}
+
+interface ComponentReference{
+  component_id:number,
+  component_type:string
 }
 
 

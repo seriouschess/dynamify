@@ -10,19 +10,23 @@
       <h2 class="title">{{site_component.title}}</h2>
 
       <div *ngIf="site_component.type === 'p_box'">
+        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.paragraph_box_id, site_component.type)'>Delete</button>
         <p class="text-format"> {{site_component.content}} </p>
       </div>
 
       <div *ngIf="site_component.type === 'image'">
+        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.image_id, site_component.type)'>Delete</button>
         <img class="image" src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
       </div>
 
       <div *ngIf="site_component.type === 'portrait'">
+        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.portrait_id, site_component.type)'>Delete</button>
         <img class="image" src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
         <p class="text-format">{{site_component.content}}</p>
       </div>
 
       <div *ngIf="site_component.type === '2c_box'">
+        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
         <div class="column-block">
           <h3 class="title"> {{site_component.heading_one}} </h3>
           <p>{{site_component.content_one}}</p>

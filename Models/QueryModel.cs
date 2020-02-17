@@ -179,7 +179,6 @@ namespace dynamify.Models.QueryModel
             
         }
         
-
         public Site DeleteSiteById(int site_id){
             Site FoundSite = QueryFeaturelessSiteById(site_id)[0]; //kinda bad
             dbContext.Remove( FoundSite );
@@ -190,6 +189,51 @@ namespace dynamify.Models.QueryModel
         public void AddParagraphBox(ParagraphBox p_box){
             dbContext.Add(p_box);
             dbContext.SaveChanges();
+        }
+
+        public ParagraphBox DeleteParagraphBox(int p_box_id){
+            List<ParagraphBox> Subject = dbContext.ParagraphBoxes.Where(x => x.paragraph_box_id == p_box_id).ToList();
+            if(Subject.Count == 1){
+                dbContext.Remove(Subject[0]);
+                dbContext.SaveChanges();
+                return Subject[0];
+            }else{
+                throw new System.ArgumentException("Query Error. All site titles must be unique.", "NewSite.title");
+            }
+        }
+
+        public Image DeleteImage(int image_id){
+            List<Image> Subject = dbContext.Images.Where(x => x.image_id == image_id).ToList();
+            if(Subject.Count == 1){
+                dbContext.Remove(Subject[0]);
+                dbContext.SaveChanges();
+                return Subject[0];
+            }else{
+                throw new System.ArgumentException("Query Error. All Components must be unique.", "image_id");
+            }
+            
+        }
+
+             public Portrait DeletePortrait(int portrait_id){
+            List<Portrait> Subject = dbContext.Portraits.Where(x => x.portrait_id == portrait_id).ToList();
+            if(Subject.Count == 1){
+                dbContext.Remove(Subject[0]);
+                dbContext.SaveChanges();
+                return Subject[0];
+            }else{
+                throw new System.ArgumentException("Query Error. All site titles must be unique.", "portrait_id");
+            }
+        }
+
+        public TwoColumnBox DeleteTwoColumnBox(int two_column_box_id){
+            List<TwoColumnBox> Subject = dbContext.TwoColumnBoxes.Where(x => x.two_column_box_id == two_column_box_id).ToList();
+            if(Subject.Count == 1){
+                dbContext.Remove(Subject[0]);
+                dbContext.SaveChanges();
+                return Subject[0];
+            }else{
+                throw new System.ArgumentException("Query Error. All site titles must be unique.", "portrait_id");
+            }
         }
 
         public void AddTwoColumnBox(TwoColumnBox tc_box){
