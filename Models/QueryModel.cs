@@ -18,20 +18,15 @@ namespace dynamify.Models.QueryModel
             return dbContext.Sites.Where(x => x.admin_id == admin_id).ToList();
         }
 
-        public List<Site> QueryFeaturelessSiteByTitle(string title){
+        public List<Site> QueryFeaturelessSiteByTitle(string title){ //Used for more efficient querying e.g. no content 
             return dbContext.Sites.Where(x => x.title == title).ToList();
         }
 
         public List<Site> QueryFeaturelessSiteById(int active_site_id){
-                return dbContext.Sites.Where(x => x.site_id == active_site_id).Select( site => new Site()
-                {
-                    site_id = site.site_id,
-                    active = site.active,
-                    title = site.title
-                }).ToList();
+                return dbContext.Sites.Where(x => x.site_id == active_site_id).ToList();
         }
 
-        public List<Site> QueryActiveSite(){
+        public List<Site> QueryActiveSite(){ //Used to get live site to the frontend for rendering
             List<Site> ActiveSites = dbContext.Sites.Where(x => x.active == true).Select( site => new Site()
            {
                 site_id = site.site_id,
@@ -86,13 +81,13 @@ namespace dynamify.Models.QueryModel
                 }).Where(x => x.site_id == site.site_id).ToList()
             }).ToList();
 
-
+            System.Console.WriteLine($"Active Site: {ActiveSites[0].title}");
             return ActiveSites;
         }
 
-        public Site QuerySiteById(int site_id_parameter){
-            
-            Site FoundSite =dbContext.Sites.Where(x => x.site_id == site_id_parameter).Select( site => new Site()
+        public Site QuerySiteById(int site_id_parameter){ //Used to get full site data to the frontend for rendering
+
+            Site FoundSite = dbContext.Sites.Where(x => x.site_id == site_id_parameter).Select( site => new Site()
             {
                 site_id = site_id_parameter,
                 title = site.title,
@@ -149,20 +144,25 @@ namespace dynamify.Models.QueryModel
             return FoundSite;
         }
 
-
         //actions 
-        public Site SetActiveSite(Site SiteToSetActive){
-            List<Site> AllSites = dbContext.Sites.Where(x => x.active == true).Select( site => new Site()
-            {
-                    site_id = site.site_id,
-                    active = site.active
-                }).ToList();
+        public Site SetActiveSiteDB(Site SiteToSetActive){
+            
+            //clear all active sites
+            List<Site> AllSites = dbContext.Sites.Where(s => s.active == true).Select( s => new Site(){
+                site_id = s.site_id,
+                active = s.active
+            }).ToList();
 
             for(int x = 0; x < AllSites.Count; x++){ //clear all active sites
-                    AllSites[x].active = false; 
+                    Site SetMeInactive = QueryFeaturelessSiteById(AllSites[x].site_id)[0];
+                    SetMeInactive.active = false;
+                    dbContext.SaveChanges();  
             }
 
+            //set new site active
+            SiteToSetActive = dbContext.Sites.Where(site => site.site_id == SiteToSetActive.site_id).FirstOrDefault();
             SiteToSetActive.active = true; //set new active site
+            System.Console.WriteLine(SiteToSetActive.title);
             dbContext.SaveChanges();
             return SiteToSetActive;
         }

@@ -46,7 +46,7 @@ namespace dynamify.Controllers
 
         [HttpGet] //first active site
         [Route("/[controller]/get_active")]
-        public ActionResult<Site> GetActiveSiteId(){
+        public ActionResult<Site> GetActiveSite(){
 
             List<Site> ActiveSites = theQueryer.QueryActiveSite();
 
@@ -64,15 +64,18 @@ namespace dynamify.Controllers
         [HttpPost]
         [Route("/[controller]/set_active")]
         public JsonResponse SetActiveSite([FromBody] string _NewActiveSite){
-
             Site NewActiveSite = JsonSerializer.Deserialize<Site>(_NewActiveSite);
+            System.Console.WriteLine($"New active site id: {NewActiveSite.site_id}");
             List<Site> SiteToSetActive = theQueryer.QueryFeaturelessSiteById(NewActiveSite.site_id);
+            System.Console.WriteLine($"Controller Site to set active: {SiteToSetActive[0].title}");
             if(SiteToSetActive.Count != 1){ //ensure only one site
                 JsonResponse r = new JsonFailure($"Set Active API route failure: Ensure correct site id was sent.");
                 return r;
             }else{
-                theQueryer.SetActiveSite(SiteToSetActive[0]);
-                JsonResponse r = new JsonSuccess($"Site Title: < {SiteToSetActive[0].title} > is now active!");
+                Site ActiveSite = theQueryer.SetActiveSiteDB(SiteToSetActive[0]);
+                System.Console.WriteLine($"Active Site Bool: {ActiveSite.active}");
+                System.Console.WriteLine($"Active Site Title: {ActiveSite.title}");
+                JsonResponse r = new JsonSuccess($"Site Title: < {ActiveSite.title} > is now active!");
                 return r;
             } 
         }            

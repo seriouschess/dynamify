@@ -38,6 +38,8 @@ export class LiveSiteComponent implements OnInit {
       two_column_boxes: s.two_column_boxes,
       images: s.images,
     }
+    
+    console.log(unformatted_site);
    
     var sorted_list_of_site_components = [];
 
@@ -62,7 +64,7 @@ export class LiveSiteComponent implements OnInit {
       admin_id: unformatted_site.admin_id,
       site_components: sorted_list_of_site_components
     }
-      console.log(formatted_site);
+      
 
       this.formatted_site = formatted_site;
     });
