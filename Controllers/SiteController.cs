@@ -4,7 +4,7 @@ using dynamify.Models.SiteModels;
 using dynamify.Models.JsonModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using dynamify.Models.QueryModel;
+using dynamify.Models.QueryClasses;
 
 namespace dynamify.Controllers
 {
@@ -12,14 +12,14 @@ namespace dynamify.Controllers
     [Route("[controller]")]
     public class SiteController : ControllerBase
     {
-        private QueryModel theQueryer;
+        private SiteQueries theQueryer;
 
         private readonly ILogger<SiteController> _logger;
 
-        public SiteController(ILogger<SiteController> logger, QueryModel _queryModel)
+        public SiteController(ILogger<SiteController> logger, SiteQueries _SiteQueries)
         {
             _logger = logger;
-            theQueryer = _queryModel;
+            theQueryer = _SiteQueries;
         }
 
         [HttpGet] //all sites by admin

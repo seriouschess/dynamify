@@ -1,16 +1,14 @@
 using System.Linq;
 using dynamify.Models.SiteModels;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using System;
 
-namespace dynamify.Models.QueryModel
+namespace dynamify.Models.QueryClasses
 {
-    public class QueryModel
+    public class SiteQueries
     {
         private MyContext dbContext;
         
-        public QueryModel(MyContext _context){
+        public SiteQueries(MyContext _context){
             dbContext = _context;
         }
 
