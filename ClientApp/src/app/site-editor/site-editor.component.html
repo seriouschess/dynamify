@@ -1,12 +1,8 @@
-
-
+<h1>Current Admin Token: {{current_admin_token}}</h1>
 <div class="text-center" *ngIf="current_site_id != 0">
     <h1> {{formatted_site.title}} </h1>
 
-    <!-- <p>{{formatted_site|json}}</p> -->
-
     <div *ngFor="let site_component of formatted_site.site_components">
-      <!-- <p>{{ site_component|json }}</p> -->
       <h2 class="title">{{site_component.title}}</h2>
 
       <div *ngIf="site_component.type === 'p_box'">

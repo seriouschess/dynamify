@@ -5,6 +5,7 @@ using dynamify.Models.JsonModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using dynamify.Models.QueryClasses;
+using dynamify.Classes.Auth;
 
 namespace dynamify.Controllers
 {
@@ -13,20 +14,27 @@ namespace dynamify.Controllers
     public class SiteController : ControllerBase
     {
         private SiteQueries theQueryer;
+        private Auth authenticator;
 
         private readonly ILogger<SiteController> _logger;
 
-        public SiteController(ILogger<SiteController> logger, SiteQueries _SiteQueries)
+        public SiteController(ILogger<SiteController> logger, SiteQueries _SiteQueries, AdminQueries _adminQueries)
         {
             _logger = logger;
             theQueryer = _SiteQueries;
+            authenticator = new Auth(_adminQueries);
         }
 
         [HttpGet] //all sites by admin
-        [Route("/[controller]/get_by_admin/{admin_id}")]
-        public IEnumerable<Site> GetByAdmnId(int admin_id){
-            List<Site> OwnedSites = theQueryer.QuerySitesByAdmin(admin_id);
-            return OwnedSites;
+        [Route("/[controller]/get_by_admin/{admin_id}/{admin_token}")]
+        public IEnumerable<Site> GetByAdmnId(int admin_id, string admin_token){
+            if(authenticator.VerifyAdmin(admin_id, admin_token)){
+                List<Site> OwnedSites = theQueryer.QuerySitesByAdmin(admin_id);
+                return OwnedSites;
+            }else{
+                return new List<Site>();
+            }
+            
         }
 
         [HttpGet]
@@ -81,66 +89,88 @@ namespace dynamify.Controllers
         }            
 
         [HttpPost]
-        [Route("/[controller]/create_site")]
+        [Route("/[controller]/create_site/{admin_token}")]
         [Produces("application/json")]
-        public JsonResponse Post([FromBody] string _NewSite){
+        public JsonResponse Post([FromBody] string _NewSite, string admin_token){
             Site NewSite = JsonSerializer.Deserialize<Site>(_NewSite);
-            List<Site> test = theQueryer.QueryFeaturelessSiteByTitle(NewSite.title);
-            if( test.Count > 0 ){
-                JsonResponse r = new JsonFailure("Site must not have duplicate title with existing site.");
-                return r;
+            if(authenticator.VerifyAdmin(NewSite.admin_id, admin_token)){
+                List<Site> test = theQueryer.QueryFeaturelessSiteByTitle(NewSite.title);
+                if( test.Count > 0 ){
+                    JsonResponse r = new JsonFailure("Site must not have duplicate title with existing site.");
+                    return r;
+                }else{
+                    theQueryer.AddSite(NewSite);
+                    JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
+                    return r;
+                }
             }else{
-                theQueryer.AddSite(NewSite);
-                JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
-                return r;
+                return new JsonFailure("Invalid Token. Stranger Danger.");
             }
         }
 
         //create site components
 
         [HttpPost] //create paragraph box
-        [Route("/[controller]/create/paragraph_box")]
+        [Route("/[controller]/create/paragraph_box/{admin_id}/{admin_token}")]
         [Produces("application/json")]
-        public JsonResponse PostBox([FromBody] string _paragraph_box){
-            ParagraphBox NewBox = JsonSerializer.Deserialize<ParagraphBox>(_paragraph_box);
-            theQueryer.AddParagraphBox(NewBox);
-            JsonResponse r = new JsonSuccess("Paragraph box posted sucessfully!");
-            return r;
+        public JsonResponse PostBox([FromBody] string _paragraph_box, int admin_id, string admin_token){
+            if(authenticator.VerifyAdmin(admin_id, admin_token)){
+                ParagraphBox NewBox = JsonSerializer.Deserialize<ParagraphBox>(_paragraph_box);
+
+                theQueryer.AddParagraphBox(NewBox);
+                JsonResponse r = new JsonSuccess("Paragraph box posted sucessfully!");
+                return r;
+            }else{
+                return new JsonFailure("Invalid Token. Stranger Danger.");
+            }
+            
         }
 
         [HttpPost] //create image
-        [Route("/[controller]/create/image")]
+        [Route("/[controller]/create/image/{admin_id}/{admin_token}")]
         [Produces("application/json")]
-        public JsonResponse PostImage([FromBody] string _image){
-            Image NewImage = JsonSerializer.Deserialize<Image>(_image);
-            theQueryer.AddImage(NewImage);
-            JsonResponse r = new JsonSuccess("Image posted sucessfully!");
-            return r;
+        public JsonResponse PostImage([FromBody] string _image, int admin_id, string admin_token){
+            if(authenticator.VerifyAdmin(admin_id, admin_token)){
+                Image NewImage = JsonSerializer.Deserialize<Image>(_image);
+                theQueryer.AddImage(NewImage);
+                JsonResponse r = new JsonSuccess("Image posted sucessfully!");
+                return r;
+            }else{
+                return new JsonFailure("Invalid Token. Stranger Danger.");
+            }
         }
 
         [HttpPost] //create portrait
-        [Route("/[controller]/create/portrait")]
+        [Route("/[controller]/create/portrait/{admin_id}/{admin_token}")]
         [Produces("application/json")]
-        public JsonResponse PostPortrait([FromBody] string _portrait){
-            Portrait NewPortrait = JsonSerializer.Deserialize<Portrait>(_portrait);
-            theQueryer.AddPortrait(NewPortrait);
-            JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
-            return r;
+        public JsonResponse PostPortrait([FromBody] string _portrait, int admin_id, string admin_token){
+            if(authenticator.VerifyAdmin(admin_id, admin_token)){
+                Portrait NewPortrait = JsonSerializer.Deserialize<Portrait>(_portrait);
+                theQueryer.AddPortrait(NewPortrait);
+                JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
+                return r;
+            }else{
+                return new JsonFailure("Invalid Token. Stranger Danger.");
+            }
         }
 
         [HttpPost] //create two column box
-        [Route("/[controller]/create/2c_box")]
+        [Route("/[controller]/create/2c_box/{admin_id}/{admin_token}")]
         [Produces("application/json")]
-        public JsonResponse PostTwoColumnBox([FromBody] string _two_column_box){
-            TwoColumnBox TwoColumnBox = JsonSerializer.Deserialize<TwoColumnBox>(_two_column_box);
-            theQueryer.AddTwoColumnBox( TwoColumnBox );
-            JsonResponse r = new JsonSuccess("Two column box posted sucessfully!");
-            return r;
+        public JsonResponse PostTwoColumnBox([FromBody] string _two_column_box, int admin_id,  string admin_token){
+            if(authenticator.VerifyAdmin(admin_id, admin_token)){
+                TwoColumnBox TwoColumnBox = JsonSerializer.Deserialize<TwoColumnBox>(_two_column_box);
+                theQueryer.AddTwoColumnBox( TwoColumnBox );
+                JsonResponse r = new JsonSuccess("Two column box posted sucessfully!");
+                return r;
+            }else{
+                return new JsonFailure("Invalid Token. Stranger Danger.");
+            }
         }
 
-        //delete site
+        //delete site //Add an authentication token here as well!
 
-        [HttpDelete]
+        [HttpDelete] 
         [Route("/[controller]/delete/{site_id_parameter}")] //not secure yet
         public ActionResult<Site> DestroySite(int site_id_parameter){
             System.Console.WriteLine("Site Deleted >:O");
@@ -148,7 +178,7 @@ namespace dynamify.Controllers
             return DeletedSite;
         }
 
-        //delete site components
+        //delete site components //Add an authentication token here as well!
 
         [HttpPost]
         [Route("/[controller]/delete/site_component")]

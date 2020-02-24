@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using System.Text.Json;
 using dynamify.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -18,18 +17,19 @@ namespace dynamify.Controllers
         private AdminQueries adminQueries;
 
         private readonly ILogger<AdminController> _logger;
+        private Auth authenticator;
 
         public AdminController(ILogger<AdminController> logger, AdminQueries _adminQueries)
         {
             _logger = logger;
             adminQueries = _adminQueries;
+            authenticator = new Auth(adminQueries);
         }
 
         [HttpGet]
         [Route("/[controller]/auth/generate")]
        
         public ActionResult<Token> GenAuth(){
-            Auth authenticator = new Auth();
             return authenticator.Generate();
         }
 
@@ -43,18 +43,14 @@ namespace dynamify.Controllers
 
         [HttpGet]
         [Route("/[controller]/by_email/{login_email}/{login_password}")]
-        public ActionResult<Admin> GetByEmail(string login_email, string login_password){
-            Login LoginModel = new Login();
-            LoginModel.email = login_email;
-            LoginModel.password = login_password;
-
-            
-            return adminQueries.GetAdminByLogin(LoginModel.email, LoginModel.password);
+        public ActionResult<Admin> LoginAdmin(string login_email, string login_password){
+            return authenticator.RequestAdmin(login_email, login_password);
         }
 
         [HttpPost]
         public ActionResult<Admin> Post([FromBody] string _NewAdmin){
             Admin NewAdmin = JsonSerializer.Deserialize<Admin>(_NewAdmin);
+            NewAdmin.token = authenticator.Generate().token;
             return adminQueries.SaveNewAdmin(NewAdmin);
         }
 
@@ -63,7 +59,6 @@ namespace dynamify.Controllers
         public ActionResult<Admin> Destroy(int admin_id){
             System.Console.WriteLine("Admin Deleted >:O");
             Admin FoundAdmin = adminQueries.GetAdminById(admin_id);
-            
             return FoundAdmin;
         }
 

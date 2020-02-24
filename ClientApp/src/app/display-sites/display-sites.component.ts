@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpService } from '../http.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-display-sites',
@@ -10,14 +10,22 @@ import { Router } from '@angular/router';
 
 export class DisplaySitesComponent implements OnInit {
 
-  @Input() current_admin_id:number;
+  @Input() current_admin_id: number;
+  @Input() current_admin_token: string;
+  @Output() siteIdSelectEvent = new EventEmitter<number>();
+  
   all_sites:any;
   newSiteObject:Site;
+  current_site_id:number;
 
-  constructor(private _httpService:HttpService, private router: Router) { }
+  constructor(private _httpService:HttpService, private router: Router, private _Activatedroute:ActivatedRoute) { }
 
   ngOnInit() {
-    this.getSitesByAdminFromService(this.current_admin_id);
+    //inport url params
+    //this.current_admin_id = Number(this._Activatedroute.snapshot.paramMap.get("current_admin_id"));
+    this.current_site_id = 0; //non SQL id default value
+
+    this.getSitesByAdminFromService();
     this.newSiteObject = {
       site_id: 0, //never used, just here for type consistency
       title : "Default",
@@ -33,10 +41,10 @@ export class DisplaySitesComponent implements OnInit {
   postSiteToService(){
     console.log(this.newSiteObject);
     //this.newSiteObject.admin_id = 0; //will be changed on the backend
-    this._httpService.postSite(this.newSiteObject).subscribe(
+    this._httpService.postSite(this.newSiteObject, this.current_admin_token).subscribe(
       result => {
         console.log(result);
-        this.getSitesByAdminFromService(this.current_admin_id);
+        this.getSitesByAdminFromService();
       });
   }
 
@@ -57,8 +65,8 @@ export class DisplaySitesComponent implements OnInit {
     )
   }
 
-  getSitesByAdminFromService(admin_id:number){
-    this._httpService.getSitesByAdmin(admin_id).subscribe(results => 
+  getSitesByAdminFromService(){
+    this._httpService.getSitesByAdmin(this.current_admin_id, this.current_admin_token).subscribe(results => 
     {
       this.all_sites = results;
       console.log(results);
@@ -68,12 +76,14 @@ export class DisplaySitesComponent implements OnInit {
   deleteSiteById(site_id:number){
     this._httpService.deleteSite(site_id).subscribe(result =>{
       console.log(result);
-      this.getSitesByAdminFromService(this.current_admin_id);
+      this.getSitesByAdminFromService();
     });
   }
 
   editSite(current_site_id:number){
-    this.router.navigateByUrl(`/edit_site/${current_site_id}/${this.current_admin_id}`);
+    this.current_site_id = current_site_id;
+    this.siteIdSelectEvent.emit(current_site_id);
+    //this.router.navigateByUrl(`/edit_site/${current_site_id}/${this.current_admin_id}`);
   }
 }
 
@@ -83,6 +93,7 @@ interface Admin{
   last_name: string;
   email: string;
   password: string;
+  token: string;
 }
 
 //site interfaces

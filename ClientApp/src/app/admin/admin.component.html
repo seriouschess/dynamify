@@ -1,8 +1,18 @@
-<app-login *ngIf="current_admin_id == 0" (logEvent)="recieveAdminIdFromLogin($event)"></app-login>
+<app-login *ngIf="current_admin.admin_id == 0" (logEvent)="recieveAdminFromLogin($event)"></app-login>
 
-<p>Current Admin ID: {{current_admin_id}}</p>
+<p>Current Admin ID: {{current_admin.admin_id}}</p>
+<p>Current Site Editor ID: {{current_site_editor_id}}</p>
+<p>Current Admin: {{current_admin | json}}</p>
+<button *ngIf="current_site_editor_id != 0" class="btn btn-success" (click)="resetEditor()">Go Back to Your Sites</button>
 
-<div *ngIf="current_admin_id == null">
+<app-display-sites *ngIf="current_admin.admin_id != 0 && current_admin.admin_id != null && current_site_editor_id == 0" [current_admin_id]="current_admin.admin_id" [current_admin_token]="current_admin.token" (siteIdSelectEvent)="setSelectedSite($event)"></app-display-sites>
+
+<app-site-editor *ngIf="current_admin.admin_id != 0 && current_site_editor_id != 0" [current_site_id]="current_site_editor_id" [current_admin_id]="current_admin.admin_id" [current_admin_token]="current_admin.token"></app-site-editor>
+
+<p>Footer :D</p> 
+
+<!-- -------FOR TESTING--------
+<div *ngIf="current_admin.admin_id == null">
   <p *ngIf="!admins"><em>Loading...</em></p>
 
   <p class="text-center">All admin data*: not for production</p>
@@ -31,10 +41,4 @@
       </tr>
     </tbody>
   </table>
-</div>
-
-<app-display-sites *ngIf="current_admin_id != 0 && current_admin_id != null" [current_admin_id]="current_admin_id"></app-display-sites>
-
-<app-edit-admin *ngIf="open_editor" [editAdminObject]="editAdminObject"></app-edit-admin>
-
-<p>Footer :D</p>
+</div> -->

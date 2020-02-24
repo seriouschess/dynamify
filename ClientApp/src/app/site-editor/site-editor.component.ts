@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from '../http.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-site-editor',
@@ -10,10 +9,10 @@ import { ActivatedRoute } from '@angular/router';
 export class SiteEditorComponent implements OnInit {
 
   //route parameters
-  current_site_id: number;
-  current_admin_id: number;
+  @Input() current_site_id: number;
+  @Input() current_admin_id: number;
+  @Input() current_admin_token: string;
 
-  open_next_component: string;
   formatted_site: any; //not a Site type technically
 
   //site component types
@@ -22,18 +21,21 @@ export class SiteEditorComponent implements OnInit {
   new_image: Image;
   new_portrait: Portrait;
 
-  constructor( private _httpService:HttpService, private _Activatedroute:ActivatedRoute) { }
+  //functionality
+  open_next_component: string;
 
-  ngOnInit() {
-    this.current_site_id = Number(this._Activatedroute.snapshot.paramMap.get("current_site_id"));
-    this.current_admin_id = Number(this._Activatedroute.snapshot.paramMap.get("current_admin_id"));
+   constructor( private _httpService:HttpService) { }
+
+   ngOnInit() {
+     //this.current_site_id = 1;
+     //this.current_admin_id = 1;
 
     this.formatted_site = {
       site_id: null,
       title: null,
       admin_id: null,
       SiteComponents: null
-    }
+     }
 
     this.new_paragraph_box = {
       title: "",
@@ -155,7 +157,7 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postParagraphBoxToService(){
-      this._httpService.postParagraphBox(this.new_paragraph_box).subscribe(results =>{
+      this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, "faidlsugf").subscribe(results =>{
       console.log(results);
       this.getSiteFromService();
       this.open_next_component=""; //reset editing tool options
@@ -163,7 +165,7 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postTwoColumnBoxToService(){
-    this._httpService.postTwoColumnBox(this.new_2c_box).subscribe(results =>{
+    this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
       console.log(results);
       this.getSiteFromService();
       this.open_next_component="";
@@ -172,7 +174,7 @@ export class SiteEditorComponent implements OnInit {
 
   postImageToService(){
     console.log(this.new_image);
-    this._httpService.postImage(this.new_image).subscribe(results =>{
+    this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
       console.log(results);
       this.getSiteFromService();
       this.open_next_component="";
@@ -181,7 +183,7 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postPortraitToService(){
-    this._httpService.postPortrait(this.new_portrait).subscribe(results =>{
+    this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
       console.log(results);
       this.getSiteFromService();
       this.open_next_component="";

@@ -10,29 +10,34 @@ import { HttpService } from '../http.service';
 export class AdminComponent implements OnInit{
   public admins: Admin[];
   public newAdminObject: Admin;
-  public open_editor: boolean;
-  public editAdminObject: Admin;
-  public current_admin_id: number; //for testing
+  public open_admin_editor: boolean;
+
+
+  public current_site_editor_id: number;
+  public current_admin: Admin;
 
   constructor(private _httpService:HttpService) {}
 
   ngOnInit() {
+    this.current_site_editor_id = 0;
     this.allAdmins();
 
-    this.editAdminObject = {
+    this.current_admin = {
       admin_id: 0,
       first_name: "",
       last_name: "",
       email: "",
-      password: ""
+      password: "",
+      token: ""
     }
     
-    this.open_editor = false;
-    this.current_admin_id = 0; //default impossible value
+    this.open_admin_editor = false;
+    this.current_admin.admin_id = 0; //default impossible value
   }
 
-  recieveAdminIdFromLogin($event){
-    this.current_admin_id = $event;
+  recieveAdminFromLogin($event){
+    this.current_admin.admin_id = $event.admin_id;
+    this.current_admin = $event;
   }
 
   deleteAdminByID(id:Admin["admin_id"]){
@@ -43,12 +48,10 @@ export class AdminComponent implements OnInit{
   }
 
   selectAdmin(admin_id:number){
-    this.current_admin_id = admin_id; 
+    this.current_admin.admin_id = admin_id;
   }
-
-  openEditor(admin:Admin){
-    this.open_editor = true;
-    this.editAdminObject = admin;
+  setSelectedSite($event){
+    this.current_site_editor_id = $event;
   }
 
   allAdmins(){
@@ -58,6 +61,10 @@ export class AdminComponent implements OnInit{
       }
     }, error => console.log(error));
   }
+
+  resetEditor(){
+    this.current_site_editor_id = 0;
+  }
 }
 
 interface Admin {
@@ -66,4 +73,5 @@ interface Admin {
   last_name: string;
   email: string;
   password: string;
+  token:string;
 }

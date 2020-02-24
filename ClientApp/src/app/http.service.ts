@@ -6,8 +6,8 @@ import{ HttpClient } from '@angular/common/http';
 })
 
 export class HttpService {
-  // @Inject('BASE_URL') baseUrl: string
-  constructor(private _http:HttpClient) { }
+  // // @Inject('BASE_URL') baseUrl: string
+   constructor(private _http:HttpClient) { }
 
   //admin services
 
@@ -16,8 +16,8 @@ export class HttpService {
     return data;
   }
 
-  getAdminByEmail<Admin>(login_payload:Login){
-    return this._http.get<Admin>(`admin/by_email/${login_payload.email}/${login_payload.password}`);
+  getAdminByEmail(login_payload:Login){
+    return this._http.get(`admin/by_email/${login_payload.email}/${login_payload.password}`);
   }
 
   postAdmin<Admin>(NewAdmin:Admin){
@@ -37,24 +37,24 @@ export class HttpService {
 
   //site services
 
-  getSite<Site>(site_id: number){
-    return this._http.get<Site>(`site/get/${site_id}`);
+  getSite(site_id: number){
+    return this._http.get(`site/get/${site_id}`);
   }
 
   getActiveSite<Site>(){
     return this._http.get<Site>('site/get_active');
   }
 
-  getSitesByAdmin(admin_id: number) {
-    return this._http.get(`site/get_by_admin/${admin_id}`);
+  getSitesByAdmin(admin_id: number, admin_token: string) {
+    return this._http.get(`site/get_by_admin/${admin_id}/${admin_token}`);
   }
 
   deleteSite(site_id: number){
     return this._http.delete(`site/delete/${site_id}`);
   }
 
-  postSite(input_site: Site){
-    return this._http.post('site/create_site', input_site);
+  postSite(input_site: Site, admin_token:string){
+    return this._http.post(`site/create_site/${admin_token}`, input_site);
   }
 
   setActiveSite(new_active_site: Site){
@@ -70,23 +70,20 @@ export class HttpService {
     return this._http.post(`site/delete/site_component`, component_reference);
   }
 
-  postParagraphBox(paragraph_box: ParagraphBox){
-    return this._http.post(`site/create/paragraph_box`, paragraph_box);
+  postParagraphBox(paragraph_box: ParagraphBox, admin_id:number, admin_token: string){
+    return this._http.post(`site/create/paragraph_box/${admin_id}/${admin_token}`, paragraph_box);
   }
 
-  postImage(image: Image){
-    console.log("dliaufasld;nflkasd");
-    console.log(image);
-    console.log("fliakidsjhbfb;kasdbf");
-    return this._http.post(`site/create/image`, image);
+  postImage(image: Image, admin_id: number, admin_token:string){
+    return this._http.post(`site/create/image/${admin_id}/${admin_token}`, image);
   }
 
-  postPortrait(portrait: Portrait){
-    return this._http.post(`site/create/portrait`, portrait);
+  postPortrait(portrait: Portrait, admin_id: number, admin_token: string){
+    return this._http.post(`site/create/portrait/${admin_id}/${admin_token}`, portrait);
   }
 
-  postTwoColumnBox(two_column_box: TwoColumnBox){
-    return this._http.post(`site/create/2c_box`, two_column_box);
+  postTwoColumnBox(two_column_box: TwoColumnBox, admin_id: number, admin_token:string){
+    return this._http.post(`site/create/2c_box/${admin_id}/${admin_token}`, two_column_box);
   }
 }
 
@@ -98,6 +95,7 @@ interface Admin{
   last_name: string;
   email: string;
   password: string;
+  token: string;
 }
 
 interface Login{

@@ -17,6 +17,8 @@ namespace dynamify.Models
         public string email {get;set;}
         [Required]
         public string password {get;set;}
+
+        public string token {get;set;} = "XXX"; //authentication token
         
         public List<Site> sites_owned {get;set;}
         public DateTime CreatedAt {get;set;} = DateTime.Now;
