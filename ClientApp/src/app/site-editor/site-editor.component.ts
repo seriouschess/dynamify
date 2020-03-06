@@ -21,6 +21,24 @@ export class SiteEditorComponent implements OnInit {
   new_image: Image;
   new_portrait: Portrait;
 
+  //validation flags
+  pbox_title_invalid_flag:boolean;
+  pbox_content_invalid_flag:boolean;
+
+  image_title_invalid_flag:boolean;
+  image_src_invalid_flag:boolean;
+
+  portrait_title_invalid_flag:boolean;
+  portrait_content_invalid_flag:boolean;
+  portrait_image_src_invalid_flag:boolean;
+
+  tcb_title_invalid_flag:boolean;
+  tcb_head_one_invalid_flag:boolean;
+  tcb_head_two_invalid_flag:boolean;
+  tcb_content_one_invalid_flag:boolean;
+  tcb_content_two_invalid_flag:boolean;
+
+
   //functionality
   open_next_component: string;
 
@@ -69,9 +87,25 @@ export class SiteEditorComponent implements OnInit {
       content: ""
     }
 
+    //validation flags
+    this.pbox_content_invalid_flag = false;
+    this.pbox_title_invalid_flag = false;
+
+    this.image_title_invalid_flag = false;
+    this.image_src_invalid_flag = false;
+
+    this.portrait_title_invalid_flag = false;
+    this.portrait_content_invalid_flag = false;
+    this.portrait_image_src_invalid_flag = false;
+
+    this.tcb_title_invalid_flag = false;
+    this.tcb_head_one_invalid_flag = false;
+    this.tcb_head_two_invalid_flag = false;
+    this.tcb_content_one_invalid_flag = false;
+    this.tcb_content_two_invalid_flag = false;
+
     this.getSiteFromService();
     this.open_next_component = ""; //used to select editor
-    
   }
 
   getSiteFromService(){
@@ -156,39 +190,170 @@ export class SiteEditorComponent implements OnInit {
     this.open_next_component='';
   }
 
+  validatePbox(test_box:ParagraphBox){
+    let error_count = 0;
+
+    if(test_box.title == ""){
+      this.pbox_title_invalid_flag = true;
+      error_count += 1;
+    }else{
+      this.pbox_title_invalid_flag = false;
+    }
+
+    if(test_box.content == ""){
+      this.pbox_content_invalid_flag = true;
+      error_count += 1;
+    }else{
+      this.pbox_content_invalid_flag = false;
+    }
+    
+    if(error_count > 0){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  validateImage(test_box:Image){
+    let error_count = 0;
+
+    if(test_box.title == ""){
+      this.image_title_invalid_flag = true;
+      error_count += 1;
+    }else{
+      this.image_title_invalid_flag = false;
+    }
+
+    if(test_box.image_src == ""){
+      this.image_src_invalid_flag = true;
+      error_count += 1;
+    }else{
+      this.image_src_invalid_flag = false;
+    }
+    
+    if(error_count > 0){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  validateTwoColumnBox(two_c_box:TwoColumnBox){
+    let error_count = 0;
+
+    if(two_c_box.title == ""){
+      this.tcb_title_invalid_flag = true;
+      error_count += 1;
+    }else{
+      this.tcb_title_invalid_flag = false;
+     }
+
+    if(two_c_box.heading_one == ""){
+      this.tcb_head_one_invalid_flag = true;
+      error_count += 1;
+    }else{
+     this.tcb_head_one_invalid_flag = false;
+    }
+
+    if(two_c_box.heading_two == ""){
+      this.tcb_head_two_invalid_flag = true;
+      error_count += 1;
+    }else{
+      this.tcb_head_two_invalid_flag = false;
+    }
+
+    if(two_c_box.content_one == ""){
+      this.tcb_content_one_invalid_flag = true;
+      error_count += 1;
+    }else{
+      this.tcb_content_one_invalid_flag = false;
+     }
+
+    if(two_c_box.content_two == ""){
+      this.tcb_content_two_invalid_flag = true;
+      error_count += 1;
+    }else{
+      this.tcb_content_two_invalid_flag = false;
+     }
+    
+    if(error_count > 0){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+
+  validatePortrait(test_portrait:Portrait){
+    let error_count = 0;
+
+    if(test_portrait.title == ""){
+      this.portrait_title_invalid_flag = true;
+      error_count += 1;
+    }else{
+      this.portrait_title_invalid_flag = true;
+    }
+
+    if(test_portrait.content == ""){
+      this.portrait_content_invalid_flag = true;
+
+    }else{
+      this.portrait_content_invalid_flag = false;
+    }
+
+    if(test_portrait.image_src == ""){
+      this.portrait_image_src_invalid_flag = true;
+    }else{
+      this.portrait_image_src_invalid_flag = false;
+    }
+
+    if(error_count > 0){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   postParagraphBoxToService(){
-      this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, "faidlsugf").subscribe(results =>{
-      console.log(results);
-      this.getSiteFromService();
-      this.open_next_component=""; //reset editing tool options
-    }, error => console.log(error));
+    if(this.validatePbox(this.new_paragraph_box)){
+      this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+        console.log(results);
+        this.getSiteFromService();
+        this.open_next_component=""; //reset editing tool options
+      }, error => console.log(error));
+    } 
   }
 
   postTwoColumnBoxToService(){
-    this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-      console.log(results);
-      this.getSiteFromService();
-      this.open_next_component="";
-    }, error => console.log(error));
+      if(this.validateTwoColumnBox(this.new_2c_box)){
+      this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+        console.log(results);
+        this.getSiteFromService();
+        this.open_next_component="";
+      }, error => console.log(error));
+    }
   }
 
   postImageToService(){
-    console.log(this.new_image);
-    this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-      console.log(results);
-      this.getSiteFromService();
-      this.open_next_component="";
-
-    }, error => console.log(error));
+    if(this.validateImage(this.new_image)){
+      this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+        console.log(results);
+        this.getSiteFromService();
+        this.open_next_component="";
+  
+      }, error => console.log(error));
+    }
   }
 
   postPortraitToService(){
-    this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-      console.log(results);
-      this.getSiteFromService();
-      this.open_next_component="";
-
-    }, error => console.log(error));
+    if(this.validatePortrait(this.new_portrait)){
+      this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+        console.log(results);
+        this.getSiteFromService();
+        this.open_next_component="";
+  
+      }, error => console.log(error));
+    }
   }
 
 }

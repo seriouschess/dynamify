@@ -23,17 +23,21 @@
 
       <div *ngIf="site_component.type === '2c_box'">
         <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
-        <div class="column-block">
-          <h3 class="title"> {{site_component.heading_one}} </h3>
-          <p>{{site_component.content_one}}</p>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm text-center">
+              <h3 class="title"> 
+                {{site_component.heading_one}} </h3>
+                <p class="column-block">{{site_component.content_one}}</p>
+            </div>
+            <div class="col-sm text-center">
+              <h3 class="title"> 
+                {{site_component.heading_two}} </h3>
+                <p class="column-block">{{site_component.content_two}}</p>
+            </div>
+          </div>
         </div>
-        
-        <div class="column-block">
-          <h3 class="title"> {{site_component.heading_two}} </h3>
-          <p>{{site_component.content_two}}</p>
-        </div>  
       </div>
-    </div>
 
   <div *ngIf="open_next_component === '' ">
     <h3>(Add a new Element by selecting from the following options:)</h3>
@@ -48,10 +52,15 @@
     <div class="editor-form" *ngIf="open_next_component === '2c_box'">
       <p> Add a two column box </p>
       <form (submit)=postTwoColumnBoxToService()>
+        <p *ngIf="tcb_title_invalid_flag" class="text-danger">Enter a valid title. Don't worry, you can remove this later.</p>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_2c_box.title"></p>
+        <p *ngIf="tcb_head_one_invalid_flag" class="text-danger"> Enter a heading for column one. Don't worry, you can remove this later. </p>
         <p><label>Column One Heading: </label><input class="title_box" name="heading_one" [(ngModel)]="new_2c_box.heading_one"></p>
+        <p *ngIf="tcb_content_one_invalid_flag" class="text-danger">Enter valid content or consider using a different component.</p>
         <p><label>Column One Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_one" [(ngModel)]="new_2c_box.content_one"></textarea></p>
+        <p *ngIf="tcb_head_two_invalid_flag" class="text-danger"> Enter a heading for column two. Don't worry, you can remove this later. </p>
         <p><label>Column Two Heading: </label><input class="title_box" name="heading_two" [(ngModel)]="new_2c_box.heading_two"></p>
+        <p *ngIf="tcb_content_two_invalid_flag" class="text-danger"> Enter valid content or consider using a different component. </p>
         <p><label>Column Two Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_two" [(ngModel)]="new_2c_box.content_two"></textarea></p>
         <p><input type="submit" class="btn btn-warning" value="Add Two Column Box"></p>
       </form>
@@ -60,7 +69,9 @@
     <div class="editor-form" *ngIf="open_next_component === 'image'">
       <p> Add an image </p>
       <form (submit)=postImageToService()>
+        <p *ngIf="image_title_invalid_flag" class="text-danger"> Enter a valid title. Don't worry, you can remove this later. </p>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_image.title"></p>
+        <p *ngIf="image_src_invalid_flag" class="text-danger">Save a valid file or consider using a different component type.</p>
         <p><label>Image URL: </label><input name="image_src" [(ngModel)]="new_image.image_src"></p>
         <p><input type="submit" class="btn btn-warning" value="Add Image"></p>
       </form>
@@ -69,8 +80,11 @@
     <div class="editor-form" *ngIf="open_next_component === 'portrait'">
       <p> Add a portrait </p>
       <form (submit)=postPortraitToService()>
+        <p *ngIf="portrait_title_invalid_flag" class="text-danger">Enter a valid title. Don't worry, you can remove this later.</p>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_portrait.title"></p>
+        <p *ngIf="portrait_image_src_invalid_flag" class="text-danger">Save a valid file or consider using a different component.</p>
         <p><label>Image URL: </label><input name="image_src" [(ngModel)]="new_portrait.image_src"></p>
+        <p *ngIf="portrait_content_invalid_flag" class="text-danger">Save a valid file or consider using a different component.</p>
         <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_portrait.content"></textarea></p>
         <p><input type="submit" class="btn btn-warning" value="Add Portrait"></p>
       </form>
@@ -80,7 +94,9 @@
       <p> Add a paragraph box </p>
       <form (submit)=postParagraphBoxToService()>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
+        <p *ngIf="pbox_title_invalid_flag" class="text-danger">Enter a valid title. Don't worry, you can remove this later.</p>
         <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>
+        <p *ngIf="pbox_content_invalid_flag" class="text-danger">Enter valid content text or consider a different component type.</p>
         <p><input type="submit" class="btn btn-warning" value="Add Paragraph Box"></p>
       </form>
     </div>

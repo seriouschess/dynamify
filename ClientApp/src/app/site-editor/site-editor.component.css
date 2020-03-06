@@ -19,10 +19,7 @@
 }
 
 .column-block{
-    display: inline-block;
-    width: 48%;
     background-color: #b1e5ff;
-    margin: 1%;
 }
 
 .text-format{
