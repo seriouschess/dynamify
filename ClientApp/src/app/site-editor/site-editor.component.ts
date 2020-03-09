@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from '../http.service';
+// import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-site-editor',
@@ -7,7 +8,6 @@ import { HttpService } from '../http.service';
   styleUrls: ['./site-editor.component.css']
 })
 export class SiteEditorComponent implements OnInit {
-
   //route parameters
   @Input() current_site_id: number;
   @Input() current_admin_id: number;
@@ -19,6 +19,7 @@ export class SiteEditorComponent implements OnInit {
   new_paragraph_box: ParagraphBox;
   new_2c_box: TwoColumnBox;
   new_image: Image;
+  temp_file:File;
   new_portrait: Portrait;
 
   //validation flags
@@ -26,17 +27,19 @@ export class SiteEditorComponent implements OnInit {
   pbox_content_invalid_flag:boolean;
 
   image_title_invalid_flag:boolean;
-  image_src_invalid_flag:boolean;
+  image_src_invalid_flag:boolean; //used in portraits too
 
   portrait_title_invalid_flag:boolean;
   portrait_content_invalid_flag:boolean;
-  portrait_image_src_invalid_flag:boolean;
 
   tcb_title_invalid_flag:boolean;
   tcb_head_one_invalid_flag:boolean;
   tcb_head_two_invalid_flag:boolean;
   tcb_content_one_invalid_flag:boolean;
   tcb_content_two_invalid_flag:boolean;
+
+  //setImageBase64 asynic flag
+  image_converter_working: boolean;
 
 
   //functionality
@@ -72,6 +75,8 @@ export class SiteEditorComponent implements OnInit {
       content_two: ""
     }
 
+    this.temp_file = null;
+
     this.new_image = {
       title: "",
       priority: 0,
@@ -87,6 +92,9 @@ export class SiteEditorComponent implements OnInit {
       content: ""
     }
 
+    //image converter async flag
+    this.image_converter_working = false;
+
     //validation flags
     this.pbox_content_invalid_flag = false;
     this.pbox_title_invalid_flag = false;
@@ -96,7 +104,6 @@ export class SiteEditorComponent implements OnInit {
 
     this.portrait_title_invalid_flag = false;
     this.portrait_content_invalid_flag = false;
-    this.portrait_image_src_invalid_flag = false;
 
     this.tcb_title_invalid_flag = false;
     this.tcb_head_one_invalid_flag = false;
@@ -188,6 +195,9 @@ export class SiteEditorComponent implements OnInit {
 
   resetEditOptions(){
     this.open_next_component='';
+    this.new_image.image_src = ""; //reset potentially uploaded files
+    this.new_portrait.image_src ="";
+    this.image_src_invalid_flag = false;
   }
 
   validatePbox(test_box:ParagraphBox){
@@ -224,11 +234,15 @@ export class SiteEditorComponent implements OnInit {
       this.image_title_invalid_flag = false;
     }
 
-    if(test_box.image_src == ""){
+    if(this.image_src_invalid_flag == true){ //from setImageBase64()
+      error_count += 1;
+    }
+
+    if(this.new_image.image_src === ""){
       this.image_src_invalid_flag = true;
       error_count += 1;
     }else{
-      this.image_src_invalid_flag = false;
+      this.image_src_invalid_flag = true;
     }
     
     if(error_count > 0){
@@ -283,7 +297,6 @@ export class SiteEditorComponent implements OnInit {
     }
   }
 
-
   validatePortrait(test_portrait:Portrait){
     let error_count = 0;
 
@@ -296,15 +309,21 @@ export class SiteEditorComponent implements OnInit {
 
     if(test_portrait.content == ""){
       this.portrait_content_invalid_flag = true;
-
+      error_count += 1;
     }else{
       this.portrait_content_invalid_flag = false;
     }
 
-    if(test_portrait.image_src == ""){
-      this.portrait_image_src_invalid_flag = true;
+    if(this.image_src_invalid_flag == true){ //from setImageBase64()
+      error_count += 1;
+    }
+
+
+    if(this.new_portrait.image_src === ""){
+      this.image_src_invalid_flag = true;
+      error_count += 1;
     }else{
-      this.portrait_image_src_invalid_flag = false;
+      this.image_src_invalid_flag = true;
     }
 
     if(error_count > 0){
@@ -334,13 +353,82 @@ export class SiteEditorComponent implements OnInit {
     }
   }
 
+  fileConversionListener($event) : void {
+    this.setImageBase64($event.target);
+  }
+
+  //for use with setImageBase64() required for async data retrieval
+  B64Callback(output_string: string, this_component:SiteEditorComponent){
+    this_component.image_converter_working = false;
+    if(output_string === "invalid_file_type"){
+      this_component.image_src_invalid_flag = true;
+    }else{
+      this_component.image_src_invalid_flag = false;
+      this_component.new_image.image_src = output_string;
+      this_component.new_portrait.image_src = output_string;
+    }
+  }
+
+  setImageBase64(inputValue: any) : void {
+    this.image_converter_working == true;
+    var file:File = inputValue.files[0]; 
+    var reader:FileReader = new FileReader();
+
+    reader.readAsDataURL(file);
+    let valid = false;
+
+    //cheating
+    let this_component_object:SiteEditorComponent = this;
+    let callback = this.B64Callback;
+
+    reader.onload = function() {
+      let file_base_64:string = reader.result+"";
+      console.log("File base64 string: " + reader.result);
+
+      //validate file type
+      for(var x=0; x<100 ;x++){
+
+        //validate file type
+        if(file_base_64[x] == "j"){ //check jpg
+          if(file_base_64[x+1] == "p" && file_base_64[x+2] == "e" && file_base_64[x+3] == "g" ){
+            valid = true;
+          }
+        }
+        if( file_base_64[x] == "p" ){ //check png
+          if(file_base_64[x+1] == "n" && file_base_64[x+2] == "g"){
+            valid = true;
+          }
+        }
+
+        //strip file data unnecessary for HTML
+        //remove file type information leaving only the image
+        // if(file_base_64[x] == ","){ 
+        //   file_base_64 = file_base_64.substring(x+1);
+        //   break;
+        // }
+
+      }
+      if(valid == true){
+        console.log("Base64 String: "+file_base_64);
+        callback(file_base_64, this_component_object);
+      }else{ //invalid file type
+        console.log("invalid_file_type");
+        callback("invalid_file_type", this_component_object);
+      }
+    }
+    reader.onerror = function (error){
+      console.log('File read error: ', error);
+    }
+    
+    };
+
   postImageToService(){
     if(this.validateImage(this.new_image)){
+      //this.new_image.image_src = this.temp_file.data;
       this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
         console.log(results);
         this.getSiteFromService();
         this.open_next_component="";
-  
       }, error => console.log(error));
     }
   }

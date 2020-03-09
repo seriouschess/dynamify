@@ -1,43 +1,44 @@
 <h1>Current Admin Token: {{current_admin_token}}</h1>
 <div class="text-center" *ngIf="current_site_id != 0">
-    <h1> {{formatted_site.title}} </h1>
+  <h1> {{formatted_site.title}} </h1>
 
-    <div *ngFor="let site_component of formatted_site.site_components">
-      <h2 class="title">{{site_component.title}}</h2>
+  <div *ngFor="let site_component of formatted_site.site_components">
+    <h2 class="title">{{site_component.title}}</h2>
 
-      <div *ngIf="site_component.type === 'p_box'">
-        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.paragraph_box_id, site_component.type)'>Delete</button>
-        <p class="text-format"> {{site_component.content}} </p>
-      </div>
+    <div *ngIf="site_component.type === 'p_box'">
+      <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.paragraph_box_id, site_component.type)'>Delete</button>
+      <p class="text-format"> {{site_component.content}} </p>
+    </div>
 
-      <div *ngIf="site_component.type === 'image'">
-        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.image_id, site_component.type)'>Delete</button>
-        <img class="image" src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
-      </div>
+    <div *ngIf="site_component.type === 'image'">
+      <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.image_id, site_component.type)'>Delete</button>
+      <img class="image" src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
+    </div>
 
-      <div *ngIf="site_component.type === 'portrait'">
-        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.portrait_id, site_component.type)'>Delete</button>
-        <img class="image" src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
-        <p class="text-format">{{site_component.content}}</p>
-      </div>
+    <div *ngIf="site_component.type === 'portrait'">
+      <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.portrait_id, site_component.type)'>Delete</button>
+      <img class="image" src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
+      <p class="text-format">{{site_component.content}}</p>
+    </div>
 
-      <div *ngIf="site_component.type === '2c_box'">
-        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
-        <div class="container">
-          <div class="row">
-            <div class="col-sm text-center">
-              <h3 class="title"> 
-                {{site_component.heading_one}} </h3>
-                <p class="column-block">{{site_component.content_one}}</p>
-            </div>
-            <div class="col-sm text-center">
-              <h3 class="title"> 
-                {{site_component.heading_two}} </h3>
-                <p class="column-block">{{site_component.content_two}}</p>
-            </div>
+    <div *ngIf="site_component.type === '2c_box'">
+      <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm text-center">
+            <h3 class="title"> 
+              {{site_component.heading_one}} </h3>
+              <p class="column-block">{{site_component.content_one}}</p>
+          </div>
+          <div class="col-sm text-center">
+            <h3 class="title"> 
+              {{site_component.heading_two}} </h3>
+              <p class="column-block">{{site_component.content_two}}</p>
           </div>
         </div>
       </div>
+    </div>
+  </div>
 
   <div *ngIf="open_next_component === '' ">
     <h3>(Add a new Element by selecting from the following options:)</h3>
@@ -71,9 +72,10 @@
       <form (submit)=postImageToService()>
         <p *ngIf="image_title_invalid_flag" class="text-danger"> Enter a valid title. Don't worry, you can remove this later. </p>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_image.title"></p>
-        <p *ngIf="image_src_invalid_flag" class="text-danger">Save a valid file or consider using a different component type.</p>
-        <p><label>Image URL: </label><input name="image_src" [(ngModel)]="new_image.image_src"></p>
-        <p><input type="submit" class="btn btn-warning" value="Add Image"></p>
+        <p *ngIf="image_src_invalid_flag" class="text-danger">File must be a valid .png or .jpg</p>
+        <p><label>Image URL: </label><input type="file" (change)="fileConversionListener($event)"></p> 
+        <p *ngIf="image_converter_working"> Loading... </p>
+        <p><input *ngIf="!image_converter_working && !image_src_invalid_flag" type="submit" class="btn btn-warning" value="Add Image"></p>
       </form>
     </div>
 
@@ -82,11 +84,12 @@
       <form (submit)=postPortraitToService()>
         <p *ngIf="portrait_title_invalid_flag" class="text-danger">Enter a valid title. Don't worry, you can remove this later.</p>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_portrait.title"></p>
-        <p *ngIf="portrait_image_src_invalid_flag" class="text-danger">Save a valid file or consider using a different component.</p>
-        <p><label>Image URL: </label><input name="image_src" [(ngModel)]="new_portrait.image_src"></p>
+        <p *ngIf="image_src_invalid_flag" class="text-danger">File must be a valid .png or .jpg</p>
+        <p><label>Image URL: </label><input type="file" (change)="fileConversionListener($event)"></p>
         <p *ngIf="portrait_content_invalid_flag" class="text-danger">Save a valid file or consider using a different component.</p>
         <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_portrait.content"></textarea></p>
-        <p><input type="submit" class="btn btn-warning" value="Add Portrait"></p>
+        <p *ngIf="image_converter_working"> Loading... </p>
+        <p><input *ngIf="!image_converter_working && !image_src_invalid_flag" type="submit" class="btn btn-warning" value="Add Portrait"></p>
       </form>
     </div>
     
@@ -102,6 +105,7 @@
     </div>
     
     <h4 *ngIf="open_next_component === ''">(Additional Site Elements Will Be Created Here)</h4>
-</div>
+    <p>{{temp_file | json}}</p>
+  </div>
 
 
