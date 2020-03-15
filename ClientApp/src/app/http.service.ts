@@ -1,5 +1,14 @@
+//Angular resources
 import { Injectable } from '@angular/core';
 import{ HttpClient } from '@angular/common/http';
+
+//dto imports
+import { Admin } from './dtos/admin_dtos';
+import { Login } from './dtos/login_dto';
+import { ParagraphBox, Image, Portrait, TwoColumnBox, Site} from './dtos/site_dtos';
+import { ComponentReference } from './dtos/component_reference';
+import { INewSiteDto } from './dtos/new_site_dto';
+import { IActiveSiteRequestDto } from './dtos/active_site_request_dto'
 
 @Injectable({
   providedIn: 'root'
@@ -53,12 +62,12 @@ export class HttpService {
     return this._http.delete(`site/delete/${site_id}`);
   }
 
-  postSite(input_site: Site, admin_token:string){
-    return this._http.post(`site/create_site/${admin_token}`, input_site);
+  postSite(input_site: INewSiteDto){
+    return this._http.post(`site/create_site`, input_site);
   }
 
-  setActiveSite(new_active_site: Site){
-    return this._http.post(`site/set_active`, new_active_site);
+  setActiveSite(request: IActiveSiteRequestDto){
+    return this._http.post(`site/set_active`, request);
   }
   
   //site configuration services
@@ -87,74 +96,5 @@ export class HttpService {
   }
 }
 
-//admin interfaces 
-
-interface Admin{
-  admin_id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-  token: string;
-}
-
-interface Login{
-  email: string;
-  password: string;
-}
-
-//site interfaces
-
-interface Site{
-  site_id: number;
-  title: string;
-  admin_id: number;
-  owner: Admin;
-  paragraph_boxes: ParagraphBox[];
-  images: Image[];
-  two_column_boxes: TwoColumnBox[];
-  portraits: Portrait[];
-}
-
-interface ParagraphBox{
-  title: string;
-  priority: number;
-  site_id: number;
-
-  content: string;
-}
-
-interface Image{
-  title: string;
-  priority:number;
-  site_id: number;
-
-  image_src: string;
-}
-
-interface Portrait{
-  title: string;
-  priority:number;
-  site_id: number;
-
-  image_src: string;
-  content: string;
-}
-
-interface TwoColumnBox{
-  title:string;
-  priority:number;
-  site_id:number;
-
-  heading_one:string;
-  heading_two:string;
-  content_one:string;
-  content_two:string;
-}
-
-interface ComponentReference{
-  component_id:number,
-  component_type:string
-}
 
 

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 
+//dto imports
+import { Admin } from '../dtos/admin_dtos';
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -65,13 +68,4 @@ export class AdminComponent implements OnInit{
   resetEditor(){
     this.current_site_editor_id = 0;
   }
-}
-
-interface Admin {
-  admin_id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-  token:string;
 }

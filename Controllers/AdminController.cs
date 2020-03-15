@@ -27,7 +27,7 @@ namespace dynamify.Controllers
         }
 
         [HttpGet]
-        [Route("/[controller]/auth/generate")]
+        [Route("auth/generate")]
        
         public ActionResult<Token> GenAuth(){
             return authenticator.Generate();
@@ -42,7 +42,7 @@ namespace dynamify.Controllers
         }
 
         [HttpGet]
-        [Route("/[controller]/by_email/{login_email}/{login_password}")]
+        [Route("by_email/{login_email}/{login_password}")]
         public ActionResult<Admin> LoginAdmin(string login_email, string login_password){
             return authenticator.RequestAdmin(login_email, login_password);
         }
@@ -55,14 +55,14 @@ namespace dynamify.Controllers
         }
 
         [HttpDelete]
-        [Route("/[controller]/{admin_id}")]
+        [Route("{admin_id}")]
         public ActionResult<Admin> Destroy(int admin_id){
             System.Console.WriteLine("Admin Deleted >:O");
             Admin FoundAdmin = adminQueries.GetAdminById(admin_id);
             return FoundAdmin;
         }
 
-        [HttpPut]
+        [HttpPut] 
         public ActionResult<Admin> Update([FromBody] string _TargetAdmin){
             Admin TargetAdmin = JsonSerializer.Deserialize<Admin>(_TargetAdmin);
             Admin FoundAdmin = adminQueries.UpdateAdminById(TargetAdmin);
