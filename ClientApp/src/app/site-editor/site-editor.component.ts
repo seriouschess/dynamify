@@ -3,6 +3,7 @@ import { HttpService } from '../http.service';
 import {ParagraphBox, Image, TwoColumnBox, Portrait } from '../dtos/site_dtos';
 import { ISiteRequestDto } from '../dtos/site_request_dto';
 import { ValidationService } from '../validation.service';
+import { BSfourConverterService } from '../b-sfour-converter.service';
 // import { ConsoleReporter } from 'jasmine';
 
 @Component({
@@ -23,7 +24,7 @@ export class SiteEditorComponent implements OnInit {
   new_paragraph_box: ParagraphBox;
   new_2c_box: TwoColumnBox;
   new_image: Image;
-  temp_file:File;
+  //temp_file:File;
   new_portrait: Portrait;
 
   //setImageBase64 asynic flag
@@ -33,7 +34,7 @@ export class SiteEditorComponent implements OnInit {
   //functionality
   open_next_component: string;
 
-   constructor( private _httpService:HttpService, private validator:ValidationService) { }
+   constructor( private _httpService:HttpService, private validator:ValidationService, private b64converter:BSfourConverterService) { }
 
    ngOnInit() {
      this.site_request_object = {
@@ -66,7 +67,7 @@ export class SiteEditorComponent implements OnInit {
       content_two: ""
     }
 
-    this.temp_file = null;
+    ///this.temp_file = null;
 
     this.new_image = {
       title: "",
@@ -195,9 +196,12 @@ export class SiteEditorComponent implements OnInit {
     }
   }
 
+  //Image Conversion Methods
   fileConversionListener($event) : void {
-    this.setImageBase64($event.target);
-  }
+    console.log("hi");
+    console.log(this);
+    this.b64converter.setImageBase64($event.target, this);
+  };
 
   //for use with setImageBase64() required for async data retrieval
   B64Callback(output_string: string, this_component:SiteEditorComponent){
@@ -205,64 +209,11 @@ export class SiteEditorComponent implements OnInit {
     if(output_string === "invalid_file_type"){
       this_component.validator.image_src_invalid_flag = true;
     }else{
-      this_component.validator.image_src_invalid_flag = false;
       this_component.new_image.image_src = output_string;
       this_component.new_portrait.image_src = output_string;
+      this_component.validator.image_src_invalid_flag = false;
     }
   }
-
-  setImageBase64(inputValue: any) : void {
-    this.image_converter_working == true;
-    var file:File = inputValue.files[0]; 
-    var reader:FileReader = new FileReader();
-
-    reader.readAsDataURL(file);
-    let valid = false;
-
-    //cheating
-    let this_component_object:SiteEditorComponent = this;
-    let callback = this.B64Callback;
-
-    reader.onload = function() {
-      let file_base_64:string = reader.result+"";
-      console.log("File base64 string: " + reader.result);
-
-      //validate file type
-      for(var x=0; x<100 ;x++){
-
-        //validate file type
-        if(file_base_64[x] == "j"){ //check jpg
-          if(file_base_64[x+1] == "p" && file_base_64[x+2] == "e" && file_base_64[x+3] == "g" ){
-            valid = true;
-          }
-        }
-        if( file_base_64[x] == "p" ){ //check png
-          if(file_base_64[x+1] == "n" && file_base_64[x+2] == "g"){
-            valid = true;
-          }
-        }
-
-        //strip file data unnecessary for HTML
-        //remove file type information leaving only the image
-        // if(file_base_64[x] == ","){ 
-        //   file_base_64 = file_base_64.substring(x+1);
-        //   break;
-        // }
-
-      }
-      if(valid == true){
-        console.log("Base64 String: "+file_base_64);
-        callback(file_base_64, this_component_object);
-      }else{ //invalid file type
-        console.log("invalid_file_type");
-        callback("invalid_file_type", this_component_object);
-      }
-    }
-    reader.onerror = function (error){
-      console.log('File read error: ', error);
-    }
-    
-    };
 
   postImageToService(){
     if(this.validator.validateImage(this.new_image, this.new_image.image_src)){
