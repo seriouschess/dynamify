@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Admin } from '../dtos/admin_dtos';
 import { ParagraphBox, Image, Portrait, TwoColumnBox, Site} from '../dtos/site_dtos';
 import { INewSiteDto } from '../dtos/new_site_dto';
-import { IActiveSiteRequestDto } from '../dtos/active_site_request_dto';
+import { ISiteRequestDto } from '../dtos/site_request_dto';
 
 @Component({
   selector: 'app-display-sites',
@@ -48,7 +48,7 @@ export class DisplaySitesComponent implements OnInit {
   }
 
   setSiteActive(site_id:number){
-    var setMyIdActive: IActiveSiteRequestDto = { //created only to pass id, preferred over parameter
+    var setMyIdActive: ISiteRequestDto = { //created only to pass id, preferred over parameter
       site_id: site_id,
       admin_id: this.current_admin_id,
       token: this.current_admin_token

@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from '../http.service';
+import {ParagraphBox, Image, TwoColumnBox, Portrait } from '../dtos/site_dtos';
+import { ISiteRequestDto } from '../dtos/site_request_dto';
+import { ValidationService } from '../validation.service';
 // import { ConsoleReporter } from 'jasmine';
 
 @Component({
@@ -12,6 +15,7 @@ export class SiteEditorComponent implements OnInit {
   @Input() current_site_id: number;
   @Input() current_admin_id: number;
   @Input() current_admin_token: string;
+  site_request_object:ISiteRequestDto;
 
   formatted_site: any; //not a Site type technically
 
@@ -22,22 +26,6 @@ export class SiteEditorComponent implements OnInit {
   temp_file:File;
   new_portrait: Portrait;
 
-  //validation flags
-  pbox_title_invalid_flag:boolean;
-  pbox_content_invalid_flag:boolean;
-
-  image_title_invalid_flag:boolean;
-  image_src_invalid_flag:boolean; //used in portraits too
-
-  portrait_title_invalid_flag:boolean;
-  portrait_content_invalid_flag:boolean;
-
-  tcb_title_invalid_flag:boolean;
-  tcb_head_one_invalid_flag:boolean;
-  tcb_head_two_invalid_flag:boolean;
-  tcb_content_one_invalid_flag:boolean;
-  tcb_content_two_invalid_flag:boolean;
-
   //setImageBase64 asynic flag
   image_converter_working: boolean;
 
@@ -45,11 +33,14 @@ export class SiteEditorComponent implements OnInit {
   //functionality
   open_next_component: string;
 
-   constructor( private _httpService:HttpService) { }
+   constructor( private _httpService:HttpService, private validator:ValidationService) { }
 
    ngOnInit() {
-     //this.current_site_id = 1;
-     //this.current_admin_id = 1;
+     this.site_request_object = {
+       site_id: this.current_site_id,
+       admin_id: this.current_admin_id,
+       token: this.current_admin_token
+     }
 
     this.formatted_site = {
       site_id: null,
@@ -95,28 +86,12 @@ export class SiteEditorComponent implements OnInit {
     //image converter async flag
     this.image_converter_working = false;
 
-    //validation flags
-    this.pbox_content_invalid_flag = false;
-    this.pbox_title_invalid_flag = false;
-
-    this.image_title_invalid_flag = false;
-    this.image_src_invalid_flag = false;
-
-    this.portrait_title_invalid_flag = false;
-    this.portrait_content_invalid_flag = false;
-
-    this.tcb_title_invalid_flag = false;
-    this.tcb_head_one_invalid_flag = false;
-    this.tcb_head_two_invalid_flag = false;
-    this.tcb_content_one_invalid_flag = false;
-    this.tcb_content_two_invalid_flag = false;
-
     this.getSiteFromService();
     this.open_next_component = ""; //used to select editor
   }
 
   getSiteFromService(){
-    this._httpService.getSite(this.current_site_id).subscribe(data =>{
+    this._httpService.getSite(this.site_request_object).subscribe(data =>{
     var s:any = data; //just for now I swear!
     var unformatted_site = {
       site_id: s.site_id,
@@ -197,144 +172,11 @@ export class SiteEditorComponent implements OnInit {
     this.open_next_component='';
     this.new_image.image_src = ""; //reset potentially uploaded files
     this.new_portrait.image_src ="";
-    this.image_src_invalid_flag = false;
-  }
-
-  validatePbox(test_box:ParagraphBox){
-    let error_count = 0;
-
-    if(test_box.title == ""){
-      this.pbox_title_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.pbox_title_invalid_flag = false;
-    }
-
-    if(test_box.content == ""){
-      this.pbox_content_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.pbox_content_invalid_flag = false;
-    }
-    
-    if(error_count > 0){
-      return false;
-    }else{
-      return true;
-    }
-  }
-
-  validateImage(test_box:Image){
-    let error_count = 0;
-
-    if(test_box.title == ""){
-      this.image_title_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.image_title_invalid_flag = false;
-    }
-
-    if(this.image_src_invalid_flag == true){ //from setImageBase64()
-      error_count += 1;
-    }
-
-    if(this.new_image.image_src === ""){
-      this.image_src_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.image_src_invalid_flag = true;
-    }
-    
-    if(error_count > 0){
-      return false;
-    }else{
-      return true;
-    }
-  }
-
-  validateTwoColumnBox(two_c_box:TwoColumnBox){
-    let error_count = 0;
-
-    if(two_c_box.title == ""){
-      this.tcb_title_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.tcb_title_invalid_flag = false;
-     }
-
-    if(two_c_box.heading_one == ""){
-      this.tcb_head_one_invalid_flag = true;
-      error_count += 1;
-    }else{
-     this.tcb_head_one_invalid_flag = false;
-    }
-
-    if(two_c_box.heading_two == ""){
-      this.tcb_head_two_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.tcb_head_two_invalid_flag = false;
-    }
-
-    if(two_c_box.content_one == ""){
-      this.tcb_content_one_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.tcb_content_one_invalid_flag = false;
-     }
-
-    if(two_c_box.content_two == ""){
-      this.tcb_content_two_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.tcb_content_two_invalid_flag = false;
-     }
-    
-    if(error_count > 0){
-      return false;
-    }else{
-      return true;
-    }
-  }
-
-  validatePortrait(test_portrait:Portrait){
-    let error_count = 0;
-
-    if(test_portrait.title == ""){
-      this.portrait_title_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.portrait_title_invalid_flag = true;
-    }
-
-    if(test_portrait.content == ""){
-      this.portrait_content_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.portrait_content_invalid_flag = false;
-    }
-
-    if(this.image_src_invalid_flag == true){ //from setImageBase64()
-      error_count += 1;
-    }
-
-
-    if(this.new_portrait.image_src === ""){
-      this.image_src_invalid_flag = true;
-      error_count += 1;
-    }else{
-      this.image_src_invalid_flag = true;
-    }
-
-    if(error_count > 0){
-      return false;
-    }else{
-      return true;
-    }
+    this.validator.image_src_invalid_flag = false;
   }
 
   postParagraphBoxToService(){
-    if(this.validatePbox(this.new_paragraph_box)){
+    if(this.validator.validatePbox(this.new_paragraph_box)){
       this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
         console.log(results);
         this.getSiteFromService();
@@ -344,7 +186,7 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postTwoColumnBoxToService(){
-      if(this.validateTwoColumnBox(this.new_2c_box)){
+      if(this.validator.validateTwoColumnBox(this.new_2c_box)){
       this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
         console.log(results);
         this.getSiteFromService();
@@ -361,9 +203,9 @@ export class SiteEditorComponent implements OnInit {
   B64Callback(output_string: string, this_component:SiteEditorComponent){
     this_component.image_converter_working = false;
     if(output_string === "invalid_file_type"){
-      this_component.image_src_invalid_flag = true;
+      this_component.validator.image_src_invalid_flag = true;
     }else{
-      this_component.image_src_invalid_flag = false;
+      this_component.validator.image_src_invalid_flag = false;
       this_component.new_image.image_src = output_string;
       this_component.new_portrait.image_src = output_string;
     }
@@ -423,7 +265,7 @@ export class SiteEditorComponent implements OnInit {
     };
 
   postImageToService(){
-    if(this.validateImage(this.new_image)){
+    if(this.validator.validateImage(this.new_image, this.new_image.image_src)){
       //this.new_image.image_src = this.temp_file.data;
       this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
         console.log(results);
@@ -434,7 +276,7 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postPortraitToService(){
-    if(this.validatePortrait(this.new_portrait)){
+    if(this.validator.validatePortrait(this.new_portrait, this.new_portrait.image_src)){
       this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
         console.log(results);
         this.getSiteFromService();
@@ -443,60 +285,4 @@ export class SiteEditorComponent implements OnInit {
       }, error => console.log(error));
     }
   }
-
-}
-
-interface Admin{
-  admin_id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-}
-
-interface ParagraphBox{
-  title: string;
-  priority: number;
-  site_id: number;
-
-  content: string;
-}
-
-interface Image{
-  title: string;
-  priority:number;
-  site_id: number;
-
-  image_src: string;
-}
-
-interface Portrait{
-  title: string;
-  priority:number;
-  site_id: number;
-
-  image_src: string;
-  content: string;
-}
-
-interface TwoColumnBox{
-  title:string;
-  priority:number;
-  site_id:number;
-
-  heading_one:string;
-  heading_two:string;
-  content_one:string;
-  content_two:string;
-}
-
-interface Site {
-  site_id: number;
-  title: string;
-  admin_id: number;
-  owner: Admin;
-  paragraph_boxes: ParagraphBox[];
-  images: Image[];
-  two_column_boxes: TwoColumnBox[];
-  portraits: Portrait[];
 }

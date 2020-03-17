@@ -43,8 +43,8 @@ export class AdminComponent implements OnInit{
     this.current_admin = $event;
   }
 
-  deleteAdminByID(id:Admin["admin_id"]){
-    this._httpService.deleteAdmin(id).subscribe(result =>{
+  deleteAdminByID(id:number){
+    this._httpService.deleteAdmin(id, this.current_admin.token).subscribe(result =>{
       console.log(result);
       this.allAdmins();
     });

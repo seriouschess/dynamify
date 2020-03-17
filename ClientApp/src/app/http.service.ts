@@ -8,15 +8,15 @@ import { Login } from './dtos/login_dto';
 import { ParagraphBox, Image, Portrait, TwoColumnBox, Site} from './dtos/site_dtos';
 import { ComponentReference } from './dtos/component_reference';
 import { INewSiteDto } from './dtos/new_site_dto';
-import { IActiveSiteRequestDto } from './dtos/active_site_request_dto'
+import { ISiteRequestDto } from './dtos/site_request_dto'
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class HttpService {
-  // // @Inject('BASE_URL') baseUrl: string
-   constructor(private _http:HttpClient) { }
+  // @Inject('BASE_URL') baseUrl: string
+  constructor(private _http:HttpClient) { }
 
   //admin services
 
@@ -25,18 +25,22 @@ export class HttpService {
     return data;
   }
 
-  getAdminByEmail(login_payload:Login){
-    return this._http.get(`admin/by_email/${login_payload.email}/${login_payload.password}`);
+  loginAdmin(login_payload:Login){
+    return this._http.post(`admin/login`, login_payload);
   }
 
-  postAdmin<Admin>(NewAdmin:Admin){
+  postAdmin<AdminRegistrationDto>(NewAdmin:AdminRegistrationDto){
    console.log(JSON.stringify(NewAdmin));
-   return this._http.post('admin', NewAdmin);
+   return this._http.post<Admin>('admin', NewAdmin);
   }
 
-  deleteAdmin(admin_id:Admin["admin_id"]){
+  deleteAdmin(admin_id:number, token:string){
     console.log(`Admin ID for deletion:${admin_id}`);
-    return this._http.delete(`admin/${admin_id}`);
+    let payload = {
+      admin_id: admin_id,
+      token: token
+    }
+    return this._http.post(`admin/${admin_id}`, payload);
   }
 
   editAdmin(AdminToEdit:Admin){
@@ -46,12 +50,12 @@ export class HttpService {
 
   //site services
 
-  getSite(site_id: number){
-    return this._http.get(`site/get/${site_id}`);
+  getSite(request:ISiteRequestDto){
+    return this._http.post(`site/get`, request);
   }
 
   getActiveSite<Site>(){
-    return this._http.get<Site>('site/get_active');
+    return this._http.get<Site>('site/active');
   }
 
   getSitesByAdmin(admin_id: number, admin_token: string) {
@@ -66,7 +70,7 @@ export class HttpService {
     return this._http.post(`site/create_site`, input_site);
   }
 
-  setActiveSite(request: IActiveSiteRequestDto){
+  setActiveSite(request: ISiteRequestDto){
     return this._http.post(`site/set_active`, request);
   }
   

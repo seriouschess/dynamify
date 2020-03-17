@@ -1,5 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpService } from '../http.service';
+import { AdminRegistrationDto } from '../dtos/admin_registration_dto';
+import { Login } from '../dtos/login_dto';
+import { Admin } from '../dtos/admin_dtos';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +16,7 @@ export class LoginComponent implements OnInit {
   constructor(private _httpService:HttpService) { }
   @Output() logEvent = new EventEmitter<Admin>();
   logged_admin: Admin;
-  newAdminObject: Admin;
+  newAdminObject: AdminRegistrationDto;
   entered_email: string;
   entered_password: string;
   
@@ -32,12 +35,10 @@ export class LoginComponent implements OnInit {
 
    ngOnInit() {
     this.newAdminObject = {
-      admin_id: 0,
       first_name: "",
       last_name: "",
       email: "",
       password: "",
-      token: ""
      }
 
     this.logged_admin = {
@@ -115,9 +116,8 @@ export class LoginComponent implements OnInit {
 
   postAdminToService(){
     if (this.validateRegistration()){
-      console.log(this.newAdminObject.admin_id);
       //this.newAdminObject.admin_id = 0; //will be changed on the backend
-      this._httpService.postAdmin<Admin>(this.newAdminObject).subscribe(  //send new admin to backend
+      this._httpService.postAdmin<AdminRegistrationDto>(this.newAdminObject).subscribe(  //send new admin to backend
         result => {
           console.log(result);
           let incomingAdmin:any = result; //it's an Admin though.
@@ -157,12 +157,12 @@ export class LoginComponent implements OnInit {
 
   loginAdmin(){
     if(this.validateLogin()){
-      let login_package = {
+      let login_package:Login = {
         email: this.entered_email,
         password: this.entered_password
       }
   
-        this._httpService.getAdminByEmail(login_package).subscribe(
+        this._httpService.loginAdmin(login_package).subscribe(
           result => {
             console.log(result);
             let incomingAdmin:any = result;
@@ -185,19 +185,4 @@ export class LoginComponent implements OnInit {
         );
       }
     }
-
-}
-
-interface Admin {
-  admin_id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-  token: string;
-}
-
-interface Login {
-  email: string;
-  password: string;
 }
