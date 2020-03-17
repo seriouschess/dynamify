@@ -27,7 +27,7 @@ namespace dynamify.Classes.Auth
         }
 
         public Admin RequestAdmin(string email, string password){ //returns admin with access token
-             Admin QueryAdmin = dbQuery.GetAdminByEmail(email);
+             Admin QueryAdmin = dbQuery.loginAdmin(email);
             if( password == QueryAdmin.password && email == QueryAdmin.email){
                 return QueryAdmin;
             }else{

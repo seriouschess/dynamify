@@ -18,7 +18,7 @@ namespace dynamify.Models.QueryClasses
             return dbContext.Admins.SingleOrDefault(x => x.admin_id == admin_id);
         }
 
-        public Admin GetAdminByEmail(string email){
+        public Admin loginAdmin(string email){
             List<Admin> FoundAdmin = dbContext.Admins.Where(x => x.email == email).ToList();
             if(FoundAdmin.Count > 0){ 
                 if(FoundAdmin.Count == 1){ //unique email Admin found.
@@ -33,17 +33,17 @@ namespace dynamify.Models.QueryClasses
                 }
                 
             }else{
-                    Admin ErrorAdmin = new Admin();
-                    ErrorAdmin.first_name = "<NOT FOUND, Email invalid>";
-                    ErrorAdmin.last_name = "<NOT FOUND, Email invalid>";
-                    ErrorAdmin.email = "<NOT FOUND, Email invalid>";
-                    ErrorAdmin.password = "<NOT FOUND, Email invalid>";
-                    return ErrorAdmin; 
+                Admin ErrorAdmin = new Admin();
+                ErrorAdmin.first_name = "<NOT FOUND, Email invalid>";
+                ErrorAdmin.last_name = "<NOT FOUND, Email invalid>";
+                ErrorAdmin.email = "<NOT FOUND, Email invalid>";
+                ErrorAdmin.password = "<NOT FOUND, Email invalid>";
+                return ErrorAdmin; 
             }
         }
 
         public Admin GetAdminByLogin(string email, string password){ //single login method for now, may be split later
-            Admin FoundAdmin = GetAdminByEmail(email);
+            Admin FoundAdmin = loginAdmin(email);
             
             //validate email and password
                 if(FoundAdmin.password == password){
@@ -66,7 +66,7 @@ namespace dynamify.Models.QueryClasses
 
         //Create
         public Admin SaveNewAdmin(Admin NewAdmin){
-            Admin validation_query = GetAdminByEmail(NewAdmin.email);
+            Admin validation_query = loginAdmin(NewAdmin.email);
 
             dbContext.Add(NewAdmin);
             dbContext.SaveChanges();
@@ -83,7 +83,6 @@ namespace dynamify.Models.QueryClasses
             return Subject;
         }
 
-
         //Update
         public Admin UpdateAdminById(Admin TargetAdmin){
 
@@ -96,9 +95,5 @@ namespace dynamify.Models.QueryClasses
             dbContext.SaveChanges();
             return AdminToUpdate;
         }
-
-
-
-        
     }
 }

@@ -1,9 +1,12 @@
+//standard modules
 using System.Collections.Generic;
 using System.Text.Json;
-using dynamify.Models.SiteModels;
-using dynamify.Models.JsonModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
+//project modules
+using dynamify.Models.SiteModels;
+using dynamify.Models.JsonModels;
 using dynamify.Models.QueryClasses;
 using dynamify.Classes.Auth;
 
@@ -28,35 +31,24 @@ namespace dynamify.Controllers
             authenticator = new Auth(_adminQueries);
         }
 
-        [HttpGet] //all sites by admin
-        [Route("get_by_admin/{admin_id}/{admin_token}")]
-        public IEnumerable<Site> GetByAdmnId(int admin_id, string admin_token){
-            if(authenticator.VerifyAdmin(admin_id, admin_token)){
-                List<Site> OwnedSites = theQueryer.QuerySitesByAdmin(admin_id);
-                return OwnedSites;
+        [HttpPost] //to allow access token payload
+        [Route("get")]
+        public ActionResult<Site> GetSiteById([FromBody] SiteRequestDto request){
+            if(authenticator.VerifyAdmin(request.admin_id, request.token)){
+                System.Console.WriteLine($"Query id: {request.site_id}");
+                Site foundSite = theQueryer.QuerySiteById(request.site_id);
+                if(foundSite.owner != null){
+                    System.Console.WriteLine($"Site owner: {foundSite.owner.first_name}");
+                }
+                return foundSite;
             }else{
-                return new List<Site>();
+                System.Console.WriteLine("Site retrieval error");
+                return new Site();
             }
-            
-        }
-
-        [HttpGet]
-        [Route("get/{site_id_parameter}")]
-        public ActionResult<Site> GetSiteById(int site_id_parameter){
-
-            System.Console.WriteLine($"Query id: {site_id_parameter}");
-            
-            Site foundSite = theQueryer.QuerySiteById(site_id_parameter);
-
-            if(foundSite.owner != null){
-                System.Console.WriteLine($"Site owner: {foundSite.owner.first_name}");
-            }
-            
-            return foundSite;
         }
 
         [HttpGet] //first active site
-        [Route("get_active")]
+        [Route("active")]
         public ActionResult<Site> GetActiveSite(){
 
             List<Site> ActiveSites = theQueryer.QueryActiveSite();
@@ -67,14 +59,13 @@ namespace dynamify.Controllers
                 default_site.title = "No site active";
                 return default;
             }else{ //return first active site found
-                System.Console.WriteLine(JsonSerializer.Serialize(GetSiteById(ActiveSites[0].site_id)));
                 return ActiveSites[0];
             }
         }
 
         [HttpPost]
         [Route("set_active")]
-        public JsonResponse SetActiveSite([FromBody] ActiveSiteRequestDto request){
+        public JsonResponse SetActiveSite([FromBody] SiteRequestDto request){
             if(authenticator.VerifyAdmin(request.admin_id, request.token)){
                 System.Console.WriteLine($"New active site id: {request.site_id}");
                 List<Site> SiteToSetActive = theQueryer.QueryFeaturelessSiteById(request.site_id);
@@ -99,7 +90,6 @@ namespace dynamify.Controllers
         [Route("create_site")]
         [Produces("application/json")]
         public JsonResponse Post([FromBody] NewSiteDto NewSite){
-            
             if(authenticator.VerifyAdmin(NewSite.admin_id, NewSite.token)){
                 List<Site> test = theQueryer.QueryFeaturelessSiteByTitle(NewSite.title);
                 if( test.Count > 0 ){
@@ -118,8 +108,18 @@ namespace dynamify.Controllers
             }
         }
 
-        //create site components
+        [HttpGet] //all sites by admin
+        [Route("get_by_admin/{admin_id}/{admin_token}")]
+        public IEnumerable<Site> GetByAdmnId(int admin_id, string admin_token){
+            if(authenticator.VerifyAdmin(admin_id, admin_token)){
+                List<Site> OwnedSites = theQueryer.QuerySitesByAdmin(admin_id);
+                return OwnedSites;
+            }else{
+                return new List<Site>();
+            }
+        }
 
+        //create site components
         [HttpPost] //create paragraph box
         [Route("create/paragraph_box/{admin_id}/{admin_token}")]
         [Produces("application/json")]
@@ -193,8 +193,7 @@ namespace dynamify.Controllers
         [HttpPost]
         [Route("delete/site_component")]
         [Produces("application/json")]
-        public JsonResponse DeleteSiteComponent([FromBody] string _component_reference){
-            ComponentReference Component = JsonSerializer.Deserialize<ComponentReference>(_component_reference);
+        public JsonResponse DeleteSiteComponent([FromBody] ComponentReference Component){
             if(Component.component_type == "p_box"){
                 ParagraphBox DeletedSite = theQueryer.DeleteParagraphBox(Component.component_id);
                 JsonResponse r = new JsonSuccess("Paragraph box deleted sucessfully!");
