@@ -31,7 +31,7 @@ export class LiveSiteComponent implements OnInit {
   }
 
   requireSite(){
-    this._siteFormatter.getSite(this.recieveSite, this);
+    this._siteFormatter.getActiveSiteFormatted(this.recieveSite, this);
   }
 
   recieveSite(formatted_site:ISiteFormatted, this_component:LiveSiteComponent){

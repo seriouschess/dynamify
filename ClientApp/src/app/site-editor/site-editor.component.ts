@@ -93,7 +93,7 @@ export class SiteEditorComponent implements OnInit {
   }
 
   requireSite(){
-    this._siteFormatter.getSite(this.recieveSite, this);
+    this._siteFormatter.getSiteByIdFormatted(this.site_request_object, this.recieveSite, this);
   }
 
   recieveSite(formatted_site:ISiteFormatted, this_component:SiteEditorComponent){
