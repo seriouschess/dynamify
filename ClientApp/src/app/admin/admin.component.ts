@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 
 //dto imports
-import { Admin } from '../dtos/admin_dtos';
+import { Admin } from '../interfaces/dtos/admin_dtos';
 
 @Component({
   selector: 'app-admin',

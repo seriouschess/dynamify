@@ -33,50 +33,32 @@ namespace dynamify.Controllers
 
         [HttpPost] //to allow access token payload
         [Route("get")]
-        public ActionResult<Site> GetSiteById([FromBody] SiteRequestDto request){
+        public ActionResult<SiteContentDto> GetSiteById([FromBody] SiteRequestDto request){
             if(authenticator.VerifyAdmin(request.admin_id, request.token)){
-                System.Console.WriteLine($"Query id: {request.site_id}");
-                Site foundSite = theQueryer.QuerySiteById(request.site_id);
-                if(foundSite.owner != null){
-                    System.Console.WriteLine($"Site owner: {foundSite.owner.first_name}");
-                }
-                return foundSite;
+                SiteContentDto foundSite = theQueryer.QuerySiteContentById(request.site_id);
+               return foundSite;
             }else{
-                System.Console.WriteLine("Site retrieval error");
-                return new Site();
+                return new SiteContentDto();
             }
         }
 
         [HttpGet] //first active site
         [Route("active")]
-        public ActionResult<Site> GetActiveSite(){
-
-            List<Site> ActiveSites = theQueryer.QueryActiveSite();
-
-            if(ActiveSites.Count < 1){ //no sites active
-                Site default_site = new Site();
-                default_site.site_id = 0; //impossible SQL id signifies no sites are active.
-                default_site.title = "No site active";
-                return default;
-            }else{ //return first active site found
-                return ActiveSites[0];
-            }
+        public ActionResult<SiteContentDto> GetActiveSite(){
+            SiteContentDto ActiveSite = theQueryer.QueryActiveSiteContent();
+            return ActiveSite;
         }
 
         [HttpPost]
         [Route("set_active")]
         public JsonResponse SetActiveSite([FromBody] SiteRequestDto request){
             if(authenticator.VerifyAdmin(request.admin_id, request.token)){
-                System.Console.WriteLine($"New active site id: {request.site_id}");
                 List<Site> SiteToSetActive = theQueryer.QueryFeaturelessSiteById(request.site_id);
-                System.Console.WriteLine($"Controller Site to set active: {SiteToSetActive[0].title}");
                 if(SiteToSetActive.Count != 1){ //ensure only one site
                     JsonResponse r = new JsonFailure($"Set Active API route failure: Ensure correct site id was sent.");
                     return r;
                 }else{
                     Site ActiveSite = theQueryer.SetActiveSiteDB(SiteToSetActive[0]);
-                    System.Console.WriteLine($"Active Site Bool: {ActiveSite.active}");
-                    System.Console.WriteLine($"Active Site Title: {ActiveSite.title}");
                     JsonResponse r = new JsonSuccess($"Site Title: < {ActiveSite.title} > is now active!");
                     return r;
                 } 

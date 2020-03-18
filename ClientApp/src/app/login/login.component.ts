@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpService } from '../http.service';
-import { AdminRegistrationDto } from '../dtos/admin_registration_dto';
-import { Login } from '../dtos/login_dto';
-import { Admin } from '../dtos/admin_dtos';
+import { AdminRegistrationDto } from '../interfaces/dtos/admin_registration_dto';
+import { Login } from '../interfaces/dtos/login_dto';
+import { Admin } from '../interfaces/dtos/admin_dtos';
 
 @Component({
   selector: 'app-login',

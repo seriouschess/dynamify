@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ParagraphBox, Image, Portrait, TwoColumnBox } from './dtos/site_dtos';
+import { ParagraphBox, Image, Portrait, TwoColumnBox } from './interfaces/dtos/site_dtos';
 
 @Injectable({
   providedIn: 'root'

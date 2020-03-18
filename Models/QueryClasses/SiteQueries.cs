@@ -1,6 +1,7 @@
 using System.Linq;
 using dynamify.Models.SiteModels;
 using System.Collections.Generic;
+using dynamify.dtos;
 
 namespace dynamify.Models.QueryClasses
 {
@@ -24,9 +25,9 @@ namespace dynamify.Models.QueryClasses
                 return dbContext.Sites.Where(x => x.site_id == active_site_id).ToList();
         }
 
-        public List<Site> QueryActiveSite(){ //Used to get live site to the frontend for rendering
+        public Site QueryActiveSite(){ //Used to get live site to the frontend for rendering
             List<Site> ActiveSites = dbContext.Sites.Where(x => x.active == true).Select( site => new Site()
-           {
+            {
                 site_id = site.site_id,
                 title = site.title,
                 active = site.active,
@@ -65,7 +66,7 @@ namespace dynamify.Models.QueryClasses
                     content = p.content,
                     site_id = p.site_id
                 }).Where(x => x.site_id == site.site_id).ToList(),
-
+                
                 two_column_boxes = dbContext.TwoColumnBoxes.Where(x => x.site_id == site.site_id).Select(tcb => new TwoColumnBox()
                 {
                     two_column_box_id = tcb.two_column_box_id,
@@ -79,13 +80,53 @@ namespace dynamify.Models.QueryClasses
                 }).Where(x => x.site_id == site.site_id).ToList()
             }).ToList();
 
-            System.Console.WriteLine($"Active Site: {ActiveSites[0].title}");
-            return ActiveSites;
+            if(ActiveSites.Count < 1){ //no sites active
+                Site default_site = new Site();
+                default_site.site_id = 0; //impossible SQL id signifies no sites are active.
+                default_site.title = "No site active";
+                return default;
+            }else{ //return first active site found
+                System.Console.WriteLine($"Active Site: {ActiveSites[0].title}");
+                return ActiveSites[0];
+            }            
+        }
+
+        public Site SetActiveSiteDB(Site SiteToSetActive){
+            
+            //clear all active sites
+            List<Site> AllSites = dbContext.Sites.Where(s => s.active == true).Select( s => new Site(){
+                site_id = s.site_id,
+                active = s.active
+            }).ToList();
+
+            for(int x = 0; x < AllSites.Count; x++){ //clear all active sites
+                    Site SetMeInactive = QueryFeaturelessSiteById(AllSites[x].site_id)[0];
+                    SetMeInactive.active = false;
+                    dbContext.SaveChanges();  
+            }
+
+            //set new site active
+            SiteToSetActive = dbContext.Sites.Where(site => site.site_id == SiteToSetActive.site_id).FirstOrDefault();
+            SiteToSetActive.active = true; //set new active site
+            System.Console.WriteLine(SiteToSetActive.title);
+            dbContext.SaveChanges();
+            return SiteToSetActive;
+        }
+
+        public SiteContentDto QueryActiveSiteContent(){
+            Site found_site = QueryActiveSite();
+            SiteContentDto converted_format = new SiteContentDto();
+            converted_format.title = found_site.title;
+            converted_format.images = found_site.images;
+            converted_format.paragraph_boxes = found_site.paragraph_boxes;
+            converted_format.portraits = found_site.portraits;
+            converted_format.two_column_boxes = found_site.two_column_boxes;
+            return converted_format;
         }
 
         public Site QuerySiteById(int site_id_parameter){ //Used to get full site data to the frontend for rendering
 
-            Site FoundSite = dbContext.Sites.Where(x => x.site_id == site_id_parameter).Select( site => new Site()
+            List<Site> FoundSites = dbContext.Sites.Where(x => x.site_id == site_id_parameter).Select( site => new Site()
             {
                 site_id = site_id_parameter,
                 title = site.title,
@@ -137,34 +178,31 @@ namespace dynamify.Models.QueryClasses
                     content_two = tcb.content_two,
                     site_id = tcb.site_id
                 }).Where(x => x.site_id == site_id_parameter).ToList()
-            }).FirstOrDefault();
+            }).ToList();
 
-            return FoundSite;
+            if(FoundSites.Count != 1){ //no sites active
+                Site default_site = new Site();
+                default_site.site_id = 0; //impossible SQL id signifies no sites are active.
+                default_site.title = "Query error: Either no site was found or too many sites were found. Contact admin.";
+                return default;
+            }else{ //return first active site found
+                System.Console.WriteLine($"Got Site: {FoundSites[0].title}");
+                return FoundSites[0];
+            }
+        }
+
+        public SiteContentDto QuerySiteContentById(int site_id){
+            Site found_site = QuerySiteById(site_id);
+            SiteContentDto converted_format = new SiteContentDto();
+            converted_format.title = found_site.title;
+            converted_format.images = found_site.images;
+            converted_format.paragraph_boxes = found_site.paragraph_boxes;
+            converted_format.portraits = found_site.portraits;
+            converted_format.two_column_boxes = found_site.two_column_boxes;
+            return converted_format;
         }
 
         //actions 
-        public Site SetActiveSiteDB(Site SiteToSetActive){
-            
-            //clear all active sites
-            List<Site> AllSites = dbContext.Sites.Where(s => s.active == true).Select( s => new Site(){
-                site_id = s.site_id,
-                active = s.active
-            }).ToList();
-
-            for(int x = 0; x < AllSites.Count; x++){ //clear all active sites
-                    Site SetMeInactive = QueryFeaturelessSiteById(AllSites[x].site_id)[0];
-                    SetMeInactive.active = false;
-                    dbContext.SaveChanges();  
-            }
-
-            //set new site active
-            SiteToSetActive = dbContext.Sites.Where(site => site.site_id == SiteToSetActive.site_id).FirstOrDefault();
-            SiteToSetActive.active = true; //set new active site
-            System.Console.WriteLine(SiteToSetActive.title);
-            dbContext.SaveChanges();
-            return SiteToSetActive;
-        }
-
         public Site AddSite(Site NewSite){
             dbContext.Add(NewSite);
             dbContext.SaveChanges();

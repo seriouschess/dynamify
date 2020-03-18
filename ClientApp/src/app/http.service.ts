@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import{ HttpClient } from '@angular/common/http';
 
 //dto imports
-import { Admin } from './dtos/admin_dtos';
-import { Login } from './dtos/login_dto';
-import { ParagraphBox, Image, Portrait, TwoColumnBox, Site} from './dtos/site_dtos';
-import { ComponentReference } from './dtos/component_reference';
-import { INewSiteDto } from './dtos/new_site_dto';
-import { ISiteRequestDto } from './dtos/site_request_dto'
+import { Admin } from './interfaces/dtos/admin_dtos';
+import { Login } from './interfaces/dtos/login_dto';
+import { ParagraphBox, Image, Portrait, TwoColumnBox, Site} from './interfaces/dtos/site_dtos';
+import { ComponentReference } from './interfaces/dtos/component_reference';
+import { INewSiteDto } from './interfaces/dtos/new_site_dto';
+import { ISiteRequestDto } from './interfaces/dtos/site_request_dto'
+import { ISiteContentDto } from './interfaces/dtos/site_content_dto';
 
 @Injectable({
   providedIn: 'root'
@@ -50,12 +51,12 @@ export class HttpService {
 
   //site services
 
-  getSite(request:ISiteRequestDto){
-    return this._http.post(`site/get`, request);
+  getSite<ISiteContentDto>(request:ISiteRequestDto){
+    return this._http.post<ISiteContentDto>(`site/get`, request);
   }
 
-  getActiveSite<Site>(){
-    return this._http.get<Site>('site/active');
+  getActiveSite<ISiteContentDto>(){
+    return this._http.get<ISiteContentDto>('site/active');
   }
 
   getSitesByAdmin(admin_id: number, admin_token: string) {

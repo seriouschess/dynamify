@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpService } from '../http.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Admin } from '../dtos/admin_dtos';
-import { ParagraphBox, Image, Portrait, TwoColumnBox, Site} from '../dtos/site_dtos';
-import { INewSiteDto } from '../dtos/new_site_dto';
-import { ISiteRequestDto } from '../dtos/site_request_dto';
+import { Admin } from '../interfaces/dtos/admin_dtos';
+import { ParagraphBox, Image, Portrait, TwoColumnBox, Site} from '../interfaces/dtos/site_dtos';
+import { INewSiteDto } from '../interfaces/dtos/new_site_dto';
+import { ISiteRequestDto } from '../interfaces/dtos/site_request_dto';
 
 @Component({
   selector: 'app-display-sites',
