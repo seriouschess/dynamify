@@ -8,11 +8,12 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AppFrontendRoutesModule} from './app-frontend-routes.module';
 import { AdminComponent } from './admin/admin.component';
-import { EditAdminComponent } from './edit-admin/edit-admin.component';
+// import { EditAdminComponent } from './edit-admin/edit-admin.component'; //not currently used, perhaps later
 import { SiteEditorComponent } from './site-editor/site-editor.component';
 import { LiveSiteComponent } from './live-site/live-site.component';
 import { DisplaySitesComponent } from './display-sites/display-sites.component';
 import { LoginComponent } from './login/login.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
 
 @NgModule({
   declarations: [
@@ -20,11 +21,12 @@ import { LoginComponent } from './login/login.component';
     NavMenuComponent,
     ProfileComponent,
     AdminComponent,
-    EditAdminComponent,
+    // EditAdminComponent,
     SiteEditorComponent,
     LiveSiteComponent,
     DisplaySitesComponent,
-    LoginComponent
+    LoginComponent,
+    TutorialComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

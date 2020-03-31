@@ -5,6 +5,7 @@ export interface IGenericSiteComponent{
     title: string;
     site_id: number;
     content: string;
+    type: string;
     image_src: string;
 
     heading_one:string;

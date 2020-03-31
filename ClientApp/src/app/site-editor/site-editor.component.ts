@@ -1,12 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from '../http.service';
-import {ParagraphBox, Image, TwoColumnBox, Portrait } from '../interfaces/dtos/site_dtos';
+import { ParagraphBox, Image, TwoColumnBox, Portrait } from '../interfaces/dtos/site_dtos';
 import { ISiteRequestDto } from '../interfaces/dtos/site_request_dto';
 import { ValidationService } from '../validation.service';
 import { BSfourConverterService } from '../b-sfour-converter.service';
-import { ISiteContentDto } from '../interfaces/dtos/site_content_dto';
 import { ISiteFormatted } from '../interfaces/formatted_site_content';
 import { SiteFormatterService } from '../site-formatter.service';
+import { IGenericSiteComponent } from '../interfaces/generic_site_component';
+
+//import { ISiteContentDto } from '../interfaces/dtos/site_content_dto';
 // import { ConsoleReporter } from 'jasmine';
 
 @Component({
@@ -15,10 +17,15 @@ import { SiteFormatterService } from '../site-formatter.service';
   styleUrls: ['./site-editor.component.css']
 })
 export class SiteEditorComponent implements OnInit {
+
   //route parameters
   @Input() current_site_id: number;
   @Input() current_admin_id: number;
   @Input() current_admin_token: string;
+
+  //Is the tutorial running?
+  @Input() is_tutorial:boolean;
+  
   site_request_object:ISiteRequestDto;
 
   formatted_site: ISiteFormatted; //not a Site type technically
@@ -27,12 +34,12 @@ export class SiteEditorComponent implements OnInit {
   new_paragraph_box: ParagraphBox;
   new_2c_box: TwoColumnBox;
   new_image: Image;
+
   //temp_file:File;
   new_portrait: Portrait;
 
   //setImageBase64 asynic flag
   image_converter_working: boolean;
-
 
   //functionality
   open_next_component: string;
@@ -87,15 +94,27 @@ export class SiteEditorComponent implements OnInit {
 
     //image converter async flag
     this.image_converter_working = false;
-
-    this.requireSite();
     this.open_next_component = ""; //used to select editor
+
+    //start mode
+    if(this.is_tutorial === false){
+      console.log("not tutorial");
+      this.requireSite();
+    }else{
+      this.getTutorialSite();
+    }
   }
 
+  //used to get site content from the backend
   requireSite(){
     this._siteFormatter.getSiteByIdFormatted(this.site_request_object, this.recieveSite, this);
   }
 
+  getTutorialSite(){ //retrieves a blank site for demo use
+    this._siteFormatter.getBlankSite(this.recieveSite, this);
+  }
+
+  //callback sent to site formatter frontend service
   recieveSite(formatted_site:ISiteFormatted, this_component:SiteEditorComponent){
     this_component.formatted_site = formatted_site;
   }
@@ -131,29 +150,70 @@ export class SiteEditorComponent implements OnInit {
     this.validator.image_src_invalid_flag = false;
   }
 
+  //Site update methods
   postParagraphBoxToService(){
-    if(this.validator.validatePbox(this.new_paragraph_box)){
-      this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-        console.log(results);
-        this.requireSite();
-        this.open_next_component=""; //reset editing tool options
-      }, error => console.log(error));
-    } 
+    if(this.is_tutorial == true){
+      let type = "p_box";
+      this._siteFormatter.sortSite(this.formatted_site, this.new_paragraph_box, type, this.recieveSite, this);
+    }else{
+      if(this.validator.validatePbox(this.new_paragraph_box)){
+        this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+          console.log(results);
+          this.requireSite();
+          this.open_next_component=""; //reset editing tool options
+        }, error => console.log(error));
+      } 
+    }
   }
 
   postTwoColumnBoxToService(){
-      if(this.validator.validateTwoColumnBox(this.new_2c_box)){
-      this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-        console.log(results);
-        this.requireSite();
-        this.open_next_component="";
-      }, error => console.log(error));
+    if(this.is_tutorial == true){
+      let type = "2c_box";
+      this._siteFormatter.sortSite(this.formatted_site, this.new_2c_box, type, this.recieveSite, this);
+    }else{
+        if(this.validator.validateTwoColumnBox(this.new_2c_box)){
+        this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+          console.log(results);
+          this.requireSite();
+          this.open_next_component="";
+        }, error => console.log(error));
+      }
+    }
+  }
+
+  postImageToService(){
+    if(this.is_tutorial == true){
+      let type = "image";
+      this._siteFormatter.sortSite(this.formatted_site, this.new_image, type, this.recieveSite, this);
+    }else{
+      if(this.validator.validateImage(this.new_image, this.new_image.image_src)){
+        //this.new_image.image_src = this.temp_file.data;
+        this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+          console.log(results);
+          this.requireSite();
+          this.open_next_component="";
+        }, error => console.log(error));
+      }
+    }
+  }
+
+  postPortraitToService(){
+    if(this.is_tutorial == true){
+      let type = "portrait";
+      this._siteFormatter.sortSite(this.formatted_site, this.new_portrait, type, this.recieveSite, this);
+    }else{
+      if(this.validator.validatePortrait(this.new_portrait, this.new_portrait.image_src)){
+        this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+          console.log(results);
+          this.requireSite();
+          this.open_next_component="";
+        }, error => console.log(error));
+      }
     }
   }
 
   //Image Conversion Methods
   fileConversionListener($event) : void {
-    console.log("hi");
     console.log(this);
     this.b64converter.setImageBase64($event.target, this);
   };
@@ -167,28 +227,6 @@ export class SiteEditorComponent implements OnInit {
       this_component.new_image.image_src = output_string;
       this_component.new_portrait.image_src = output_string;
       this_component.validator.image_src_invalid_flag = false;
-    }
-  }
-
-  postImageToService(){
-    if(this.validator.validateImage(this.new_image, this.new_image.image_src)){
-      //this.new_image.image_src = this.temp_file.data;
-      this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-        console.log(results);
-        this.requireSite();
-        this.open_next_component="";
-      }, error => console.log(error));
-    }
-  }
-
-  postPortraitToService(){
-    if(this.validator.validatePortrait(this.new_portrait, this.new_portrait.image_src)){
-      this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-        console.log(results);
-        this.requireSite();
-        this.open_next_component="";
-  
-      }, error => console.log(error));
     }
   }
 }

@@ -5,10 +5,10 @@ import{ HttpClient } from '@angular/common/http';
 //dto imports
 import { Admin } from './interfaces/dtos/admin_dtos';
 import { Login } from './interfaces/dtos/login_dto';
-import { ParagraphBox, Image, Portrait, TwoColumnBox, Site} from './interfaces/dtos/site_dtos';
+import { ParagraphBox, Image, Portrait, TwoColumnBox } from './interfaces/dtos/site_dtos';
 import { ComponentReference } from './interfaces/dtos/component_reference';
 import { INewSiteDto } from './interfaces/dtos/new_site_dto';
-import { ISiteRequestDto } from './interfaces/dtos/site_request_dto'
+import { ISiteRequestDto } from './interfaces/dtos/site_request_dto';
 import { ISiteContentDto } from './interfaces/dtos/site_content_dto';
 
 @Injectable({

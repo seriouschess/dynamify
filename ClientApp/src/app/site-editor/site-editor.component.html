@@ -1,12 +1,13 @@
-<h1>Current Admin Token: {{current_admin_token}}</h1>
-<div class="text-center" *ngIf="current_site_id != 0">
+<h1>Tutorial?: {{is_tutorial}}</h1>
+<p> {{formatted_site | json}} </p>
+<div class="text-center" *ngIf="current_site_id != 0 || is_tutorial">
   <h1> {{formatted_site.title}} </h1>
 
   <div *ngFor="let site_component of formatted_site.site_components">
     <h2 class="title">{{site_component.title}}</h2>
 
     <div *ngIf="site_component.type === 'p_box'">
-      <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.paragraph_box_id, site_component.type)'>Delete</button>
+      <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.paragraph_box_id, site_component.type)'>Delete</button>
       <p class="text-format"> {{site_component.content}} </p>
     </div>
 

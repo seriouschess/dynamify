@@ -1,25 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+//not Currently used!
 
-import { EditAdminComponent } from './edit-admin.component';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-describe('EditAdminComponent', () => {
-  let component: EditAdminComponent;
-  let fixture: ComponentFixture<EditAdminComponent>;
+// import { EditAdminComponent } from './edit-admin.component';
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EditAdminComponent ]
-    })
-    .compileComponents();
-  }));
+// describe('EditAdminComponent', () => {
+//   let component: EditAdminComponent;
+//   let fixture: ComponentFixture<EditAdminComponent>;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EditAdminComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ EditAdminComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(EditAdminComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
+
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });
+
+//Not Currently used!

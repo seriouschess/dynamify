@@ -10,6 +10,9 @@ import { Admin } from '../interfaces/dtos/admin_dtos';
   styleUrls: ['./admin.component.css']
 })
 
+
+//Manages admin registration. Also manages sites and houses the site editing tool for registered admins.
+
 export class AdminComponent implements OnInit{
   public admins: Admin[];
   public newAdminObject: Admin;
@@ -43,20 +46,20 @@ export class AdminComponent implements OnInit{
     this.current_admin = $event;
   }
 
-  deleteAdminByID(id:number){
-    this._httpService.deleteAdmin(id, this.current_admin.token).subscribe(result =>{
-      console.log(result);
-      this.allAdmins();
-    });
-  }
-
   selectAdmin(admin_id:number){
     this.current_admin.admin_id = admin_id;
   }
+
+  //editor related methods
   setSelectedSite($event){
     this.current_site_editor_id = $event;
   }
 
+  resetEditor(){
+    this.current_site_editor_id = 0;
+  }
+
+  //currently unused methods
   allAdmins(){
     this._httpService.getAdmins().subscribe(result => {
       if(result){
@@ -65,7 +68,10 @@ export class AdminComponent implements OnInit{
     }, error => console.log(error));
   }
 
-  resetEditor(){
-    this.current_site_editor_id = 0;
+  deleteAdminByID(id:number){
+    this._httpService.deleteAdmin(id, this.current_admin.token).subscribe(result =>{
+      console.log(result);
+      this.allAdmins();
+    });
   }
 }

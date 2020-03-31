@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpService } from '../http.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Admin } from '../interfaces/dtos/admin_dtos';
-import { ParagraphBox, Image, Portrait, TwoColumnBox, Site} from '../interfaces/dtos/site_dtos';
 import { INewSiteDto } from '../interfaces/dtos/new_site_dto';
 import { ISiteRequestDto } from '../interfaces/dtos/site_request_dto';
 
@@ -14,8 +12,11 @@ import { ISiteRequestDto } from '../interfaces/dtos/site_request_dto';
 
 export class DisplaySitesComponent implements OnInit {
 
+  //get Admin information
   @Input() current_admin_id: number;
   @Input() current_admin_token: string;
+
+  //select site to be sent to admin component
   @Output() siteIdSelectEvent = new EventEmitter<number>();
   
   all_sites:any;
@@ -37,6 +38,8 @@ export class DisplaySitesComponent implements OnInit {
     };
   }
 
+  //creates a new site without any content
+
   postSiteToService(){
     console.log(this.newSiteObject);
     //this.newSiteObject.admin_id = 0; //will be changed on the backend
@@ -46,6 +49,8 @@ export class DisplaySitesComponent implements OnInit {
         this.getSitesByAdminFromService();
       });
   }
+
+  //determines which site will be displayed on the homepage
 
   setSiteActive(site_id:number){
     var setMyIdActive: ISiteRequestDto = { //created only to pass id, preferred over parameter
@@ -62,6 +67,8 @@ export class DisplaySitesComponent implements OnInit {
     )
   }
 
+  //requests all sites owned by a specific admin 
+
   getSitesByAdminFromService(){
     this._httpService.getSitesByAdmin(this.current_admin_id, this.current_admin_token).subscribe(results => 
     {
@@ -70,6 +77,8 @@ export class DisplaySitesComponent implements OnInit {
     }, error => console.log(error));
   }
 
+  //it does what it says
+
   deleteSiteById(site_id:number){
     this._httpService.deleteSite(site_id).subscribe(result =>{
       console.log(result);
@@ -77,10 +86,11 @@ export class DisplaySitesComponent implements OnInit {
     });
   }
 
+
+  //unused methods
   editSite(current_site_id:number){
     this.current_site_id = current_site_id;
     this.siteIdSelectEvent.emit(current_site_id);
-    //this.router.navigateByUrl(`/edit_site/${current_site_id}/${this.current_admin_id}`);
   }
 }
 
