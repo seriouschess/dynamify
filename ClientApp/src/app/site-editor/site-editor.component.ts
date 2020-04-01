@@ -6,9 +6,7 @@ import { ValidationService } from '../validation.service';
 import { BSfourConverterService } from '../b-sfour-converter.service';
 import { ISiteFormatted } from '../interfaces/formatted_site_content';
 import { SiteFormatterService } from '../site-formatter.service';
-import { IGenericSiteComponent } from '../interfaces/generic_site_component';
 
-//import { ISiteContentDto } from '../interfaces/dtos/site_content_dto';
 // import { ConsoleReporter } from 'jasmine';
 
 @Component({
@@ -23,13 +21,6 @@ export class SiteEditorComponent implements OnInit {
   @Input() current_admin_id: number;
   @Input() current_admin_token: string;
 
-  //Is the tutorial running?
-  @Input() is_tutorial:boolean;
-  
-  site_request_object:ISiteRequestDto;
-
-  formatted_site: ISiteFormatted; //not a Site type technically
-
   //site component types
   new_paragraph_box: ParagraphBox;
   new_2c_box: TwoColumnBox;
@@ -43,6 +34,15 @@ export class SiteEditorComponent implements OnInit {
 
   //functionality
   open_next_component: string;
+
+  //dtos
+  site_request_object:ISiteRequestDto;
+  formatted_site: ISiteFormatted; //not a Site type technically
+
+  //tutorial related
+  @Input() is_tutorial:boolean;
+  tutorial_sequence:number;
+  flash:boolean; 
 
    constructor( private _httpService:HttpService, private validator:ValidationService, private b64converter:BSfourConverterService, private _siteFormatter:SiteFormatterService) { }
 
@@ -97,11 +97,13 @@ export class SiteEditorComponent implements OnInit {
     this.open_next_component = ""; //used to select editor
 
     //start mode
-    if(this.is_tutorial === false){
-      console.log("not tutorial");
-      this.requireSite();
-    }else{
+    if(this.is_tutorial){
+      this.flash = false;
+      this.tutorial_sequence = 1; //sequence starts from 1
       this.getTutorialSite();
+    }else{
+      this.tutorial_sequence = 0; //no tutorial
+      this.requireSite();
     }
   }
 
@@ -128,6 +130,11 @@ export class SiteEditorComponent implements OnInit {
 
   //set editors
   setPboxEdit(){
+    if( this.is_tutorial ){
+      if(this.tutorial_sequence == 4){
+        this.iterateTutorial();
+      }
+    }
     this.open_next_component="p_box";
   }
 
@@ -152,11 +159,13 @@ export class SiteEditorComponent implements OnInit {
 
   //Site update methods
   postParagraphBoxToService(){
-    if(this.is_tutorial == true){
-      let type = "p_box";
-      this._siteFormatter.sortSite(this.formatted_site, this.new_paragraph_box, type, this.recieveSite, this);
-    }else{
-      if(this.validator.validatePbox(this.new_paragraph_box)){
+    if(this.validator.validatePbox(this.new_paragraph_box)){
+      if(this.is_tutorial == true){
+        let type = "p_box";
+        this._siteFormatter.sortSite(this.formatted_site, this.new_paragraph_box, type, this.recieveSite, this);
+        this.iterateTutorial();
+        this.open_next_component=""; //reset editing tool options
+      }else{
         this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           console.log(results);
           this.requireSite();
@@ -227,6 +236,24 @@ export class SiteEditorComponent implements OnInit {
       this_component.new_image.image_src = output_string;
       this_component.new_portrait.image_src = output_string;
       this_component.validator.image_src_invalid_flag = false;
+    }
+  }
+
+  //tutorial related
+  iterateTutorial(){
+    if(this.is_tutorial){
+      this.tutorial_sequence += 1;
+    }
+  }
+
+  cycleCssHighlight(){
+    console.log("doe");
+    if(this.flash){
+      console.log(this.flash);
+      this.flash = false;
+    }else{
+      console.log(this.flash);
+      this.flash = true;
     }
   }
 }
