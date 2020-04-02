@@ -1,15 +1,20 @@
-<div *ngIf="open_editor == false">
+<div *ngIf="open_editor == false && open_site_select == false">
     <h2>Hello and welcome to the Dynamify tutorial!</h2>
     <p>You will see how easy it can be to get your site content on the web by using these tools.</p>
     <p>Don't worry, nothing you do will be saved. A demo site will be created just to get you familiar with using the tool, so feel free to explore!</p>
     <button class="btn btn-success" (click)="beginTutorial()">Click here to begin the tutorial.</button>
 </div>
 
+<app-display-sites
+*ngIf="open_site_select"
+[is_tutorial]="true"
+(done)="checkDone($event)"
+></app-display-sites>
 
-<app-site-editor
+<app-site-editor 
     *ngIf="open_editor"
     [is_tutorial]="true" 
     [current_site_id]="0" 
     [current_admin_id]="0" 
-    [current_admin_token]="">
-</app-site-editor>
+    [current_admin_token]=""
+></app-site-editor>

@@ -1,0 +1,5 @@
+.highlight{
+    animation-name: flash_action;
+    animation-duration: 2s;
+    animation-iteration-count:infinite;
+  }

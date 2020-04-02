@@ -12,7 +12,6 @@ import { Admin } from '../interfaces/dtos/admin_dtos';
 
 export class LoginComponent implements OnInit {
   
-
   constructor(private _httpService:HttpService) { }
   @Output() logEvent = new EventEmitter<Admin>();
   logged_admin: Admin;
@@ -20,7 +19,6 @@ export class LoginComponent implements OnInit {
   entered_email: string;
   entered_password: string;
   
-
   //validation fields
   error_display: string;
   registration_password_error_flag: boolean;

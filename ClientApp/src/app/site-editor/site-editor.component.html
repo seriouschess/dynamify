@@ -4,8 +4,8 @@
 <h3 *ngIf="tutorial_sequence == 4"> Click the button highlighted below to add a paragraph box.</h3>
 <h3 *ngIf="tutorial_sequence == 5"> Every paragraph box requires a title and content. It's your content so you put what you want! Note this demo site will not be saved. </h3>
 <h3 *ngIf="tutorial_sequence == 6"> Nicely done! You just created your first site component! In a real session, your content saves as you go. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-<h3 *ngIf="tutorial_sequence == 7">Create site components in order to build your site page. You now have access to the other site components. Try them out! The tutorial ends when you leave this page. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-<h3 *ngIf="tutorial_sequence == 8">Consider creating an Admin if you want to build a site page you can share with others. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+<h3 *ngIf="tutorial_sequence == 7"> Create site components in order to build your site page. You now have access to the other site components. Try them out! The tutorial ends when you leave this page. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+<h3 *ngIf="tutorial_sequence == 8"> Consider creating an Admin if you want to build a site page you can share with others. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
 
 <div class="text-center" *ngIf="current_site_id != 0 || is_tutorial">
   <h1> {{formatted_site.title}} </h1>
@@ -51,9 +51,9 @@
   <div *ngIf="open_next_component === '' ">
     <h3>(Add a new Element by selecting from the following options:)</h3>
     <button *ngIf="!is_tutorial" class="btn btn-success" (click)=setPboxEdit()> New Paragraph Box </button>
-    <button *ngIf="is_tutorial && tutorial_sequence != 4" class="btn btn-success"> New Paragraph Box </button>
+    <button *ngIf="is_tutorial && tutorial_sequence < 7 && tutorial_sequence != 4" class="btn btn-success"> New Paragraph Box </button>
     <button *ngIf="is_tutorial && tutorial_sequence == 4" (click)="setPboxEdit()" class="btn highlight"> New Paragraph Box </button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 4" (click)="setPboxEdit()" class="btn btn-success"> New Paragraph Box </button>
+    <button *ngIf="is_tutorial && tutorial_sequence >= 7" (click)="setPboxEdit()" class="btn btn-success"> New Paragraph Box </button>
 
     <button *ngIf="!is_tutorial" class="btn btn-info" (click)="set2cBoxEdit()">New Two Column Box</button>
     <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-info">New Two Column Box</button>
