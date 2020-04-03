@@ -1,0 +1,36 @@
+.box{
+    width:80%;
+    background-color: pink;
+    border-radius: 2px;
+}
+
+.title{
+    word-wrap: break-word;
+    margin-bottom: 3%;
+    display:inline-block;
+}
+
+.text-format{
+    word-wrap: break-word;
+    /* background-color: green; */
+    display: block;
+}
+
+@media only screen and (min-width: 801px){
+    .title{
+        padding-right: 1%;
+        /* border: 2px groove rgb(255, 255, 255); */
+    }
+
+    .text-format{
+        font-size: 16pt;
+    }
+}
+@media only screen and (max-width: 801px){
+    .title{
+       display: block;
+       margin-left: auto;
+       margin-right: auto;
+       margin-bottom: 2%;
+    }
+}

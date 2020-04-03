@@ -1,0 +1,65 @@
+.title{
+    margin-bottom: 5%;
+}
+
+.text-container{
+    display: block;
+    width: 100%;
+    /* background-color: pink; */
+}
+
+.image{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-bottom: 10%;
+}
+
+@media only screen and (min-width: 801px){
+    .text-container{
+        vertical-align: top;
+        display: inline-block;
+        margin-right: 0px;
+        margin-left: 0px;
+        width: 65%;
+        font-size: 16pt;
+        /* background-color: blue; */
+    }
+
+    .image{
+        width: 25%;
+        vertical-align: top;
+        display: inline-block;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-bottom: 0px;
+    }
+}
+
+@media only screen and (max-width: 801px){
+    .text-container{
+        display: block;
+        width: 100%;
+        font-size: 14pt;
+        /* background-color: green; */
+    }
+
+    .image{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        margin-bottom: 10%;
+    }
+}
+
+@media only screen and (max-width: 481px){
+    .text-container{
+        /* background-color: red; */
+    }
+
+    .image{
+        width: 75%;
+    }
+}

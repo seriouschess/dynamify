@@ -11,41 +11,25 @@
   <h1> {{formatted_site.title}} </h1>
 
   <div *ngFor="let site_component of formatted_site.site_components">
-    <h2 class="title">{{site_component.title}}</h2>
-
     <div *ngIf="site_component.type === 'p_box'">
+      <app-paragraph-box [pbox_object]="site_component"></app-paragraph-box>
       <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.paragraph_box_id, site_component.type)'>Delete</button>
-      <p class="text-format"> {{site_component.content}} </p>
     </div>
 
     <div *ngIf="site_component.type === 'image'">
+      <app-image [image_object]="site_component"></app-image>
       <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.image_id, site_component.type)'>Delete</button>
-      <img class="image" src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
     </div>
 
     <div *ngIf="site_component.type === 'portrait'">
+      <app-portrait [portrait_object]="site_component"></app-portrait>
       <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.portrait_id, site_component.type)'>Delete</button>
-      <img class="image" src="{{site_component.image_src}}" alt="{{site_component.image_src}}">
-      <p class="text-format">{{site_component.content}}</p>
     </div>
 
     <div *ngIf="site_component.type === '2c_box'">
+      <app-two-column-box [tcb_object]="site_component"></app-two-column-box>
       <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
-      <div class="container">
-        <div class="row">
-          <div class="col-sm text-center">
-            <h3 class="title"> 
-              {{site_component.heading_one}} </h3>
-              <p class="column-block">{{site_component.content_one}}</p>
-          </div>
-          <div class="col-sm text-center">
-            <h3 class="title"> 
-              {{site_component.heading_two}} </h3>
-              <p class="column-block">{{site_component.content_two}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+   </div>
   </div>
 
   <div *ngIf="open_next_component === '' ">

@@ -1,0 +1,45 @@
+.title{
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+.column-left{
+    width: 40%;
+    margin-left: 5%;
+    /* background-color: red; */
+    font-size: 16pt;
+}
+
+.column-right{
+    width: 40%;
+    margin-left: 15%;
+    /* background-color: orange; */
+    font-size: 16pt;
+}
+
+
+@media (max-width:801px){
+    .title{
+        margin-bottom: 4%;
+    }
+    .column-left{
+        display: block;
+        width: 100%;
+        margin-left: 0%;
+    }
+    .column-right{
+        display: block;
+        width: 100%;
+        margin-left: 0%; 
+        margin-top: 3%;
+    }
+  }
+
+@media (max-width: 481px){
+    .column-left{
+        font-size: 12pt;
+    }
+    .column-right{
+        font-size: 12pt;
+    }
+}

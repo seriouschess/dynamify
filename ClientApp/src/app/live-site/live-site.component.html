@@ -1,10 +1,10 @@
-<div *ngIf="formatted_site.site_id != 0">
+<!-- <div *ngIf="formatted_site.site_id != 0">
   <h1 class="title"> {{formatted_site.title}} </h1>
 
-  <!-- <p>{{formatted_site|json}}</p> -->
+  <p>{{formatted_site|json}}</p>
 
   <div *ngFor="let site_component of formatted_site.site_components">
-    <!-- <p>{{ site_component|json }}</p> -->
+    <p>{{ site_component|json }}</p>
     <h2 class="title">{{site_component.title}}</h2>
     <div *ngIf="site_component.type === 'p_box'">
       <p class="text-format"> {{site_component.content}} </p>
@@ -32,4 +32,8 @@
         </div>
       </div>
     </div>
+</div> -->
+
+<div *ngIf="formatted_site.site_id != 0">
+  <app-page-generator [formatted_site]="formatted_site"></app-page-generator>
 </div>

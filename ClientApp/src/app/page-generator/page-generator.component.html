@@ -1,0 +1,18 @@
+<div *ngIf="formatted_site.site_id != 0">
+  <h1 class="title"> {{formatted_site.title}}</h1>
+    <div *ngFor="let site_component of formatted_site.site_components">
+        <!-- <h2 class="title">{{site_component.title}}</h2> -->
+        <div *ngIf="site_component.type === 'p_box'">
+            <app-paragraph-box [pbox_object]="site_component"></app-paragraph-box>
+        </div>
+        <div *ngIf="site_component.type === 'image'">
+            <app-image [image_object]="site_component"></app-image>
+        </div>
+        <div *ngIf="site_component.type === 'portrait'">
+            <app-portrait [portrait_object]="site_component"></app-portrait>
+        </div>
+        <div *ngIf="site_component.type === '2c_box'">
+            <app-two-column-box [tcb_object]="site_component"></app-two-column-box>
+        </div>
+    </div>
+</div>

@@ -1,35 +1,3 @@
-*{
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-    vertical-align: top;
-}
-
-.title{
-    text-align: center;
-    font: bold;
-    margin-top: 5px;
-    margin-bottom: 2px;
-}
-
-.image{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.column-block{
-    background-color: #b1e5ff;
-}
-
-.text-format{
-    width: 100%;
-    background-color: #b1fdff;
-    word-wrap: break-word;
-    text-align: center;
-    margin-left: 0px;
-}
-
 /* Editor Specific Options */
 .editor-form{
     margin-bottom: 50px;
@@ -45,45 +13,11 @@
     animation-name: flash_action;
     animation-duration: 2s;
     animation-iteration-count:infinite;
-  }
+}
   
-  @keyframes flash_action {
-    from {border-color: 5px solid rgb(27, 109, 105);
-        background-color: rgb(66, 133, 72);}
-    to {border-color: 5px solid rgb(5, 5, 15);
-        background-color: rgb(145, 202, 148);}
-  }
-
-/* Media Queries */
-
-@media only screen and (max-width: 480px){
-        .text-format{
-            background-color: #b1e5ff;
-        }
-
-        .column-block{
-            background-color: #b1e5ff;
-        }
-  }
-
-@media only screen and (min-width: 481px){
-    @media only screen and (max-width: 1024px){
-        .text-format{
-            background-color: #b1beff;
-        }
-        .column-block{
-            background-color: #b1beff;
-        }
-       }
-  }
-  
-  @media only screen and (min-width: 1024px){
-        .text-format{
-            /* width: 80%; */
-            background-color: #b5a5ea;
-        }
-
-        .column-block{
-            background-color: #b5a5ea;
-        }
-    }
+@keyframes flash_action {
+from {border-color: 5px solid rgb(27, 109, 105);
+    background-color: rgb(66, 133, 72);}
+to {border-color: 5px solid rgb(5, 5, 15);
+    background-color: rgb(145, 202, 148);}
+}

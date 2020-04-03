@@ -14,6 +14,11 @@ import { LiveSiteComponent } from './live-site/live-site.component';
 import { DisplaySitesComponent } from './display-sites/display-sites.component';
 import { LoginComponent } from './login/login.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
+import { PageGeneratorComponent } from './page-generator/page-generator.component';
+import { ParagraphBoxComponent } from './paragraph-box/paragraph-box.component';
+import { ImageComponent } from './image/image.component';
+import { PortraitComponent } from './portrait/portrait.component';
+import { TwoColumnBoxComponent } from './two-column-box/two-column-box.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,12 @@ import { TutorialComponent } from './tutorial/tutorial.component';
     LiveSiteComponent,
     DisplaySitesComponent,
     LoginComponent,
-    TutorialComponent
+    TutorialComponent,
+    PageGeneratorComponent,
+    ParagraphBoxComponent,
+    ImageComponent,
+    PortraitComponent,
+    TwoColumnBoxComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

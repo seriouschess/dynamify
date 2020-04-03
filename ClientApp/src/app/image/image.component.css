@@ -1,0 +1,16 @@
+.image{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-bottom: 10%;
+    margin-top: 10%;
+}
+
+.title{
+    margin-bottom: 1%;
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
