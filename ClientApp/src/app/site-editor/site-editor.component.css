@@ -8,16 +8,3 @@
 .editor-form *{
     margin:10px;
 }
-
-.highlight{
-    animation-name: flash_action;
-    animation-duration: 2s;
-    animation-iteration-count:infinite;
-}
-  
-@keyframes flash_action {
-from {border-color: 5px solid rgb(27, 109, 105);
-    background-color: rgb(66, 133, 72);}
-to {border-color: 5px solid rgb(5, 5, 15);
-    background-color: rgb(145, 202, 148);}
-}

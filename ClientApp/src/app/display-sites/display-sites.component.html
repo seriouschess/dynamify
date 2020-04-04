@@ -2,9 +2,9 @@
 
 <div *ngIf="is_tutorial" class="container">
   <h3 *ngIf="tutorial_sequence == 1" class="text-info"> Welcome to the site creation page! Click ok to continue. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 *ngIf="tutorial_sequence == 2" class="text-danger"> This is where you create sites using your account. You will see that there are none becuse you need to create one! <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 *ngIf="tutorial_sequence == 3" class="text-danger"> Enter a title and click below to create a single-page site. All site names must be unique.</h3>
-  <h3 *ngIf="tutorial_sequence == 4" class="text-danger"> Well Done! You've made a site. Now click Edit to start adding content.</h3>
+  <h3 *ngIf="tutorial_sequence == 2" class="text-info"> This is where you create sites using your account. You will see that there are none becuse you need to create one! <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 *ngIf="tutorial_sequence == 3" class="text-info"> Enter a title and click below to create a single-page site. All site names must be unique.</h3>
+  <h3 *ngIf="tutorial_sequence == 4" class="text-info"> Well Done! You've made a site. Now click Edit to start adding content.</h3>
 </div>  
 <div class="container">
   <h1>Your sites displayed here!</h1>
@@ -33,13 +33,14 @@
   <div *ngIf="!is_tutorial || tutorial_sequence != 3">
     <form (submit)="postSiteToService()">
         <label>Title: :</label><input name="first_name" [(ngModel)]="newSiteObject.title">
-        <input  type="submit" value="Post new Site">
+        <input  class="btn btn-info" type="submit" value="Post new Site">
     </form>
   </div>
+
   <div *ngIf="is_tutorial && tutorial_sequence == 3">
     <form (submit)="postSiteToService()">
       <label>Title: :</label><input name="first_name" [(ngModel)]="newSiteObject.title">
-      <input  type="submit" value="Post new Site">
+      <input  type="submit" class="btn highlight" value="Post new Site">
     </form>
   </div>
-</div>
+</div> 

@@ -55,9 +55,9 @@
 }
 
 @media only screen and (max-width: 481px){
-    .text-container{
-        /* background-color: red; */
-    }
+    /* .text-container{
+        background-color: red;
+    } */
 
     .image{
         width: 75%;

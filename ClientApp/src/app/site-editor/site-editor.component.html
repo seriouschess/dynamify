@@ -1,11 +1,13 @@
-<h3 *ngIf="tutorial_sequence == 1"> This is the site editor. Click the flashing ok button to continue.<button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-<h3 *ngIf="tutorial_sequence == 2"> It is currently empty as no content has been created yet. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-<h3 *ngIf="tutorial_sequence == 3"> Content is created by filling out forms and adding components. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-<h3 *ngIf="tutorial_sequence == 4"> Click the button highlighted below to add a paragraph box.</h3>
-<h3 *ngIf="tutorial_sequence == 5"> Every paragraph box requires a title and content. It's your content so you put what you want! Note this demo site will not be saved. </h3>
-<h3 *ngIf="tutorial_sequence == 6"> Nicely done! You just created your first site component! In a real session, your content saves as you go. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-<h3 *ngIf="tutorial_sequence == 7"> Create site components in order to build your site page. You now have access to the other site components. Try them out! The tutorial ends when you leave this page. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-<h3 *ngIf="tutorial_sequence == 8"> Consider creating an Admin if you want to build a site page you can share with others. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+<div class="container">
+  <h3 *ngIf="tutorial_sequence == 1"> This is the site editor. Click the flashing ok button to continue.<button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 *ngIf="tutorial_sequence == 2"> It is currently empty as no content has been created yet. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 *ngIf="tutorial_sequence == 3"> Content is created by filling out forms and adding components. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 *ngIf="tutorial_sequence == 4"> Click the button highlighted below to add a paragraph box.</h3>
+  <h3 *ngIf="tutorial_sequence == 5"> Every paragraph box requires a title and content. It's your content so you put what you want! Note this demo site will not be saved. </h3>
+  <h3 *ngIf="tutorial_sequence == 6"> Nicely done! You just created your first site component! In a real session, your content saves as you go. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 *ngIf="tutorial_sequence == 7"> Create site components in order to build your site page. You now have access to the other site components. Try them out! The tutorial ends when you leave this page. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 *ngIf="tutorial_sequence == 8"> Consider creating an Admin if you want to build a site page you can share with others. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+</div>
 
 <div class="text-center" *ngIf="current_site_id != 0 || is_tutorial">
   <h1> {{formatted_site.title}} </h1>

@@ -111,6 +111,8 @@ export class SiteEditorComponent implements OnInit {
     }
   }
 
+
+
   //used to get site content from the backend
   requireSite(){
     this._siteFormatter.getSiteByIdFormatted(this.site_request_object, this.recieveSite, this);
@@ -123,6 +125,16 @@ export class SiteEditorComponent implements OnInit {
   //callback sent to site formatter frontend service
   recieveSite(formatted_site:ISiteFormatted, this_component:SiteEditorComponent){
     this_component.formatted_site = formatted_site;
+  }
+
+  //sets priority value for newly posted sites to be at the end of the list
+  setPriority(){
+    let new_priority = this.formatted_site.site_components[this.formatted_site.site_components.length-1].priority + 100;
+    console.log(new_priority);
+    this.new_paragraph_box.priority = new_priority;
+    this.new_2c_box.priority = new_priority;
+    this.new_image.priority = new_priority;
+    this.new_portrait.priority = new_priority;
   }
 
   deleteSiteComponentByIdAndType(component_id:number, type:string){
@@ -173,6 +185,7 @@ export class SiteEditorComponent implements OnInit {
         this.initializeComponents();
         this.open_next_component=""; //reset editing tool options
       }else{
+        this.setPriority();
         this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           console.log(results);
           this.requireSite();
@@ -190,6 +203,7 @@ export class SiteEditorComponent implements OnInit {
       this.open_next_component="";
     }else{
         if(this.validator.validateTwoColumnBox(this.new_2c_box)){
+        this.setPriority();
         this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           console.log(results);
           this.requireSite();
@@ -207,6 +221,7 @@ export class SiteEditorComponent implements OnInit {
       this.open_next_component="";
     }else{
       if(this.validator.validateImage(this.new_image, this.new_image.image_src)){
+        this.setPriority();
         //this.new_image.image_src = this.temp_file.data;
         this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           console.log(results);
@@ -224,6 +239,7 @@ export class SiteEditorComponent implements OnInit {
       this.initializeComponents();
       this.open_next_component="";
     }else{
+      this.setPriority();
       if(this.validator.validatePortrait(this.new_portrait, this.new_portrait.image_src)){
         this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           console.log(results);
