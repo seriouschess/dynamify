@@ -12,6 +12,8 @@ namespace dynamify.Models.SiteModels
         [Required]
         public string title {get;set;}
 
+        public string url {get;set;}
+
         public bool active {get;set;} = false; 
 
         [Required]

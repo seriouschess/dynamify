@@ -49,18 +49,19 @@ namespace dynamify.Controllers.ControllerMethods
 
         public JsonResponse PostMethod(NewSiteDto NewSite){
             if(authenticator.VerifyAdmin(NewSite.admin_id, NewSite.token)){
-                List<Site> test = dbQuery.QueryFeaturelessSiteByTitle(NewSite.title);
-            if( test.Count > 0 ){
-                JsonResponse r = new JsonFailure("Site must not have duplicate title with existing site.");
-                return r;
-            }else{
-                Site SoonToAddSite = new Site();
-                SoonToAddSite.title = NewSite.title;
-                SoonToAddSite.admin_id = NewSite.admin_id;
-                dbQuery.AddSite(SoonToAddSite);
-                JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
-                return r;
-            }
+                List<Site> test = dbQuery.QueryFeaturelessSiteByUrl(NewSite.url);
+                if(test.Count > 0){
+                    JsonResponse r = new JsonFailure("Site must not have duplicate title with existing site.");
+                    return r;
+                }else{
+                    Site SoonToAddSite = new Site();
+                    SoonToAddSite.title = NewSite.title;
+                    SoonToAddSite.admin_id = NewSite.admin_id;
+                    SoonToAddSite.url = NewSite.url;
+                    dbQuery.AddSite(SoonToAddSite);
+                    JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
+                    return r;
+                }
             }else{
                 return new JsonFailure("Invalid Token. Stranger Danger.");
             }

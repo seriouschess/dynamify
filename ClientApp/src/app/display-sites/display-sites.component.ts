@@ -3,6 +3,7 @@ import { HttpService } from '../http.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { INewSiteDto } from '../interfaces/dtos/new_site_dto';
 import { ISiteRequestDto } from '../interfaces/dtos/site_request_dto';
+import { JsonResponseDto } from '../interfaces/dtos/json_response_dto';
 
 @Component({
   selector: 'app-display-sites',
@@ -32,6 +33,7 @@ export class DisplaySitesComponent implements OnInit {
   reserved_url_error_flag: boolean;
   invalid_url_error_flag: boolean;
   blank_url_error_flag: boolean;
+  url_exists_error_flag: boolean;
 
   constructor(private _httpService:HttpService, private router: Router, private _Activatedroute:ActivatedRoute) { }
 
@@ -45,7 +47,7 @@ export class DisplaySitesComponent implements OnInit {
     }
     this.newSiteObject = {
       title : "Default",
-      //url: "base",
+      url: "Default",
       admin_id: this.current_admin_id,
       token: this.current_admin_token
     };
@@ -65,35 +67,35 @@ export class DisplaySitesComponent implements OnInit {
   validateURL(){
     //   /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
     let re = /^[a-zA-ZäöüßÄÖÜ]+$/;
-    return re.test(String(this.newSiteObject.title));
+    return re.test(String(this.newSiteObject.url));
   }
 
   resetValidators(){
     this.blank_url_error_flag = false;
     this.reserved_url_error_flag = false;
     this.invalid_url_error_flag = false;
+    this.url_exists_error_flag = false;
   }
 
   validateSite(){
-    console.log("Input: "+this.newSiteObject.title);
     this.resetValidators();
     let errors = 0;
-    if(this.newSiteObject.title == ""){ //title may be blank, url may not
+    if(this.newSiteObject.url == ""){ //title may be blank, url may not
       errors += 1;
       this.blank_url_error_flag = true;
     }
 
-    if(this.newSiteObject.title.toLowerCase() == "base"){
+    if(this.newSiteObject.url.toLowerCase() == "base"){
       errors += 1;
       this.reserved_url_error_flag = true;
     }
 
-    if(this.newSiteObject.title.toLowerCase() == "default"){
+    if(this.newSiteObject.url.toLowerCase() == "default"){
       errors += 1;
       this.reserved_url_error_flag = true;
     }
 
-    if(this.newSiteObject.title.toLowerCase() == "api"){
+    if(this.newSiteObject.url.toLowerCase() == "api"){
       errors += 1;
       this.reserved_url_error_flag = true;
     }
@@ -126,13 +128,23 @@ export class DisplaySitesComponent implements OnInit {
       this._httpService.postSite(this.newSiteObject).subscribe(
         result => {
           console.log(result);
+          let _server_response:any = result; //wow
+          let server_response:JsonResponseDto = _server_response;
+          console.log(server_response);
+
+          //check backend for duplicate URL
+          if(server_response.response.includes("success")){ 
+            this.resetValidators();
+          }else{
+            this.url_exists_error_flag = true;
+          }
           this.getSitesByAdminFromService();
         });
       }else{
-        //do nothing
+        //innert tutorial button
       }
     }else{
-
+      //invalid, see errors
     }
   }
 

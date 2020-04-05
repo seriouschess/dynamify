@@ -17,8 +17,8 @@ namespace dynamify.Models.QueryClasses
             return dbContext.Sites.Where(x => x.admin_id == admin_id).ToList();
         }
 
-        public List<Site> QueryFeaturelessSiteByTitle(string title){ //Used for more efficient querying e.g. no content 
-            return dbContext.Sites.Where(x => x.title == title).ToList();
+        public List<Site> QueryFeaturelessSiteByUrl(string url){ //Used for more efficient querying e.g. no content 
+            return dbContext.Sites.Where(x => x.url == url).ToList();
         }
 
         public List<Site> QueryFeaturelessSiteById(int active_site_id){
@@ -204,15 +204,16 @@ namespace dynamify.Models.QueryClasses
 
         //actions 
         public Site AddSite(Site NewSite){
-            dbContext.Add(NewSite);
-            dbContext.SaveChanges();
-            List<Site> test = QueryFeaturelessSiteByTitle(NewSite.title);
-            if(test.Count == 1){
-                return test[0]; //success
-            }else{
-                throw new System.ArgumentException("Query Error. All site titles must be unique.", "NewSite.title");
+            List<Site> test = QueryFeaturelessSiteByUrl(NewSite.url);
+            if(test.Count == 0){
+                dbContext.Add(NewSite);
+                dbContext.SaveChanges();
+                List<Site> confirmation = QueryFeaturelessSiteByUrl(NewSite.url); 
+                return confirmation[0];
+            }else{ //duplicate title exists!
+                return null;
+                //throw new System.ArgumentException("Query Error. All site URLs must be unique.", "NewSite.title");
             }
-            
         }
         
         public Site DeleteSiteById(int site_id){

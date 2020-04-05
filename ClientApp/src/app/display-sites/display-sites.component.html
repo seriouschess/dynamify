@@ -32,11 +32,13 @@
   </table>
 
   <form (submit)="postSiteToService()">
-      <label>Title: :</label><input name="first_name" [(ngModel)]="newSiteObject.title">
+      <label>Title: :</label><input name="title" [(ngModel)]="newSiteObject.title">
       <p *ngIf="blank_url_error_flag" class="text-danger"> A URL may not be blank. </p>
       <p *ngIf="reserved_url_error_flag" class="text-danger"> That URL is reserved. Try a different URL. </p>
+      <p *ngIf="url_exists_error_flag" class="text-danger"> That URL is taken. Try another. </p>
       <p *ngIf="invalid_url_error_flag" class="text-danger"> Invalid URL: Must contain all letters. May not contain spaces or special characters. </p>
       <p *ngIf="invalid_url_error_flag" class="text-danger"> "nospaces" <- valid URL example --- "$p@ce n' ch@rs123!" <- invalid URL example</p>
+      <label>URL: </label><input name="url" [(ngModel)]="newSiteObject.url">
       <input *ngIf="!is_tutorial || tutorial_sequence != 3" class="btn btn-info" type="submit" value="Post new Site">
       <input *ngIf="is_tutorial && tutorial_sequence == 3" type="submit" class="btn highlight" value="Post new Site">
   </form>
