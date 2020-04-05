@@ -15,7 +15,7 @@ using dynamify.Controllers.ControllerMethods;
 namespace dynamify.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
         private AdminQueries adminQueries;

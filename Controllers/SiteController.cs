@@ -18,7 +18,7 @@ using dynamify.dtos;
 namespace dynamify.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class SiteController : ControllerBase
     {
         private SiteQueries dbQuery;

@@ -27,12 +27,12 @@ export class HttpService {
   }
 
   loginAdmin(login_payload:Login){
-    return this._http.post(`admin/login`, login_payload);
+    return this._http.post(`api/admin/login`, login_payload);
   }
 
   postAdmin<AdminRegistrationDto>(NewAdmin:AdminRegistrationDto){
    console.log(JSON.stringify(NewAdmin));
-   return this._http.post<Admin>('admin', NewAdmin);
+   return this._http.post<Admin>('api/admin', NewAdmin);
   }
 
   deleteAdmin(admin_id:number, token:string){
@@ -46,33 +46,33 @@ export class HttpService {
 
   editAdmin(AdminToEdit:Admin){
     console.log(JSON.stringify(AdminToEdit));
-    return this._http.put('admin', AdminToEdit);
+    return this._http.put('api/admin', AdminToEdit);
   }
 
   //site services
 
   getSite<ISiteContentDto>(request:ISiteRequestDto){
-    return this._http.post<ISiteContentDto>(`site/get`, request);
+    return this._http.post<ISiteContentDto>(`api/site/get`, request);
   }
 
   getActiveSite<ISiteContentDto>(){
-    return this._http.get<ISiteContentDto>('site/active');
+    return this._http.get<ISiteContentDto>('api/site/active');
   }
 
   getSitesByAdmin(admin_id: number, admin_token: string) {
-    return this._http.get(`site/get_by_admin/${admin_id}/${admin_token}`);
+    return this._http.get(`api/site/get_by_admin/${admin_id}/${admin_token}`);
   }
 
   deleteSite(site_id: number){
-    return this._http.delete(`site/delete/${site_id}`);
+    return this._http.delete(`api/site/delete/${site_id}`);
   }
 
   postSite(input_site: INewSiteDto){
-    return this._http.post(`site/create_site`, input_site);
+    return this._http.post(`api/site/create_site`, input_site);
   }
 
   setActiveSite(request: ISiteRequestDto){
-    return this._http.post(`site/set_active`, request);
+    return this._http.post(`api/site/set_active`, request);
   }
   
   //site configuration services
@@ -81,23 +81,23 @@ export class HttpService {
       component_id: component_id,
       component_type:component_type
     }
-    return this._http.post(`site/delete/site_component`, component_reference);
+    return this._http.post(`api/site/delete/site_component`, component_reference);
   }
 
   postParagraphBox(paragraph_box: ParagraphBox, admin_id:number, admin_token: string){
-    return this._http.post(`site/create/paragraph_box/${admin_id}/${admin_token}`, paragraph_box);
+    return this._http.post(`api/site/create/paragraph_box/${admin_id}/${admin_token}`, paragraph_box);
   }
 
   postImage(image: Image, admin_id: number, admin_token:string){
-    return this._http.post(`site/create/image/${admin_id}/${admin_token}`, image);
+    return this._http.post(`api/site/create/image/${admin_id}/${admin_token}`, image);
   }
 
   postPortrait(portrait: Portrait, admin_id: number, admin_token: string){
-    return this._http.post(`site/create/portrait/${admin_id}/${admin_token}`, portrait);
+    return this._http.post(`api/site/create/portrait/${admin_id}/${admin_token}`, portrait);
   }
 
   postTwoColumnBox(two_column_box: TwoColumnBox, admin_id: number, admin_token:string){
-    return this._http.post(`site/create/2c_box/${admin_id}/${admin_token}`, two_column_box);
+    return this._http.post(`api/site/create/2c_box/${admin_id}/${admin_token}`, two_column_box);
   }
 }
 

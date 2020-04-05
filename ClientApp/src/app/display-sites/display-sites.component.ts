@@ -114,12 +114,9 @@ export class DisplaySitesComponent implements OnInit {
     }
   }
 
-
   //unused methods
   editSite(current_site_id:number){
-    console.log("ray");
     if(this.is_tutorial){
-      console.log("doe");
       this.done.emit(true);
     }else{
       this.current_site_id = current_site_id;

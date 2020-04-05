@@ -19,6 +19,8 @@ import { ParagraphBoxComponent } from './paragraph-box/paragraph-box.component';
 import { ImageComponent } from './image/image.component';
 import { PortraitComponent } from './portrait/portrait.component';
 import { TwoColumnBoxComponent } from './two-column-box/two-column-box.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { TwoColumnBoxComponent } from './two-column-box/two-column-box.component
     ParagraphBoxComponent,
     ImageComponent,
     PortraitComponent,
-    TwoColumnBoxComponent
+    TwoColumnBoxComponent,
+    PageNotFoundComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
