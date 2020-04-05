@@ -28,6 +28,11 @@ export class DisplaySitesComponent implements OnInit {
   newSiteObject: INewSiteDto;
   current_site_id: number;
 
+  //validation messages
+  reserved_url_error_flag: boolean;
+  invalid_url_error_flag: boolean;
+  blank_url_error_flag: boolean;
+
   constructor(private _httpService:HttpService, private router: Router, private _Activatedroute:ActivatedRoute) { }
 
   ngOnInit() {
@@ -40,6 +45,7 @@ export class DisplaySitesComponent implements OnInit {
     }
     this.newSiteObject = {
       title : "Default",
+      //url: "base",
       admin_id: this.current_admin_id,
       token: this.current_admin_token
     };
@@ -50,25 +56,83 @@ export class DisplaySitesComponent implements OnInit {
     }else{
       this.tutorial_sequence = 0;
     }
+
+    //validation error flags
+    this.resetValidators();
   }
 
   //creates a new site without any content
+  validateURL(){
+    //   /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+    let re = /^[a-zA-ZäöüßÄÖÜ]+$/;
+    return re.test(String(this.newSiteObject.title));
+  }
+
+  resetValidators(){
+    this.blank_url_error_flag = false;
+    this.reserved_url_error_flag = false;
+    this.invalid_url_error_flag = false;
+  }
+
+  validateSite(){
+    console.log("Input: "+this.newSiteObject.title);
+    this.resetValidators();
+    let errors = 0;
+    if(this.newSiteObject.title == ""){ //title may be blank, url may not
+      errors += 1;
+      this.blank_url_error_flag = true;
+    }
+
+    if(this.newSiteObject.title.toLowerCase() == "base"){
+      errors += 1;
+      this.reserved_url_error_flag = true;
+    }
+
+    if(this.newSiteObject.title.toLowerCase() == "default"){
+      errors += 1;
+      this.reserved_url_error_flag = true;
+    }
+
+    if(this.newSiteObject.title.toLowerCase() == "api"){
+      errors += 1;
+      this.reserved_url_error_flag = true;
+    }
+
+    if(!this.validateURL()){
+      errors += 1;
+      this.invalid_url_error_flag = true;
+    }
+
+    // if(this.newSiteObject.url){
+
+    // }
+
+    if(errors > 0 ){
+      return false;
+    }else{
+      return true;
+    }
+  }
 
   postSiteToService(){ //add a validator!
-    if(this.is_tutorial && this.tutorial_sequence == 3){
-      this.all_sites = [];
-      this.all_sites.push(this.newSiteObject);
-      this.iterateTutorial();
-    }else if(!this.is_tutorial){
-    console.log(this.newSiteObject);
-    //this.newSiteObject.admin_id = 0; //will be changed on the backend
-    this._httpService.postSite(this.newSiteObject).subscribe(
-      result => {
-        console.log(result);
-        this.getSitesByAdminFromService();
-      });
+    if(this.validateSite()){
+      if(this.is_tutorial && this.tutorial_sequence == 3){
+        this.all_sites = [];
+        this.all_sites.push(this.newSiteObject);
+        this.iterateTutorial();
+      }else if(!this.is_tutorial){
+      console.log(this.newSiteObject);
+      //this.newSiteObject.admin_id = 0; //will be changed on the backend
+      this._httpService.postSite(this.newSiteObject).subscribe(
+        result => {
+          console.log(result);
+          this.getSitesByAdminFromService();
+        });
+      }else{
+        //do nothing
+      }
     }else{
-      //do nothing
+
     }
   }
 
