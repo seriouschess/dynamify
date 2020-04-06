@@ -223,11 +223,6 @@ namespace dynamify.Models.QueryClasses
             return FoundSite;
         }
 
-        public void AddParagraphBox(ParagraphBox p_box){
-            dbContext.Add(p_box);
-            dbContext.SaveChanges();
-        }
-
         public ParagraphBox DeleteParagraphBox(int p_box_id){
             List<ParagraphBox> Subject = dbContext.ParagraphBoxes.Where(x => x.paragraph_box_id == p_box_id).ToList();
             if(Subject.Count == 1){
@@ -235,7 +230,7 @@ namespace dynamify.Models.QueryClasses
                 dbContext.SaveChanges();
                 return Subject[0];
             }else{
-                throw new System.ArgumentException("Query Error. All site titles must be unique.", "NewSite.title");
+                throw new System.ArgumentException("Query Error. Non unique Id.", "NewSite.title");
             }
         }
 
@@ -246,7 +241,7 @@ namespace dynamify.Models.QueryClasses
                 dbContext.SaveChanges();
                 return Subject[0];
             }else{
-                throw new System.ArgumentException("Query Error. All Components must be unique.", "image_id");
+                throw new System.ArgumentException("Query Error. Non unique Id.", "image_id");
             }
             
         }
@@ -258,7 +253,7 @@ namespace dynamify.Models.QueryClasses
                 dbContext.SaveChanges();
                 return Subject[0];
             }else{
-                throw new System.ArgumentException("Query Error. All site titles must be unique.", "portrait_id");
+                throw new System.ArgumentException("Query Error. Non unique Id.", "portrait_id");
             }
         }
 
@@ -269,8 +264,40 @@ namespace dynamify.Models.QueryClasses
                 dbContext.SaveChanges();
                 return Subject[0];
             }else{
-                throw new System.ArgumentException("Query Error. All site titles must be unique.", "portrait_id");
+                throw new System.ArgumentException("Query Error. Non unique ID", "portrait_id");
             }
+        }
+
+         public LinkBox DeleteLinkBox(int link_box_id){
+            List<LinkBox> Subject = dbContext.LinkBoxes.Where(x => x.link_box_id == link_box_id).ToList();
+            if(Subject.Count == 1){
+                dbContext.Remove(Subject[0]);
+                dbContext.SaveChanges();
+                return Subject[0];
+            }else{
+                throw new System.ArgumentException("Query Error. Non unique ID", "portrait_id");
+            }
+        }
+
+        public NavBar DeleteNavBar(int nav_bar_id){
+              List<NavBar> Subject = dbContext.NavBars.Where(x => x.nav_bar_id == nav_bar_id).ToList();
+            if(Subject.Count == 1){
+                dbContext.Remove(Subject[0]);
+                dbContext.SaveChanges();
+                return Subject[0];
+            }else{
+                throw new System.ArgumentException("Query Error. Non unique ID", "portrait_id");
+            }
+        }
+
+        public void AddNavBar( NavBar nav_bar ){
+            dbContext.Add( nav_bar );
+            dbContext.SaveChanges();
+        }
+
+        public void AddLinkBox( LinkBox link_box ){
+            dbContext.Add( link_box );
+            dbContext.SaveChanges();
         }
 
         public void AddTwoColumnBox(TwoColumnBox tc_box){
@@ -285,6 +312,11 @@ namespace dynamify.Models.QueryClasses
 
         public void AddImage(Image image){
             dbContext.Add(image);
+            dbContext.SaveChanges();
+        }
+
+        public void AddParagraphBox(ParagraphBox p_box){
+            dbContext.Add(p_box);
             dbContext.SaveChanges();
         }
 

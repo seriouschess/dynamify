@@ -1,20 +1,20 @@
-using System; //for datetime
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace dynamify.Models.SiteModels
 {
-    public abstract class SiteComponent
+    public class NavBar
     {
-        [Required]
-        public string title {get;set;}
+        [Key]
+        public int nav_bar_id {get;set;}
 
-        [Required]
-        //determines order in which components are displayed
-        public int priority {get;set;} = 0; 
-
-        [Required]
-        public abstract string type {get;set;} //used by frontend to determine how to build site component
+        //saved and read as a series of links e.g.
+        //"<link1>;link2;link3;link4";
+        //Entity workaround for lack of List<string>
+        //functionality since order of links matters
+        public string string_of_links {get;set;}
+        public string type {get;set;} = "nav_bar";
 
         [Required]
         [ForeignKey("site")]

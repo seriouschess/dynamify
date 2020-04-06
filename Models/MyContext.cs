@@ -10,6 +10,9 @@ namespace dynamify.Models
 
         public DbSet<Admin> Admins {get;set;}
 
+        public DbSet<Site> Sites {get;set;}
+
+        //site components
         public DbSet<ParagraphBox>  ParagraphBoxes {get;set;}
 
         public DbSet<Image> Images {get;set;}
@@ -18,6 +21,8 @@ namespace dynamify.Models
 
         public DbSet<TwoColumnBox> TwoColumnBoxes {get;set;}
 
-        public DbSet<Site> Sites {get;set;}
+        public DbSet<LinkBox> LinkBoxes {get;set;}
+
+        public DbSet<NavBar> NavBars {get;set;}
     }
 }

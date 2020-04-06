@@ -1,6 +1,7 @@
 using System; //for datetime
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace dynamify.Models.SiteModels
 {
@@ -17,14 +18,26 @@ namespace dynamify.Models.SiteModels
         public bool active {get;set;} = false; 
 
         [Required]
+        [ForeignKey("owner")]
         public int admin_id {get;set;}
         public Admin owner {get;set;}
 
+        //navigational properties
+        [InverseProperty("site")]
+        public List<NavBar> nav_bars {get;set;} //only one should exist per site
+
+        [InverseProperty("site")]
         public List<ParagraphBox> paragraph_boxes {get;set;}
+        [InverseProperty("site")]
         public List<Image> images {get;set;}
+        [InverseProperty("site")]
         public List<TwoColumnBox> two_column_boxes {get;set;}
 
+        [InverseProperty("site")]
+
         public List<Portrait> portraits {get;set;}
+        [InverseProperty("site")]
+        public List<LinkBox> link_box {get;set;}
 
         //public list[Admin] colaberators {get;set;}
 

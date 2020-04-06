@@ -1,6 +1,7 @@
 using System; //for datetime
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using dynamify.Models.SiteModels;
 
 namespace dynamify.Models
@@ -20,6 +21,7 @@ namespace dynamify.Models
 
         public string token {get;set;} = "XXX"; //authentication token
         
+        [InverseProperty("owner")]
         public List<Site> sites_owned {get;set;}
         public DateTime CreatedAt {get;set;} = DateTime.Now;
         public DateTime UpdatedAt {get;set;} = DateTime.Now;
