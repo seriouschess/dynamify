@@ -63,8 +63,8 @@ export class HttpService {
     return this._http.get(`api/site/get_by_admin/${admin_id}/${admin_token}`);
   }
 
-  deleteSite(site_id: number){
-    return this._http.delete(`api/site/delete/${site_id}`);
+  deleteSite(site_id: number, admin_id:number, admin_token:string){
+    return this._http.delete(`api/site/delete/${site_id}/${admin_id}/${admin_token}`);
   }
 
   postSite(input_site: INewSiteDto){
@@ -76,15 +76,16 @@ export class HttpService {
   }
   
   //site configuration services
-  deleteSiteComponent(component_id:number, component_type:string){
+  deleteSiteComponent(component_id:number, component_type:string, admin_id:number, admin_token:string){
     var component_reference: ComponentReference = {
       component_id: component_id,
       component_type:component_type
     }
-    return this._http.post(`api/site/delete/site_component`, component_reference);
+    return this._http.post(`api/site/delete/site_component/${admin_id}/${admin_token}`, component_reference);
   }
 
   postParagraphBox(paragraph_box: ParagraphBox, admin_id:number, admin_token: string){
+    console.log("ray");
     return this._http.post(`api/site/create/paragraph_box/${admin_id}/${admin_token}`, paragraph_box);
   }
 

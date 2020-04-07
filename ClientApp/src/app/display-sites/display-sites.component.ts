@@ -181,9 +181,9 @@ export class DisplaySitesComponent implements OnInit {
 
   //it does what it says
 
-  deleteSiteById(site_id:number){
+  deleteSiteById(site_id:number,){
     if(!this.is_tutorial){
-      this._httpService.deleteSite(site_id).subscribe(result =>{
+      this._httpService.deleteSite(site_id, this.current_admin_id, this.current_admin_token).subscribe(result =>{
         console.log(result);
         this.getSitesByAdminFromService();
       });

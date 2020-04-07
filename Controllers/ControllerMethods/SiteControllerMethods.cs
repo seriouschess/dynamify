@@ -137,34 +137,52 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public JsonResponse DeleteSiteComponentMethod(ComponentReference Component){
-            if(Component.component_type == "p_box"){
-                ParagraphBox paragraph_box = dbQuery.DeleteParagraphBox(Component.component_id);
-                JsonResponse r = new JsonSuccess("Paragraph box deleted sucessfully!");
-                return r;
-            }else if(Component.component_type == "image"){
-                Image image = dbQuery.DeleteImage(Component.component_id);
-                JsonResponse r = new JsonSuccess("Image deleted sucessfully!");
-                return r;
-            }else if(Component.component_type == "portrait"){
-                Portrait portrait = dbQuery.DeletePortrait(Component.component_id);
-                JsonResponse r = new JsonSuccess("Portrait component deleted sucessfully!");
-                return r;
-            }else if(Component.component_type == "2c_box"){
-                TwoColumnBox two_column_box = dbQuery.DeleteTwoColumnBox(Component.component_id);
-                JsonResponse r = new JsonSuccess("Two Column Box component deleted sucessfully!");
-                return r;
-            }else if(Component.component_type == "nav_bar"){
-                NavBar portrait = dbQuery.DeleteNavBar(Component.component_id);
-                JsonResponse r = new JsonSuccess("Nav Bar component deleted sucessfully!");
-                return r;
-            }else if(Component.component_type == "link_box"){
-                LinkBox portrait = dbQuery.DeleteLinkBox(Component.component_id);
-                JsonResponse r = new JsonSuccess("Link Box component deleted sucessfully!");
+        public JsonResponse DeleteSite(int site_id_parameter, int admin_id, string admin_token){
+              if(authenticator.VerifyAdmin(admin_id, admin_token)){
+                Site DeletedSite = dbQuery.DeleteSiteById(site_id_parameter);
+                JsonResponse r = new JsonSuccess($"Site {DeletedSite.title} deleted sucessfully!");
                 return r;
             }else{
-                JsonResponse r = new JsonSuccess("Type mismatch. Type does not match any known components.");
-                return r;
+                return new JsonFailure("Invalid Token. Stranger Danger.");
+            }
+        }
+
+        public JsonResponse DeleteSiteComponentMethod(ComponentReference Component, int admin_id, string admin_token){
+            System.Console.WriteLine("doe");
+            System.Console.WriteLine($"admin id {admin_id}, admin token {admin_token}");
+            if(authenticator.VerifyAdmin(admin_id, admin_token)){
+                if(Component.component_type == "p_box"){
+                    System.Console.WriteLine("ray");
+                    System.Console.WriteLine($"Component ID: {Component.component_id}");
+                    ParagraphBox paragraph_box = dbQuery.DeleteParagraphBox(Component.component_id);
+                    JsonResponse r = new JsonSuccess("Paragraph box deleted sucessfully!");
+                    return r;
+                }else if(Component.component_type == "image"){
+                    Image image = dbQuery.DeleteImage(Component.component_id);
+                    JsonResponse r = new JsonSuccess("Image deleted sucessfully!");
+                    return r;
+                }else if(Component.component_type == "portrait"){
+                    Portrait portrait = dbQuery.DeletePortrait(Component.component_id);
+                    JsonResponse r = new JsonSuccess("Portrait component deleted sucessfully!");
+                    return r;
+                }else if(Component.component_type == "2c_box"){
+                    TwoColumnBox two_column_box = dbQuery.DeleteTwoColumnBox(Component.component_id);
+                    JsonResponse r = new JsonSuccess("Two Column Box component deleted sucessfully!");
+                    return r;
+                }else if(Component.component_type == "nav_bar"){
+                    NavBar portrait = dbQuery.DeleteNavBar(Component.component_id);
+                    JsonResponse r = new JsonSuccess("Nav Bar component deleted sucessfully!");
+                    return r;
+                }else if(Component.component_type == "link_box"){
+                    LinkBox portrait = dbQuery.DeleteLinkBox(Component.component_id);
+                    JsonResponse r = new JsonSuccess("Link Box component deleted sucessfully!");
+                    return r;
+                }else{
+                    JsonResponse r = new JsonSuccess("Type mismatch. Type does not match any known components.");
+                    return r;
+                }
+            }else{
+                return new JsonFailure("Invalid Token. Stranger Danger.");
             }
         }
     }

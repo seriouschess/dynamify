@@ -97,23 +97,21 @@ namespace dynamify.Controllers
             return methods.PostTwoColumnBoxMethod(NewTwoColumnBox, admin_id, admin_token);
         }
 
-        //delete site //Add an authentication token here as well!
+        //delete site
 
         [HttpDelete] 
-        [Route("delete/{site_id_parameter}")] //not secure yet
-        public ActionResult<Site> DestroySite(int site_id_parameter){
-            System.Console.WriteLine("Site Deleted >:O");
-            Site DeletedSite = dbQuery.DeleteSiteById(site_id_parameter);
-            return DeletedSite;
+        [Route("delete/{site_id_parameter}/{admin_id}/{admin_token}")]
+        public JsonResponse DestroySite(int site_id_parameter, int admin_id, string admin_token){
+            return methods.DeleteSite(site_id_parameter, admin_id, admin_token);
         }
 
-        //delete site components //Add an authentication token here as well!
+        //delete site components
 
         [HttpPost]
-        [Route("delete/site_component")]
+        [Route("delete/site_component/{admin_id}/{admin_token}")]
         [Produces("application/json")]
-        public JsonResponse DeleteSiteComponent([FromBody] ComponentReference Component){
-            return methods.DeleteSiteComponentMethod(Component);
+        public JsonResponse DeleteSiteComponent([FromBody] ComponentReference Component, int admin_id, string admin_token){
+            return methods.DeleteSiteComponentMethod(Component, admin_id, admin_token);
         }
     }
 }

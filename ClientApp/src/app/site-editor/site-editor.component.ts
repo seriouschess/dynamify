@@ -138,7 +138,7 @@ export class SiteEditorComponent implements OnInit {
   }
 
   deleteSiteComponentByIdAndType(component_id:number, type:string){
-    this._httpService.deleteSiteComponent(component_id, type).subscribe(result =>{
+    this._httpService.deleteSiteComponent(component_id, type, this.current_admin_id, this.current_admin_token).subscribe(result =>{
       this.requireSite();
       console.log(result);
     });  
@@ -177,6 +177,7 @@ export class SiteEditorComponent implements OnInit {
 
   //Site update methods
   postParagraphBoxToService(){
+    console.log("fa");
     if(this.validator.validatePbox(this.new_paragraph_box)){
       if(this.is_tutorial == true){
         let type = "p_box";
@@ -185,6 +186,7 @@ export class SiteEditorComponent implements OnInit {
         this.initializeComponents();
         this.open_next_component=""; //reset editing tool options
       }else{
+        console.log("doe");
         this.setPriority();
         this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           console.log(results);
