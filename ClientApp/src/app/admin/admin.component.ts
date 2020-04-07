@@ -26,7 +26,6 @@ export class AdminComponent implements OnInit{
 
   ngOnInit() {
     this.current_site_editor_id = 0;
-    this.allAdmins();
 
     this.current_admin = {
       admin_id: 0,
