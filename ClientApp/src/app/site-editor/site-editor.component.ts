@@ -129,7 +129,14 @@ export class SiteEditorComponent implements OnInit {
 
   //sets priority value for newly posted sites to be at the end of the list
   setPriority(){
-    let new_priority = this.formatted_site.site_components[this.formatted_site.site_components.length-1].priority + 100;
+    let new_priority;
+    let number_of_components = this.formatted_site.site_components.length-1;
+    
+    if(number_of_components <= 0){
+      new_priority = 0;
+    }else{
+      new_priority = this.formatted_site.site_components[number_of_components].priority + 100;
+    }
     console.log(new_priority);
     this.new_paragraph_box.priority = new_priority;
     this.new_2c_box.priority = new_priority;
