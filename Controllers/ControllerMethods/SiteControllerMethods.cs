@@ -77,6 +77,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public JsonResponse PostBoxMethod(ParagraphBox NewBox, int admin_id, string admin_token){
+            System.Console.WriteLine("ray");
             if(authenticator.VerifyAdmin(admin_id, admin_token)){
                 dbQuery.AddParagraphBox(NewBox);
                 JsonResponse r = new JsonSuccess("Paragraph box posted sucessfully!");
@@ -110,6 +111,16 @@ namespace dynamify.Controllers.ControllerMethods
              if(authenticator.VerifyAdmin(admin_id, admin_token)){
                 dbQuery.AddNavBar(NewNavBar);
                 JsonResponse r = new JsonSuccess("Nav Bar posted sucessfully!");
+                return r;
+            }else{
+                return new JsonFailure("Invalid Token. Stranger Danger.");
+            }
+        }
+
+        public JsonResponse PostPortraitMethod(Portrait NewPortrait, int admin_id, string admin_token){
+             if(authenticator.VerifyAdmin(admin_id, admin_token)){
+                dbQuery.AddPortrait(NewPortrait);
+                JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
                 return r;
             }else{
                 return new JsonFailure("Invalid Token. Stranger Danger.");

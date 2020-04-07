@@ -85,14 +85,8 @@ namespace dynamify.Controllers
         [Route("create/portrait/{admin_id}/{admin_token}")]
         [Produces("application/json")]
         public JsonResponse PostPortrait([FromBody] string _portrait, int admin_id, string admin_token){
-            if(authenticator.VerifyAdmin(admin_id, admin_token)){
-                Portrait NewPortrait = JsonSerializer.Deserialize<Portrait>(_portrait);
-                dbQuery.AddPortrait(NewPortrait);
-                JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
-                return r;
-            }else{
-                return new JsonFailure("Invalid Token. Stranger Danger.");
-            }
+            Portrait NewPortrait = JsonSerializer.Deserialize<Portrait>(_portrait);
+           return methods.PostPortraitMethod(NewPortrait, admin_id, admin_token);
         }
 
         [HttpPost] //create two column box
