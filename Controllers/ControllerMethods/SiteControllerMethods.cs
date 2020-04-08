@@ -127,8 +127,23 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public JsonResponse PostLinkBoxMethod(LinkBox NewLinkBox, int admin_id, string admin_token){
+        public JsonResponse PostLinkBoxMethod(NewLinkBoxDto _NewLinkBox, int admin_id, string admin_token){
              if(authenticator.VerifyAdmin(admin_id, admin_token)){
+                LinkBox NewLinkBox = new LinkBox();
+                NewLinkBox.title = _NewLinkBox.title;
+                NewLinkBox.priority = _NewLinkBox.priority;
+                NewLinkBox.site_id = _NewLinkBox.site_id;
+                NewLinkBox.content = _NewLinkBox.content;
+                NewLinkBox.url = _NewLinkBox.url;
+                NewLinkBox.link_display = _NewLinkBox.link_display;
+
+                System.Console.WriteLine($"Title: {NewLinkBox.title}");
+                System.Console.WriteLine($"Priority: {NewLinkBox.priority}");
+                System.Console.WriteLine($"Site Id: {NewLinkBox.site_id}");
+                System.Console.WriteLine($"Content: {NewLinkBox.content}");
+                System.Console.WriteLine($"Link Box URL: {NewLinkBox.url}");
+                System.Console.WriteLine($"link_display: {NewLinkBox.link_display}");
+
                 dbQuery.AddLinkBox(NewLinkBox);
                 JsonResponse r = new JsonSuccess("Link Box posted sucessfully!");
                 return r;

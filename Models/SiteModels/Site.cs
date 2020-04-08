@@ -37,7 +37,7 @@ namespace dynamify.Models.SiteModels
 
         public List<Portrait> portraits {get;set;}
         [InverseProperty("site")]
-        public List<LinkBox> link_box {get;set;}
+        public List<LinkBox> link_boxes {get;set;}
 
         //public list[Admin] colaberators {get;set;}
 

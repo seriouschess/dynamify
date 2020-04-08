@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from '../http.service';
-import { ParagraphBox, Image, TwoColumnBox, Portrait } from '../interfaces/dtos/site_dtos';
+import { ParagraphBox, Image, TwoColumnBox, Portrait, LinkBox } from '../interfaces/dtos/site_dtos';
 import { ISiteRequestDto } from '../interfaces/dtos/site_request_dto';
 import { ValidationService } from '../validation.service';
 import { BSfourConverterService } from '../b-sfour-converter.service';
@@ -25,6 +25,7 @@ export class SiteEditorComponent implements OnInit {
   new_paragraph_box: ParagraphBox;
   new_2c_box: TwoColumnBox;
   new_image: Image;
+  new_link_box: LinkBox;
 
   //temp_file:File;
   new_portrait: Portrait;
@@ -109,6 +110,15 @@ export class SiteEditorComponent implements OnInit {
       image_src: "",
       content: ""
     }
+
+    this.new_link_box = {
+      title: "",
+      priority: 0,
+      site_id: this.current_site_id,
+      content: "",
+      url: "",
+      link_display: ""
+    }
   }
 
 
@@ -142,6 +152,7 @@ export class SiteEditorComponent implements OnInit {
     this.new_2c_box.priority = new_priority;
     this.new_image.priority = new_priority;
     this.new_portrait.priority = new_priority;
+    this.new_link_box.priority = new_priority;
   }
 
   deleteSiteComponentByIdAndType(component_id:number, type:string){
@@ -173,6 +184,10 @@ export class SiteEditorComponent implements OnInit {
     this.open_next_component="image";
   }
 
+  setLinkBoxEdit(){
+      this.open_next_component= "link_box";
+  }
+
   resetEditOptions(){
     if(!this.is_tutorial || this.tutorial_sequence > 5){
       this.open_next_component='';
@@ -184,7 +199,6 @@ export class SiteEditorComponent implements OnInit {
 
   //Site update methods
   postParagraphBoxToService(){
-    console.log("fa");
     if(this.validator.validatePbox(this.new_paragraph_box)){
       if(this.is_tutorial == true){
         let type = "p_box";
@@ -214,7 +228,6 @@ export class SiteEditorComponent implements OnInit {
         if(this.validator.validateTwoColumnBox(this.new_2c_box)){
         this.setPriority();
         this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-          console.log(results);
           this.requireSite();
           this.open_next_component="";
         }, error => console.log(error));
@@ -259,9 +272,29 @@ export class SiteEditorComponent implements OnInit {
     }
   }
 
+  postLinkBoxToService(){
+    console.log("doe");
+    if(this.is_tutorial == true){
+      let type = "link_box";
+      this._siteFormatter.sortSite(this.formatted_site, this.new_portrait, type, this.recieveSite, this);
+      this.initializeComponents();
+      this.open_next_component="";
+    }else{
+      console.log("ray");
+      this.setPriority();
+      if(this.validator.validateLinkBox(this.new_link_box)){
+        console.log("me");
+        this._httpService.postLinkBox(this.new_link_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+          console.log(results);
+          this.requireSite();
+          this.open_next_component="";
+        }, error => console.log(error));
+      }
+    }
+  }
+
   //Image Conversion Methods
   fileConversionListener($event) : void {
-    console.log(this);
     this.b64converter.setImageBase64($event.target, this);
   };
 

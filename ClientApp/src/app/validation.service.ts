@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ParagraphBox, Image, Portrait, TwoColumnBox } from './interfaces/dtos/site_dtos';
+import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox } from './interfaces/dtos/site_dtos';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,11 @@ export class ValidationService {
     tcb_head_two_invalid_flag:boolean;
     tcb_content_one_invalid_flag:boolean;
     tcb_content_two_invalid_flag:boolean;
+
+    link_box_title_invalid_flag:boolean;
+    link_box_url_invalid_flag:boolean;
+    link_box_display_invalid_flag:boolean;
+    link_box_content_invalid_flag:boolean;
 
   constructor() {
     this.resetValidation();
@@ -176,4 +181,9 @@ export class ValidationService {
       return true;
     }
   }
+
+  validateLinkBox(test_link_box:LinkBox){
+    return true;
+  }
 }
+

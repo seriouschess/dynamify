@@ -77,6 +77,17 @@ namespace dynamify.Models.QueryClasses
                     content_one = tcb.content_one,
                     content_two = tcb.content_two,
                     site_id = tcb.site_id
+                }).Where(x => x.site_id == site.site_id).ToList(),
+                link_boxes = dbContext.LinkBoxes.Where(x => x.site_id == site.site_id).Select(lb => new LinkBox()
+                {
+                    title = lb.title,
+                    priority = lb.priority,
+                    site_id = lb.site_id,
+                    link_box_id = lb.link_box_id,
+                    type = lb.type,
+                    content = lb.content,
+                    url = lb.url,
+                    link_display = lb.link_display
                 }).Where(x => x.site_id == site.site_id).ToList()
             }).ToList();
 
@@ -177,7 +188,18 @@ namespace dynamify.Models.QueryClasses
                     content_one = tcb.content_one,
                     content_two = tcb.content_two,
                     site_id = tcb.site_id
-                }).Where(x => x.site_id == site_id_parameter).ToList()
+                }).Where(x => x.site_id == site_id_parameter).ToList(),
+                link_boxes = dbContext.LinkBoxes.Where(x => x.site_id == site.site_id).Select(lb => new LinkBox()
+                {
+                    title = lb.title,
+                    priority = lb.priority,
+                    site_id = lb.site_id,
+                    link_box_id = lb.link_box_id,
+                    type = lb.type,
+                    content = lb.content,
+                    url = lb.url,
+                    link_display = lb.link_display
+                }).Where(x => x.site_id == site.site_id).ToList()
             }).ToList();
 
             if(FoundSites.Count != 1){ //no sites active
@@ -199,6 +221,7 @@ namespace dynamify.Models.QueryClasses
             converted_format.paragraph_boxes = found_site.paragraph_boxes;
             converted_format.portraits = found_site.portraits;
             converted_format.two_column_boxes = found_site.two_column_boxes;
+            converted_format.link_boxes = found_site.link_boxes;
             return converted_format;
         }
 

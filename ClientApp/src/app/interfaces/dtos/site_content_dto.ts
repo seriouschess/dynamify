@@ -1,4 +1,4 @@
-import { TwoColumnBox, Image, ParagraphBox, Portrait } from "./site_dtos";
+import { TwoColumnBox, Image, ParagraphBox, Portrait, LinkBox } from "./site_dtos";
 
 export interface ISiteContentDto{
     title: string;
@@ -6,4 +6,5 @@ export interface ISiteContentDto{
     images: Image[];
     two_column_boxes: TwoColumnBox[];
     portraits: Portrait[];
+    link_boxes: LinkBox[];
 }

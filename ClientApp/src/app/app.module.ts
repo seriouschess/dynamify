@@ -21,6 +21,7 @@ import { PortraitComponent } from './portrait/portrait.component';
 import { TwoColumnBoxComponent } from './two-column-box/two-column-box.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { LinkBoxComponent } from './link-box/link-box.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { HomepageComponent } from './homepage/homepage.component';
     PortraitComponent,
     TwoColumnBoxComponent,
     PageNotFoundComponent,
-    HomepageComponent
+    HomepageComponent,
+    LinkBoxComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

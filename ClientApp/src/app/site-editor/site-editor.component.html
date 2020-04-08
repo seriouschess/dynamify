@@ -36,6 +36,10 @@
       <app-two-column-box [tcb_object]="site_component"></app-two-column-box>
       <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
    </div>
+   <div *ngIf="site_component.type === 'link_box'">
+    <app-link-box [link_box_object]="site_component"></app-link-box>
+    <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
+ </div>
   </div>
 
   <div *ngIf="open_next_component === '' ">
@@ -57,6 +61,10 @@
     <button *ngIf="!is_tutorial" class="btn btn-info" (click)="setImageEdit()">New Image</button>
     <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-info">New Image</button>
     <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-info" (click)="setImageEdit()">New Image</button>
+
+    <button *ngIf="!is_tutorial" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button>
+    <!-- <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-success">New Link Box</button>
+    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button> -->
   </div>
 
     <button class="btn btn-info" *ngIf="open_next_component != ''" (click)=resetEditOptions()>Go Back To Options</button>
@@ -115,6 +123,20 @@
       </form>
     </div>
 
+    <div class="editor-form" *ngIf="!is_tutorial && open_next_component === 'link_box'">
+      <p> Add a component that contains a link </p>
+      <form (submit)=postLinkBoxToService()>
+        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_link_box.title"></p>
+        <!-- <p *ngIf="validator.pbox_title_invalid_flag" class="text-danger">Enter a valid title. Don't worry, you can remove this later.</p> -->
+        <p><label>Description: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_link_box.content"></textarea></p>
+        <!-- <p *ngIf="validator.pbox_content_invalid_flag" class="text-danger">Enter valid content text or consider a different component type.</p> -->
+        <p><label>Link URL (http://www.example.com): </label><input name="url" [(ngModel)]="new_link_box.url"></p>
+        <p><label>Display for link: </label><input name="link_display" [(ngModel)]="new_link_box.link_display"></p>
+        <p><input type="submit" class="btn btn-warning" value="Add Link Box"></p>
+      </form>
+      <p> {{ new_link_box | json }} </p>
+    </div>
+
     <div class="editor-form" *ngIf="is_tutorial && open_next_component === 'p_box'">
       <p> Add a paragraph box </p>
       <form (submit)=postParagraphBoxToService()>
@@ -125,7 +147,7 @@
         <p><input type="submit" class="btn highlight" value="Add Paragraph Box"></p>
       </form>
     </div>
-    
+
     <h4 *ngIf="open_next_component === ''">(Additional Site Elements Will Be Created Here)</h4>
     <p>{{temp_file | json}}</p>
   </div>

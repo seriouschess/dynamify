@@ -12,5 +12,7 @@ namespace dynamify.dtos
         public List<TwoColumnBox> two_column_boxes {get;set;}
 
         public List<Portrait> portraits {get;set;}
+
+        public List<LinkBox> link_boxes{get;set;}
     }
 }

@@ -97,6 +97,30 @@ namespace dynamify.Controllers
             return methods.PostTwoColumnBoxMethod(NewTwoColumnBox, admin_id, admin_token);
         }
 
+        [HttpPost] //create two column box
+        [Route("create/link_box/{admin_id}/{admin_token}")]
+        [Produces("application/json")]
+        public JsonResponse PostLinkBox([FromBody] NewLinkBoxDto NewLinkBox, int admin_id,  string admin_token){
+            //System.Console.WriteLine(_link_box);
+            System.Console.WriteLine($"Admin Id: {admin_id} Admin Token: {admin_token}");
+            //NewLinkBoxDto NewLinkBox = JsonSerializer.Deserialize<NewLinkBoxDto>(_link_box);
+            System.Console.WriteLine("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            LinkBox SeriouslyNewLinkBox = new LinkBox();
+            SeriouslyNewLinkBox.title = NewLinkBox.title;
+            SeriouslyNewLinkBox.priority = NewLinkBox.priority;
+            SeriouslyNewLinkBox.site_id = NewLinkBox.site_id;
+            SeriouslyNewLinkBox.content = NewLinkBox.content;
+            SeriouslyNewLinkBox.url = NewLinkBox.url;
+            SeriouslyNewLinkBox.link_display = NewLinkBox.link_display;
+            System.Console.WriteLine($"Title: {SeriouslyNewLinkBox.title}");
+            System.Console.WriteLine($"Priority: {SeriouslyNewLinkBox.priority}");
+            System.Console.WriteLine($"Site Id: {SeriouslyNewLinkBox.site_id}");
+            System.Console.WriteLine($"Content: {SeriouslyNewLinkBox.content}");
+            System.Console.WriteLine($"Link Box URL: {SeriouslyNewLinkBox.url}");
+            System.Console.WriteLine($"link_display: {SeriouslyNewLinkBox.link_display}");
+            return methods.PostLinkBoxMethod(NewLinkBox, admin_id, admin_token);
+        }
+
         //delete site
 
         [HttpDelete] 

@@ -12,4 +12,7 @@ export interface IGenericSiteComponent{
     heading_two:string;
     content_one:string;
     content_two:string;
+    
+    url: string;
+    link_display: string;
 }

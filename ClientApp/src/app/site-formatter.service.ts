@@ -16,7 +16,6 @@ export class SiteFormatterService {
   constructor(private _httpService:HttpService) { }
 
   
-
   getSiteByIdFormatted(request:ISiteRequestDto, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called:any){ //object which called is an angular component object
     this._httpService.getSite(request).subscribe(data => format(data,callback, object_which_called));
   }
@@ -50,7 +49,10 @@ export class SiteFormatterService {
       heading_one: null,
       heading_two: null,
       content_one: null,
-      content_two: null
+      content_two: null,
+
+      url: null,
+      link_display: null
     }
 
     if(type == "p_box"){
@@ -68,7 +70,6 @@ export class SiteFormatterService {
       generic_component.heading_two = new_box.heading_two,
       generic_component.content_one = new_box.content_one,
       generic_component.content_two = new_box.content_two
-     
     }
 
     if(type == "image"){
@@ -86,6 +87,15 @@ export class SiteFormatterService {
       generic_component.content = new_box.content;
     }
 
+    if(type == "link_box"){
+      generic_component.type = "link_box";
+      generic_component.title = new_box.title;
+
+      generic_component.content = new_box.content;
+      generic_component.url = new_box.url;
+      generic_component.link_display = new_box.link_display;
+    }
+
     unsorted_content.site_components.push(generic_component);
 
     //sort components by priority
@@ -95,13 +105,15 @@ export class SiteFormatterService {
 
 //Updates an angular component with an ISiteFormatted sorted by priority
 function format(data:any, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
-  var s:any = data; //just for now I swear!
+    var s:any = data; //just for now I swear!
+    console.log(s);
     var unformatted_site:ISiteContentDto = {
       title: s.title,
       paragraph_boxes: s.paragraph_boxes,
       images: s.images,
       two_column_boxes: s.two_column_boxes,
-      portraits: s.portraits
+      portraits: s.portraits,
+      link_boxes: s.link_boxes
     }
    
     var sorted_list_of_site_components = [];
@@ -117,6 +129,9 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
     };
     for(var x=0; x<unformatted_site.images.length; x++){
       sorted_list_of_site_components.push(unformatted_site.images[x]);
+    };
+    for(var x=0; x<unformatted_site.link_boxes.length; x++){
+      sorted_list_of_site_components.push(unformatted_site.link_boxes[x]);
     };
 
     sorted_list_of_site_components.sort((a, b) => (a.priority > b.priority) ? 1 : -1);
