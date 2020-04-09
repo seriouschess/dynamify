@@ -61,7 +61,13 @@ namespace dynamify.Controllers
         [HttpGet] //all sites by admin
         [Route("get_by_admin/{admin_id}/{admin_token}")]
         public IEnumerable<Site> GetAdmnById(int admin_id, string admin_token){
-            return methods.GetAdminByIdMethod(admin_id, admin_token);
+            return methods.GetByAdminIdMethod(admin_id, admin_token);
+        }
+
+        [HttpGet] //all sites by admin
+        [Route("get_by_url/{leaf_url}")]
+        public ActionResult<SiteContentDto> GetByURL(string leaf_url){
+            return methods.GetByURLMethod(leaf_url);
         }
 
         //create site components

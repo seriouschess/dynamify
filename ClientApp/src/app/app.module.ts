@@ -22,6 +22,7 @@ import { TwoColumnBoxComponent } from './two-column-box/two-column-box.component
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { LinkBoxComponent } from './link-box/link-box.component';
+import { LeafComponent } from './leaf/leaf.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { LinkBoxComponent } from './link-box/link-box.component';
     TwoColumnBoxComponent,
     PageNotFoundComponent,
     HomepageComponent,
-    LinkBoxComponent
+    LinkBoxComponent,
+    LeafComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

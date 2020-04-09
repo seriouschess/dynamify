@@ -59,6 +59,10 @@ export class HttpService {
     return this._http.get<ISiteContentDto>('api/site/active');
   }
 
+  getLeafByURL(leaf_url:string){
+    return this._http.get<ISiteContentDto>(`api/site/get_by_url/${leaf_url}`);
+  }
+
   getSitesByAdmin(admin_id: number, admin_token: string) {
     return this._http.get(`api/site/get_by_admin/${admin_id}/${admin_token}`);
   }

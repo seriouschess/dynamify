@@ -225,6 +225,17 @@ namespace dynamify.Models.QueryClasses
             return converted_format;
         }
 
+        public SiteContentDto QuerySiteContentByURL(string url){
+            List<Site> FoundSite = QueryFeaturelessSiteByUrl(url);
+            if(FoundSite.Count == 1){
+                return QuerySiteContentById(FoundSite[0].site_id);
+            }else{
+                SiteContentDto default_site = new SiteContentDto();
+                default_site.title = "base";
+                return default_site;
+            } 
+        }
+
         //actions 
         public Site AddSite(Site NewSite){
             List<Site> test = QueryFeaturelessSiteByUrl(NewSite.url);

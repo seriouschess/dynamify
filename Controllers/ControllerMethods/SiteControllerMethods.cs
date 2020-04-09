@@ -30,6 +30,11 @@ namespace dynamify.Controllers.ControllerMethods
             }
        }
 
+       public SiteContentDto GetByURLMethod(string leaf_url){
+            SiteContentDto foundSite = dbQuery.QuerySiteContentByURL(leaf_url);
+            return foundSite;
+       }
+
        public JsonResponse SetActiveSiteMethod(SiteRequestDto request){
             if(authenticator.VerifyAdmin(request.admin_id, request.token)){
                 List<Site> SiteToSetActive = dbQuery.QueryFeaturelessSiteById(request.site_id);
@@ -67,7 +72,7 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public IEnumerable<Site> GetAdminByIdMethod(int admin_id, string admin_token){
+        public IEnumerable<Site> GetByAdminIdMethod(int admin_id, string admin_token){
             if(authenticator.VerifyAdmin(admin_id, admin_token)){
                 List<Site> OwnedSites = dbQuery.QuerySitesByAdmin(admin_id);
                 return OwnedSites;

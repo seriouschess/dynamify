@@ -39,7 +39,7 @@
    <div *ngIf="site_component.type === 'link_box'">
     <app-link-box [link_box_object]="site_component"></app-link-box>
     <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
- </div>
+   </div>
   </div>
 
   <div *ngIf="open_next_component === '' ">

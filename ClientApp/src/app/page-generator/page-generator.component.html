@@ -14,5 +14,8 @@
         <div *ngIf="site_component.type === '2c_box'">
             <app-two-column-box [tcb_object]="site_component"></app-two-column-box>
         </div>
+        <div *ngIf="site_component.type === 'link_box'">
+            <app-link-box [link_box_object]="site_component"></app-link-box>
+        </div>
     </div>
 </div>
