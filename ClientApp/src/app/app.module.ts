@@ -10,7 +10,6 @@ import { AppFrontendRoutesModule} from './app-frontend-routes.module';
 import { AdminComponent } from './admin/admin.component';
 // import { EditAdminComponent } from './edit-admin/edit-admin.component'; //not currently used, perhaps later
 import { SiteEditorComponent } from './site-editor/site-editor.component';
-import { LiveSiteComponent } from './live-site/live-site.component';
 import { DisplaySitesComponent } from './display-sites/display-sites.component';
 import { LoginComponent } from './login/login.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
@@ -23,6 +22,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomepageComponent } from './homepage/homepage.component';
 import { LinkBoxComponent } from './link-box/link-box.component';
 import { LeafComponent } from './leaf/leaf.component';
+import { LeafNavBarComponent } from './leaf-nav-bar/leaf-nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,6 @@ import { LeafComponent } from './leaf/leaf.component';
     AdminComponent,
     // EditAdminComponent,
     SiteEditorComponent,
-    LiveSiteComponent,
     DisplaySitesComponent,
     LoginComponent,
     TutorialComponent,
@@ -44,7 +43,8 @@ import { LeafComponent } from './leaf/leaf.component';
     PageNotFoundComponent,
     HomepageComponent,
     LinkBoxComponent,
-    LeafComponent
+    LeafComponent,
+    LeafNavBarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -1,5 +1,5 @@
 <p>Site Id: {{current_site_id}}</p>
-<p>Admin Id:{{current_admin_id}}</p>
+<p>Admin Id: {{current_admin_id}}</p>
 <p>Token: {{current_admin_token}}</p>
 
 <div class="container">
@@ -13,7 +13,17 @@
   <h3 *ngIf="tutorial_sequence == 8"> Consider creating an Admin if you want to build a site page you can share with others. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
 </div>
 
-<div class="text-center" *ngIf="current_site_id != 0 || is_tutorial">
+<div *ngIf="current_site_id != 0 || is_tutorial">
+  <button class="btn btn-info" (click)="toggleNavBarEditor()"> Toggle Nav Bar Editor </button>
+    <div class="editor-form" *ngIf="nav_bar_editor_open">
+      <p> Add links for your topside Nav Bar</p>
+        <p>{{new_nav_bar.links | json}}</p>
+        <p><label> Add A link label: </label><input class="title_box" name="label" [(ngModel)]="new_nav_link.label"></p>
+        <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p>
+        <p class="text-danger"> May not contain curley brackets e.g. {{curlies}} </p>
+        <button class="btn btn-info" (click)="pushLinkToBar()"> Add link to nav bar </button>
+        <button class="btn btn-success" (click)="postNavBarToService()"> Save Changes</button>
+    </div> 
   <h1> {{formatted_site.title}} </h1>
 
   <div *ngFor="let site_component of formatted_site.site_components">

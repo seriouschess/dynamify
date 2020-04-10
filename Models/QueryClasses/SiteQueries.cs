@@ -199,7 +199,13 @@ namespace dynamify.Models.QueryClasses
                     content = lb.content,
                     url = lb.url,
                     link_display = lb.link_display
-                }).Where(x => x.site_id == site.site_id).ToList()
+                }).Where(x => x.site_id == site.site_id).ToList(),
+            
+                nav_bars = dbContext.NavBars.Where(x => x.site_id == site.site_id).Select(nb => new NavBar(){
+                    site_id = nb.site_id,
+                    string_of_links = nb.string_of_links
+                    
+                }).ToList()
             }).ToList();
 
             if(FoundSites.Count != 1){ //no sites active
@@ -213,6 +219,38 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
+        public NavBarDto FormatNavBar(NavBar unformatted_nav_bar){
+            NavBarDto formatted_nav_bar = new NavBarDto();
+            formatted_nav_bar.site_id = 1;
+            formatted_nav_bar.links = new List<NavLinkDto>();
+            string  s = unformatted_nav_bar.string_of_links;
+            string string_label = "";
+            string string_url = "";
+            bool write_label = true;
+            for(var x=0; x<s.Length ;x++){
+                if(s[x]+"" == "}"){
+                    System.Console.WriteLine($"url: {string_url}");
+                    System.Console.WriteLine($"label: {string_label}");
+                    formatted_nav_bar.links.Add(new NavLinkDto(){
+                        url = string_url,
+                        label = string_label
+                    });
+                    string_url = "";
+                    string_label = "";
+                    write_label = true;
+                }else if( s[x]+"" == "{" ){
+                    write_label = false;
+                }else{
+                    if(write_label == true){
+                        string_label += s[x]+"";
+                    }else{
+                        string_url += s[x]+"";
+                    }
+                }
+            }
+            return formatted_nav_bar;
+        }
+
         public SiteContentDto QuerySiteContentById(int site_id){
             Site found_site = QuerySiteById(site_id);
             SiteContentDto converted_format = new SiteContentDto();
@@ -222,6 +260,7 @@ namespace dynamify.Models.QueryClasses
             converted_format.portraits = found_site.portraits;
             converted_format.two_column_boxes = found_site.two_column_boxes;
             converted_format.link_boxes = found_site.link_boxes;
+            converted_format.nav_bar = FormatNavBar(found_site.nav_bars[0]); 
             return converted_format;
         }
 
@@ -324,10 +363,29 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
-        public void AddNavBar( NavBar nav_bar ){
-            dbContext.Add( nav_bar );
-            dbContext.SaveChanges();
+        public void AddNavBar( NavBarDto nav_bar_dto ){
+            List<NavBar> test_query = dbContext.NavBars.Where(x => x.site_id == nav_bar_dto.site_id).ToList();
+
+            NavBar nav_bar = new NavBar();
+            nav_bar.site_id = nav_bar_dto.site_id;
+            //convert to string_of_links format
+            string s = ""; 
+            for(var x=0; x < nav_bar_dto.links.Count; x++){
+                s += nav_bar_dto.links[x].label;
+                s += "{";
+                s += nav_bar_dto.links[x].url;
+                s += "}";
+            }
+            nav_bar.string_of_links = s;
+            if(test_query.Count > 0){
+                test_query[0].site_id = nav_bar.site_id;
+                test_query[0].string_of_links = nav_bar.string_of_links;
+            }else{
+                dbContext.Add( nav_bar ); 
+            }
+            dbContext.SaveChanges(); 
         }
+        
 
         public void AddLinkBox( LinkBox link_box ){
             dbContext.Add( link_box );

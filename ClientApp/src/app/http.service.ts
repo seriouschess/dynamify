@@ -5,7 +5,7 @@ import{ HttpClient } from '@angular/common/http';
 //dto imports
 import { Admin } from './interfaces/dtos/admin_dtos';
 import { Login } from './interfaces/dtos/login_dto';
-import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox } from './interfaces/dtos/site_dtos';
+import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox, NavBar } from './interfaces/dtos/site_dtos';
 import { ComponentReference } from './interfaces/dtos/component_reference';
 import { INewSiteDto } from './interfaces/dtos/new_site_dto';
 import { ISiteRequestDto } from './interfaces/dtos/site_request_dto';
@@ -107,6 +107,10 @@ export class HttpService {
   postLinkBox(link_box: LinkBox, admin_id: number, admin_token:string){
     console.log(link_box);
     return this._http.post(`api/site/create/link_box/${admin_id}/${admin_token}`, link_box);
+  }
+
+  postNavBar(nav_bar: NavBar, admin_id: number, admin_token:string){
+    return this._http.post(`api/site/create/nav_bar/${admin_id}/${admin_token}`, nav_bar);
   }
 }
 

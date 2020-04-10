@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from '../http.service';
-import { ParagraphBox, Image, TwoColumnBox, Portrait, LinkBox } from '../interfaces/dtos/site_dtos';
+import { ParagraphBox, Image, TwoColumnBox, Portrait, LinkBox, NavBar, NavLink } from '../interfaces/dtos/site_dtos';
 import { ISiteRequestDto } from '../interfaces/dtos/site_request_dto';
 import { ValidationService } from '../validation.service';
 import { BSfourConverterService } from '../b-sfour-converter.service';
@@ -26,6 +26,11 @@ export class SiteEditorComponent implements OnInit {
   new_2c_box: TwoColumnBox;
   new_image: Image;
   new_link_box: LinkBox;
+  new_nav_bar: NavBar;
+  new_nav_link: NavLink;
+  curlies: string; //have to do this because of the way angular templates handles curlies
+
+ 
 
   //temp_file:File;
   new_portrait: Portrait;
@@ -35,6 +40,7 @@ export class SiteEditorComponent implements OnInit {
 
   //functionality
   open_next_component: string;
+  nav_bar_editor_open: boolean;
 
   //dtos
   site_request_object:ISiteRequestDto;
@@ -56,6 +62,7 @@ export class SiteEditorComponent implements OnInit {
 
     this.formatted_site = {
       title: null,
+      nav_bar: null,
       site_components: null
      }
 
@@ -63,7 +70,9 @@ export class SiteEditorComponent implements OnInit {
 
     //image converter async flag
     this.image_converter_working = false;
+
     this.open_next_component = ""; //used to select editor
+    this.curlies = "{ or }";
 
     //start mode
     if(this.is_tutorial){
@@ -74,9 +83,22 @@ export class SiteEditorComponent implements OnInit {
       this.tutorial_sequence = 0; //no tutorial
       this.requireSite();
     }
+
+
+    this.postNavBarToService();
   }
 
   initializeComponents(){
+    // let link_one:NavLink = {url:"http://www.cnn.com", label:"News Site"}
+    this.new_nav_bar = {
+      links: [],
+      site_id: this.current_site_id
+    },
+    this.new_nav_link = {
+      label: "",
+      url: ""
+    },
+
     this.new_paragraph_box = {
       title: "",
       priority: 0,
@@ -188,6 +210,14 @@ export class SiteEditorComponent implements OnInit {
       this.open_next_component= "link_box";
   }
 
+  toggleNavBarEditor(){
+    if(this.nav_bar_editor_open == false){
+      this.nav_bar_editor_open = true;
+    }else{
+      this.nav_bar_editor_open = false;
+    }
+  }
+
   resetEditOptions(){
     if(!this.is_tutorial || this.tutorial_sequence > 5){
       this.open_next_component='';
@@ -196,8 +226,34 @@ export class SiteEditorComponent implements OnInit {
       this.validator.image_src_invalid_flag = false;
     }
   }
-
   //Site update methods
+
+  pushLinkToBar(){
+    console.log(this.new_nav_link);
+    let addition:NavLink = {
+      label: this.new_nav_link.label,
+      url: this.new_nav_link.url
+    }
+    this.new_nav_bar.links.push(addition);
+    this.new_nav_link.label = "";
+    this.new_nav_link.url = "";
+  }
+  
+  postNavBarToService(){
+    if(this.is_tutorial == true){
+      //do nothing
+    }else{
+        if(this.validator.validateNavBar(this.new_nav_bar)){
+        this._httpService.postNavBar(this.new_nav_bar, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+          console.log(results);
+          this.requireSite();
+          this.toggleNavBarEditor();
+          this.open_next_component="";
+        }, error => console.log(error));
+      }
+    }
+  }
+
   postParagraphBoxToService(){
     if(this.validator.validatePbox(this.new_paragraph_box)){
       if(this.is_tutorial == true){

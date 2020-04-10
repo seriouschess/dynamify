@@ -9,8 +9,9 @@ namespace dynamify.Models.SiteModels
         [Key]
         public int nav_bar_id {get;set;}
 
-        //saved and read as a series of links e.g.
-        //"<link1>;link2;link3;link4";
+        //saved and read as a series of links and labels e.g.
+        //"label1{link1}label2{link2}label{link3}"
+        //"{" signifies end of label and "}" signifies end of link
         //Entity workaround for lack of List<string>
         //functionality since order of links matters
         public string string_of_links {get;set;}

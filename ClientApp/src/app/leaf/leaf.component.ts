@@ -3,6 +3,7 @@ import { SiteFormatterService } from '../site-formatter.service';
 import { ISiteFormatted } from '../interfaces/formatted_site_content';
 import { ISiteRequestDto } from '../interfaces/dtos/site_request_dto';
 import { Params, ActivatedRoute } from '@angular/router';
+import { NavBar, NavLink } from '../interfaces/dtos/site_dtos';
 
 @Component({
   selector: 'app-leaf',
@@ -15,13 +16,8 @@ export class LeafComponent implements OnInit {
 
   @Input() leaf_url:string;
 
-  test_token:string;
-  test_admin_id:number;
-  test_site_id:number;
-
+  test_nav_bar: NavBar;
   formatted_site:ISiteFormatted;
-  start:boolean;
-
   request:ISiteRequestDto;
 
   ngOnInit() {
@@ -30,14 +26,11 @@ export class LeafComponent implements OnInit {
       this.leaf_url = params['leaf_url'];
       this.requireLeafContent();
     })
-    
-    this.test_token = "3CLL6W0mAlU14Eo";
-    this.test_admin_id = 1;
-    this.test_site_id = 1;
 
-    this.start = false;
+
     this.formatted_site = {
       title: null,
+      nav_bar: null,
       site_components: null
     }
   }

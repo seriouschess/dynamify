@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LiveSiteComponent } from './live-site.component';
+import { LeafNavBarComponent } from './leaf-nav-bar.component';
 
-describe('LiveSiteComponent', () => {
-  let component: LiveSiteComponent;
-  let fixture: ComponentFixture<LiveSiteComponent>;
+describe('LeafNavBarComponent', () => {
+  let component: LeafNavBarComponent;
+  let fixture: ComponentFixture<LeafNavBarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LiveSiteComponent ]
+      declarations: [ LeafNavBarComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LiveSiteComponent);
+    fixture = TestBed.createComponent(LeafNavBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

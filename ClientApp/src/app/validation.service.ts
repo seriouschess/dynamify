@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox } from './interfaces/dtos/site_dtos';
+import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox, NavBar } from './interfaces/dtos/site_dtos';
 
 @Injectable({
   providedIn: 'root'
@@ -183,7 +183,11 @@ export class ValidationService {
   }
 
   validateLinkBox(test_link_box:LinkBox){
-    return true;
+    return true; //just for now!
+  }
+
+  validateNavBar(test_nav_bar:NavBar){
+    return true //just for now!
   }
 }
 

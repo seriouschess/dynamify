@@ -7,6 +7,8 @@ namespace dynamify.dtos
     public class SiteContentDto
     {
         public string title {get;set;}
+
+        public NavBarDto nav_bar {get;set;} //not a database object!
         public List<ParagraphBox> paragraph_boxes {get;set;}
         public List<Image> images {get;set;}
         public List<TwoColumnBox> two_column_boxes {get;set;}

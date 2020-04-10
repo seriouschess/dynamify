@@ -57,4 +57,14 @@ export interface ParagraphBox{
     url: string;
     link_display: string;
   }
+
+  export interface NavBar{
+    links: NavLink[],
+    site_id: number
+  }
+
+  export interface NavLink{
+    url: string;
+    label: string;
+  }
   

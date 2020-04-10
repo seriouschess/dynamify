@@ -112,7 +112,7 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public JsonResponse PostNavBarMethod(NavBar NewNavBar, int admin_id, string admin_token){
+        public JsonResponse PostNavBarMethod(NavBarDto NewNavBar, int admin_id, string admin_token){
              if(authenticator.VerifyAdmin(admin_id, admin_token)){
                 dbQuery.AddNavBar(NewNavBar);
                 JsonResponse r = new JsonSuccess("Nav Bar posted sucessfully!");
@@ -142,13 +142,6 @@ namespace dynamify.Controllers.ControllerMethods
                 NewLinkBox.url = _NewLinkBox.url;
                 NewLinkBox.link_display = _NewLinkBox.link_display;
 
-                System.Console.WriteLine($"Title: {NewLinkBox.title}");
-                System.Console.WriteLine($"Priority: {NewLinkBox.priority}");
-                System.Console.WriteLine($"Site Id: {NewLinkBox.site_id}");
-                System.Console.WriteLine($"Content: {NewLinkBox.content}");
-                System.Console.WriteLine($"Link Box URL: {NewLinkBox.url}");
-                System.Console.WriteLine($"link_display: {NewLinkBox.link_display}");
-
                 dbQuery.AddLinkBox(NewLinkBox);
                 JsonResponse r = new JsonSuccess("Link Box posted sucessfully!");
                 return r;
@@ -168,12 +161,9 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public JsonResponse DeleteSiteComponentMethod(ComponentReference Component, int admin_id, string admin_token){
-            System.Console.WriteLine("doe");
             System.Console.WriteLine($"admin id {admin_id}, admin token {admin_token}");
             if(authenticator.VerifyAdmin(admin_id, admin_token)){
                 if(Component.component_type == "p_box"){
-                    System.Console.WriteLine("ray");
-                    System.Console.WriteLine($"Component ID: {Component.component_id}");
                     ParagraphBox paragraph_box = dbQuery.DeleteParagraphBox(Component.component_id);
                     JsonResponse r = new JsonSuccess("Paragraph box deleted sucessfully!");
                     return r;
@@ -188,10 +178,6 @@ namespace dynamify.Controllers.ControllerMethods
                 }else if(Component.component_type == "2c_box"){
                     TwoColumnBox two_column_box = dbQuery.DeleteTwoColumnBox(Component.component_id);
                     JsonResponse r = new JsonSuccess("Two Column Box component deleted sucessfully!");
-                    return r;
-                }else if(Component.component_type == "nav_bar"){
-                    NavBar portrait = dbQuery.DeleteNavBar(Component.component_id);
-                    JsonResponse r = new JsonSuccess("Nav Bar component deleted sucessfully!");
                     return r;
                 }else if(Component.component_type == "link_box"){
                     LinkBox portrait = dbQuery.DeleteLinkBox(Component.component_id);

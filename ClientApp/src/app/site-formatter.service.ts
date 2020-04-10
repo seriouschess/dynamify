@@ -5,6 +5,7 @@ import { ISiteContentDto } from './interfaces/dtos/site_content_dto';
 import { ISiteFormatted } from './interfaces/formatted_site_content';
 import { ISiteRequestDto } from './interfaces/dtos/site_request_dto';
 import { IGenericSiteComponent } from './interfaces/generic_site_component';
+import { NavLink } from './interfaces/dtos/site_dtos';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,6 @@ export class SiteFormatterService {
   component_to_add:IGenericSiteComponent;
 
   constructor(private _httpService:HttpService) { }
-
   
   getSiteByIdFormatted(request:ISiteRequestDto, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called:any){ //object which called is an angular component object
     this._httpService.getSite(request).subscribe(data => format(data,callback, object_which_called));
@@ -32,6 +32,7 @@ export class SiteFormatterService {
   getBlankSite(callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
     var formatted_site:ISiteFormatted = {
       title: "Demo Site",
+      nav_bar: null,
       site_components: []
     }
 
@@ -113,19 +114,39 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
     if(s.title == "base"){ //site not found, default value returned
       let unfound_site:ISiteFormatted = {
         title: s.title,
-        site_components: []
+        nav_bar: null,
+        site_components: [],
+        
       }
       callback(unfound_site, object_which_called);
     }else{
+      
+      let nav_link_one: NavLink = {
+        url: "http://www.google.com",
+        label: "Google"
+      }
+  
+      let nav_link_two: NavLink = {
+        url: "http://www.cnn.com",
+        label: "CNN"
+      }
+  
+      let test_nav_bar = {
+        links: [nav_link_one, nav_link_two],
+        site_id: 0
+      }
+
       var unformatted_site:ISiteContentDto = {
         title: s.title,
+        nav_bar: s.nav_bar,
         paragraph_boxes: s.paragraph_boxes,
         images: s.images,
         two_column_boxes: s.two_column_boxes,
         portraits: s.portraits,
         link_boxes: s.link_boxes
       }
-     
+
+      //sort site components in order
       var sorted_list_of_site_components = [];
   
       for(var x=0; x<unformatted_site.paragraph_boxes.length; x++){
@@ -148,6 +169,7 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
   
       var formatted_site: ISiteFormatted = {
         title: unformatted_site.title,
+        nav_bar: unformatted_site.nav_bar,
         site_components: sorted_list_of_site_components
       }
         console.log(formatted_site);

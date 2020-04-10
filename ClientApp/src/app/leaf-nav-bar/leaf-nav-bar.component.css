@@ -1,0 +1,15 @@
+.nav-link{
+    display: inline-block;
+    margin-left: 5%;
+}
+
+.nav-title{
+    display: inline-block;
+    margin-left: 5%;
+    margin-top: 8px;
+}
+
+.nav-bar{
+    padding-top: 10px;
+    background-color: rgb(135, 194, 204);
+}
