@@ -1,6 +1,7 @@
 <p>Site Id: {{current_site_id}}</p>
 <p>Admin Id: {{current_admin_id}}</p>
 <p>Token: {{current_admin_token}}</p>
+<p>{{formatted_site.nav_bar | json}}</p>
 
 <div class="container">
   <h3 *ngIf="tutorial_sequence == 1"> This is the site editor. Click the flashing ok button to continue.<button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
@@ -14,15 +15,20 @@
 </div>
 
 <div *ngIf="current_site_id != 0 || is_tutorial">
+  <app-leaf-nav-bar *ngIf ="formatted_site.nav_bar != null" [is_edit_mode]="true" [nav_bar_object]="formatted_site.nav_bar"></app-leaf-nav-bar>
   <button class="btn btn-info" (click)="toggleNavBarEditor()"> Toggle Nav Bar Editor </button>
     <div class="editor-form" *ngIf="nav_bar_editor_open">
       <p> Add links for your topside Nav Bar</p>
-        <p>{{new_nav_bar.links | json}}</p>
+        <p>Current Links:</p>
+        <div *ngFor="let link of new_nav_bar.links">
+          <p>Label: {{link.label}}  Url: {{link.url}}</p>
+        </div>  
         <p><label> Add A link label: </label><input class="title_box" name="label" [(ngModel)]="new_nav_link.label"></p>
         <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p>
         <p class="text-danger"> May not contain curley brackets e.g. {{curlies}} </p>
         <button class="btn btn-info" (click)="pushLinkToBar()"> Add link to nav bar </button>
-        <button class="btn btn-success" (click)="postNavBarToService()"> Save Changes</button>
+        <button *ngIf = "new_nav_bar.links.length > 0" class="btn btn-danger" (click)="RemoveNavBarLinks()"> Remove all links </button>
+        <button *ngIf = "nav_bar_changes_made" class="btn btn-success" (click)="postNavBarToService()"> Save Changes</button>
     </div> 
   <h1> {{formatted_site.title}} </h1>
 

@@ -14,6 +14,7 @@ import { SiteFormatterService } from '../site-formatter.service';
   templateUrl: './site-editor.component.html',
   styleUrls: ['./site-editor.component.css']
 })
+
 export class SiteEditorComponent implements OnInit {
 
   //route parameters
@@ -30,8 +31,6 @@ export class SiteEditorComponent implements OnInit {
   new_nav_link: NavLink;
   curlies: string; //have to do this because of the way angular templates handles curlies
 
- 
-
   //temp_file:File;
   new_portrait: Portrait;
 
@@ -41,6 +40,7 @@ export class SiteEditorComponent implements OnInit {
   //functionality
   open_next_component: string;
   nav_bar_editor_open: boolean;
+  nav_bar_changes_made: boolean;
 
   //dtos
   site_request_object:ISiteRequestDto;
@@ -73,6 +73,7 @@ export class SiteEditorComponent implements OnInit {
 
     this.open_next_component = ""; //used to select editor
     this.curlies = "{ or }";
+    this.nav_bar_editor_open = false;
 
     //start mode
     if(this.is_tutorial){
@@ -83,9 +84,6 @@ export class SiteEditorComponent implements OnInit {
       this.tutorial_sequence = 0; //no tutorial
       this.requireSite();
     }
-
-
-    this.postNavBarToService();
   }
 
   initializeComponents(){
@@ -157,6 +155,13 @@ export class SiteEditorComponent implements OnInit {
   //callback sent to site formatter frontend service
   recieveSite(formatted_site:ISiteFormatted, this_component:SiteEditorComponent){
     this_component.formatted_site = formatted_site;
+    console.log("this component");
+    console.log(this_component.new_nav_bar.links);
+    console.log("formatted_site");
+    console.log(formatted_site.nav_bar.links);
+    if(this_component.new_nav_bar.links.length === 0){
+      this_component.new_nav_bar.links = formatted_site.nav_bar.links;
+    }
   }
 
   //sets priority value for newly posted sites to be at the end of the list
@@ -235,16 +240,26 @@ export class SiteEditorComponent implements OnInit {
       url: this.new_nav_link.url
     }
     this.new_nav_bar.links.push(addition);
+    this.nav_bar_changes_made = true;
     this.new_nav_link.label = "";
     this.new_nav_link.url = "";
   }
   
+  RemoveNavBarLinks(){
+    if(this.new_nav_bar != null){
+      this.new_nav_bar.links = [];
+    }
+    this.nav_bar_changes_made = true;
+  }
+
+
   postNavBarToService(){
     if(this.is_tutorial == true){
       //do nothing
     }else{
         if(this.validator.validateNavBar(this.new_nav_bar)){
-        this._httpService.postNavBar(this.new_nav_bar, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+          this.nav_bar_changes_made = false; //resets nav bar editor save button
+          this._httpService.postNavBar(this.new_nav_bar, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           console.log(results);
           this.requireSite();
           this.toggleNavBarEditor();

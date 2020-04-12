@@ -2,7 +2,8 @@
 <div class="nav-bar">
     <p class="nav-title">Nav Bar!</p>
     <div class="nav-link" *ngFor="let link of nav_bar_object.links">
-        <a href="{{link.url}}"> {{link.label}} </a> 
+        <a *ngIf="!is_edit_mode" href="{{link.url}}"> {{link.label}} </a>
+        <a *ngIf="is_edit_mode"> {{link.label}} </a> 
     </div>
 </div>
 
