@@ -101,10 +101,10 @@ export class SiteFormatterService {
       generic_component.link_display = new_box.link_display;
     }
 
-    unsorted_content.site_components.push(generic_component);
+    unsorted_content.site_components.push(generic_component); //object directly modified in memory. Just for the tutorial site editor emulator.
 
     //sort components by priority
-    return sortFormatted( unsorted_content, callback, object_which_called );
+    unsorted_content.site_components.sort((a, b) => (a.priority > b.priority) ? 1 : -1);
   }
 }
 
@@ -116,7 +116,6 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
         title: s.title,
         nav_bar: null,
         site_components: [],
-        
       }
       callback(unfound_site, object_which_called);
     }else{
@@ -179,11 +178,12 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
     }
 }
 
-//for use with site editor tutorial mode
-function sortFormatted(unsorted_content:ISiteFormatted, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
-  let sorted_site = unsorted_content;
-  sorted_site.site_components.sort((a, b) => (a.priority > b.priority) ? 1 : -1);
-  callback(sorted_site, object_which_called);
-}
+//for use with site editor tutorial mode Removed for refreshing dom unneecessiairly
+
+// function sortFormatted(unsorted_content:ISiteFormatted, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
+//   let sorted_site = unsorted_content;
+//   sorted_site.site_components.sort((a, b) => (a.priority > b.priority) ? 1 : -1);
+//   callback(sorted_site, object_which_called);
+// }
 
 

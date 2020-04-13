@@ -155,11 +155,7 @@ export class SiteEditorComponent implements OnInit {
   //callback sent to site formatter frontend service
   recieveSite(formatted_site:ISiteFormatted, this_component:SiteEditorComponent){
     this_component.formatted_site = formatted_site;
-    console.log("this component");
-    console.log(this_component.new_nav_bar.links);
-    console.log("formatted_site");
-    console.log(formatted_site.nav_bar.links);
-    if(this_component.new_nav_bar.links.length === 0){
+    if(this_component.new_nav_bar.links.length === 0 && this.is_tutorial === false){
       this_component.new_nav_bar.links = formatted_site.nav_bar.links;
     }
   }
@@ -280,7 +276,6 @@ export class SiteEditorComponent implements OnInit {
         this.initializeComponents();
         this.open_next_component=""; //reset editing tool options
       }else{
-        console.log("doe");
         this.setPriority();
         this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           console.log(results);
