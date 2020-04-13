@@ -234,15 +234,17 @@ export class SiteEditorComponent implements OnInit {
   //Site update methods
 
   pushLinkToBar(){
-    console.log(this.new_nav_link);
-    let addition:NavLink = {
-      label: this.new_nav_link.label,
-      url: this.new_nav_link.url
+    if(this.validator.validateNavBarLink(this.new_nav_link)){
+      console.log("Link to bar pushed.")
+      let addition:NavLink = {
+        label: this.new_nav_link.label,
+        url: this.new_nav_link.url
+      }
+      this.new_nav_bar.links.push(addition);
+      this.nav_bar_changes_made = true;
+      this.new_nav_link.label = "";
+      this.new_nav_link.url = "";
     }
-    this.new_nav_bar.links.push(addition);
-    this.nav_bar_changes_made = true;
-    this.new_nav_link.label = "";
-    this.new_nav_link.url = "";
   }
   
   RemoveNavBarLinks(){
@@ -257,7 +259,7 @@ export class SiteEditorComponent implements OnInit {
     if(this.is_tutorial == true){
       //do nothing
     }else{
-        if(this.validator.validateNavBar(this.new_nav_bar)){
+        if(true){ //additional validators required?
           this.nav_bar_changes_made = false; //resets nav bar editor save button
           this._httpService.postNavBar(this.new_nav_bar, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           console.log(results);
@@ -344,14 +346,13 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postLinkBoxToService(){
-    console.log("doe");
+    this.validator.resetValidation();
     if(this.is_tutorial == true){
       let type = "link_box";
       this._siteFormatter.sortSite(this.formatted_site, this.new_portrait, type, this.recieveSite, this);
       this.initializeComponents();
       this.open_next_component="";
     }else{
-      console.log("ray");
       this.setPriority();
       if(this.validator.validateLinkBox(this.new_link_box)){
         console.log("me");
@@ -388,8 +389,7 @@ export class SiteEditorComponent implements OnInit {
     }
   }
 
-  cycleCssHighlight(){
-    console.log("doe");
+  cycleCssHighlight(){ //do we need this?
     if(this.flash){
       console.log(this.flash);
       this.flash = false;

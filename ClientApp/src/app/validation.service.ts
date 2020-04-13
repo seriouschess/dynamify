@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox, NavBar } from './interfaces/dtos/site_dtos';
+import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox, NavBar, NavLink } from './interfaces/dtos/site_dtos';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,9 @@ export class ValidationService {
     link_box_display_invalid_flag:boolean;
     link_box_content_invalid_flag:boolean;
 
+    nav_bar_invalid_url_flag:boolean;
+    nav_bar_invalid_label_flag:boolean;
+
   constructor() {
     this.resetValidation();
    }
@@ -47,6 +50,14 @@ export class ValidationService {
     this.tcb_head_two_invalid_flag = false;
     this.tcb_content_one_invalid_flag = false;
     this.tcb_content_two_invalid_flag = false;
+
+    this.link_box_title_invalid_flag = false;
+    this.link_box_url_invalid_flag = false;
+    this.link_box_display_invalid_flag = false;
+    this.link_box_content_invalid_flag = false;
+
+    this.nav_bar_invalid_url_flag = false;
+    this.nav_bar_invalid_label_flag = false;
    }
 
    validatePbox(test_box:ParagraphBox){
@@ -183,11 +194,78 @@ export class ValidationService {
   }
 
   validateLinkBox(test_link_box:LinkBox){
-    return true; //just for now!
+    let error_count = 0;
+    console.log("doe");
+
+    if( test_link_box.title === "" ){
+      console.log("ray");
+      error_count += 1;
+      this.link_box_title_invalid_flag = true;
+    }
+
+    if(test_link_box.content === "" ){
+      console.log("me");
+      error_count += 1;
+      this.link_box_content_invalid_flag = true;
+    }
+
+    if(test_link_box.link_display === ""){
+      console.log("fa");
+      error_count += 1;
+      this.link_box_display_invalid_flag = true;
+    }
+
+    if(test_link_box.url === ""){
+      console.log("so");
+      this.link_box_url_invalid_flag = true;
+    }
+
+    if( test_link_box.url.indexOf(' ') !== -1){ //contains a space
+      console.log("la");
+      error_count += 1;
+      this.link_box_url_invalid_flag = true;
+    }
+
+    if( test_link_box.url.indexOf('.') === -1){ //does not contain a period
+      console.log("ti");
+      error_count += 1;
+      this.link_box_url_invalid_flag = true;
+    }
+
+    if(error_count > 0){
+      return false;
+    }else{
+      return true;
+    }
   }
 
-  validateNavBar(test_nav_bar:NavBar){
-    return true //just for now!
+  validateNavBarLink(test_nav_link: NavLink){
+    let error_count = 0;
+
+    if( test_nav_link.url == "" ){
+      error_count += 1;
+      this.nav_bar_invalid_url_flag = true;
+    }
+
+    if( test_nav_link.label == ""){
+      error_count += 1;
+      this.nav_bar_invalid_label_flag = true;
+    }
+    
+    if( test_nav_link.url.indexOf(' ') !== -1){ //contains a space
+      error_count += 1;
+      this.nav_bar_invalid_url_flag = true;
+    }
+
+    if( test_nav_link.url.indexOf('.') === -1){ //does not contain a period
+      error_count += 1;
+      this.nav_bar_invalid_url_flag = true;
+    }
+
+    if(error_count > 0){
+      return false;
+    }else{
+      return true;
+    }
   }
 }
-
