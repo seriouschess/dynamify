@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ISiteFormatted } from '../interfaces/formatted_site_content';
-import { SiteFormatterService } from '../site-formatter.service';
+import { SiteFormatterService } from '../services/leaf-formatter/site-formatter.service';
 import { ISiteRequestDto } from '../interfaces/dtos/site_request_dto';
 
 @Component({

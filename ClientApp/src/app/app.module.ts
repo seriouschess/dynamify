@@ -5,30 +5,28 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { ProfileComponent } from './profile/profile.component';
 import { AppFrontendRoutesModule} from './app-frontend-routes.module';
-import { AdminComponent } from './admin/admin.component';
+import { AdminComponent } from './admin-related/admin/admin.component';
 // import { EditAdminComponent } from './edit-admin/edit-admin.component'; //not currently used, perhaps later
-import { SiteEditorComponent } from './site-editor/site-editor.component';
-import { DisplaySitesComponent } from './display-sites/display-sites.component';
-import { LoginComponent } from './login/login.component';
-import { TutorialComponent } from './tutorial/tutorial.component';
-import { PageGeneratorComponent } from './page-generator/page-generator.component';
-import { ParagraphBoxComponent } from './paragraph-box/paragraph-box.component';
-import { ImageComponent } from './image/image.component';
-import { PortraitComponent } from './portrait/portrait.component';
-import { TwoColumnBoxComponent } from './two-column-box/two-column-box.component';
+import { SiteEditorComponent } from './editor/site-editor/site-editor.component';
+import { DisplaySitesComponent } from './editor/display-sites/display-sites.component';
+import { LoginComponent } from './admin-related/login/login.component';
+import { TutorialComponent } from './editor/tutorial/tutorial.component';
+import { PageGeneratorComponent } from './leaves/page-generator/page-generator.component';
+import { ParagraphBoxComponent } from './leaves/leaf-components/paragraph-box/paragraph-box.component';
+import { ImageComponent } from './leaves/leaf-components/image/image.component';
+import { PortraitComponent } from './leaves/leaf-components/portrait/portrait.component';
+import { TwoColumnBoxComponent } from './leaves/leaf-components/two-column-box/two-column-box.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import { LinkBoxComponent } from './link-box/link-box.component';
-import { LeafComponent } from './leaf/leaf.component';
-import { LeafNavBarComponent } from './leaf-nav-bar/leaf-nav-bar.component';
+import { LinkBoxComponent } from './leaves/leaf-components/link-box/link-box.component';
+import { LeafComponent } from './leaves/leaf/leaf.component';
+import { LeafNavBarComponent } from './leaves/leaf-components/leaf-nav-bar/leaf-nav-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    ProfileComponent,
     AdminComponent,
     // EditAdminComponent,
     SiteEditorComponent,
