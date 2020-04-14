@@ -6,37 +6,38 @@
   <h3 *ngIf="tutorial_sequence == 4" class="text-info"> Well Done! You've made a site. Now click Edit to start adding content.</h3>
 </div>  
 <div class="container">
-  <h1>Your sites displayed here!</h1>
+  <h1>Your leaves displayed here!</h1>
   <table class='table table-striped' aria-labelledby="tableLabel">
       <thead>
         <tr>
-          <th>Id</th>
-          <th>Site Title</th>
-          <th>Edit This Site</th>
-          <th>Go Live with this Site</th>
-          <th>Delete</th>
+          <th> Site Title </th>
+          <th> Edit This Site </th>
+          <th> Site Live At </th>
+          <th> Delete </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let site of all_sites">
-          <td>{{ site.site_id }}</td>
           <td>{{ site.title }}</td>
           <td><button *ngIf="!is_tutorial" class="btn btn-success" (click)="editSite(site.site_id, current_admin_id)">Edit</button></td>
           <td *ngIf="is_tutorial && tutorial_sequence < 4"><button class="btn btn-success" (click)="editSite(site.site_id, current_admin_id)">Edit</button></td>
           <td *ngIf="is_tutorial && tutorial_sequence == 4"><button class="btn btn-success highlight" (click)="editSite(0, 0)">Edit</button></td>
-          <td><button class="btn btn-info" (click)="setSiteActive(site.site_id)">Go Live</button></td>
+          <td>http://www.siteleaves.com/{{site.url}}</td>
           <td><button class="btn btn-danger" (click)="deleteSiteById(site.site_id)">Delete</button></td>
         </tr>
       </tbody>
   </table>
 
   <form (submit)="postSiteToService()">
+      <p *ngIf="newSiteObject.title == ''" class = "text text-info">A title may be blank, but a blank title will not be displayed at the top of the leaf.</p>
       <label>Title: :</label><input name="title" [(ngModel)]="newSiteObject.title">
-      <p *ngIf="blank_url_error_flag" class="text-danger"> A URL may not be blank. </p>
       <p *ngIf="reserved_url_error_flag" class="text-danger"> That URL is reserved. Try a different URL. </p>
       <p *ngIf="url_exists_error_flag" class="text-danger"> That URL is taken. Try another. </p>
+      <p *ngIf="newSiteObject.url != '' "class="text text-info">Site will be live at http://www.siteleaves.com/{{newSiteObject.url}}</p>
+      <p *ngIf="newSiteObject.url === '' "class="text text-info">Site will be live at http://www.siteleaves.com/("Your URL here!")</p>
       <p *ngIf="invalid_url_error_flag" class="text-danger"> Invalid URL: Must contain all letters. May not contain spaces or special characters. </p>
       <p *ngIf="invalid_url_error_flag" class="text-danger"> "nospaces" <- valid URL example --- "$p@ce n' ch@rs123!" <- invalid URL example</p>
+      <p *ngIf="blank_url_error_flag" class="text-danger"> A URL may not be blank. </p>
       <label>URL: </label><input name="url" [(ngModel)]="newSiteObject.url">
       <input *ngIf="!is_tutorial || tutorial_sequence != 3" class="btn btn-info" type="submit" value="Post new Site">
       <input *ngIf="is_tutorial && tutorial_sequence == 3" type="submit" class="btn highlight" value="Post new Site">

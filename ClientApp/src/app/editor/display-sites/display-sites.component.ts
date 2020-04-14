@@ -46,8 +46,8 @@ export class DisplaySitesComponent implements OnInit {
       this.getSitesByAdminFromService();
     }
     this.newSiteObject = {
-      title : "Default",
-      url: "Default",
+      title : "",
+      url: "",
       admin_id: this.current_admin_id,
       token: this.current_admin_token
     };
@@ -83,6 +83,9 @@ export class DisplaySitesComponent implements OnInit {
     if(this.newSiteObject.url == ""){ //title may be blank, url may not
       errors += 1;
       this.blank_url_error_flag = true;
+    }else if(!this.validateURL() ){ //check invalid if not blank
+      errors += 1;
+      this.invalid_url_error_flag = true;
     }
 
     if(this.newSiteObject.url.toLowerCase() == "base"){
@@ -99,15 +102,6 @@ export class DisplaySitesComponent implements OnInit {
       errors += 1;
       this.reserved_url_error_flag = true;
     }
-
-    if(!this.validateURL()){
-      errors += 1;
-      this.invalid_url_error_flag = true;
-    }
-
-    // if(this.newSiteObject.url){
-
-    // }
 
     if(errors > 0 ){
       return false;
@@ -148,26 +142,26 @@ export class DisplaySitesComponent implements OnInit {
     }
   }
 
-  //determines which site will be displayed on the homepage
+  // //determines which site will be displayed on the homepage
 
-  setSiteActive(site_id:number){
-    if(!this.is_tutorial){
-      var setMyIdActive: ISiteRequestDto = { //created only to pass id, preferred over parameter
-        site_id: site_id,
-        admin_id: this.current_admin_id,
-        token: this.current_admin_token
-      };
+  // setSiteActive(site_id:number){
+  //   if(!this.is_tutorial){
+  //     var setMyIdActive: ISiteRequestDto = { //created only to pass id, preferred over parameter
+  //       site_id: site_id,
+  //       admin_id: this.current_admin_id,
+  //       token: this.current_admin_token
+  //     };
 
-      this._httpService.setActiveSite(setMyIdActive).subscribe(
-        result => {
-          console.log(result);
-          this.router.navigateByUrl('');
-        }
-      )
-    }else{
-      //do nothing
-    }
-  }
+  //     this._httpService.setActiveSite(setMyIdActive).subscribe(
+  //       result => {
+  //         console.log(result);
+  //         this.router.navigateByUrl('');
+  //       }
+  //     )
+  //   }else{
+  //     //do nothing
+  //   }
+  // }
 
   //requests all sites owned by a specific admin 
 
