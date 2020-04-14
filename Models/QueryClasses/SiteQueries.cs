@@ -2,6 +2,7 @@ using System.Linq;
 using dynamify.Models.SiteModels;
 using System.Collections.Generic;
 using dynamify.dtos;
+using System;
 
 namespace dynamify.Models.QueryClasses
 {
@@ -260,7 +261,14 @@ namespace dynamify.Models.QueryClasses
             converted_format.portraits = found_site.portraits;
             converted_format.two_column_boxes = found_site.two_column_boxes;
             converted_format.link_boxes = found_site.link_boxes;
-            converted_format.nav_bar = FormatNavBar(found_site.nav_bars[0]); 
+
+            try{
+                converted_format.nav_bar = FormatNavBar(found_site.nav_bars[0]);
+            }catch(Exception e){
+                System.Console.WriteLine(e);
+                converted_format.nav_bar = null;
+            }
+
             return converted_format;
         }
 
