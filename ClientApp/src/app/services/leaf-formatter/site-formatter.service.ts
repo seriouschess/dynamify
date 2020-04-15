@@ -32,7 +32,7 @@ export class SiteFormatterService {
   getBlankSite(callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
     var formatted_site:ISiteFormatted = {
       title: "Demo Site",
-      nav_bar: null,
+      nav_bar: { site_id: null, links: [] },
       site_components: []
     }
 

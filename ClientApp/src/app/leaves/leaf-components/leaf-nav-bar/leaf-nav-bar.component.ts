@@ -10,6 +10,8 @@ export class LeafNavBarComponent implements OnInit {
 
   @Input() nav_bar_object: NavBar;
   @Input() is_edit_mode: boolean;
+  isExpanded = false;
+
   constructor() { }
 
   ngOnInit() {
@@ -29,6 +31,14 @@ export class LeafNavBarComponent implements OnInit {
     }else{
       return "http://"+input_url;
     }
+  }
+  
+  collapse() {
+    this.isExpanded = false;
+  }
+
+  toggle() {
+    this.isExpanded = !this.isExpanded;
   }
 
 }

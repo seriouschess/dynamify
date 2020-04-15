@@ -3,16 +3,35 @@ a.navbar-brand {
   text-align: center;
   word-break: break-all;
 }
+.nav-bg{
+  /* background-color: rgb(151, 245, 253); */
+  background-color: rgb(121, 159, 165);
+}
+
+.nav-margin{
+  margin-bottom: 6%;
+}
+
+.nav-color{
+  color: green;
+}
 
 html {
   font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
 }
 
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+
+  .nav-margin{
+    margin-bottom: 4%;
+  }
+}
+
+

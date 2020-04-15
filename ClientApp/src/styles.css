@@ -8,6 +8,12 @@
   font-family: sans-serif;
 }
 
+.leaf-title{
+  text-align: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
 .site-component-container{
   margin-top: 8%;
   margin-bottom: 8%;
@@ -18,9 +24,22 @@
   /* border: 2px ridge black; */
 }
 
+.generic-element{
+  margin-top: 4%;
+  margin-bottom: 4%;
+  width: 80%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media (min-width:1080px){
   .site-component-container{
       max-width:1080px;
+  }
+
+  .generic-element{
+    max-width:1080px;
   }
 }
 

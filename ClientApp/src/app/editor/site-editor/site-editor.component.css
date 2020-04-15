@@ -1,10 +1,81 @@
 /* Editor Specific Options */
-.editor-form{
+.editor-form {
     margin-bottom: 50px;
     margin-top: 60px;
-    background-color: pink;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    padding: 5%;
+    background-color: rgb(167, 228, 167);
+    border: 2px solid rgb(160, 192, 176);
 }
 
-.editor-form *{
+/* p {
+    font-size: 14pt;
+} */
+
+.editor-form input, textarea {
     margin:10px;
+} 
+
+.creation-tools {
+    width: 100%;
+    padding: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(167, 228, 167);
+    border: 2px solid rgb(160, 192, 176);
+    border-radius: 3px;
 }
+
+.creation-tools button {
+    margin-left: 5%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.end-site-mark {
+    display: block;
+    margin-top: 10%;
+    text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.highlight {
+    margin-left: 5%;
+}
+
+@media (min-width:500px){
+    .editor-form{
+        width: 80%;
+    }
+
+    .creation-tools{
+        width: 80%;
+    }
+}
+
+@media (min-width:875px){
+    .end-site-mark {
+        max-width: 875px;
+    }
+}
+
+@media (min-width: 1080px){
+    .creation-tools {
+        max-width: 1080px;
+    }
+
+    .editor-form{
+        max-width: 864px;
+    }
+
+    .end-site-mark{
+        margin-top: 10%;
+    }
+}
+
+
+    
