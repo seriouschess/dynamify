@@ -6,7 +6,7 @@
 
     <button *ngIf="current_site_editor_id != 0" class="btn btn-success" (click)="resetEditor()">Go Back to Your Sites</button>
 
-    <app-display-sites *ngIf="current_admin.admin_id != 0 && current_admin.admin_id != null && current_site_editor_id == 0" [current_admin_id]="current_admin.admin_id" [current_admin_token]="current_admin.token" (siteIdSelectEvent)="setSelectedSite($event)"></app-display-sites>
+    <app-display-sites *ngIf="current_admin.admin_id != 0 && current_admin.admin_id != null && current_site_editor_id == 0" [is_tutorial] = "false" [current_admin_id]="current_admin.admin_id" [current_admin_token]="current_admin.token" (siteIdSelectEvent)="setSelectedSite($event)"></app-display-sites>
 
     <app-site-editor *ngIf="current_admin.admin_id != 0 && current_site_editor_id != 0" [is_tutorial]="false" [current_site_id]="current_site_editor_id" [current_admin_id]="current_admin.admin_id" [current_admin_token]="current_admin.token"></app-site-editor>
 </div>

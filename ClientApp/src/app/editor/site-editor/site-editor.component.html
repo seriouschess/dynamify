@@ -1,9 +1,4 @@
-<p>Site Id: {{current_site_id}}</p>
-<p>Admin Id: {{current_admin_id}}</p>
-<p>Token: {{current_admin_token}}</p>
-<p>{{formatted_site.nav_bar | json}}</p>
-
-<div class="container">
+<div class="container" *ngIf="is_tutorial">
   <h3 *ngIf="tutorial_sequence == 1"> This is the site editor. Click the flashing ok button to continue.<button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
   <h3 *ngIf="tutorial_sequence == 2"> It is currently empty as no content has been created yet. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
   <h3 *ngIf="tutorial_sequence == 3"> Content is created by filling out forms and adding components. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
@@ -14,25 +9,35 @@
   <h3 *ngIf="tutorial_sequence == 8"> Consider creating an Admin if you want to build a site page you can share with others. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
 </div>
 
-<div *ngIf="current_site_id != 0 || is_tutorial">
-  <app-leaf-nav-bar *ngIf ="formatted_site.nav_bar != null" [is_edit_mode]="true" [nav_bar_object]="formatted_site.nav_bar"></app-leaf-nav-bar>
-  <button class="btn btn-info" (click)="toggleNavBarEditor()"> Toggle Nav Bar Editor </button>
+<div *ngIf= "is_tutorial == false">
+  <p>Preview Mode: {{preview_mode}}</p>
+  <button *ngIf="preview_mode == false" class="btn btn-success" (click)="togglePreview()"> Toggle Preview Mode </button>
+  <button *ngIf="preview_mode == true" class="btn btn-info" (click)="togglePreview()"> Back to Editor </button>
+</div>
+
+<app-page-generator *ngIf="preview_mode === true" [formatted_site]="formatted_site"> </app-page-generator>
+
+<div *ngIf="preview_mode === false">
+  <app-leaf-nav-bar *ngIf ="formatted_site.nav_bar != null" [is_edit_mode]="true" [nav_bar_object]="formatted_site.nav_bar"></app-leaf-nav-bar> 
+  <div *ngIf="current_site_id != 0 && !is_tutorial">
+    <button *ngIf="!is_tutorial" class="btn btn-info" (click)="toggleNavBarEditor()"> Toggle Nav Bar Editor </button>
     <div class="editor-form" *ngIf="nav_bar_editor_open">
       <p> Add links for your topside Nav Bar</p>
-        <p>Current Links:</p>
-        <div *ngFor="let link of new_nav_bar.links">
-          <p>Label: {{link.label}}  Url: {{link.url}}</p>
-        </div>  
-        <p><label> Add A link label: </label><input class="title_box" name="label" [(ngModel)]="new_nav_link.label"> (this is what the user sees when they click your link)</p>
-        <p *ngIf="validator.nav_bar_invalid_label_flag" class="text-danger"> A label may not be left blank. </p>
-        <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p>
-        <p *ngIf="validator.nav_bar_invalid_url_flag" class="text-danger"> A url must be of the form www.example.com/... </p>
-        <p class="text-danger"> May not contain curley brackets e.g. {{curlies}} </p>
-        <button class="btn btn-info" (click)="pushLinkToBar()"> Add link to nav bar </button>
-        <button *ngIf = "new_nav_bar.links.length > 0" class="btn btn-danger" (click)="RemoveNavBarLinks()"> Remove all links </button>
-        <button *ngIf = "nav_bar_changes_made" class="btn btn-success" (click)="postNavBarToService()"> Save Changes</button>
-    </div> 
-  <h1> {{formatted_site.title}} </h1>
+      <p>Current Links:</p>
+      <div *ngFor="let link of new_nav_bar.links">
+      <p> Label: {{link.label}}  Url: {{link.url}}</p>
+    </div>
+    <p><label> Add A link label: </label><input class="title_box" name="label" [(ngModel)]="new_nav_link.label"> (this is what the user sees when they click your link)</p>
+    <p *ngIf="validator.nav_bar_invalid_label_flag" class="text-danger"> A label may not be left blank. </p>
+    <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p>
+    <p *ngIf="validator.nav_bar_invalid_url_flag" class="text-danger"> A url must be of the form www.example.com/... </p>
+    <p class="text-danger"> May not contain curley brackets e.g. {{curlies}} </p>
+    <button class="btn btn-info" (click)="pushLinkToBar()"> Add link to nav bar </button>
+    <button *ngIf = "new_nav_bar.links.length > 0" class="btn btn-danger" (click)="RemoveNavBarLinks()"> Remove all links </button>
+    <button *ngIf = "nav_bar_changes_made" class="btn btn-success" (click)="postNavBarToService()"> Save Changes</button>
+  </div>
+
+  <h1 *ngIf="formatted_site.title != ''"> {{formatted_site.title}} </h1>
 
   <div *ngFor="let site_component of formatted_site.site_components">
     <div *ngIf="site_component.type === 'p_box'">
@@ -53,11 +58,11 @@
     <div *ngIf="site_component.type === '2c_box'">
       <app-two-column-box [tcb_object]="site_component"></app-two-column-box>
       <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
-   </div>
-   <div *ngIf="site_component.type === 'link_box'">
+  </div>
+  <div *ngIf="site_component.type === 'link_box'">
     <app-link-box [link_box_object]="site_component"></app-link-box>
     <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
-   </div>
+  </div>
   </div>
 
   <div *ngIf="open_next_component === '' ">
@@ -170,6 +175,6 @@
 
     <h4 *ngIf="open_next_component === ''">(Additional Site Elements Will Be Created Here)</h4>
     <p>{{temp_file | json}}</p>
-  </div>
+</div>
 
 

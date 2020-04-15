@@ -6,13 +6,17 @@
   <h3 *ngIf="tutorial_sequence == 4" class="text-info"> Well Done! You've made a site. Now click Edit to start adding content.</h3>
 </div>  
 <div class="container">
-  <h1>Your leaves displayed here!</h1>
+  <p>Test: {{this.test}}</p>
+  <p>Is Tutorial: {{is_tutorial}}</p>
+  <p>Tutorial Sequence: {{tutorial_sequence}}</p>
+  <h2 *ngIf="all_sites.length == 0"> Create a new leaf by filling out the information below! </h2>
+  <h1 *ngIf="all_sites.length > 0"> Your leaves displayed here! </h1>
   <table class='table table-striped' aria-labelledby="tableLabel">
       <thead>
-        <tr>
-          <th> Site Title </th>
-          <th> Edit This Site </th>
-          <th> Site Live At </th>
+        <tr *ngIf="all_sites.length > 0">
+          <th> Leaf Title </th>
+          <th> Edit This Leaf </th>
+          <th> Live At </th>
           <th> Delete </th>
         </tr>
       </thead>
@@ -33,12 +37,14 @@
       <label>Title: :</label><input name="title" [(ngModel)]="newSiteObject.title">
       <p *ngIf="reserved_url_error_flag" class="text-danger"> That URL is reserved. Try a different URL. </p>
       <p *ngIf="url_exists_error_flag" class="text-danger"> That URL is taken. Try another. </p>
-      <p *ngIf="newSiteObject.url != '' "class="text text-info">Site will be live at http://www.siteleaves.com/{{newSiteObject.url}}</p>
-      <p *ngIf="newSiteObject.url === '' "class="text text-info">Site will be live at http://www.siteleaves.com/("Your URL here!")</p>
+      <p *ngIf="newSiteObject.url != '' " class="text text-info">Site will be live at http://www.siteleaves.com/{{newSiteObject.url}}</p>
+      <p *ngIf="newSiteObject.url === '' " class="text text-info">Site will be live at http://www.siteleaves.com/("Your URL here!")</p>
       <p *ngIf="invalid_url_error_flag" class="text-danger"> Invalid URL: Must contain all letters. May not contain spaces or special characters. </p>
-      <p *ngIf="invalid_url_error_flag" class="text-danger"> "nospaces" <- valid URL example --- "$p@ce n' ch@rs123!" <- invalid URL example</p>
+      <p *ngIf="invalid_url_error_flag" class="text-danger"> "nospaces" <- valid URL example --- "$p@ce$ n' Ch@rs123!" <- invalid URL example</p>
       <p *ngIf="blank_url_error_flag" class="text-danger"> A URL may not be blank. </p>
       <label>URL: </label><input name="url" [(ngModel)]="newSiteObject.url">
       <input *ngIf="!is_tutorial || tutorial_sequence != 3" class="btn btn-info" type="submit" value="Post new Site">
       <input *ngIf="is_tutorial && tutorial_sequence == 3" type="submit" class="btn highlight" value="Post new Site">
   </form>
+
+</div>

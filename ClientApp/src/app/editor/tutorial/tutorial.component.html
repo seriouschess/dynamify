@@ -12,15 +12,17 @@
 </div>
 
 <app-display-sites
-*ngIf="open_site_select"
-[is_tutorial]="true"
-(done)="checkDone($event)"
+    *ngIf="open_site_select"
+    [is_tutorial]="true"
+    [current_admin_id]="0" 
+    [current_admin_token]=""
+    (done)="checkDone($event)"
 ></app-display-sites>
 
 <app-site-editor 
     *ngIf="open_editor"
     [is_tutorial]="true" 
-    [current_site_id]="0" 
-    [current_admin_id]="0" 
-    [current_admin_token]=""
+    [current_site_id]= "0" 
+    [current_admin_id]= "0" 
+    [current_admin_token]= ""
 ></app-site-editor>

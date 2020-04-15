@@ -1,6 +1,6 @@
 <div *ngIf="formatted_site.site_id != 0">
   <app-leaf-nav-bar *ngIf ="formatted_site.nav_bar != null" [is_edit_mode]="false" [nav_bar_object]="formatted_site.nav_bar"></app-leaf-nav-bar>
-  <h1 class="title"> {{formatted_site.title}}</h1>
+  <h1 class="title" *ngIf="formatted_site.title != ''"> {{formatted_site.title}}</h1>
     <div *ngFor="let site_component of formatted_site.site_components">
         <!-- <h2 class="title">{{site_component.title}}</h2> -->
         <div *ngIf="site_component.type === 'p_box'">

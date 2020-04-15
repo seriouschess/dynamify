@@ -38,6 +38,7 @@ export class SiteEditorComponent implements OnInit {
   image_converter_working: boolean;
 
   //functionality
+  preview_mode: boolean;
   open_next_component: string;
   nav_bar_editor_open: boolean;
   nav_bar_changes_made: boolean;
@@ -74,6 +75,7 @@ export class SiteEditorComponent implements OnInit {
     this.open_next_component = ""; //used to select editor
     this.curlies = "{ or }";
     this.nav_bar_editor_open = false;
+    this.preview_mode = false;
 
     //start mode
     if(this.is_tutorial){
@@ -141,8 +143,6 @@ export class SiteEditorComponent implements OnInit {
     }
   }
 
-
-
   //used to get site content from the backend
   requireSite(){
     this._siteFormatter.getSiteByIdFormatted(this.site_request_object, this.recieveSite, this);
@@ -155,7 +155,7 @@ export class SiteEditorComponent implements OnInit {
   //callback sent to site formatter frontend service
   recieveSite(formatted_site:ISiteFormatted, this_component:SiteEditorComponent){
     this_component.formatted_site = formatted_site;
-    if(this_component.new_nav_bar.links.length === 0 && this.is_tutorial === false){
+    if(this_component.new_nav_bar.links.length === 0 && this_component.is_tutorial === false){
       this_component.new_nav_bar.links = formatted_site.nav_bar.links;
     }
   }
@@ -227,11 +227,21 @@ export class SiteEditorComponent implements OnInit {
       this.validator.image_src_invalid_flag = false;
     }
   }
+
+  //sets preview mode on and off
+  togglePreview(){
+    if(this.preview_mode){
+      this.preview_mode = false;
+    }else{
+      this.preview_mode = true;
+    }
+  }
+
   //Site update methods
 
   pushLinkToBar(){
     if(this.validator.validateNavBarLink(this.new_nav_link)){
-      console.log("Link to bar pushed.")
+      console.log("Link to bar pushed.");
       let addition:NavLink = {
         label: this.new_nav_link.label,
         url: this.new_nav_link.url

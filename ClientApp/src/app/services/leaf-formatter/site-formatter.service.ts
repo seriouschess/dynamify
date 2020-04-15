@@ -5,7 +5,7 @@ import { ISiteContentDto } from '../../interfaces/dtos/site_content_dto';
 import { ISiteFormatted } from '../../interfaces/formatted_site_content';
 import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { IGenericSiteComponent } from '../../interfaces/generic_site_component';
-import { NavLink } from '../../interfaces/dtos/site_dtos';
+import { NavLink, NavBar } from '../../interfaces/dtos/site_dtos';
 
 @Injectable({
   providedIn: 'root'
@@ -119,25 +119,20 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
       }
       callback(unfound_site, object_which_called);
     }else{
-      
-      let nav_link_one: NavLink = {
-        url: "http://www.google.com",
-        label: "Google"
-      }
-  
-      let nav_link_two: NavLink = {
-        url: "http://www.cnn.com",
-        label: "CNN"
-      }
-  
-      let test_nav_bar = {
-        links: [nav_link_one, nav_link_two],
-        site_id: 0
+
+      let nav_bar:NavBar;
+      if(s.nav_bar == null){
+        nav_bar = {
+          site_id: null, //unused
+          links: []
+        }
+      }else{
+        nav_bar = s.nav_bar;
       }
 
       var unformatted_site:ISiteContentDto = {
         title: s.title,
-        nav_bar: s.nav_bar,
+        nav_bar: nav_bar,
         paragraph_boxes: s.paragraph_boxes,
         images: s.images,
         two_column_boxes: s.two_column_boxes,
@@ -171,7 +166,6 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
         nav_bar: unformatted_site.nav_bar,
         site_components: sorted_list_of_site_components
       }
-        console.log(formatted_site);
   
         //callback is used for the componentto recieve the data from the formatter.
         callback(formatted_site, object_which_called); 

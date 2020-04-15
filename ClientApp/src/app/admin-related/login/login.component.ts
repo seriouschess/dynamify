@@ -117,7 +117,6 @@ export class LoginComponent implements OnInit {
       //this.newAdminObject.admin_id = 0; //will be changed on the backend
       this._httpService.postAdmin<AdminRegistrationDto>(this.newAdminObject).subscribe(  //send new admin to backend
         result => {
-          console.log(result);
           let incomingAdmin:any = result; //it's an Admin though.
           this.logged_admin.admin_id = incomingAdmin.admin_id;
           this.logged_admin.first_name = incomingAdmin.first_name;
@@ -162,7 +161,6 @@ export class LoginComponent implements OnInit {
   
         this._httpService.loginAdmin(login_package).subscribe(
           result => {
-            console.log(result);
             let incomingAdmin:any = result;
             if(incomingAdmin.first_name === "<ACCESS DENIED, Password Invalid>"){
               this.error_display = "Invalid password";

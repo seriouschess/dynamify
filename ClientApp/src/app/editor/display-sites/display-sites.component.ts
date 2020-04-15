@@ -21,7 +21,7 @@ export class DisplaySitesComponent implements OnInit {
   @Output() siteIdSelectEvent = new EventEmitter<number>();
 
   //tutorial related
-  @Input() is_tutorial:boolean;
+  @Input() is_tutorial: boolean;
   @Output() done = new EventEmitter<boolean>();
   tutorial_sequence: number;
   
@@ -35,16 +35,21 @@ export class DisplaySitesComponent implements OnInit {
   blank_url_error_flag: boolean;
   url_exists_error_flag: boolean;
 
+  test:string;
+
   constructor(private _httpService:HttpService, private router: Router, private _Activatedroute:ActivatedRoute) { }
 
   ngOnInit() {
+    this.test = "test string";
     //inport url params
     //this.current_admin_id = Number(this._Activatedroute.snapshot.paramMap.get("current_admin_id"));
     this.current_site_id = 0; //non SQL id default value
+    this.all_sites = [];
 
     if(!this.is_tutorial){
       this.getSitesByAdminFromService();
     }
+
     this.newSiteObject = {
       title : "",
       url: "",
@@ -117,14 +122,11 @@ export class DisplaySitesComponent implements OnInit {
         this.all_sites.push(this.newSiteObject);
         this.iterateTutorial();
       }else if(!this.is_tutorial){
-      console.log(this.newSiteObject);
       //this.newSiteObject.admin_id = 0; //will be changed on the backend
       this._httpService.postSite(this.newSiteObject).subscribe(
         result => {
-          console.log(result);
           let _server_response:any = result; //wow
           let server_response:JsonResponseDto = _server_response;
-          console.log(server_response);
 
           //check backend for duplicate URL
           if(server_response.response.includes("success")){ 
@@ -142,26 +144,25 @@ export class DisplaySitesComponent implements OnInit {
     }
   }
 
-  // //determines which site will be displayed on the homepage
+  //determines which site will be displayed on the homepage
 
-  // setSiteActive(site_id:number){
-  //   if(!this.is_tutorial){
-  //     var setMyIdActive: ISiteRequestDto = { //created only to pass id, preferred over parameter
-  //       site_id: site_id,
-  //       admin_id: this.current_admin_id,
-  //       token: this.current_admin_token
-  //     };
+  setSiteActive(site_id:number){
+    if(!this.is_tutorial){
+      var setMyIdActive: ISiteRequestDto = { //created only to pass id, preferred over parameter
+        site_id: site_id,
+        admin_id: this.current_admin_id,
+        token: this.current_admin_token
+      };
 
-  //     this._httpService.setActiveSite(setMyIdActive).subscribe(
-  //       result => {
-  //         console.log(result);
-  //         this.router.navigateByUrl('');
-  //       }
-  //     )
-  //   }else{
-  //     //do nothing
-  //   }
-  // }
+      this._httpService.setActiveSite(setMyIdActive).subscribe(
+        result => {
+          this.router.navigateByUrl('');
+        }
+      )
+    }else{
+      //do nothing
+    }
+  }
 
   //requests all sites owned by a specific admin 
 
@@ -169,11 +170,8 @@ export class DisplaySitesComponent implements OnInit {
     this._httpService.getSitesByAdmin(this.current_admin_id, this.current_admin_token).subscribe(results => 
     {
       this.all_sites = results;
-      console.log(results);
     }, error => console.log(error));
   }
-
-  //it does what it says
 
   deleteSiteById(site_id:number,){
     if(!this.is_tutorial){
@@ -184,19 +182,20 @@ export class DisplaySitesComponent implements OnInit {
     }
   }
 
-  //unused methods
+  //tutorial related
+  iterateTutorial(){
+    if(this.is_tutorial){
+      this.tutorial_sequence += 1;
+    }
+  }
+
+  //unused method
   editSite(current_site_id:number){
     if(this.is_tutorial){
       this.done.emit(true);
     }else{
       this.current_site_id = current_site_id;
       this.siteIdSelectEvent.emit(current_site_id);
-    }
-  }
-
-  iterateTutorial(){
-    if(this.is_tutorial){
-      this.tutorial_sequence += 1;
     }
   }
 }
