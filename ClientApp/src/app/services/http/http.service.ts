@@ -55,10 +55,6 @@ export class HttpService {
     return this._http.post<ISiteContentDto>(`api/site/get`, request);
   }
 
-  getActiveSite<ISiteContentDto>(){
-    return this._http.get<ISiteContentDto>('api/site/active');
-  }
-
   getLeafByURL(leaf_url:string){
     return this._http.get<ISiteContentDto>(`api/site/get_by_url/${leaf_url}`);
   }
@@ -73,10 +69,6 @@ export class HttpService {
 
   postSite(input_site: INewSiteDto){
     return this._http.post(`api/site/create_site`, input_site);
-  }
-
-  setActiveSite(request: ISiteRequestDto){
-    return this._http.post(`api/site/set_active`, request);
   }
   
   //site configuration services

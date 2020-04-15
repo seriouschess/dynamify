@@ -35,23 +35,6 @@ namespace dynamify.Controllers.ControllerMethods
             return foundSite;
        }
 
-       public JsonResponse SetActiveSiteMethod(SiteRequestDto request){
-            if(authenticator.VerifyAdmin(request.admin_id, request.token)){
-                List<Site> SiteToSetActive = dbQuery.QueryFeaturelessSiteById(request.site_id);
-                if(SiteToSetActive.Count != 1){ //ensure only one site
-                    JsonResponse r = new JsonFailure($"Set Active API route failure: Ensure correct site id was sent.");
-                    return r;
-                }else{
-                    Site ActiveSite = dbQuery.SetActiveSiteDB(SiteToSetActive[0]);
-                    JsonResponse r = new JsonSuccess($"Site Title: < {ActiveSite.title} > is now active!");
-                    return r;
-                } 
-
-            }else{
-                return new JsonFailure("Invalid Token. Stranger Danger");
-            }
-       }
-
         public JsonResponse PostMethod(NewSiteDto NewSite){
             if(authenticator.VerifyAdmin(NewSite.admin_id, NewSite.token)){
                 List<Site> test = dbQuery.QueryFeaturelessSiteByUrl(NewSite.url);

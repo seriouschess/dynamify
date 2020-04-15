@@ -24,10 +24,6 @@ export class SiteFormatterService {
     this._httpService.getLeafByURL(leaf_url).subscribe(data => format(data, callback, object_which_called));
   }
 
-  getActiveSiteFormatted(callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
-    this._httpService.getActiveSite().subscribe(data => format(data,callback, object_which_called));
-  }
-
   //methods used by tuorial
   getBlankSite(callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
     var formatted_site:ISiteFormatted = {

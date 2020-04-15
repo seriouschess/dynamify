@@ -36,20 +36,7 @@ namespace dynamify.Controllers
         [Route("get")]
         public ActionResult<SiteContentDto> GetSiteById([FromBody] SiteRequestDto request){
             return methods.GetSiteByIdMethod(request);
-        }
-
-        [HttpGet] //first active site
-        [Route("active")]
-        public ActionResult<SiteContentDto> GetActiveSite(){
-            SiteContentDto ActiveSite = dbQuery.QueryActiveSiteContent();
-            return ActiveSite;
-        }
-
-        [HttpPost]
-        [Route("set_active")]
-        public JsonResponse SetActiveSite([FromBody] SiteRequestDto request){
-           return methods.SetActiveSiteMethod(request);
-        }            
+        }           
 
         [HttpPost]
         [Route("create_site")]

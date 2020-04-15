@@ -144,26 +144,6 @@ export class DisplaySitesComponent implements OnInit {
     }
   }
 
-  //determines which site will be displayed on the homepage
-
-  setSiteActive(site_id:number){
-    if(!this.is_tutorial){
-      var setMyIdActive: ISiteRequestDto = { //created only to pass id, preferred over parameter
-        site_id: site_id,
-        admin_id: this.current_admin_id,
-        token: this.current_admin_token
-      };
-
-      this._httpService.setActiveSite(setMyIdActive).subscribe(
-        result => {
-          this.router.navigateByUrl('');
-        }
-      )
-    }else{
-      //do nothing
-    }
-  }
-
   //requests all sites owned by a specific admin 
 
   getSitesByAdminFromService(){
