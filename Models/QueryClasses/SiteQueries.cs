@@ -18,12 +18,20 @@ namespace dynamify.Models.QueryClasses
             return dbContext.Sites.Where(x => x.admin_id == admin_id).ToList();
         }
 
-        public List<Site> QueryFeaturelessSiteByUrl(string url){ //Used for more efficient querying e.g. no content 
+        public List<Site> QueryFeaturelessSiteByUrl(string url){ //Used for more efficient querying e.g. no content
             return dbContext.Sites.Where(x => x.url == url).ToList();
         }
 
-        public List<Site> QueryFeaturelessSiteById(int active_site_id){
-                return dbContext.Sites.Where(x => x.site_id == active_site_id).ToList();
+        public Site QueryFeaturelessSiteById(int site_id){
+            List<Site> queryList = dbContext.Sites.Where(x => x.site_id == site_id).ToList();
+            if(site_id == 1){
+                return queryList[0];
+            }else{
+                Site blank_site = new Site();
+                blank_site.admin_id = 0; //impossible sql id for impossible site
+                blank_site.site_id = 0;
+                return new Site(); //query not found, bad user action
+            }
         }
 
         public Site QuerySiteById(int site_id_parameter){ //Used to get full site data to the frontend for rendering
@@ -188,7 +196,7 @@ namespace dynamify.Models.QueryClasses
         }
         
         public Site DeleteSiteById(int site_id){
-            Site FoundSite = QueryFeaturelessSiteById(site_id)[0]; //kinda bad
+            Site FoundSite = QueryFeaturelessSiteById(site_id);
             dbContext.Remove( FoundSite );
             dbContext.SaveChanges();
             return FoundSite;

@@ -28,7 +28,7 @@ namespace dynamify.Controllers
         public SiteController(SiteQueries _SiteQueries, AdminQueries _AdminQueries)
         {
             dbQuery = _SiteQueries;
-            authenticator = new Auth(_AdminQueries);
+            authenticator = new SiteAuth(_AdminQueries, _SiteQueries);
             methods = new SiteControllerMethods(_SiteQueries, _AdminQueries);
         }
 

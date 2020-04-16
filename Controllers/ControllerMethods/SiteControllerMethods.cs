@@ -14,11 +14,11 @@ namespace dynamify.Controllers.ControllerMethods
     {
         private SiteQueries dbQuery;
 
-        private Auth authenticator;
+        private SiteAuth authenticator;
 
         public SiteControllerMethods(SiteQueries _dbQuery, AdminQueries _AdbQuery){
             dbQuery = _dbQuery;
-            authenticator = new Auth(_AdbQuery);
+            authenticator = new SiteAuth(_AdbQuery, _dbQuery);
         }
 
        public SiteContentDto GetSiteByIdMethod(SiteRequestDto request){
@@ -65,8 +65,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public JsonResponse PostBoxMethod(ParagraphBox NewBox, int admin_id, string admin_token){
-            System.Console.WriteLine("ray");
-            if(authenticator.VerifyAdmin(admin_id, admin_token)){
+            if(authenticator.VerifyAdminForLeaf(admin_id, NewBox.site_id, admin_token)){
                 dbQuery.AddParagraphBox(NewBox);
                 JsonResponse r = new JsonSuccess("Paragraph box posted sucessfully!");
                 return r;
@@ -76,7 +75,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public JsonResponse PostImageMethod(Image NewImage, int admin_id, string admin_token){
-             if(authenticator.VerifyAdmin(admin_id, admin_token)){
+             if(authenticator.VerifyAdminForLeaf(admin_id, NewImage.site_id, admin_token)){
                 dbQuery.AddImage(NewImage);
                 JsonResponse r = new JsonSuccess("Image posted sucessfully!");
                 return r;
@@ -86,7 +85,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public JsonResponse PostTwoColumnBoxMethod(TwoColumnBox NewTwoColumnBox, int admin_id, string admin_token){
-             if(authenticator.VerifyAdmin(admin_id, admin_token)){
+             if(authenticator.VerifyAdminForLeaf(admin_id, NewTwoColumnBox.site_id, admin_token)){
                 dbQuery.AddTwoColumnBox(NewTwoColumnBox);
                 JsonResponse r = new JsonSuccess("Two column box posted sucessfully!");
                 return r;
@@ -96,7 +95,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public JsonResponse PostNavBarMethod(NavBarDto NewNavBar, int admin_id, string admin_token){
-             if(authenticator.VerifyAdmin(admin_id, admin_token)){
+             if(authenticator.VerifyAdminForLeaf(admin_id, NewNavBar.site_id, admin_token)){
                 dbQuery.AddNavBar(NewNavBar);
                 JsonResponse r = new JsonSuccess("Nav Bar posted sucessfully!");
                 return r;
@@ -106,7 +105,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public JsonResponse PostPortraitMethod(Portrait NewPortrait, int admin_id, string admin_token){
-             if(authenticator.VerifyAdmin(admin_id, admin_token)){
+             if(authenticator.VerifyAdminForLeaf(admin_id, NewPortrait.site_id, admin_token)){
                 dbQuery.AddPortrait(NewPortrait);
                 JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
                 return r;
@@ -116,7 +115,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public JsonResponse PostLinkBoxMethod(NewLinkBoxDto _NewLinkBox, int admin_id, string admin_token){
-             if(authenticator.VerifyAdmin(admin_id, admin_token)){
+             if(authenticator.VerifyAdminForLeaf(admin_id, _NewLinkBox.site_id, admin_token)){
                 LinkBox NewLinkBox = new LinkBox();
                 NewLinkBox.title = _NewLinkBox.title;
                 NewLinkBox.priority = _NewLinkBox.priority;
@@ -133,9 +132,9 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public JsonResponse DeleteSite(int site_id_parameter, int admin_id, string admin_token){
-              if(authenticator.VerifyAdmin(admin_id, admin_token)){
-                Site DeletedSite = dbQuery.DeleteSiteById(site_id_parameter);
+        public JsonResponse DeleteSite(int site_id, int admin_id, string admin_token){
+              if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                Site DeletedSite = dbQuery.DeleteSiteById(site_id);
                 JsonResponse r = new JsonSuccess($"Site {DeletedSite.title} deleted sucessfully!");
                 return r;
             }else{
@@ -143,9 +142,9 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
+        
         public JsonResponse DeleteSiteComponentMethod(ComponentReference Component, int admin_id, string admin_token){
-            System.Console.WriteLine($"admin id {admin_id}, admin token {admin_token}");
-            if(authenticator.VerifyAdmin(admin_id, admin_token)){
+            if(authenticator.VerifyAdmin(admin_id, admin_token)){ //terrible!!!! Fix This!!!
                 if(Component.component_type == "p_box"){
                     ParagraphBox paragraph_box = dbQuery.DeleteParagraphBox(Component.component_id);
                     JsonResponse r = new JsonSuccess("Paragraph box deleted sucessfully!");
