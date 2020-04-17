@@ -18,58 +18,31 @@ namespace dynamify.Models.QueryClasses
             return dbContext.Admins.SingleOrDefault(x => x.admin_id == admin_id);
         }
 
-        public Admin loginAdmin(string email){
-            List<Admin> FoundAdmin = dbContext.Admins.Where(x => x.email == email).ToList();
-            if(FoundAdmin.Count > 0){ 
-                if(FoundAdmin.Count == 1){ //unique email Admin found.
-                    return FoundAdmin[0];
-                }else{ //FoundAdmin.Count > 1
-                    Admin ErrorAdmin = new Admin();
-                    ErrorAdmin.first_name = "<DUPLICATE, More than one admin with the same email exists!>";
-                    ErrorAdmin.last_name = "<DUPLICATE, More than one admin with the same email exists!>";
-                    ErrorAdmin.email = "<DUPLICATE, More than one admin with the same email exists!>";
-                    ErrorAdmin.password = "<DUPLICATE, More than one admin with the same email exists!>";
-                    return ErrorAdmin; 
-                }
-                
-            }else{
-                Admin ErrorAdmin = new Admin();
-                ErrorAdmin.first_name = "<NOT FOUND, Email invalid>";
-                ErrorAdmin.last_name = "<NOT FOUND, Email invalid>";
-                ErrorAdmin.email = "<NOT FOUND, Email invalid>";
-                ErrorAdmin.password = "<NOT FOUND, Email invalid>";
-                return ErrorAdmin; 
-            }
-        }
-
-        public Admin GetAdminByLogin(string email, string password){ //single login method for now, may be split later
-            Admin FoundAdmin = loginAdmin(email);
-            
-            //validate email and password
-                if(FoundAdmin.password == password){
-                    //success
-                    return FoundAdmin;
-                }else{
-                    Admin ErrorAdmin = new Admin();
-                    ErrorAdmin.first_name = "<ACCESS DENIED, Password Invalid>";
-                    ErrorAdmin.last_name = "<ACCESS DENIED, Password Invalid>";
-                    ErrorAdmin.email = "<ACCESS DENIED, Password Invalid>";
-                    ErrorAdmin.password = "<ACCESS DENIED, Password Invalid>";
-                    return ErrorAdmin;
-                }
+        public List<Admin> GetAdminsByEmail(string email){
+            List<Admin> FoundAdmins = dbContext.Admins.Where(x => x.email == email).ToList();
+            return FoundAdmins;
         }
 
         public List<Admin> All(){
             return dbContext.Admins.ToList();
         }
 
-
         //Create
         public Admin SaveNewAdmin(Admin NewAdmin){
-            Admin validation_query = loginAdmin(NewAdmin.email);
-
-            dbContext.Add(NewAdmin);
-            dbContext.SaveChanges();
+            List<Admin> FoundAdmin = dbContext.Admins.Where(x => x.email == NewAdmin.email).ToList();
+            
+            if(FoundAdmin.Count == 0){ //NewAdmin is unique
+                dbContext.Add(NewAdmin);
+                dbContext.SaveChanges();
+            }else{
+                Admin ErrorAdmin = new Admin();
+                string error_msg = "<Error: email exists!, May not create more than one admin with existing email!>";
+                ErrorAdmin.first_name = error_msg;
+                ErrorAdmin.last_name = error_msg;
+                ErrorAdmin.email = error_msg;
+                ErrorAdmin.password = error_msg;
+                return ErrorAdmin; 
+            }
 
             Admin Test = NewAdmin = dbContext.Admins.FirstOrDefault(x => x.email == NewAdmin.email);
             return Test;

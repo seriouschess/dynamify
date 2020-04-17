@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using dynamify.Models;
 using dynamify.Models.QueryClasses;
 using dynamify.Models.SiteModels;
@@ -8,7 +9,6 @@ namespace dynamify.Classes.Auth
     public class Auth
     {
         protected AdminQueries dbQueryA;
-        private SiteQueries dbQueryS;
         private string[] charset = {
             "1","2","3","4","5","6","7","8","9","0",
             "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
@@ -28,18 +28,49 @@ namespace dynamify.Classes.Auth
             return new Token(auth_token);
         }
 
-        public Admin RequestAdmin(string email, string password){ //returns admin with access token
-             Admin QueryAdmin = dbQueryA.loginAdmin(email);
-            if( password == QueryAdmin.password && email == QueryAdmin.email){
-                return QueryAdmin;
+        public Admin ValidateAdmin(string email, string password){ //returns admin with access token
+            List<Admin> QueryAdmins = dbQueryA.GetAdminsByEmail(email);
+
+            Admin ErrorAdmin = new Admin();
+
+            string err_msg = "<ACCESS DENIED, Password or Email Invalid>";
+            ErrorAdmin.first_name = err_msg;
+            ErrorAdmin.last_name = err_msg;
+            ErrorAdmin.email = err_msg;
+            ErrorAdmin.password = err_msg;
+
+            int errors = 0;
+            Admin QueryAdmin = null;
+
+            if( QueryAdmins.Count ==  0){ //no matching email
+                errors += 1;
+                System.Console.WriteLine("Email Denied");
             }else{
-                Admin ErrorAdmin = new Admin();
-                ErrorAdmin.first_name = "<ACCESS DENIED, Password or Email Invalid>";
-                ErrorAdmin.last_name = "<ACCESS DENIED, Password or Email Invalid>";
-                ErrorAdmin.email = "<ACCESS DENIED, Password or Email Invalid>";
-                ErrorAdmin.password = "<ACCESS DENIED, Password or Email Invalid>";
-                return ErrorAdmin;
+                QueryAdmin = QueryAdmins[0];
+                if(!VerifyHash(password, QueryAdmin.password)){
+                    System.Console.WriteLine("Password Denied");
+                    errors += 1;
+                }
             }
+
+            if(errors > 0){
+                return ErrorAdmin;
+            }else{
+                System.Console.WriteLine("Password Accepted");
+                return QueryAdmin;
+            }
+        }
+
+        public string HashString(string unhashed_string){
+            int PASSWORD_BCRYPT_COST = 13;
+            string PASSWORD_SALT = "/8Wncr26eAmxD1l6cAF9F8";
+            string salt = "$2a$" + PASSWORD_BCRYPT_COST + "$" + PASSWORD_SALT;
+            return BCrypt.Net.BCrypt.HashPassword(unhashed_string, salt);
+        }
+
+        public bool VerifyHash( string comparison, string hash ){
+            //string hashed_comparison = HashString(comparison);
+            return BCrypt.Net.BCrypt.Verify(comparison, hash);
         }
 
         public bool VerifyAdmin(int admin_id, string token){ //use to login admin
@@ -55,20 +86,18 @@ namespace dynamify.Classes.Auth
     class SiteAuth: Auth{
         private SiteQueries dbQueryS;
         public SiteAuth(AdminQueries _dbQueryA, SiteQueries _dbQueryS):base(_dbQueryA){
-            //from base
             dbQueryS = _dbQueryS;
         }
 
          public bool VerifyAdminForLeaf(int admin_id, int site_id, string token){ //use when modifying a leaf
             System.Console.WriteLine($"Site Id: {site_id}");
             System.Console.WriteLine($"Admin Id: {admin_id}");
-            
+
             if(VerifyAdmin(admin_id, token) == false){
                 return false;
             }
 
-            Site QuerySite = new Site();
-            QuerySite = dbQueryS.QueryFeaturelessSiteById(site_id);
+            Site QuerySite = dbQueryS.QueryFeaturelessSiteById(site_id);
 
             if(QuerySite.admin_id == admin_id){
                 return true;

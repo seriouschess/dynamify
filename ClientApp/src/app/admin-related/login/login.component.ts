@@ -162,20 +162,23 @@ export class LoginComponent implements OnInit {
         this._httpService.loginAdmin(login_package).subscribe(
           result => {
             let incomingAdmin:any = result;
-            if(incomingAdmin.first_name === "<ACCESS DENIED, Password Invalid>"){
+            console.log("-----admin---------");
+            console.log(incomingAdmin);
+            console.log("-------------------");
+            let errors = 0;
+            
+            if(incomingAdmin.first_name === "<ACCESS DENIED, Password or Email Invalid>"){
               this.error_display = "Invalid password";
+              errors += 1;
             }
+      
     
-            if(incomingAdmin.first_name === "<NOT FOUND, Email invalid>"){
-              this.error_display = "Email not registered";
-            }
-    
-            if(incomingAdmin.email === this.entered_email && incomingAdmin.password == this.entered_password){
+            if(errors == 0){
               this.logged_admin = incomingAdmin;
               this.logEvent.emit(this.logged_admin); //zero is the default non sql ID value
               this.error_display = "";
             }else{
-              this.error_display = "Invalid Email or Password"
+              this.error_display = "Invalid Email or Password";
             }
           }
         );

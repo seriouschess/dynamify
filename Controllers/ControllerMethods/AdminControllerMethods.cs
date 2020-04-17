@@ -27,7 +27,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public Admin LoginAdminMethod(LoginDto LoginInfo){
-            return authenticator.RequestAdmin(LoginInfo.email, LoginInfo.password);
+            return authenticator.ValidateAdmin(LoginInfo.email, LoginInfo.password);
         }
 
         public Admin PostMethod(AdminRegistrationDto NewAdmin){
@@ -35,10 +35,10 @@ namespace dynamify.Controllers.ControllerMethods
             _NewAdmin.first_name = NewAdmin.first_name;
             _NewAdmin.last_name = NewAdmin.last_name;
             _NewAdmin.email = NewAdmin.email;
-            _NewAdmin.password = NewAdmin.password;
+            _NewAdmin.password = authenticator.HashString(NewAdmin.password);
             _NewAdmin.token = authenticator.Generate().token;
             dbQuery.SaveNewAdmin(_NewAdmin);
-            return authenticator.RequestAdmin(NewAdmin.email, NewAdmin.password);
+            return authenticator.ValidateAdmin(NewAdmin.email, NewAdmin.password);
         }
 
         public JsonResponse DeleteMethod(AdminRequestDto request){
@@ -66,6 +66,16 @@ namespace dynamify.Controllers.ControllerMethods
             System.Console.WriteLine(AllAdmins);
             IEnumerable results = AllAdmins.AsEnumerable();
             return results;
+        }
+
+        public string TestMethod(){
+            string final = authenticator.HashString("hi");
+            return final;
+        }
+
+        public string TestMethodTwo(string input){
+            bool result = authenticator.VerifyHash("hi", input);
+            return $"Result {result}";
         }
     }
 }

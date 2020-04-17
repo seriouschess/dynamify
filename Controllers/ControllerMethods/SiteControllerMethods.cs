@@ -141,7 +141,6 @@ namespace dynamify.Controllers.ControllerMethods
                 return new JsonFailure("Invalid Token. Stranger Danger.");
             }
         }
-
         
         public JsonResponse DeleteSiteComponentMethod(ComponentReference Component, int admin_id, string admin_token){
             if(authenticator.VerifyAdmin(admin_id, admin_token)){ //terrible!!!! Fix This!!!
