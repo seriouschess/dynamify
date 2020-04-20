@@ -19,7 +19,8 @@
 <div *ngIf="preview_mode === false">
   <app-leaf-nav-bar *ngIf ="!is_tutorial" [is_edit_mode]="true" [nav_bar_object]="formatted_site.nav_bar"></app-leaf-nav-bar> 
   <div *ngIf="current_site_id != 0 && !is_tutorial">
-    <button *ngIf="!is_tutorial" class="btn btn-info" (click)="toggleNavBarEditor()"> Toggle Nav Bar Editor </button>
+    <h4 *ngIf="!is_tutorial && !nav_bar_editor_open" class="generic-element">To modify the leaf's nav bar you can: <button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
+    <h4 *ngIf="!is_tutorial && nav_bar_editor_open" class="generic-element">To close the nav bar editor you can: <button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
     <div class="editor-form" *ngIf="nav_bar_editor_open">
       <p> Add links for your topside Nav Bar</p>
       <p>Current Links:</p>
