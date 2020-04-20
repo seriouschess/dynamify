@@ -32,7 +32,7 @@ export class HttpService {
 
   postAdmin<AdminRegistrationDto>(NewAdmin:AdminRegistrationDto){
    console.log(JSON.stringify(NewAdmin));
-   return this._http.post<Admin>('api/admin', NewAdmin);
+   return this._http.post<Admin>('api/admin/new', NewAdmin);
   }
 
   deleteAdmin(admin_id:number, token:string){

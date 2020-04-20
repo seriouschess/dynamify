@@ -43,6 +43,7 @@ namespace dynamify.Controllers
         }
 
         [HttpPost]
+        [Route("new")]
         public ActionResult<Admin> Post([FromBody] AdminRegistrationDto NewAdmin){
            return methods.PostMethod(NewAdmin);
         }
