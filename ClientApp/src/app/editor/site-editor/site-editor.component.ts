@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { HttpService } from '../../services/http/http.service';
 import { ParagraphBox, Image, TwoColumnBox, Portrait, LinkBox, NavBar, NavLink } from '../../interfaces/dtos/site_dtos';
 import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
@@ -6,6 +6,7 @@ import { ValidationService } from '../../services/validation/validation.service'
 import { BSfourConverterService } from '../../services/b-sfour-converter/b-sfour-converter.service';
 import { ISiteFormatted } from '../../interfaces/formatted_site_content';
 import { SiteFormatterService } from '../../services/leaf-formatter/site-formatter.service';
+import { DOCUMENT } from '@angular/common';
 
 // import { ConsoleReporter } from 'jasmine';
 
@@ -16,7 +17,6 @@ import { SiteFormatterService } from '../../services/leaf-formatter/site-formatt
 })
 
 export class SiteEditorComponent implements OnInit {
-
   //route parameters
   @Input() current_site_id: number;
   @Input() current_admin_id: number;
@@ -52,7 +52,17 @@ export class SiteEditorComponent implements OnInit {
   tutorial_sequence:number;
   flash:boolean; 
 
-   constructor( private _httpService:HttpService, private validator:ValidationService, private b64converter:BSfourConverterService, private _siteFormatter:SiteFormatterService) { }
+  constructor( 
+    private _httpService:HttpService,
+    private validator:ValidationService,
+    private b64converter:BSfourConverterService,
+    private _siteFormatter:SiteFormatterService,
+    @Inject(DOCUMENT) private document: Document,
+    @Inject('Window') private window: Window //for scrolling
+  ) 
+  {
+    this.window = this.document.defaultView;
+  }
 
    ngOnInit() {
      this.site_request_object = {
@@ -250,12 +260,14 @@ export class SiteEditorComponent implements OnInit {
       this.nav_bar_changes_made = true;
       this.new_nav_link.label = "";
       this.new_nav_link.url = "";
+      //this.postNavBarToService();
     }
   }
   
   RemoveNavBarLinks(){
     if(this.new_nav_bar != null){
       this.new_nav_bar.links = [];
+      //this.postNavBarToService();
     }
     this.nav_bar_changes_made = true;
   }
@@ -391,6 +403,10 @@ export class SiteEditorComponent implements OnInit {
   iterateTutorial(){
     if(this.is_tutorial){
       this.tutorial_sequence += 1;
+      if(this.tutorial_sequence == 6 || this.tutorial_sequence == 1){
+        //this.window = this.document.defaultView;
+        this.window.scrollTo(0,0);
+      }
     }
   }
 

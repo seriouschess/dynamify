@@ -1,3 +1,53 @@
+.tutorial-box {
+    border: 1px solid rgb(49, 126, 55);
+    border-radius: 5px;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 4%;
+    padding-right: 4%;
+    margin-top: 3%;
+    margin-bottom: 5%;
+}
 
+.leaf-display-title{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.new-leaf-box{
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 4%;
+    border: 1px solid rgb(49, 126, 55); 
+    border-radius: 5px;
+}
+
+.new-leaf-box input {
+    margin-left: 2%;
+}
+
+.new-leaf-box h3 {
+    margin-bottom: 3%;
+}
+
+.no-mobile{
+    position: relative;
+    visibility: visible;
+}
+
+@media (max-width: 450px){
+    .no-mobile{
+        position: absolute;
+        left: -1000px;
+        visibility: hidden;
+    }
+}
+
+@media (min-width: 1080px){
+    .new-leaf-box{
+        padding: 2%
+    }
+}
+    
 
   

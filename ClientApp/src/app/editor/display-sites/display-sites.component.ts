@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpService } from '../../services/http/http.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { INewSiteDto } from '../../interfaces/dtos/new_site_dto';
-import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { JsonResponseDto } from '../../interfaces/dtos/json_response_dto';
 
 @Component({
@@ -12,6 +10,7 @@ import { JsonResponseDto } from '../../interfaces/dtos/json_response_dto';
 })
 
 export class DisplaySitesComponent implements OnInit {
+
 
   //get Admin information
   @Input() current_admin_id: number;
@@ -35,14 +34,12 @@ export class DisplaySitesComponent implements OnInit {
   blank_url_error_flag: boolean;
   url_exists_error_flag: boolean;
 
-  test:string;
+  test: string;
 
-  constructor(private _httpService:HttpService, private router: Router, private _Activatedroute:ActivatedRoute) { }
+  constructor(private _httpService:HttpService) { }
 
   ngOnInit() {
     this.test = "test string";
-    //inport url params
-    //this.current_admin_id = Number(this._Activatedroute.snapshot.paramMap.get("current_admin_id"));
     this.current_site_id = 0; //non SQL id default value
     this.all_sites = [];
 
@@ -68,9 +65,8 @@ export class DisplaySitesComponent implements OnInit {
     this.resetValidators();
   }
 
-  //creates a new site without any content
+  
   validateURL(){
-    //   /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
     let re = /^[a-zA-ZäöüßÄÖÜ]+$/;
     return re.test(String(this.newSiteObject.url));
   }
@@ -115,6 +111,7 @@ export class DisplaySitesComponent implements OnInit {
     }
   }
 
+  //creates a new site without any content
   postSiteToService(){ //add a validator!
     if(this.validateSite()){
       if(this.is_tutorial && this.tutorial_sequence == 3){

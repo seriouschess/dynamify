@@ -1,4 +1,4 @@
-<div class="container" *ngIf="is_tutorial">
+<div class="container tutorial-box" *ngIf="is_tutorial && tutorial_sequence < 9">
   <h3 class = "text-info" *ngIf="tutorial_sequence == 1"> This is the site editor. Click the flashing ok button to continue.<button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
   <h3 class = "text-info" *ngIf="tutorial_sequence == 2"> It is currently empty as no content has been created yet. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
   <h3 class = "text-info" *ngIf="tutorial_sequence == 3"> Content is created by filling out forms and adding components. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
@@ -19,22 +19,25 @@
 <div *ngIf="preview_mode === false">
   <app-leaf-nav-bar *ngIf ="!is_tutorial" [is_edit_mode]="true" [nav_bar_object]="formatted_site.nav_bar"></app-leaf-nav-bar> 
   <div *ngIf="current_site_id != 0 && !is_tutorial">
-    <h4 *ngIf="!is_tutorial && !nav_bar_editor_open" class="generic-element">To modify the leaf's nav bar you can: <button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
-    <h4 *ngIf="!is_tutorial && nav_bar_editor_open" class="generic-element">To close the nav bar editor you can: <button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
+    <h4 *ngIf="!is_tutorial && !nav_bar_editor_open" class="generic-element">To modify the leaf's nav bar you can <button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
+    <h4 *ngIf="!is_tutorial && nav_bar_editor_open" class="generic-element">To close the nav bar editor you can <button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
     <div class="editor-form" *ngIf="nav_bar_editor_open">
       <p> Add links for your topside Nav Bar</p>
-      <p>Current Links:</p>
+      <p *ngIf="new_nav_bar.links.length > 0">Current Links:</p>
       <div *ngFor="let link of new_nav_bar.links">
           <p> Label: {{link.label}}  Url: {{link.url}}</p>
       </div>
-      <p><label> Add A link label: </label><input class="title_box" name="label" [(ngModel)]="new_nav_link.label"> (this is what the user sees when they click your link)</p>
+      <small>(A link label is what the user sees when they click your link)</small>
+      <p><label> Add A link label: </label> <input class="title_box" name="label" [(ngModel)]="new_nav_link.label"></p>
+      
+      <p *ngIf="new_nav_link.url != ''">Link will go to: http://{{new_nav_link.url}}</p>
       <p *ngIf="validator.nav_bar_invalid_label_flag" class="text-danger"> A label may not be left blank. </p>
-      <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p> -->
+      <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p>
       <p *ngIf="validator.nav_bar_invalid_url_flag" class="text-danger"> A url must be of the form www.example.com/... </p>
       <p class="text-danger"> May not contain curley brackets e.g. {{curlies}} </p>
-      <button class="btn btn-info" (click)="pushLinkToBar()"> Add link to nav bar </button>
-      <button *ngIf = "new_nav_bar.links.length > 0" class="btn btn-danger" (click)="RemoveNavBarLinks()"> Remove all links </button>
-      <button *ngIf = "nav_bar_changes_made" class="btn btn-success" (click)="postNavBarToService()"> Save Changes</button>
+      <button class="btn btn-info nav-edit-button" (click)="pushLinkToBar()"> Add link to nav bar </button>
+      <button *ngIf = "new_nav_bar.links.length > 0" class="btn btn-danger nav-edit-button" (click)="RemoveNavBarLinks()"> Remove all links </button>
+      <button *ngIf = "nav_bar_changes_made" class="btn btn-success nav-edit-button" (click)="postNavBarToService()">Save Changes</button>
     </div>
   </div>
 
@@ -48,26 +51,28 @@
 
     <div *ngIf="site_component.type === 'image'">
       <app-image [image_object]="site_component"></app-image>
-      <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.image_id, site_component.type)'>Delete</button>
+      <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.image_id, site_component.type)'>Delete</button>
     </div>
 
     <div *ngIf="site_component.type === 'portrait'">
       <app-portrait [portrait_object]="site_component"></app-portrait>
-      <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.portrait_id, site_component.type)'>Delete</button>
+      <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.portrait_id, site_component.type)'>Delete</button>
     </div>
 
     <div *ngIf="site_component.type === '2c_box'">
       <app-two-column-box [tcb_object]="site_component"></app-two-column-box>
-      <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
+      <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
   </div>
   <div *ngIf="site_component.type === 'link_box'">
     <app-link-box [link_box_object]="site_component"></app-link-box>
-    <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
+    <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
   </div>
   </div>
 
+  <h4 class = "end-site-mark box-shadow" *ngIf="open_next_component === ''">(Additional Site Elements Will Be Created Here)</h4>
+
   <div class = "creation-tools box-shadow" *ngIf="open_next_component === '' ">
-    <h3>(Add a new Element by selecting from the following options:)</h3>
+    <h3>Add a new Element by selecting from the following options:</h3>
     <button *ngIf="!is_tutorial" class="btn btn-success" (click)=setPboxEdit()> New Paragraph Box </button>
     <button *ngIf="is_tutorial && tutorial_sequence < 7 && tutorial_sequence != 4" class="btn btn-success"> New Paragraph Box </button>
     <button *ngIf="is_tutorial && tutorial_sequence == 4" (click)="setPboxEdit()" class="btn highlight"> New Paragraph Box </button>
@@ -91,7 +96,9 @@
     <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button> -->
   </div>
 
+  <div class="text-center">
     <button class="btn btn-info" *ngIf="open_next_component != ''" (click)=resetEditOptions()>Go Back To Options</button>
+  </div>
     
     <div class="editor-form" *ngIf="open_next_component === '2c_box'">
       <p> Add a two column box </p>
@@ -174,8 +181,7 @@
       </form>
     </div>
 
-    <h4 class = "end-site-mark box-shadow" *ngIf="open_next_component === ''">(Additional Site Elements Will Be Created Here)</h4>
-    <p>{{temp_file | json}}</p>
+    <!-- <p>{{temp_file | json}}</p> -->
 </div>
 
 

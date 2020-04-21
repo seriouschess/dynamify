@@ -1,3 +1,41 @@
-.buffer{
-    margin: 10px;
+.registration-button{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 4%;
+}
+
+.space{
+    margin-top: 4%;
+}
+
+.registration-box{
+    border: 1px solid rgb(49, 126, 55);
+
+    padding-top: 4%;
+    padding-bottom: 4%;
+    padding-left: 10%;
+    padding-right: 10%;
+
+    margin-bottom: 5%;
+}
+
+.registration-box label{
+    margin-top: 2%;
+}
+
+@media (min-width: 1080px){
+    .registration-button{
+        padding: 2%;
+    }
+
+    .registration-box{
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 3%;
+        padding-bottom: 3%;
+    }
+
+    .space{
+        margin-top: 2%;
+    }
 }

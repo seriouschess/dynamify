@@ -1,47 +1,47 @@
 
-<div *ngIf="is_tutorial" class="container">
+<div *ngIf="is_tutorial" class="container tutorial-box">
   <h3 *ngIf="tutorial_sequence == 1" class="text-info"> Welcome to the site creation page! Click ok to continue. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
   <h3 *ngIf="tutorial_sequence == 2" class="text-info"> This is where you create sites using your account. You will see that there are none becuse you need to create one! <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
   <h3 *ngIf="tutorial_sequence == 3" class="text-info"> Enter a title and click below to create a single-page site. All site names must be unique.</h3>
   <h3 *ngIf="tutorial_sequence == 4" class="text-info"> Well Done! You've made a site. Now click Edit to start adding content.</h3>
 </div>  
 <div class="container">
-  <h2 *ngIf="all_sites.length == 0"> Create a new leaf by filling out the information below! </h2>
-  <h1 *ngIf="all_sites.length > 0"> Your leaves displayed here! </h1>
+  <h2 *ngIf="all_sites.length == 0"> Create a new leaf by filling out the information below. </h2>
+  <h1 *ngIf="all_sites.length > 0" class="leaf-display-title"> Your Leaves: </h1>
   <table class='table table-striped' aria-labelledby="tableLabel">
       <thead>
         <tr *ngIf="all_sites.length > 0">
           <th> Leaf Title </th>
-          <th> Edit This Leaf </th>
-          <th> Live At </th>
+          <th> Edit Leaf </th>
           <th> Delete </th>
+          <th class="no-mobile"> Live At </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let site of all_sites">
           <td>{{ site.title }}</td>
-          <td><button *ngIf="!is_tutorial" class="btn btn-success" (click)="editSite(site.site_id, current_admin_id)">Edit</button></td>
+          <td *ngIf="!is_tutorial"><button class="btn btn-success" (click)="editSite(site.site_id, current_admin_id)">Edit</button></td>
           <td *ngIf="is_tutorial && tutorial_sequence < 4"><button class="btn btn-success" (click)="editSite(site.site_id, current_admin_id)">Edit</button></td>
           <td *ngIf="is_tutorial && tutorial_sequence == 4"><button class="btn btn-success highlight" (click)="editSite(0, 0)">Edit</button></td>
-          <td>http://www.siteleaves.com/{{site.url}}</td>
           <td><button class="btn btn-danger" (click)="deleteSiteById(site.site_id)">Delete</button></td>
+          <td class="no-mobile"> http://www.siteleaves.com/{{site.url}} </td>
         </tr>
       </tbody>
   </table>
 
-  <form (submit)="postSiteToService()">
-      <p *ngIf="newSiteObject.title == ''" class = "text text-info">A title may be blank, but a blank title will not be displayed at the top of the leaf.</p>
-      <label>Title: :</label><input name="title" [(ngModel)]="newSiteObject.title">
+  <form class="new-leaf-box" (submit)="postSiteToService()">
+      <h3>Create a new leaf below:</h3>
+      <p *ngIf="newSiteObject.title == ''" class = "text text-info"> A title may be blank, but a blank title will not be displayed at the top of the leaf. </p>
+      <label> Title: </label><input name="title" [(ngModel)]="newSiteObject.title">
       <p *ngIf="reserved_url_error_flag" class="text-danger"> That URL is reserved. Try a different URL. </p>
       <p *ngIf="url_exists_error_flag" class="text-danger"> That URL is taken. Try another. </p>
-      <p *ngIf="newSiteObject.url != '' " class="text text-info">Site will be live at http://www.siteleaves.com/{{newSiteObject.url}}</p>
-      <p *ngIf="newSiteObject.url === '' " class="text text-info">Site will be live at http://www.siteleaves.com/("Your URL here!")</p>
+      <p *ngIf="newSiteObject.url != '' " class="text text-info"> Site will be live at http://www.siteleaves.com/{{newSiteObject.url}} </p>
+      <p *ngIf="newSiteObject.url === '' " class="text text-info"> Site will be live at http://www.siteleaves.com/("Your URL here!") </p>
       <p *ngIf="invalid_url_error_flag" class="text-danger"> Invalid URL: Must contain all letters. May not contain spaces or special characters. </p>
-      <p *ngIf="invalid_url_error_flag" class="text-danger"> "nospaces" <- valid URL example --- "$p@ce$ n' Ch@rs123!" <- invalid URL example</p>
+      <p *ngIf="invalid_url_error_flag" class="text-danger"> "nospaces" <- valid URL example --- "$p@ce$ n' Ch@rs123!" <- invalid URL example </p>
       <p *ngIf="blank_url_error_flag" class="text-danger"> A URL may not be blank. </p>
-      <label>URL: </label><input name="url" [(ngModel)]="newSiteObject.url">
+      <label> URL: </label><input name="url" [(ngModel)]="newSiteObject.url">
       <input *ngIf="!is_tutorial || tutorial_sequence != 3" class="btn btn-info" type="submit" value="Post new Site">
       <input *ngIf="is_tutorial && tutorial_sequence == 3" type="submit" class="btn highlight" value="Post new Site">
   </form>
-
 </div>

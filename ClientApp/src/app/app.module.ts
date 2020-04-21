@@ -50,7 +50,9 @@ import { LeafNavBarComponent } from './leaves/leaf-components/leaf-nav-bar/leaf-
     FormsModule,
     AppFrontendRoutesModule
   ],
-  providers: [],
+  providers: [
+    { provide: 'Window',  useValue: window }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

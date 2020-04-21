@@ -23,7 +23,6 @@
         margin-right: 0px;
         margin-left: 0px;
         width: 65%;
-        font-size: 16pt;
         /* background-color: blue; */
     }
 
@@ -41,7 +40,6 @@
     .text-container{
         display: block;
         width: 100%;
-        font-size: 14pt;
         /* background-color: green; */
     }
 

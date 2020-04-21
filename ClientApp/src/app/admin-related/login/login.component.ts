@@ -18,6 +18,9 @@ export class LoginComponent implements OnInit {
   newAdminObject: AdminRegistrationDto;
   entered_email: string;
   entered_password: string;
+
+  //asthetics
+  open_registration:boolean;
   
   //validation fields
   error_display: string;
@@ -29,9 +32,9 @@ export class LoginComponent implements OnInit {
   email_validation_error_flag: boolean;
   login_password_validation_error_flag: boolean;
   login_email_validation_error_flag: boolean;
-  
 
    ngOnInit() {
+
     this.newAdminObject = {
       first_name: "",
       last_name: "",
@@ -51,8 +54,12 @@ export class LoginComponent implements OnInit {
     this.entered_email = "";
     this.entered_password ="";
     this.error_display = "";
-    this.registration_password_error_flag = false;
     this.password_confirm = "";
+
+    this.open_registration = false;
+
+    //validation flags
+    this.registration_password_error_flag = false;
     this.password_confirm_error_flag = false;
     this.email_validation_error_flag = false;
     this.login_email_validation_error_flag = false;
@@ -183,5 +190,9 @@ export class LoginComponent implements OnInit {
           }
         );
       }
+    }
+
+    openRegistration(){
+      this.open_registration = true;
     }
 }

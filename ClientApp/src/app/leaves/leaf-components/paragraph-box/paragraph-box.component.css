@@ -1,9 +1,3 @@
-.box{
-    width:80%;
-    background-color: pink;
-    border-radius: 2px;
-}
-
 .title{
     word-wrap: break-word;
     margin-bottom: 3%;
@@ -20,10 +14,6 @@
     .title{
         padding-right: 1%;
         /* border: 2px groove rgb(255, 255, 255); */
-    }
-
-    .text-format{
-        font-size: 16pt;
     }
 }
 

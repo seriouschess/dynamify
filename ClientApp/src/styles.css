@@ -5,7 +5,9 @@
   margin: 0px;
   box-sizing: border-box;
   vertical-align: top;
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
+  font-family: 'Didact Gothic'; 
+  font-size: 22px;
 }
 
 .leaf-title{
