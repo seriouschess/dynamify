@@ -41,7 +41,6 @@ export class SiteEditorComponent implements OnInit {
   preview_mode: boolean;
   open_next_component: string;
   nav_bar_editor_open: boolean;
-  nav_bar_changes_made: boolean;
 
   //dtos
   site_request_object:ISiteRequestDto;
@@ -257,34 +256,31 @@ export class SiteEditorComponent implements OnInit {
         url: this.new_nav_link.url
       }
       this.new_nav_bar.links.push(addition);
-      this.nav_bar_changes_made = true;
       this.new_nav_link.label = "";
       this.new_nav_link.url = "";
-      //this.postNavBarToService();
+      this.postNavBarToService();
     }
   }
   
   RemoveNavBarLinks(){
     if(this.new_nav_bar != null){
       this.new_nav_bar.links = [];
-      //this.postNavBarToService();
+      this.postNavBarToService();
     }
-    this.nav_bar_changes_made = true;
   }
-
 
   postNavBarToService(){
     if(this.is_tutorial == true){
       //do nothing
     }else{
         if(true){ //additional validators required?
-          this.nav_bar_changes_made = false; //resets nav bar editor save button
-          this._httpService.postNavBar(this.new_nav_bar, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+        console.log(`Sending Nav bar: ${this.new_nav_bar}`);
+        this._httpService.postNavBar(this.new_nav_bar, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           console.log(results);
           this.requireSite();
-          this.toggleNavBarEditor();
+          //this.toggleNavBarEditor();
           this.open_next_component="";
-        }, error => console.log(error));
+        }, error => console.log(error)); 
       }
     }
   }

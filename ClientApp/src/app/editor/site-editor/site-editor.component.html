@@ -21,23 +21,27 @@
   <div *ngIf="current_site_id != 0 && !is_tutorial">
     <h4 *ngIf="!is_tutorial && !nav_bar_editor_open" class="generic-element">To modify the leaf's nav bar you can <button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
     <h4 *ngIf="!is_tutorial && nav_bar_editor_open" class="generic-element">To close the nav bar editor you can <button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
-    <div class="editor-form" *ngIf="nav_bar_editor_open">
-      <p> Add links for your topside Nav Bar</p>
-      <p *ngIf="new_nav_bar.links.length > 0">Current Links:</p>
-      <div *ngFor="let link of new_nav_bar.links">
-          <p> Label: {{link.label}}  Url: {{link.url}}</p>
+    
+    <div class="nav-editor-form" *ngIf="nav_bar_editor_open">
+      <h3>Nav Bar Editor: </h3>
+      <div class="nav-edit-subsection-one">
+        <p *ngIf="new_nav_bar.links.length == 0"> Add links for your topside Nav Bar</p>
+        <p *ngIf="new_nav_bar.links.length > 0">Current Links:</p>
+        <div *ngFor="let link of new_nav_bar.links">
+            <p> Label: {{link.label}}  Url: {{link.url}}</p>
+        </div>
       </div>
-      <small>(A link label is what the user sees when they click your link)</small>
-      <p><label> Add A link label: </label> <input class="title_box" name="label" [(ngModel)]="new_nav_link.label"></p>
-      
-      <p *ngIf="new_nav_link.url != ''">Link will go to: http://{{new_nav_link.url}}</p>
-      <p *ngIf="validator.nav_bar_invalid_label_flag" class="text-danger"> A label may not be left blank. </p>
-      <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p>
-      <p *ngIf="validator.nav_bar_invalid_url_flag" class="text-danger"> A url must be of the form www.example.com/... </p>
-      <p class="text-danger"> May not contain curley brackets e.g. {{curlies}} </p>
-      <button class="btn btn-info nav-edit-button" (click)="pushLinkToBar()"> Add link to nav bar </button>
-      <button *ngIf = "new_nav_bar.links.length > 0" class="btn btn-danger nav-edit-button" (click)="RemoveNavBarLinks()"> Remove all links </button>
-      <button *ngIf = "nav_bar_changes_made" class="btn btn-success nav-edit-button" (click)="postNavBarToService()">Save Changes</button>
+      <div class="nav-edit-subsection-two" >
+        <small>(A link label is what the user sees when they click your link)</small>
+        <p><label> Add A link label: </label> <input class="title_box" name="label" [(ngModel)]="new_nav_link.label"></p>
+        <p *ngIf="new_nav_link.url != ''">Link will go to: http://{{new_nav_link.url}}</p>
+        <p *ngIf="validator.nav_bar_invalid_label_flag" class="text-danger"> A label may not be left blank. </p>
+        <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p>
+        <p *ngIf="validator.nav_bar_invalid_url_flag" class="text-danger"> A url must be of the form www.example.com/... </p>
+        <p class="text-danger"> May not contain curley brackets e.g. {{curlies}} </p>
+        <button class="btn btn-info nav-edit-button" (click)="pushLinkToBar()"> Add link to nav bar </button>
+        <button *ngIf = "new_nav_bar.links.length > 0" class="btn btn-danger nav-edit-button" (click)="RemoveNavBarLinks()"> Remove all links </button>
+      </div>
     </div>
   </div>
 
@@ -101,7 +105,7 @@
   </div>
     
     <div class="editor-form" *ngIf="open_next_component === '2c_box'">
-      <p> Add a two column box </p>
+      <h3> Add a two column box </h3>
       <form (submit)=postTwoColumnBoxToService()>
         <p *ngIf="validator.tcb_title_invalid_flag" class="text-danger">Enter a valid title. Don't worry, you can remove this later.</p>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_2c_box.title"></p>
@@ -118,7 +122,7 @@
     </div>
 
     <div class="editor-form" *ngIf="open_next_component === 'image'">
-      <p> Add an image </p>
+      <h3> Add an image </h3>
       <form (submit)=postImageToService()>
         <p *ngIf="validator.image_title_invalid_flag" class="text-danger"> Enter a valid title. Don't worry, you can remove this later. </p>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_image.title"></p>
@@ -130,7 +134,7 @@
     </div>
 
     <div class="editor-form" *ngIf="open_next_component === 'portrait'">
-      <p> Add a portrait </p>
+      <h3> Add a portrait </h3>
       <form (submit)=postPortraitToService()>
         <p *ngIf="validator.portrait_title_invalid_flag" class="text-danger">Enter a valid title. Don't worry, you can remove this later.</p>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_portrait.title"></p>
@@ -144,7 +148,7 @@
     </div>
     
     <div class="editor-form" *ngIf="!is_tutorial && open_next_component === 'p_box'">
-      <p> Add a paragraph box </p>
+      <h3> Add a paragraph box </h3>
       <form (submit)=postParagraphBoxToService()>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
         <p *ngIf="validator.pbox_title_invalid_flag" class="text-danger">Enter a valid title. Don't worry, you can remove this later.</p>
@@ -155,7 +159,7 @@
     </div>
 
     <div class="editor-form" *ngIf="!is_tutorial && open_next_component === 'link_box'">
-      <p> Add a component that contains a link </p>
+      <h3> Add a link and description </h3>
       <form (submit)=postLinkBoxToService()>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_link_box.title"></p>
         <p *ngIf="validator.link_box_title_invalid_flag" class="text-danger">Enter a valid title. Don't worry, you can remove this later.</p>
@@ -167,11 +171,10 @@
         <p *ngIf="validator.link_box_display_invalid_flag" class="text-danger">A link must have a label.</p>
         <p><input type="submit" class="btn btn-warning" value="Add Link Box"></p>
       </form>
-      <p> {{ new_link_box | json }} </p>
     </div>
 
     <div class="editor-form" *ngIf="is_tutorial && open_next_component === 'p_box'">
-      <p> Add a paragraph box </p>
+      <h3> Add a paragraph box </h3>
       <form (submit)=postParagraphBoxToService()>
         <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
         <p *ngIf="validator.pbox_title_invalid_flag" class="text-danger">Enter a valid title. Don't worry, you can remove this later.</p>
@@ -180,8 +183,6 @@
         <p><input type="submit" class="btn highlight" value="Add Paragraph Box"></p>
       </form>
     </div>
-
-    <!-- <p>{{temp_file | json}}</p> -->
 </div>
 
 

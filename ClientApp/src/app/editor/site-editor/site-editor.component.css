@@ -5,11 +5,15 @@
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    padding: 5%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    padding-left: 5%;
+    padding-right: 5%;
     background-color: rgb(167, 228, 167);
     border: 2px solid rgb(160, 192, 176);
     border-radius: 5px;
 }
+
 
 .editor-form input, textarea {
     margin-left: 2%;
@@ -24,6 +28,7 @@
     margin-top: 2%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 5%;
     background-color: rgb(167, 228, 167);
     border: 2px solid rgb(160, 192, 176);
     border-radius: 5px;
@@ -31,8 +36,8 @@
 
 .creation-tools button {
     margin-left: 5%;
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 .end-site-mark {
@@ -45,9 +50,40 @@
     border-radius: 5px;
 }
 
+.nav-editor-form {
+    margin-bottom: 50px;
+    margin-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: rgb(167, 228, 167);
+    border: 2px solid rgb(160, 192, 176);
+    border-radius: 5px;
+}
+
+.nav-edit-subsection-one{
+    display: inline-block;
+    padding: 1%;
+}
+
+.nav-edit-subsection-two{   
+    display: inline-block;
+    padding: 1%;
+}
+
+.nav-edit-subsection-two input{
+    margin-left: 3%;
+}
+
 .nav-edit-button{
     margin-left: 5%;
     margin-bottom: 2%;
+    margin-top: 2%;
+    display: inline-block;
 }
 
 .tutorial-box {
@@ -86,6 +122,13 @@
         padding-left: 3%;
         padding-right: 3%;
     }
+
+    .editor-form{
+        padding-top: 2%;
+        padding-bottom: 2%;
+        padding-left: 3%;
+        padding-right: 3%;
+    }
 }
 
 @media (min-width: 1080px){
@@ -99,6 +142,13 @@
 
     .end-site-mark{
         margin-top: 5%;
+    }
+}
+
+@media (min-width: 1200px){
+    .nav-edit-subsection-two{
+        width: 50%;
+        margin-left: 10%;
     }
 }
 
