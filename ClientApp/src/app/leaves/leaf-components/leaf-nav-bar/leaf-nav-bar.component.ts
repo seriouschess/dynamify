@@ -15,6 +15,9 @@ export class LeafNavBarComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if(this.nav_bar_object === null){
+      this.nav_bar_object = { links:[], site_id:0 }
+    }
     
     for(var x = 0; x<this.nav_bar_object.links.length ;x++){
       let url = this.nav_bar_object.links[x].url;
