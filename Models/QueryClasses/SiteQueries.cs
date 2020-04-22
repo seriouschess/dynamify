@@ -24,7 +24,7 @@ namespace dynamify.Models.QueryClasses
 
         public Site QueryFeaturelessSiteById(int site_id){
             List<Site> queryList = dbContext.Sites.Where(x => x.site_id == site_id).ToList();
-            if(site_id == 1){
+            if(queryList.Count == 1){
                 return queryList[0];
             }else{
                 Site blank_site = new Site();
@@ -163,7 +163,8 @@ namespace dynamify.Models.QueryClasses
             try{
                 converted_format.nav_bar = FormatNavBar(found_site.nav_bars[0]);
             }catch(Exception e){
-                System.Console.WriteLine(e);
+                //System.Console.WriteLine(e);
+                System.Console.WriteLine("No nav bar found");
                 converted_format.nav_bar = null;
             }
 
@@ -173,6 +174,7 @@ namespace dynamify.Models.QueryClasses
         public SiteContentDto QuerySiteContentByURL(string url){
             List<Site> FoundSite = QueryFeaturelessSiteByUrl(url);
             if(FoundSite.Count == 1){
+                System.Console.WriteLine($"Site id: {FoundSite[0].site_id}");
                 return QuerySiteContentById(FoundSite[0].site_id);
             }else{
                 SiteContentDto default_site = new SiteContentDto();
@@ -284,9 +286,11 @@ namespace dynamify.Models.QueryClasses
             }
             nav_bar.string_of_links = s;
             if(test_query.Count > 0){
+                System.Console.WriteLine("Detect more than one nav bar");
                 test_query[0].site_id = nav_bar.site_id;
                 test_query[0].string_of_links = nav_bar.string_of_links;
             }else{
+                System.Console.WriteLine("Nav Bar Created");
                 dbContext.Add( nav_bar ); 
             }
             dbContext.SaveChanges(); 
