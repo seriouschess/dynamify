@@ -11,7 +11,7 @@ import { Admin } from '../../interfaces/dtos/admin_dtos';
 })
 
 export class LoginComponent implements OnInit {
-  
+
   constructor(private _httpService:HttpService) { }
   @Output() logEvent = new EventEmitter<Admin>();
   logged_admin: Admin;
@@ -30,8 +30,13 @@ export class LoginComponent implements OnInit {
   first_name_required_error:boolean;
   last_name_required_error:boolean;
   email_validation_error_flag: boolean;
+  duplicate_email_error: boolean;
+
+  //login validation
   login_password_validation_error_flag: boolean;
   login_email_validation_error_flag: boolean;
+
+  general_invalid_registration_error_flag: boolean; //backend denial
 
    ngOnInit() {
 
@@ -59,6 +64,9 @@ export class LoginComponent implements OnInit {
     this.open_registration = false;
 
     //validation flags
+    this.general_invalid_registration_error_flag = false; //backend denial
+    this.duplicate_email_error = false; //backend found duplicate email in registration
+
     this.registration_password_error_flag = false;
     this.password_confirm_error_flag = false;
     this.email_validation_error_flag = false;
@@ -98,7 +106,7 @@ export class LoginComponent implements OnInit {
       this.email_validation_error_flag = false;
     }
 
-    if(this.newAdminObject.password == ""){
+    if(this.newAdminObject.password.length < 8){
       error_count += 1;
       this.registration_password_error_flag = true;
     }else{
@@ -122,16 +130,34 @@ export class LoginComponent implements OnInit {
   postAdminToService(){
     if (this.validateRegistration()){
       //this.newAdminObject.admin_id = 0; //will be changed on the backend
-      this._httpService.postAdmin<AdminRegistrationDto>(this.newAdminObject).subscribe(  //send new admin to backend
+      this._httpService.postAdmin<AdminRegistrationDto>(this.newAdminObject).subscribe( //send new admin to backend
         result => {
-          let incomingAdmin:any = result; //it's an Admin though.
-          this.logged_admin.admin_id = incomingAdmin.admin_id;
-          this.logged_admin.first_name = incomingAdmin.first_name;
-          this.logged_admin.last_name = incomingAdmin.last_name;
-          this.logged_admin.email = incomingAdmin.email;
-          this.logged_admin.password = incomingAdmin.password;
-          this.logged_admin.token = incomingAdmin.token;
-          this.logEvent.emit(this.logged_admin);
+          let _incomingAdmin:any = result; //it's an Admin though.
+          let incomingAdmin:Admin = _incomingAdmin;
+
+          //initialize error flags
+          this.general_invalid_registration_error_flag = false;
+          this.duplicate_email_error = false;
+
+          if(incomingAdmin.first_name == "< Error: Invalid Registration >"){ //clear backend validators
+
+            //notify user of denied credentials
+            this.general_invalid_registration_error_flag = true;
+
+          }else if(incomingAdmin.first_name == "< Error: Duplicate Email >"){
+            this.duplicate_email_error = true;
+
+          }else{
+            //initialize newly created admin
+            this.logged_admin.admin_id = incomingAdmin.admin_id;
+            this.logged_admin.first_name = incomingAdmin.first_name;
+            this.logged_admin.last_name = incomingAdmin.last_name;
+            this.logged_admin.email = incomingAdmin.email;
+            this.logged_admin.password = incomingAdmin.password;
+            this.logged_admin.token = incomingAdmin.token;
+            this.logEvent.emit(this.logged_admin);
+          }
+
         });
     }
   }

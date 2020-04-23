@@ -48,6 +48,8 @@ namespace dynamify.Classes.Auth
             }else{
                 QueryAdmin = QueryAdmins[0];
                 if(!VerifyHash(password, QueryAdmin.password)){
+                    System.Console.WriteLine($"Password: {password}");
+                    System.Console.WriteLine($"Hashed Password: {QueryAdmin.password}");
                     System.Console.WriteLine("Password Denied");
                     errors += 1;
                 }

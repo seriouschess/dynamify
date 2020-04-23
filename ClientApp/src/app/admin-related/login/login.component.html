@@ -1,13 +1,15 @@
 <h3 class="space" *ngIf="open_registration == true"> Register Here: </h3>
 <form *ngIf="open_registration == true" class="form-horizontal registration-box" (submit)="postAdminToService()">
+    <h3 *ngIf="general_invalid_registration_error_flag" class="text-danger"> Server rejected registration credentials. Try changing them. </h3>
     <label>First Name: </label><input class="form-control" name="first_name"[(ngModel)]="newAdminObject.first_name">
     <p *ngIf="first_name_required_error" class="text-danger"> First Name Required. </p>
     <label>Last Name: </label><input class="form-control" name="last_name" [(ngModel)]="newAdminObject.last_name">
     <p *ngIf="last_name_required_error" class="text-danger"> Last Name Required. </p>
     <label>Email: </label><input class="form-control" name="email" [(ngModel)]="newAdminObject.email">
     <p *ngIf="email_validation_error_flag" class="text-danger"> Invalid Email Format.</p>
+    <p *ngIf="duplicate_email_error" class="text-danger"> Email being used by another active Admin. </p>
     <label>Password: </label><input class="form-control" name="password" type="password" [(ngModel)]="newAdminObject.password">
-    <p *ngIf="registration_password_error_flag" class="text-danger"> Enter a password. </p>
+    <p *ngIf="registration_password_error_flag" class="text-danger"> Password must be at least 8 characters long. </p>
     <p *ngIf="password_confirm_error_flag" class="text-danger" > Error: Password does not match Confirmation Password. </p>
     <label>Confirm Password:</label><input class="form-control" name="password_confirm" type="password" [(ngModel)]=password_confirm>
     <input class="btn btn-info space" type="submit" value="Post new Admin">

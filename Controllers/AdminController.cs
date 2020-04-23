@@ -20,9 +20,7 @@ namespace dynamify.Controllers
     {
         private AdminQueries adminQueries;
         private Auth authenticator;
-
         private AdminControllerMethods methods;
-
         public AdminController(AdminQueries _adminQueries)
         {
             adminQueries = _adminQueries;
@@ -44,8 +42,8 @@ namespace dynamify.Controllers
 
         [HttpPost]
         [Route("new")]
-        public ActionResult<Admin> Post([FromBody] AdminRegistrationDto NewAdmin){
-           return methods.PostMethod(NewAdmin);
+        public ActionResult<Admin> Register([FromBody] AdminRegistrationDto NewAdmin){
+           return methods.RegisterMethod(NewAdmin);
         }
 
         //not currently used

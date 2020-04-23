@@ -163,8 +163,9 @@ namespace dynamify.Models.QueryClasses
             try{
                 converted_format.nav_bar = FormatNavBar(found_site.nav_bars[0]);
             }catch(Exception e){
-                //System.Console.WriteLine(e);
-                System.Console.WriteLine("No nav bar found");
+                string message = e.Message;
+                message = "No nav bar found";
+                System.Console.WriteLine(message);
                 converted_format.nav_bar = null;
             }
 
