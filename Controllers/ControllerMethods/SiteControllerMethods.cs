@@ -7,6 +7,7 @@ using dynamify.dtos;
 using dynamify.Models.JsonModels;
 using dynamify.Models.SiteModels;
 using System.Collections.Generic;
+using dynamify.ServerClasses.Validators;
 
 namespace dynamify.Controllers.ControllerMethods
 {
@@ -15,10 +16,12 @@ namespace dynamify.Controllers.ControllerMethods
         private SiteQueries dbQuery;
 
         private SiteAuth authenticator;
+        private SiteCreationValidator validator;
 
         public SiteControllerMethods(SiteQueries _dbQuery, AdminQueries _AdbQuery){
             dbQuery = _dbQuery;
             authenticator = new SiteAuth(_AdbQuery, _dbQuery);
+            validator = new SiteCreationValidator(dbQuery);
         }
 
        public SiteContentDto GetSiteByIdMethod(SiteRequestDto request){
@@ -37,18 +40,17 @@ namespace dynamify.Controllers.ControllerMethods
 
         public JsonResponse PostMethod(NewSiteDto NewSite){
             if(authenticator.VerifyAdmin(NewSite.admin_id, NewSite.token)){
-                List<Site> test = dbQuery.QueryFeaturelessSiteByUrl(NewSite.url);
-                if(test.Count > 0){
-                    JsonResponse r = new JsonFailure("Site must not have duplicate title with existing site.");
-                    return r;
-                }else{
+                string verdict = validator.ValidateSiteUrl(NewSite.url);
+                if(verdict == "pass"){
                     Site SoonToAddSite = new Site();
                     SoonToAddSite.title = NewSite.title;
                     SoonToAddSite.admin_id = NewSite.admin_id;
-                    SoonToAddSite.url = NewSite.url;
+                    SoonToAddSite.url = NewSite.url.ToLower();
                     dbQuery.AddSite(SoonToAddSite);
                     JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
                     return r;
+                }else{
+                    return new JsonFailure(verdict);
                 }
             }else{
                 return new JsonFailure("Invalid Token. Stranger Danger.");

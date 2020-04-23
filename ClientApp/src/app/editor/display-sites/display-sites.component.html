@@ -35,7 +35,7 @@
       <label> Title: </label><input name="title" [(ngModel)]="newSiteObject.title">
       <p *ngIf="reserved_url_error_flag" class="text-danger"> That URL is reserved. Try a different URL. </p>
       <p *ngIf="url_exists_error_flag" class="text-danger"> That URL is taken. Try another. </p>
-      <p *ngIf="newSiteObject.url != '' " class="text text-info"> Site will be live at http://www.siteleaves.com/{{newSiteObject.url}} </p>
+      <p *ngIf="newSiteObject.url != '' " class="text text-info"> Site will be live at http://www.siteleaves.com/{{newSiteObject.url.toLowerCase()}} </p>
       <p *ngIf="newSiteObject.url === '' " class="text text-info"> Site will be live at http://www.siteleaves.com/("Your URL here!") </p>
       <p *ngIf="invalid_url_error_flag" class="text-danger"> Invalid URL: Must contain all letters. May not contain spaces or special characters. </p>
       <p *ngIf="invalid_url_error_flag" class="text-danger"> "nospaces" <- valid URL example --- "$p@ce$ n' Ch@rs123!" <- invalid URL example </p>

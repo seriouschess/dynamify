@@ -4,6 +4,7 @@ using System.Net.Mail;
 using System.Text.RegularExpressions;
 using dynamify.Models;
 using dynamify.Models.QueryClasses;
+using dynamify.Models.SiteModels;
 
 namespace dynamify.ServerClasses.Validators
 {
@@ -94,6 +95,34 @@ namespace dynamify.ServerClasses.Validators
                 return "invalid credentials";
             }
 
+        }
+    }
+
+    public class SiteCreationValidator {
+
+        private SiteQueries SiteDbContext;
+        public SiteCreationValidator(SiteQueries _SitedBContext){ 
+            SiteDbContext = _SitedBContext;
+        }
+
+        public string ValidateSiteUrl(string leaf_url){
+            List<Site> test = SiteDbContext.QueryFeaturelessSiteByUrl(leaf_url);
+            
+            if(test.Count > 0){
+                return "Site must not have duplicate title with existing site.";
+            }
+
+            Regex regex = new Regex( @"^[a-zA-ZäöüßÄÖÜ]+$" );
+
+            Match match = regex.Match(leaf_url);
+
+            if (match.Success){
+                //do nothing, success
+            }else{
+                return "Incomprehensible leaf url. Avoid using special characters.";
+            }
+
+            return "pass";
         }
     }
 }

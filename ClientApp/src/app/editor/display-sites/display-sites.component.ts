@@ -119,11 +119,15 @@ export class DisplaySitesComponent implements OnInit {
         this.all_sites.push(this.newSiteObject);
         this.iterateTutorial();
       }else if(!this.is_tutorial){
-      //this.newSiteObject.admin_id = 0; //will be changed on the backend
-      this._httpService.postSite(this.newSiteObject).subscribe(
+        //this.newSiteObject.admin_id = 0; //will be changed on the backend
+
+        this.newSiteObject.url = this.newSiteObject.url.toLowerCase();
+        this._httpService.postSite(this.newSiteObject).subscribe(
         result => {
           let _server_response:any = result; //wow
           let server_response:JsonResponseDto = _server_response;
+
+          console.log(server_response.response);
 
           //check backend for duplicate URL
           if(server_response.response.includes("success")){ 
