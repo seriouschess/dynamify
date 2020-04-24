@@ -1,0 +1,80 @@
+
+.background-forest{
+    background-image: url("../image-files/high-leaves.jpg");
+    background-color: black;
+    max-width: 1200px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+}
+
+.bf-one{
+    background-position: bottom left;
+}
+
+.bf-two{
+    background-position: bottom center;
+}
+
+.h-list{
+    padding: 5%;
+    display: block;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.h-border{
+    /* border: 1px solid rgb(49, 126, 55); */
+    border: 2px solid rgb(160, 192, 176);
+}
+
+.h-background{
+    background-color: rgb(167, 228, 167);
+}
+
+.buffer{
+    margin-top: 5%;
+}
+
+.h-list-odd{
+    background-color: rgb(175, 236, 218);
+}
+
+.h-list-even{
+    background-color: rgb(210, 238, 176);
+}
+
+@media (min-width: 800px){
+    .h-border{
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+}
+
+@media (min-width: 1080px){
+    .h-list{
+        padding: 2%;
+        /* display: inline-block; */
+    }
+
+    .h-list-right{
+        margin-left: 5px;
+    }
+
+    .buffer{
+        margin-top: 3%;
+    }
+}
+
+@media (min-width: 1350px){
+    .h-list{
+        display: inline-block;
+    }
+
+    .h-border{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
