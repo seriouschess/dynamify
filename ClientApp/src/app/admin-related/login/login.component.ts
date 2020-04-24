@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
 
   //asthetics
   open_registration:boolean;
+  display_use_terms:boolean;
   
   //validation fields
   error_display: string;
@@ -61,7 +62,9 @@ export class LoginComponent implements OnInit {
     this.error_display = "";
     this.password_confirm = "";
 
+    //functionality
     this.open_registration = false;
+    this.display_use_terms = false;
 
     //validation flags
     this.general_invalid_registration_error_flag = false; //backend denial
@@ -220,5 +223,14 @@ export class LoginComponent implements OnInit {
 
     openRegistration(){
       this.open_registration = true;
+    }
+
+    closeRegistration(){
+      this.open_registration = false;
+      this.display_use_terms = false;
+    }
+
+    toggleTerms(){
+      this.display_use_terms = !this.display_use_terms;
     }
 }

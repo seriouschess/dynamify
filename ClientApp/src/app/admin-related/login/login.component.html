@@ -1,3 +1,6 @@
+<h1 class="text-center">Let's get started</h1>
+<!-- <div class="background-forest generic-element bf-one"></div> -->
+
 <h3 class="space" *ngIf="open_registration == true"> Register Here: </h3>
 <form *ngIf="open_registration == true" class="form-horizontal registration-box" (submit)="postAdminToService()">
     <h3 *ngIf="general_invalid_registration_error_flag" class="text-danger"> Server rejected registration credentials. Try changing them. </h3>
@@ -15,6 +18,27 @@
     <input class="btn btn-info space" type="submit" value="Post new Admin">
 </form>
 
+<p class="generic-element" *ngIf="open_registration == true && display_use_terms == false"> By registering, it is understood that you have read the terms of use. <button class="btn btn-warning" (click)="toggleTerms()"> Click here to read.</button></p>
+
+<div class="generic-element" *ngIf="display_use_terms == true">
+  
+  <h3> Beta Test Disclaimer: </h3>
+  <p> This project is in the beta phase of development. As of now, everything is subject to change.
+    Feel free to use the service as you will, but be aware that the content you create at this time is not precious
+    and may be rearranged or even lost as data structures undergo change. Such changes are not panned,
+    or even desired, but they are a possibility you should be aware of in using the service at this stage. 
+    Thank you for participating in the beta test. </p>
+
+  <h3>Terms of use:</h3>
+  <p> By using this service, you agree that all content you create and post is not in any way protected by any privacy rights. 
+    Any person may publicly view, share, or even collect the content you create. You retain full ownership of the intellectual property of your content. 
+    You are not obligated to share private information about yourself, and any information you feel is sensitive to your privacy should not be posted on the internet.
+  </p>
+</div>
+
+
+
+<div *ngIf="open_registration == false" >
 <h3 class="space"> Login here to begin: </h3>
 <p class="text-danger"> {{error_display}} </p>
   <form class="form-horizontal registration-box" (submit)="loginAdmin()">
@@ -24,8 +48,11 @@
     <p *ngIf="login_password_validation_error_flag" class="text-danger"> Enter a password </p>
     <input class="btn btn-info space" type="submit" value="Login">
   </form>
+</div>
 
 <h5 class="registration-button" *ngIf="open_registration == false"> If you do not have an admin account, you may register one here. <button (click)="openRegistration()" class="btn btn-info"> Register </button></h5>
 
+<div class="background-forest generic-element bf-two"></div>
 
+<p class="generic-element login-footer" *ngIf="open_registration == true">If you remember your admin credentials, you may login instead <button class="btn btn-info" (click)="closeRegistration()">Login</button><p></p>
 
