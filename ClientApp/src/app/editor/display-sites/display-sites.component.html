@@ -1,9 +1,9 @@
 
 <div *ngIf="is_tutorial" class="container tutorial-box">
-  <h3 *ngIf="tutorial_sequence == 1" class="text-info"> Welcome to the site creation page! Click ok to continue. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 *ngIf="tutorial_sequence == 2" class="text-info"> This is where you create sites using your account. You will see that there are none becuse you need to create one! <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 *ngIf="tutorial_sequence == 3" class="text-info"> Enter a title and click below to create a single-page site. All site names must be unique.</h3>
-  <h3 *ngIf="tutorial_sequence == 4" class="text-info"> Well Done! You've made a site. Now click Edit to start adding content.</h3>
+  <h3 *ngIf="tutorial_sequence == 1" class="text-info"> Welcome to the leaf creation page! Click ok to continue. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 *ngIf="tutorial_sequence == 2" class="text-info"> This is where you create leaves using your account. You will see that there are none becuse you need to create one! <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 *ngIf="tutorial_sequence == 3" class="text-info"> Enter a title to be displayed at the top of your leaf as well as a valid url extension so people can find it. All leaf urls must be unique and must be all letters. </h3>
+  <h3 *ngIf="tutorial_sequence == 4" class="text-info"> Well Done! You've made a leaf. Now click Edit to start adding content.</h3>
 </div>  
 <div class="container">
   <h2 *ngIf="all_sites.length == 0"> Create a new leaf by filling out the information below. </h2>
