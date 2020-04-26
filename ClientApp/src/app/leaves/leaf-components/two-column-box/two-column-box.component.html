@@ -1,12 +1,12 @@
 <div class="site-component-container">
-  <h2 class="title">{{tcb_object.title}}</h2> 
+  <h2 *ngIf = "tcb_object.title != ''" class="title">{{tcb_object.title}}</h2> 
     <div class="row">
       <div class="column-left">
-        <h3 class="title"> {{tcb_object.heading_one}} </h3>
+        <h3 *ngIf="tcb_object.heading_one != ''" class="title"> {{tcb_object.heading_one}} </h3>
           <p class="column-block">{{tcb_object.content_one}}</p>
       </div>
       <div class="column-right">
-        <h3 class="title"> {{tcb_object.heading_two}} </h3>
+        <h3 *ngIf="tcb_object.heading_two != ''" class="title"> {{tcb_object.heading_two}} </h3>
           <p class="column-block">{{tcb_object.content_two}}</p>
       </div>
     </div>

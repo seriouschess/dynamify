@@ -1,6 +1,6 @@
 
 <div class="site-component-container">
-    <h2> {{ link_box_object.title }} </h2>  
+    <h2 *ngIf = "link_box_object.title != ''" > {{ link_box_object.title }} </h2>  
     <div class="text-container">
         <p class="font-weight-light"> <a target="_blank" rel="noopener noreferrer" href="{{link_box_object.url}}">{{ link_box_object.link_display }}</a> {{ link_box_object.content }} </p>
     </div>

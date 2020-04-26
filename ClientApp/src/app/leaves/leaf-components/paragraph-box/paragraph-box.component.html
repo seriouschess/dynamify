@@ -1,5 +1,5 @@
 <div class="site-component-container">
-    <h2 class="title">{{pbox_object.title}}</h2>
+    <h2 *ngIf="pbox_object.title != ''" class="title">{{pbox_object.title}}</h2>
     <p class="text-format"> {{pbox_object.content}}</p>
 </div>
 

@@ -167,6 +167,7 @@ export class SiteEditorComponent implements OnInit {
     if(this_component.new_nav_bar.links.length === 0 && this_component.is_tutorial === false){
       this_component.new_nav_bar.links = formatted_site.nav_bar.links;
     }
+    this_component.initializeComponents();
   }
 
   //sets priority value for newly posted sites to be at the end of the list
@@ -179,7 +180,6 @@ export class SiteEditorComponent implements OnInit {
     }else{
       new_priority = this.formatted_site.site_components[number_of_components].priority + 100;
     }
-    console.log(new_priority);
     this.new_paragraph_box.priority = new_priority;
     this.new_2c_box.priority = new_priority;
     this.new_image.priority = new_priority;
@@ -190,7 +190,6 @@ export class SiteEditorComponent implements OnInit {
   deleteSiteComponentByIdAndType(component_id:number, type:string){
     this._httpService.deleteSiteComponent(component_id, type, this.current_admin_id, this.current_admin_token).subscribe(result =>{
       this.requireSite();
-      console.log(result);
     });  
   }
 
@@ -235,6 +234,7 @@ export class SiteEditorComponent implements OnInit {
       this.new_portrait.image_src ="";
       this.validator.image_src_invalid_flag = false;
     }
+    this.initializeComponents();
   }
 
   //sets preview mode on and off
@@ -250,7 +250,6 @@ export class SiteEditorComponent implements OnInit {
 
   pushLinkToBar(){
     if(this.validator.validateNavBarLink(this.new_nav_link)){
-      console.log("Link to bar pushed.");
       let addition:NavLink = {
         label: this.new_nav_link.label,
         url: this.new_nav_link.url
@@ -274,9 +273,7 @@ export class SiteEditorComponent implements OnInit {
       //do nothing
     }else{
         if(true){ //additional validators required?
-        console.log(`Sending Nav bar: ${this.new_nav_bar}`);
         this._httpService.postNavBar(this.new_nav_bar, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-          console.log(results);
           this.requireSite();
           //this.toggleNavBarEditor();
           this.open_next_component="";
@@ -296,7 +293,6 @@ export class SiteEditorComponent implements OnInit {
       }else{
         this.setPriority();
         this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-          console.log(results);
           this.requireSite();
           this.open_next_component=""; //reset editing tool options
         }, error => console.log(error));
@@ -332,7 +328,6 @@ export class SiteEditorComponent implements OnInit {
         this.setPriority();
         //this.new_image.image_src = this.temp_file.data;
         this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-          console.log(results);
           this.requireSite();
           this.open_next_component="";
         }, error => console.log(error));
@@ -350,7 +345,6 @@ export class SiteEditorComponent implements OnInit {
       this.setPriority();
       if(this.validator.validatePortrait(this.new_portrait, this.new_portrait.image_src)){
         this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-          console.log(results);
           this.requireSite();
           this.open_next_component="";
         }, error => console.log(error));
@@ -368,9 +362,7 @@ export class SiteEditorComponent implements OnInit {
     }else{
       this.setPriority();
       if(this.validator.validateLinkBox(this.new_link_box)){
-        console.log("me");
         this._httpService.postLinkBox(this.new_link_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-          console.log(results);
           this.requireSite();
           this.open_next_component="";
         }, error => console.log(error));
@@ -408,10 +400,8 @@ export class SiteEditorComponent implements OnInit {
 
   cycleCssHighlight(){ //do we need this?
     if(this.flash){
-      console.log(this.flash);
       this.flash = false;
     }else{
-      console.log(this.flash);
       this.flash = true;
     }
   }

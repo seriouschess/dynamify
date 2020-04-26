@@ -2,7 +2,7 @@
 <div class="site-component-container">
     <img class="image" src="{{portrait_object.image_src}}" alt="{{portrait_object.image_src}}">
     <div class="text-container">
-        <h2 class="title">{{portrait_object.title}}</h2>  
+        <h2 *ngIf ="portrait_object.title != ''" class="title">{{portrait_object.title}}</h2>  
         <p class="text-format">{{portrait_object.content}}</p>
     </div>
 </div>
