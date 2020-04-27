@@ -1,4 +1,5 @@
 /* Editor Specific Options */
+
 .editor-form {
     margin-bottom: 50px;
     margin-top: 60px;
@@ -99,6 +100,10 @@
 
 .highlight {
     margin-left: 5%;
+}
+
+.bump-down{
+    margin-top: 5%;
 }
 
 @media (min-width:500px){

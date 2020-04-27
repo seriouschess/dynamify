@@ -301,13 +301,14 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postTwoColumnBoxToService(){
-    if(this.is_tutorial == true){
-      let type = "2c_box";
-      this._siteFormatter.sortSite(this.formatted_site, this.new_2c_box, type, this.recieveSite, this);
-      this.initializeComponents();
-      this.open_next_component="";
-    }else{
-        if(this.validator.validateTwoColumnBox(this.new_2c_box)){
+    if(this.validator.validateTwoColumnBox(this.new_2c_box)){
+      if(this.is_tutorial == true){
+        let type = "2c_box";
+        this._siteFormatter.sortSite(this.formatted_site, this.new_2c_box, type, this.recieveSite, this);
+        this.initializeComponents();
+        this.open_next_component="";
+      }else{
+          
         this.setPriority();
         this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           this.requireSite();
@@ -318,36 +319,38 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postImageToService(){
-    if(this.is_tutorial == true){
-      let type = "image";
-      this._siteFormatter.sortSite(this.formatted_site, this.new_image, type, this.recieveSite, this);
-      this.initializeComponents();
-      this.open_next_component="";
-    }else{
-      if(this.validator.validateImage(this.new_image, this.new_image.image_src)){
-        this.setPriority();
-        //this.new_image.image_src = this.temp_file.data;
-        this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-          this.requireSite();
-          this.open_next_component="";
-        }, error => console.log(error));
+    if(this.validator.validateImage(this.new_image, this.new_image.image_src)){
+      if(this.is_tutorial == true){
+        let type = "image";
+        this._siteFormatter.sortSite(this.formatted_site, this.new_image, type, this.recieveSite, this);
+        this.initializeComponents();
+        this.open_next_component="";
+      }else{
+        if(this.validator.validateImage(this.new_image, this.new_image.image_src)){
+          this.setPriority();
+          //this.new_image.image_src = this.temp_file.data;
+          this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+            this.requireSite();
+            this.open_next_component="";
+          }, error => console.log(error));
+        }
       }
     }
   }
 
   postPortraitToService(){
-    if(this.is_tutorial == true){
-      let type = "portrait";
-      this._siteFormatter.sortSite(this.formatted_site, this.new_portrait, type, this.recieveSite, this);
-      this.initializeComponents();
-      this.open_next_component="";
-    }else{
-      this.setPriority();
-      if(this.validator.validatePortrait(this.new_portrait, this.new_portrait.image_src)){
-        this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-          this.requireSite();
-          this.open_next_component="";
-        }, error => console.log(error));
+    if(this.validator.validatePortrait(this.new_portrait, this.new_portrait.image_src)){
+      if(this.is_tutorial == true){
+        let type = "portrait";
+        this._siteFormatter.sortSite(this.formatted_site, this.new_portrait, type, this.recieveSite, this);
+        this.initializeComponents();
+        this.open_next_component="";
+      }else{
+        this.setPriority();
+          this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+            this.requireSite();
+            this.open_next_component="";
+          }, error => console.log(error));
       }
     }
   }
