@@ -167,7 +167,7 @@ export class SiteEditorComponent implements OnInit {
     if(this_component.new_nav_bar.links.length === 0 && this_component.is_tutorial === false){
       this_component.new_nav_bar.links = formatted_site.nav_bar.links;
     }
-    this_component.initializeComponents();
+    //this_component.initializeComponents(); can't have this due to nav bar link push logic resetting
   }
 
   //sets priority value for newly posted sites to be at the end of the list
