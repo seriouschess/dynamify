@@ -67,12 +67,16 @@
 }
 
 .nav-edit-subsection-one{
-    display: inline-block;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     padding: 1%;
 }
 
 .nav-edit-subsection-two{   
-    display: inline-block;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     padding: 1%;
 }
 
@@ -148,12 +152,16 @@
     .end-site-mark{
         margin-top: 5%;
     }
-}
 
-@media (min-width: 1200px){
-    .nav-edit-subsection-two{
+    .nav-edit-subsection-one{
+        display: inline-block;
+        width: 45%;
+    }
+    
+    .nav-edit-subsection-two{   
+        display: inline-block;
         width: 50%;
-        margin-left: 10%;
+        margin-left: 5%;
     }
 }
 

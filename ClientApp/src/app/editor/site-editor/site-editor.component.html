@@ -28,7 +28,7 @@
         <p *ngIf="new_nav_bar.links.length == 0"> Add links for your topside Nav Bar</p>
         <p *ngIf="new_nav_bar.links.length > 0">Current Links:</p>
         <div *ngFor="let link of new_nav_bar.links">
-            <p> Label: {{link.label}}  Url: {{link.url}}</p>
+            <p class="text-info"> Label: {{link.label}}  Url: {{link.url}}</p>
         </div>
       </div>
       <div class="nav-edit-subsection-two" >

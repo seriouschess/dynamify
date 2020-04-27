@@ -77,6 +77,7 @@ export class SiteEditorComponent implements OnInit {
      }
 
      this.initializeComponents();
+     this.resetNavBar();
 
     //image converter async flag
     this.image_converter_working = false;
@@ -99,14 +100,6 @@ export class SiteEditorComponent implements OnInit {
 
   initializeComponents(){
     // let link_one:NavLink = {url:"http://www.cnn.com", label:"News Site"}
-    this.new_nav_bar = {
-      links: [],
-      site_id: this.current_site_id
-    },
-    this.new_nav_link = {
-      label: "",
-      url: ""
-    },
 
     this.new_paragraph_box = {
       title: "",
@@ -149,6 +142,17 @@ export class SiteEditorComponent implements OnInit {
       content: "",
       url: "",
       link_display: ""
+    }
+  }
+
+  resetNavBar(){
+    this.new_nav_bar = {
+      links: [],
+      site_id: this.current_site_id
+    }
+    this.new_nav_link = {
+      label: "",
+      url: ""
     }
   }
 
