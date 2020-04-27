@@ -200,6 +200,7 @@ export class SiteEditorComponent implements OnInit {
 
   //set editors
   setPboxEdit(){
+    this.initializeComponents();
     this.validator.resetValidation();
     if( this.is_tutorial ){
       if(this.tutorial_sequence == 4){
@@ -211,21 +212,25 @@ export class SiteEditorComponent implements OnInit {
 
   set2cBoxEdit(){
     this.validator.resetValidation();
+    this.initializeComponents();
     this.open_next_component="2c_box";
   }
 
   setPortraitEdit(){
     this.validator.resetValidation();
+    this.initializeComponents();
     this.open_next_component="portrait";
   }
 
   setImageEdit(){
     this.validator.resetValidation();
+    this.initializeComponents();
     this.open_next_component="image";
   }
 
   setLinkBoxEdit(){
       this.validator.resetValidation();
+      this.initializeComponents();
       this.open_next_component= "link_box";
   }
 
