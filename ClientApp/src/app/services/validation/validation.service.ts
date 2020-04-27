@@ -13,6 +13,7 @@ export class ValidationService {
   
     // image_title_invalid_flag:boolean;
     image_src_invalid_flag:boolean; //used in portraits too
+    image_src_invalid_size_flag:boolean;
   
     // portrait_title_invalid_flag:boolean;
     portrait_content_invalid_flag:boolean;
@@ -84,7 +85,7 @@ export class ValidationService {
     }
   }
 
-  validateImage(test_box:Image, image_src:string){
+  validateImage(image_src:string){
     let error_count = 0;
 
     // if(test_box.title == ""){
@@ -94,11 +95,11 @@ export class ValidationService {
     //   this.image_title_invalid_flag = false;
     // }
 
-    if(this.image_src_invalid_flag == true){ //from setImageBase64()
-      error_count += 1;
-    }
+    // if(this.image_src_invalid_flag == true){ ------not needed, b64converter makes this check-----
+    //   error_count += 1;
+    // }
 
-    if(image_src === ""){
+    if(image_src === ""){ 
       this.image_src_invalid_flag = true;
       error_count += 1;
     }else{
@@ -174,9 +175,9 @@ export class ValidationService {
       this.portrait_content_invalid_flag = false;
     }
 
-    if(this.image_src_invalid_flag == true){ //from setImageBase64()
-      error_count += 1;
-    }
+    // if(this.image_src_invalid_flag == true){ ------not needed, b64converter makes this check-----
+    //   error_count += 1;
+    // }
 
 
     if(image_src === ""){

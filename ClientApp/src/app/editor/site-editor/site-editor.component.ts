@@ -78,6 +78,7 @@ export class SiteEditorComponent implements OnInit {
 
      this.initializeComponents();
      this.resetNavBar();
+     this.validator.resetValidation();
 
     //image converter async flag
     this.image_converter_working = false;
@@ -199,6 +200,7 @@ export class SiteEditorComponent implements OnInit {
 
   //set editors
   setPboxEdit(){
+    this.validator.resetValidation();
     if( this.is_tutorial ){
       if(this.tutorial_sequence == 4){
         this.iterateTutorial();
@@ -208,18 +210,22 @@ export class SiteEditorComponent implements OnInit {
   }
 
   set2cBoxEdit(){
+    this.validator.resetValidation();
     this.open_next_component="2c_box";
   }
 
   setPortraitEdit(){
+    this.validator.resetValidation();
     this.open_next_component="portrait";
   }
 
   setImageEdit(){
+    this.validator.resetValidation();
     this.open_next_component="image";
   }
 
   setLinkBoxEdit(){
+      this.validator.resetValidation();
       this.open_next_component= "link_box";
   }
 
@@ -251,7 +257,6 @@ export class SiteEditorComponent implements OnInit {
   }
 
   //Site update methods
-
   pushLinkToBar(){
     if(this.validator.validateNavBarLink(this.new_nav_link)){
       let addition:NavLink = {
@@ -287,6 +292,7 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postParagraphBoxToService(){
+    this.validator.resetValidation();
     if(this.validator.validatePbox(this.new_paragraph_box)){
       if(this.is_tutorial == true){
         let type = "p_box";
@@ -305,6 +311,7 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postTwoColumnBoxToService(){
+    this.validator.resetValidation();
     if(this.validator.validateTwoColumnBox(this.new_2c_box)){
       if(this.is_tutorial == true){
         let type = "2c_box";
@@ -312,7 +319,6 @@ export class SiteEditorComponent implements OnInit {
         this.initializeComponents();
         this.open_next_component="";
       }else{
-          
         this.setPriority();
         this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           this.requireSite();
@@ -323,26 +329,26 @@ export class SiteEditorComponent implements OnInit {
   }
 
   postImageToService(){
-    if(this.validator.validateImage(this.new_image, this.new_image.image_src)){
+     //this.validator.resetValidation();
+    if(this.validator.validateImage(this.new_image.image_src)){ //validate this.new_image?
       if(this.is_tutorial == true){
         let type = "image";
         this._siteFormatter.sortSite(this.formatted_site, this.new_image, type, this.recieveSite, this);
         this.initializeComponents();
         this.open_next_component="";
       }else{
-        if(this.validator.validateImage(this.new_image, this.new_image.image_src)){
           this.setPriority();
           //this.new_image.image_src = this.temp_file.data;
           this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
             this.requireSite();
             this.open_next_component="";
           }, error => console.log(error));
-        }
       }
     }
   }
 
   postPortraitToService(){
+    this.validator.resetValidation();
     if(this.validator.validatePortrait(this.new_portrait, this.new_portrait.image_src)){
       if(this.is_tutorial == true){
         let type = "portrait";
@@ -385,12 +391,15 @@ export class SiteEditorComponent implements OnInit {
   //for use with setImageBase64() required for async data retrieval
   B64Callback(output_string: string, this_component:SiteEditorComponent){
     this_component.image_converter_working = false;
-    if(output_string === "invalid_file_type"){
+    if(output_string === "invalid_file_size"){
+      this_component.validator.image_src_invalid_size_flag = true;
+    }else if(output_string === "invalid_file_type"){
       this_component.validator.image_src_invalid_flag = true;
     }else{
       this_component.new_image.image_src = output_string;
       this_component.new_portrait.image_src = output_string;
       this_component.validator.image_src_invalid_flag = false;
+      this_component.validator.image_src_invalid_size_flag = false;
     }
   }
 

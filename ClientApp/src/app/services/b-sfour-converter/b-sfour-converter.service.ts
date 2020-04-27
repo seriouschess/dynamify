@@ -21,18 +21,18 @@ export class BSfourConverterService {
   
       reader.readAsDataURL(file);
       let valid = false;
-
-      console.log(residing_component);
+      let file_too_big_flag = false;
   
       //cheating
       //let this_component_object:SiteEditorComponent = residing_component; //used for callback function
-      console.log(residing_component);
       let callback = residing_component.B64Callback;
-      let current_component = residing_component;
-      console.log(callback);
   
       reader.onload = function() {
         let file_base_64:string = reader.result+"";
+
+        if(file_base_64.length > 753483){ //b64 string length of a 
+          file_too_big_flag = true;
+        }
   
         //validate file type
         for(var x=0; x<100 ;x++){
@@ -50,7 +50,11 @@ export class BSfourConverterService {
             }
           }
         }
-        if(valid == true){
+        
+        if(file_too_big_flag == true){
+          console.log("invalid_file_size");
+          callback("invalid_file_size", residing_component);
+        }else if(valid == true){
           console.log("Base64 String: "+file_base_64);
           callback(file_base_64, residing_component);
         }else{ //invalid file type
