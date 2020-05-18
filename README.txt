@@ -1,7 +1,18 @@
-Note: caniuse-lite and browserslist have been removed from angular's package.json and must be manually installed.
+Dynamify (WorkingTitle):
 
-Required dotnet packages from nuget via the dotnet cli:
+--- App is live on www.siteleaves.com ---
 
-dotnet add package Newtonsoft.Json
+ - Web Application where users can register and create their own websites using in app tools.
+ - Indended to enable non-technical people to be able to easily create their own websites.
 
-dotnet add package BCrypt.Net-Core
+1.0 version complete:
+- Admins create sites with custom url extensions
+- 6 different site component types
+- built in tutorial module
+
+
+Installation Notes (May 2020): 
+    - Depending on the version of angular CLI you use, you may need to remove some entries from the browserslist file.
+    - appsettings.json contains fake database information.
+    - encryption salts are also fake. 
+
