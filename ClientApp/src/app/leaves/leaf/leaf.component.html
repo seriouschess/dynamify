@@ -1,2 +1,3 @@
 <app-page-not-found *ngIf="formatted_site.title == 'base'"></app-page-not-found>
 <app-page-generator *ngIf="formatted_site.title != 'base'" [formatted_site]="formatted_site"></app-page-generator>
+<app-ana *ngIf='leaf_url != underfined && leaf_url != null'></app-ana>

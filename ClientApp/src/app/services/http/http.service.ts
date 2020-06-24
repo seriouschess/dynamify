@@ -10,6 +10,8 @@ import { ComponentReference } from '../../interfaces/dtos/component_reference';
 import { INewSiteDto } from '../../interfaces/dtos/new_site_dto';
 import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { ISiteContentDto } from '../../interfaces/dtos/site_content_dto';
+import { Observable } from 'rxjs';
+import { session } from 'src/app/interfaces/dtos/analytics_session_dto';
 
 @Injectable({
   providedIn: 'root'
@@ -104,6 +106,27 @@ export class HttpService {
   postNavBar(nav_bar: NavBar, admin_id: number, admin_token:string){
     return this._http.post(`api/site/create/nav_bar/${admin_id}/${admin_token}`, nav_bar);
   }
+
+  //analytics
+  createSession():Observable<object>{
+    let s:session = {
+      session_id:0,
+      token:"duaiosfbol",
+      time_on_homepage:0,
+      url: window.location.href
+    }
+    return this._http.post(`http://analytics.siteleaves.com/storage/create`, s);
+  }
+
+  updateSession( s:session ):Observable<object>{
+    // let s:session = {
+    //   session_id: 0,
+    //   token:token,
+    //   time_on_homepage: time,
+    //   url: window.location.href
+    // }
+    return this._http.post(`http://analytics.siteleaves.com/storage/update`, s);
+  } 
 }
 
 
