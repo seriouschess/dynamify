@@ -10,6 +10,7 @@ const routes: Routes = [
     { path: '', component: HomepageComponent, pathMatch: 'full' },
     { path: 'base/admin', component: AdminComponent },
     { path: 'base/tutorial', component: TutorialComponent },
+    { path: 'base/not-found', component: PageNotFoundComponent },
     { path: ':leaf_url', component: LeafComponent },
     { path: '**', component: PageNotFoundComponent }
   ]

@@ -1,6 +1,6 @@
 //Angular resources
 import { Injectable } from '@angular/core';
-import{ HttpClient } from '@angular/common/http';
+import{ HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 //dto imports
 import { Admin } from '../../interfaces/dtos/admin_dtos';
@@ -11,6 +11,8 @@ import { INewSiteDto } from '../../interfaces/dtos/new_site_dto';
 import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { ISiteContentDto } from '../../interfaces/dtos/site_content_dto';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 import { session } from 'src/app/interfaces/dtos/analytics_session_dto';
 
 @Injectable({
@@ -58,7 +60,12 @@ export class HttpService {
   }
 
   getLeafByURL(leaf_url:string){
-    return this._http.get<ISiteContentDto>(`api/site/get_by_url/${leaf_url}`);
+    return this._http.get<ISiteContentDto>(`api/site/get_by_url/${leaf_url}`, {observe: 'response'})
+    .pipe(
+      catchError(() =>{
+        return throwError(new Error('Leaf Not Found'));
+      })
+    );
   }
 
   getSitesByAdmin(admin_id: number, admin_token: string) {

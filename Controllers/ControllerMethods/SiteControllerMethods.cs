@@ -34,8 +34,12 @@ namespace dynamify.Controllers.ControllerMethods
        }
 
        public SiteContentDto GetByURLMethod(string leaf_url){
-            SiteContentDto foundSite = dbQuery.QuerySiteContentByURL(leaf_url);
-            return foundSite;
+           try{
+               SiteContentDto foundSite = dbQuery.QuerySiteContentByURL(leaf_url);
+                return foundSite; 
+           }catch{
+               throw new System.ArgumentException("url not found");
+           }
        }
 
         public JsonResponse PostMethod(NewSiteDto NewSite){

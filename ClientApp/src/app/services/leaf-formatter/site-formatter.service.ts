@@ -21,7 +21,13 @@ export class SiteFormatterService {
   }
 
   getLeafByURLFormatted(leaf_url, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called:any){
-    this._httpService.getLeafByURL(leaf_url).subscribe(data => format(data, callback, object_which_called));
+      this._httpService.getLeafByURL(leaf_url).subscribe(data =>{
+        console.log(data.body);
+        format(data.body, callback, object_which_called);
+      },
+      err =>{
+        returnNull(callback, object_which_called);
+      } );
   }
 
   //methods used by tuorial
@@ -104,6 +110,10 @@ export class SiteFormatterService {
   }
 }
 
+function returnNull(callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
+  callback(null, object_which_called);
+}
+
 //Updates an angular component with an ISiteFormatted sorted by priority
 function format(data:any, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
     var s:any = data; //just for now I swear!
@@ -163,8 +173,8 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
         site_components: sorted_list_of_site_components
       }
   
-        //callback is used for the componentto recieve the data from the formatter.
-        callback(formatted_site, object_which_called); 
+      //callback is used for the componentto recieve the data from the formatter.
+      callback(formatted_site, object_which_called); 
     }
 }
 

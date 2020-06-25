@@ -176,11 +176,9 @@ namespace dynamify.Models.QueryClasses
             List<Site> FoundSite = QueryFeaturelessSiteByUrl(url);
             if(FoundSite.Count == 1){
                 System.Console.WriteLine($"Site id: {FoundSite[0].site_id}");
-                return QuerySiteContentById(FoundSite[0].site_id);
+                return QuerySiteContentById( FoundSite[0].site_id );
             }else{
-                SiteContentDto default_site = new SiteContentDto();
-                default_site.title = "base";
-                return default_site;
+                throw new System.ArgumentException("url not found");
             } 
         }
 
