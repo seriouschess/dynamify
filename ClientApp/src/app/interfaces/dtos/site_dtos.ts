@@ -1,5 +1,5 @@
 //site interfaces
-import { Admin } from './admin_dtos';
+import { Admin } from './admin_dto';
 
 export interface Site{
     site_id: number;

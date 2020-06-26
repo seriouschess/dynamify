@@ -5,12 +5,14 @@ import { TutorialComponent } from './editor/tutorial/tutorial.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { LeafComponent } from './leaves/leaf/leaf.component';
+import { LogoutComponent } from './admin-related/logout/logout.component';
 
 const routes: Routes = [
     { path: '', component: HomepageComponent, pathMatch: 'full' },
     { path: 'base/admin', component: AdminComponent },
     { path: 'base/tutorial', component: TutorialComponent },
     { path: 'base/not-found', component: PageNotFoundComponent },
+    { path: 'base/logout', component: LogoutComponent },
     { path: ':leaf_url', component: LeafComponent },
     { path: '**', component: PageNotFoundComponent }
   ]

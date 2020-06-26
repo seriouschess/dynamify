@@ -1,18 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ClientStorageService } from '../services/client-storage/client-storage.service';
 
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent {
-  isExpanded = false;
+export class NavMenuComponent implements OnInit {
 
-  collapse() {
+  @Input() logged_in: boolean;
+  isExpanded: boolean;
+
+  constructor( private _clientStorage:ClientStorageService ){}
+  
+  ngOnInit(): void {
+    this.updateLogin();
     this.isExpanded = false;
   }
 
-  toggle() {
+  collapse(){
+    this.isExpanded = false;
+  }
+
+  toggle(){
     this.isExpanded = !this.isExpanded;
+  }
+
+  updateLogin(){
+    if(this._clientStorage.checkLogin()){
+      this.logged_in = true;
+    }else{
+      this.logged_in = false;
+    }
   }
 }

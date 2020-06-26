@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import{ HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 //dto imports
-import { Admin } from '../../interfaces/dtos/admin_dtos';
+import { Admin } from '../../interfaces/dtos/admin_dto';
 import { Login } from '../../interfaces/dtos/login_dto';
 import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox, NavBar } from '../../interfaces/dtos/site_dtos';
 import { ComponentReference } from '../../interfaces/dtos/component_reference';

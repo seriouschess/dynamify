@@ -23,6 +23,7 @@ import { LinkBoxComponent } from './leaves/leaf-components/link-box/link-box.com
 import { LeafComponent } from './leaves/leaf/leaf.component';
 import { LeafNavBarComponent } from './leaves/leaf-components/leaf-nav-bar/leaf-nav-bar.component';
 import { AnaComponent } from './ana/ana.component';
+import { LogoutComponent } from './admin-related/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AnaComponent } from './ana/ana.component';
     LinkBoxComponent,
     LeafComponent,
     LeafNavBarComponent,
-    AnaComponent
+    AnaComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
