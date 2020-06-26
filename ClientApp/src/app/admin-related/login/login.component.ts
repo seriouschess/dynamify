@@ -2,7 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpService } from '../../services/http/http.service';
 import { AdminRegistrationDto } from '../../interfaces/dtos/admin_registration_dto';
 import { Login } from '../../interfaces/dtos/login_dto';
-import { Admin } from '../../interfaces/dtos/admin_dtos';
+import { Admin } from '../../interfaces/dtos/admin_dto';
+import { ClientStorageService } from '../../services/client-storage/client-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,8 @@ import { Admin } from '../../interfaces/dtos/admin_dtos';
 
 export class LoginComponent implements OnInit {
 
-  constructor(private _httpService:HttpService) { }
+  constructor(private _httpService:HttpService,
+              private _clientStorage: ClientStorageService ) { }
   @Output() logEvent = new EventEmitter<Admin>();
   logged_admin: Admin;
   newAdminObject: AdminRegistrationDto;
@@ -158,6 +160,9 @@ export class LoginComponent implements OnInit {
             this.logged_admin.email = incomingAdmin.email;
             this.logged_admin.password = incomingAdmin.password;
             this.logged_admin.token = incomingAdmin.token;
+
+            this._clientStorage.storeAdmin( this.logged_admin );
+
             this.logEvent.emit(this.logged_admin);
           }
 
@@ -198,9 +203,8 @@ export class LoginComponent implements OnInit {
         this._httpService.loginAdmin(login_package).subscribe(
           result => {
             let incomingAdmin:any = result;
-            console.log("-----admin---------");
-            console.log(incomingAdmin);
-            console.log("-------------------");
+           
+           
             let errors = 0;
             
             if(incomingAdmin.first_name === "<ACCESS DENIED, Password or Email Invalid>"){
@@ -208,9 +212,11 @@ export class LoginComponent implements OnInit {
               errors += 1;
             }
       
-    
-            if(errors == 0){
+            if(errors == 0){ //log admin in
               this.logged_admin = incomingAdmin;
+
+             this._clientStorage.storeAdmin( this.logged_admin );
+
               this.logEvent.emit(this.logged_admin); //zero is the default non sql ID value
               this.error_display = "";
             }else{
@@ -233,4 +239,6 @@ export class LoginComponent implements OnInit {
     toggleTerms(){
       this.display_use_terms = !this.display_use_terms;
     }
+
+ 
 }
