@@ -34,6 +34,56 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
+        public Site QuerySkeletonSiteById(int site_id){
+            List<Site> FoundSites = dbContext.Sites.Where(x => x.site_id == site_id).Select( s => new Site(){
+                site_id = s.site_id,
+                title = s.title,
+                active = s.active,
+                admin_id = s.admin_id,
+                owner = null,
+                paragraph_boxes = dbContext.ParagraphBoxes.Where(x => x.site_id == s.site_id).Select(box => new ParagraphBox(){
+                    paragraph_box_id = box.paragraph_box_id,
+                    site_id = box.site_id,
+                    priority = box.priority
+                }).ToList(),
+                images = dbContext.Images.Where(x => x.site_id == s.site_id).Select(i => new Image()
+                {
+                    image_id = i.image_id,
+                    site_id = i.site_id,
+                    priority = i.priority
+                }).ToList(),
+                portraits = dbContext.Portraits.Where(x => x.site_id == s.site_id).Select(p => new Portrait()
+                {
+                    portrait_id = p.portrait_id,
+                    site_id = p.site_id,
+                    priority = p.priority
+                }).ToList(),
+                two_column_boxes = dbContext.TwoColumnBoxes.Where(x => x.site_id == s.site_id).Select(tcb => new TwoColumnBox()
+                {
+                    two_column_box_id = tcb.two_column_box_id,
+                    site_id = s.site_id,
+                    priority = tcb.priority
+                }).ToList(),
+                link_boxes = dbContext.LinkBoxes.Where(x => x.site_id == s.site_id).Select(lb => new LinkBox()
+                {
+                    link_box_id = lb.link_box_id,
+                    site_id = s.site_id,
+                    priority = lb.priority
+                }).ToList(),
+                nav_bars = dbContext.NavBars.Where(x => x.site_id == s.site_id).Select(nb => new NavBar(){
+                    nav_bar_id= nb.nav_bar_id,
+                    site_id = nb.site_id,
+                    string_of_links = nb.string_of_links
+                    
+                }).ToList()
+            }).ToList();
+             if(FoundSites.Count == 1){
+                return FoundSites[0];
+            }else{
+                throw new System.ArgumentException("site not found");
+            }
+        }
+
         public Site QuerySiteById(int site_id_parameter){ //Used to get full site data to the frontend for rendering
 
             List<Site> FoundSites = dbContext.Sites.Where(x => x.site_id == site_id_parameter).Select( site => new Site()
@@ -172,14 +222,93 @@ namespace dynamify.Models.QueryClasses
             return converted_format;
         }
 
+        public SiteContentDto QuerySkeletonContentById(int site_id){
+            Site FoundSite = QuerySkeletonSiteById( site_id );
+            SiteContentDto ReturnSite = new SiteContentDto(){
+                title = FoundSite.title,
+                paragraph_boxes = FoundSite.paragraph_boxes,
+                images = FoundSite.images,
+                two_column_boxes = FoundSite.two_column_boxes,
+                portraits = FoundSite.portraits,
+                link_boxes = FoundSite.link_boxes
+            };
+
+            try{
+                ReturnSite.nav_bar = FormatNavBar(FoundSite.nav_bars[0]);
+            }catch(Exception e){
+                string message = e.Message;
+                message = "No nav bar found";
+                System.Console.WriteLine(message);
+                ReturnSite.nav_bar = null;
+            }
+            return ReturnSite;
+        }
+
+           public SiteContentDto QuerySkeletonContentByUrl(string url){
+            List<Site> FoundSite = QueryFeaturelessSiteByUrl(url);
+            if(FoundSite.Count == 1){
+                return QuerySkeletonContentById( FoundSite[0].site_id );
+            }else{
+                throw new System.ArgumentException("url not found");
+            } 
+        }
+
+
+
         public SiteContentDto QuerySiteContentByURL(string url){
             List<Site> FoundSite = QueryFeaturelessSiteByUrl(url);
             if(FoundSite.Count == 1){
-                System.Console.WriteLine($"Site id: {FoundSite[0].site_id}");
                 return QuerySiteContentById( FoundSite[0].site_id );
             }else{
                 throw new System.ArgumentException("url not found");
             } 
+        }
+
+
+        // --- site component queries ---
+        public ParagraphBox QueryParagraphBoxById(int paragraph_box_id, int site_id ){
+            List<ParagraphBox> FoundBox = dbContext.ParagraphBoxes.Where(x => x.site_id == site_id).Where(x=> x.paragraph_box_id == paragraph_box_id).ToList();
+            if(FoundBox.Count == 1){
+                return FoundBox[0];
+            }else{
+                throw new System.ArgumentException("paragraph box not found");
+            }
+        }
+
+        public Portrait QueryPortraitById(int portrait_id, int site_id ){
+            List<Portrait> FoundBox = dbContext.Portraits.Where(x => x.site_id == site_id).Where(x=> x.portrait_id == portrait_id).ToList();
+            if(FoundBox.Count == 1){
+                return FoundBox[0];
+            }else{
+                throw new System.ArgumentException("portrait not found");
+            }
+        }
+
+        public TwoColumnBox QueryTwoColumnBoxById(int two_column_box_id, int site_id ){
+            List<TwoColumnBox> FoundBox = dbContext.TwoColumnBoxes.Where(x => x.site_id == site_id).Where(x=> x.two_column_box_id == two_column_box_id).ToList();
+            if(FoundBox.Count == 1){
+                return FoundBox[0];
+            }else{
+                throw new System.ArgumentException("two column box not found");
+            }
+        }
+
+        public Image QueryImageById(int image_id, int site_id ){
+            List<Image> FoundImage = dbContext.Images.Where(x => x.site_id == site_id).Where(x=> x.image_id == image_id).ToList();
+            if(FoundImage.Count == 1){
+                return FoundImage[0];
+            }else{
+                throw new System.ArgumentException("image not found");
+            }
+        }
+
+        public LinkBox QueryLinkBoxById(int link_box_id, int site_id ){
+            List<LinkBox> FoundLinkBox = dbContext.LinkBoxes.Where(x => x.site_id == site_id).Where(x=> x.link_box_id == link_box_id).ToList();
+            if(FoundLinkBox.Count == 1){
+                return FoundLinkBox[0];
+            }else{
+                throw new System.ArgumentException("link box not found");
+            }
         }
 
         //actions 
@@ -226,7 +355,7 @@ namespace dynamify.Models.QueryClasses
             
         }
 
-             public Portrait DeletePortrait(int portrait_id){
+        public Portrait DeletePortrait(int portrait_id){
             List<Portrait> Subject = dbContext.Portraits.Where(x => x.portrait_id == portrait_id).ToList();
             if(Subject.Count == 1){
                 dbContext.Remove(Subject[0]);
@@ -236,7 +365,6 @@ namespace dynamify.Models.QueryClasses
                 throw new System.ArgumentException("Query Error. Non unique Id.", "portrait_id");
             }
         }
-
         public TwoColumnBox DeleteTwoColumnBox(int two_column_box_id){
             List<TwoColumnBox> Subject = dbContext.TwoColumnBoxes.Where(x => x.two_column_box_id == two_column_box_id).ToList();
             if(Subject.Count == 1){
