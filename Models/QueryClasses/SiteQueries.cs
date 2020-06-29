@@ -204,6 +204,7 @@ namespace dynamify.Models.QueryClasses
             Site found_site = QuerySiteById(site_id);
             SiteContentDto converted_format = new SiteContentDto();
             converted_format.title = found_site.title;
+            converted_format.site_id = found_site.site_id;
             converted_format.images = found_site.images;
             converted_format.paragraph_boxes = found_site.paragraph_boxes;
             converted_format.portraits = found_site.portraits;
@@ -226,6 +227,7 @@ namespace dynamify.Models.QueryClasses
             Site FoundSite = QuerySkeletonSiteById( site_id );
             SiteContentDto ReturnSite = new SiteContentDto(){
                 title = FoundSite.title,
+                site_id = FoundSite.site_id,
                 paragraph_boxes = FoundSite.paragraph_boxes,
                 images = FoundSite.images,
                 two_column_boxes = FoundSite.two_column_boxes,
@@ -267,6 +269,7 @@ namespace dynamify.Models.QueryClasses
 
         // --- site component queries ---
         public ParagraphBox QueryParagraphBoxById(int paragraph_box_id, int site_id ){
+            System.Console.WriteLine("Paragraph Box Id: "+paragraph_box_id+" Site Id: "+site_id);
             List<ParagraphBox> FoundBox = dbContext.ParagraphBoxes.Where(x => x.site_id == site_id).Where(x=> x.paragraph_box_id == paragraph_box_id).ToList();
             if(FoundBox.Count == 1){
                 return FoundBox[0];

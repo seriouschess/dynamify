@@ -32,13 +32,15 @@ export class LeafComponent implements OnInit {
 
     this.formatted_site = {
       title: null,
+      site_id: null,
       nav_bar: null,
       site_components: null
     }
   }
 
   requireLeafContent(){
-    this._siteFormatter.getLeafByURLFormatted( this.leaf_url, this.recieveSite, this); 
+    //this._siteFormatter.getLeafByURLFormatted( this.leaf_url, this.recieveSite, this);
+    this._siteFormatter.getLeafSkeletonByURLFormatted(this.leaf_url, this.recieveSite, this); 
   }
 
   recieveSite(formatted_site:ISiteFormatted, this_component:LeafComponent){

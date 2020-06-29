@@ -30,10 +30,21 @@ export class SiteFormatterService {
       } );
   }
 
+  getLeafSkeletonByURLFormatted(leaf_url, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called:any){
+    this._httpService.getLeafSkeletonByUrl(leaf_url).subscribe(data =>{
+      console.log(data.body);
+      format(data.body, callback, object_which_called);
+    },
+    err =>{
+      returnNull(callback, object_which_called);
+    } );
+  }
+
   //methods used by tuorial
   getBlankSite(callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
     var formatted_site:ISiteFormatted = {
       title: "Demo Site",
+      site_id: 0,
       nav_bar: { site_id: null, links: [] },
       site_components: []
     }
@@ -120,6 +131,7 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
     if(s.title == "base"){ //site not found, default value returned
       let unfound_site:ISiteFormatted = {
         title: s.title,
+        site_id: s.site_id,
         nav_bar: null,
         site_components: [],
       }
@@ -138,6 +150,7 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
 
       var unformatted_site:ISiteContentDto = {
         title: s.title,
+        site_id: s.site_id,
         nav_bar: nav_bar,
         paragraph_boxes: s.paragraph_boxes,
         images: s.images,
@@ -145,6 +158,8 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
         portraits: s.portraits,
         link_boxes: s.link_boxes
       }
+
+      console.log("Paragraph Boxes"+JSON.stringify(s.paragraph_boxes));
 
       //sort site components in order
       var sorted_list_of_site_components = [];
@@ -169,6 +184,7 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
   
       var formatted_site: ISiteFormatted = {
         title: unformatted_site.title,
+        site_id: s.site_id,
         nav_bar: unformatted_site.nav_bar,
         site_components: sorted_list_of_site_components
       }

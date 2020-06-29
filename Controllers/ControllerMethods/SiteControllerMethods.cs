@@ -24,32 +24,32 @@ namespace dynamify.Controllers.ControllerMethods
             validator = new SiteCreationValidator(dbQuery);
         }
 
-       public SiteContentDto GetSiteByIdMethod(SiteRequestDto request){
+        public SiteContentDto GetSiteByIdMethod(SiteRequestDto request){
             if(authenticator.VerifyAdmin(request.admin_id, request.token)){
                 SiteContentDto foundSite = dbQuery.QuerySiteContentById(request.site_id);
-               return foundSite;
+                return foundSite;
             }else{
                 return new SiteContentDto();
             }
-       }
-
-    public SiteContentDto GetByURLMethod( string leaf_url ){
-        try{
-            SiteContentDto foundSite = dbQuery.QuerySiteContentByURL(leaf_url);
-            return foundSite; 
-        }catch{
-            throw new System.ArgumentException("url not found");
         }
-    }
 
-    public SiteContentDto GetSkeletonSiteByUrlMethod( string url ){
-        try{
-            SiteContentDto FoundSite = dbQuery.QuerySkeletonContentByUrl( url );
-            return FoundSite;
-        }catch{
-            throw new System.ArgumentException("url not found");
+        public SiteContentDto GetByURLMethod( string leaf_url ){
+            try{
+                SiteContentDto foundSite = dbQuery.QuerySiteContentByURL(leaf_url);
+                return foundSite; 
+            }catch{
+                throw new System.ArgumentException("url not found");
+            }
         }
-    }
+
+        public SiteContentDto GetSkeletonSiteByUrlMethod( string url ){
+            try{
+                SiteContentDto FoundSite = dbQuery.QuerySkeletonContentByUrl( url );
+                return FoundSite;
+            }catch{
+                throw new System.ArgumentException("url not found");
+            }
+        }
 
         public JsonResponse PostMethod(NewSiteDto NewSite){
             if(authenticator.VerifyAdmin(NewSite.admin_id, NewSite.token)){
@@ -155,6 +155,54 @@ namespace dynamify.Controllers.ControllerMethods
             }else{
                 return new JsonFailure("Invalid Token. Stranger Danger.");
             }
+        }
+
+
+        //------         COMPONENT QUERY METHODS        -----
+    
+        public ParagraphBox GetParagraphBoxMethod(ComponentRequestDto request){
+            try{
+                ParagraphBox paragraph_box = dbQuery.QueryParagraphBoxById( request.component_id, request.site_id );
+                return paragraph_box;
+            }catch{
+                throw new System.ArgumentException("Component or Site Not Found");
+            }
+        }
+
+        public Portrait GetPortraitMethod(ComponentRequestDto request){
+            try{
+                Portrait portrait = dbQuery.QueryPortraitById( request.component_id, request.site_id );
+                return portrait;
+            }catch{
+                throw new System.ArgumentException("Component or Site Not Found");
+            }
+        }
+
+        public TwoColumnBox GetTwoColumnBoxMethod(ComponentRequestDto request){
+            try{
+                TwoColumnBox two_column_box = dbQuery.QueryTwoColumnBoxById( request.component_id, request.site_id );
+                return two_column_box;
+            }catch{
+                throw new System.ArgumentException("Component or Site Not Found");
+            }
+        }
+
+        public LinkBox GetLinkBoxMethod(ComponentRequestDto request){
+            try{
+                LinkBox link_box = dbQuery.QueryLinkBoxById( request.component_id, request.site_id );
+                return link_box;
+            }catch{
+                throw new System.ArgumentException("Component or Site Not Found");
+            } 
+        }
+
+        public Image GetImageMethod( ComponentRequestDto request ){
+            try{
+                Image image = dbQuery.QueryImageById(request.component_id, request.site_id);
+                return image;
+            }catch{
+                throw new System.ArgumentException("Component or Site Not Found");
+            }      
         }
         
     public JsonResponse DeleteSiteComponentMethod(ComponentReference Component, int admin_id, string admin_token){

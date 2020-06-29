@@ -1,4 +1,4 @@
-<div class="site-component-container">
+<div *ngIf="image_object != null" class="site-component-container">
     <h2 *ngIf="image_object.title != ''" class="title">{{image_object.title}}</h2>  
     <img class="image" src="{{image_object.image_src}}" alt="{{image_object.image_src}}">
 </div>

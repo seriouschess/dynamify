@@ -72,6 +72,7 @@ export class SiteEditorComponent implements OnInit {
 
     this.formatted_site = {
       title: null,
+      site_id: null,
       nav_bar: null,
       site_components: null
      }

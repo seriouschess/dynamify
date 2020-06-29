@@ -8,6 +8,8 @@ namespace dynamify.dtos
     {
         public string title {get;set;}
 
+        public int site_id {get;set;}
+
         public NavBarDto nav_bar {get;set;} //not a database object!
         public List<ParagraphBox> paragraph_boxes {get;set;}
         public List<Image> images {get;set;}

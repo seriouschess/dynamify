@@ -14,7 +14,6 @@ using dynamify.Models.SiteModels;
 using dynamify.Models.JsonModels;
 using dynamify.dtos;
 
-
 namespace dynamify.Controllers
 {
     [ApiController]
@@ -71,6 +70,102 @@ namespace dynamify.Controllers
             }catch{
                 JsonFailure err = new JsonFailure("url not found");
                 return StatusCode(404, err);
+            }
+        }
+
+        // Component Queries
+        [HttpGet]
+        [Route("get_component/paragraph_box/{component_id}/{site_id}")]
+        public ActionResult<ParagraphBox> GetParagraphBox(int component_id, int site_id){
+            ComponentRequestDto request = new ComponentRequestDto();
+            try{
+                request.component_id = component_id;
+                request.site_id = site_id;
+            }catch{
+                JsonFailure f =  new JsonFailure("Improper url format, one or more fields are missing");
+                return StatusCode(400, f);
+            }
+
+            try{
+                return methods.GetParagraphBoxMethod( request );
+            }catch(System.ArgumentException e){
+                return StatusCode(400, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("get_component/portrait/{component_id}/{site_id}")]
+        public ActionResult<Portrait> GetPortrait(int component_id, int site_id){
+            ComponentRequestDto request = new ComponentRequestDto();
+            try{
+                request.component_id = component_id;
+                request.site_id = site_id;
+            }catch{
+                JsonFailure f =  new JsonFailure("Improper url format, one or more fields are missing");
+                return StatusCode(400, f);
+            }
+
+            try{
+                return methods.GetPortraitMethod( request );
+            }catch(System.ArgumentException e){
+                return StatusCode(400, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("get_component/two_column_box/{component_id}/{site_id}")]
+        public ActionResult<TwoColumnBox> GetTwoColumnBoxMethod(int component_id, int site_id){
+            ComponentRequestDto request = new ComponentRequestDto();
+            try{
+                request.component_id = component_id;
+                request.site_id = site_id;
+            }catch{
+                JsonFailure f =  new JsonFailure("Improper url format, one or more fields are missing");
+                return StatusCode(400, f);
+            }
+
+            try{
+                return methods.GetTwoColumnBoxMethod( request );
+            }catch(System.ArgumentException e){
+                return StatusCode(400, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("get_component/link_box/{component_id}/{site_id}")]
+        public ActionResult<LinkBox> GetTwoLinkBoxMethod(int component_id, int site_id){
+            ComponentRequestDto request = new ComponentRequestDto();
+            try{
+                request.component_id = component_id;
+                request.site_id = site_id;
+            }catch{
+                JsonFailure f =  new JsonFailure("Improper url format, one or more fields are missing");
+                return StatusCode(400, f);
+            }
+
+            try{
+                return methods.GetLinkBoxMethod( request );
+            }catch(System.ArgumentException e){
+                return StatusCode(400, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("get_component/image/{component_id}/{site_id}")]
+        public ActionResult<Image> GetImageMethod(int component_id, int site_id){
+            ComponentRequestDto request = new ComponentRequestDto();
+            try{
+                request.component_id = component_id;
+                request.site_id = site_id;
+            }catch{
+                JsonFailure f =  new JsonFailure("Improper url format, one or more fields are missing");
+                return StatusCode(400, f);
+            }
+
+            try{
+                return methods.GetImageMethod( request );
+            }catch(System.ArgumentException e){
+                return StatusCode(400, e);
             }
         }
 

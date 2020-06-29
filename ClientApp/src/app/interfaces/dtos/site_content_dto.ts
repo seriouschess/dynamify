@@ -2,6 +2,7 @@ import { TwoColumnBox, Image, ParagraphBox, Portrait, LinkBox, NavBar } from "./
 
 export interface ISiteContentDto{
     title: string;
+    site_id: number;
     nav_bar: NavBar;
     paragraph_boxes: ParagraphBox[];
     images: Image[];

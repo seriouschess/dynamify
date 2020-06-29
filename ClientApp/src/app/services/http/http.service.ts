@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { session } from 'src/app/interfaces/dtos/analytics_session_dto';
+import { IComponentRequestDto } from 'src/app/interfaces/dtos/component_request_dto';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +61,16 @@ export class HttpService {
   }
 
   getLeafByURL(leaf_url:string){
-    return this._http.get<ISiteContentDto>(`api/site/get_by_url/${leaf_url}`, {observe: 'response'})
+    return this._http.get<ISiteContentDto>(`api/site/get_by_url/full/${leaf_url}`, {observe: 'response'})
+    .pipe(
+      catchError(() =>{
+        return throwError(new Error('Leaf Not Found'));
+      })
+    );
+  }
+
+  getLeafSkeletonByUrl(leaf_url:string){
+    return this._http.get<ISiteContentDto>(`api/site/get_by_url/skeleton/${leaf_url}`, {observe: 'response'})
     .pipe(
       catchError(() =>{
         return throwError(new Error('Leaf Not Found'));
@@ -79,6 +89,34 @@ export class HttpService {
   postSite(input_site: INewSiteDto){
     return this._http.post(`api/site/create_site`, input_site);
   }
+
+  //component retrieval services
+
+  getParagraphBox( request:IComponentRequestDto ){
+    let api_url = `api/site/get_component/paragraph_box/${request.component_id}/${request.site_id}`;
+    return this._http.get<ParagraphBox>( api_url );
+  }
+
+  getPortrait( request:IComponentRequestDto ){
+    let api_url = `api/site/get_component/portrait/${request.component_id}/${request.site_id}`;
+    return this._http.get<Portrait>( api_url );
+  }
+
+  getTwoColumnBox( request:IComponentRequestDto ){
+    let api_url = `api/site/get_component/two_column_box/${request.component_id}/${request.site_id}`;
+    return this._http.get<TwoColumnBox>( api_url );
+  }
+
+  getImage( request:IComponentRequestDto ){
+    let api_url = `api/site/get_component/image/${request.component_id}/${request.site_id}`;
+    return this._http.get<Image>( api_url );
+  }
+
+  getLinkBox( request:IComponentRequestDto ){
+    let api_url = `api/site/get_component/link_box/${request.component_id}/${request.site_id}`;
+    return this._http.get<LinkBox>( api_url );
+  }
+
   
   //site configuration services
   deleteSiteComponent(component_id:number, component_type:string, admin_id:number, admin_token:string){

@@ -2,6 +2,27 @@
 <h1 class="title" *ngIf="formatted_site.title != ''"> {{formatted_site.title}}</h1>
 <div *ngFor="let site_component of formatted_site.site_components">
     <div *ngIf="site_component.type === 'p_box'">
+        <app-paragraph-box [component_id]="site_component.paragraph_box_id" [site_id]="formatted_site.site_id"></app-paragraph-box>
+    </div>
+    <div *ngIf="site_component.type === 'image'">
+        <app-image [component_id]="site_component.image_id" [site_id]="formatted_site.site_id"></app-image>
+    </div>
+    <div *ngIf="site_component.type === 'portrait'">
+        <app-portrait [component_id]="site_component.portrait_id" [site_id]="formatted_site.site_id"></app-portrait>
+    </div>
+    <div *ngIf="site_component.type === '2c_box'">
+        <app-two-column-box [component_id]="site_component.two_column_box_id" [site_id]="formatted_site.site_id"></app-two-column-box>
+    </div>
+    <div *ngIf="site_component.type === 'link_box'">
+        <app-link-box [component_id]="site_component.link_box_id" [site_id]="formatted_site.site_id"></app-link-box>
+    </div>
+</div>
+
+
+<!-- ----------     THE OLD WAY    --------------
+
+<div *ngFor="let site_component of formatted_site.site_components">
+    <div *ngIf="site_component.type === 'p_box'">
         <app-paragraph-box [pbox_object]="site_component"></app-paragraph-box>
     </div>
     <div *ngIf="site_component.type === 'image'">
@@ -16,4 +37,4 @@
     <div *ngIf="site_component.type === 'link_box'">
         <app-link-box [link_box_object]="site_component"></app-link-box>
     </div>
-</div>
+</div> -->

@@ -49,34 +49,34 @@
 
   <div *ngFor="let site_component of formatted_site.site_components">
     <div *ngIf="site_component.type === 'p_box'">
-      <app-paragraph-box [pbox_object]="site_component"></app-paragraph-box>
+      <app-paragraph-box [component_id]="site_component.paragraph_box_id" [site_id]="formatted_site.site_id"></app-paragraph-box>
       <div class="text-center">
         <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.paragraph_box_id, site_component.type)'>Delete</button>
       </div>
     </div>
 
     <div *ngIf="site_component.type === 'image'">
-      <app-image [image_object]="site_component"></app-image>
+      <app-image [component_id]="site_component.image_id" [site_id]="formatted_site.site_id"></app-image>
       <div class="text-center">
         <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.image_id, site_component.type)'>Delete</button>
       </div>  
     </div>
 
     <div *ngIf="site_component.type === 'portrait'">
-      <app-portrait [portrait_object]="site_component"></app-portrait>
+      <app-portrait [component_id]="site_component.portrait_id" [site_id]="formatted_site.site_id"></app-portrait>
       <div class="text-center">
         <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.portrait_id, site_component.type)'>Delete</button>
       </div>
     </div>
 
     <div *ngIf="site_component.type === '2c_box'">
-      <app-two-column-box [tcb_object]="site_component"></app-two-column-box>
+      <app-two-column-box [component_id]="site_component.two_column_box_id" [site_id]="formatted_site.site_id"></app-two-column-box>
       <div class="text-center">
         <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
       </div>
   </div>
   <div *ngIf="site_component.type === 'link_box'">
-    <app-link-box [link_box_object]="site_component"></app-link-box>
+    <app-link-box [component_id]="site_component.link_box_id" [site_id]="formatted_site.site_id"></app-link-box>
     <div class="text-center">
       <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.link_box_id, site_component.type)'>Delete</button>
     </div>
