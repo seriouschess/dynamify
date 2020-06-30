@@ -24,6 +24,8 @@ import { LeafComponent } from './leaves/leaf/leaf.component';
 import { LeafNavBarComponent } from './leaves/leaf-components/leaf-nav-bar/leaf-nav-bar.component';
 import { AnaComponent } from './ana/ana.component';
 import { LogoutComponent } from './admin-related/logout/logout.component';
+import { PopInComponent } from './pop-in/pop-in.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { LogoutComponent } from './admin-related/logout/logout.component';
     LeafComponent,
     LeafNavBarComponent,
     AnaComponent,
-    LogoutComponent
+    LogoutComponent,
+    PopInComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

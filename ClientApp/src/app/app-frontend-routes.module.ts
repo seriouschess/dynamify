@@ -6,9 +6,11 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomepageComponent } from './homepage/homepage.component';
 import { LeafComponent } from './leaves/leaf/leaf.component';
 import { LogoutComponent } from './admin-related/logout/logout.component';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
     { path: '', component: HomepageComponent, pathMatch: 'full' },
+    { path: 'base/about', component: AboutComponent },
     { path: 'base/admin', component: AdminComponent },
     { path: 'base/tutorial', component: TutorialComponent },
     { path: 'base/not-found', component: PageNotFoundComponent },

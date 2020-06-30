@@ -29,6 +29,7 @@ export class LeafComponent implements OnInit {
       this.leaf_url = params['leaf_url'];
       this.requireLeafContent();
     })
+    console.log("leaf url: "+this.leaf_url);
 
     this.formatted_site = {
       title: null,
@@ -44,12 +45,17 @@ export class LeafComponent implements OnInit {
   }
 
   recieveSite(formatted_site:ISiteFormatted, this_component:LeafComponent){
-    if(formatted_site === null){
+
+    if(formatted_site === null){ //api did not return 200
+
       this_component.router.navigate(['base/not-found']);
-    }else{
+
+    }else{ //200 status ok
+
       console.log("looks like we've made it")
       this_component.formatted_site = formatted_site;
-      this.sucessful_load = true;
+      this_component.sucessful_load = true;
+
     }
   }
 }

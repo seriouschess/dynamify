@@ -1,9 +1,7 @@
-<header>
     <nav
-      class="navbar navbar-expand-sm navbar-toggleable-sm nav-bg navbar-light border-bottom box-shadow"
+      class="navbar navbar-expand-sm navbar-toggleable-sm nav-bg navbar-light sticky"
     >
-      <div class="container">
-        <a class="navbar-brand" [routerLink]="['/']">SiteLeaves.com</a>
+        <a class="navbar-brand nav-homepage" [routerLink]="['/']">SiteLeaves.com</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -25,25 +23,18 @@
               [routerLinkActive]="['link-active']"
               [routerLinkActiveOptions]="{ exact: true }"
             >
-              <a class="nav-link text-light" [routerLink]="['/']">Homepage</a>
-            </li>
-
-            <li
-              class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
               <a class="nav-link text-light" [routerLink]="['/base/tutorial']">Tutorial</a>
             </li>
 
             <li class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-light" [routerLink]="['/base/admin']">Admins</a>
+              <a class="nav-link text-light" [routerLink]="['/base/admin']">Accounts</a>
+            </li>
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+              <a class="nav-link text-light" [routerLink]="['/base/about']">About</a>
             </li>
             <li *ngIf="logged_in" class="nav-item" [routerLinkActive]="['link-active']">
               <a class="nav-link text-light" [routerLink]="['/base/logout']">Log Out</a>
             </li>
           </ul>
         </div>
-      </div>
     </nav>
-</header>
