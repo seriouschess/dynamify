@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http/http.service';
 import { ParagraphBox, Image, TwoColumnBox, Portrait, LinkBox, NavBar, NavLink } from '../../interfaces/dtos/site_dtos';
 import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
@@ -16,7 +16,8 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./site-editor.component.css']
 })
 
-export class SiteEditorComponent implements OnInit {
+export class SiteEditorComponent implements OnInit, AfterViewInit {
+  @Output() exitEvent = new EventEmitter<boolean>();
   //route parameters
   @Input() current_site_id: number;
   @Input() current_admin_id: number;
@@ -61,6 +62,10 @@ export class SiteEditorComponent implements OnInit {
   ) 
   {
     this.window = this.document.defaultView;
+  }
+
+  ngAfterViewInit(): void {
+    console.log( "Document Height: "+this.document.body.clientHeight );
   }
 
    ngOnInit() {
@@ -251,6 +256,10 @@ export class SiteEditorComponent implements OnInit {
       this.validator.image_src_invalid_flag = false;
     }
     this.initializeComponents();
+  }
+
+  leaveEditor(){ //leaves editor and goes to display sites component
+    this.exitEvent.emit(true);
   }
 
   //sets preview mode on and off

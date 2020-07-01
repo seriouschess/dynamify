@@ -1,3 +1,37 @@
+<div class="editor-side-menu creation-tools box-shadow" >
+    <!-- *ngIf="open_next_component === '' " -->
+    <h4 class="generic-element" *ngIf="!is_tutorial"><button class="btn btn-success" (click)="leaveEditor()">Go Back to Your Leaves</button></h4>
+    <h4 *ngIf="!is_tutorial && !nav_bar_editor_open" class="generic-element"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
+    <h4 *ngIf="!is_tutorial && nav_bar_editor_open" class="generic-element"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
+    <div *ngIf= "is_tutorial == false">
+      <h4 class="generic-element" *ngIf="preview_mode == false"><button class="btn btn-success" (click)="togglePreview()"> Toggle Preview Mode </button></h4>
+      <h4 *ngIf="preview_mode == true" class="generic-element"> <button class="btn btn-info" (click)="togglePreview()"> Back to Editor </button></h4>
+    </div>
+  
+    <button *ngIf="!is_tutorial" class="btn btn-success" (click)=setPboxEdit()> New Paragraph Box </button>
+    <button *ngIf="is_tutorial && tutorial_sequence < 7 && tutorial_sequence != 4" class="btn btn-success"> New Paragraph Box </button>
+    <button *ngIf="is_tutorial && tutorial_sequence == 4" (click)="setPboxEdit()" class="btn highlight"> New Paragraph Box </button>
+    <button *ngIf="is_tutorial && tutorial_sequence >= 7" (click)="setPboxEdit()" class="btn btn-success"> New Paragraph Box </button>
+
+    <button *ngIf="!is_tutorial" class="btn btn-info" (click)="set2cBoxEdit()">New Two Column Box</button>
+    <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-info">New Two Column Box</button>
+    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-info" (click)="set2cBoxEdit()" >New Two Column Box</button>
+    
+    <button *ngIf="!is_tutorial" class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
+    <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-success">New Portrait</button>
+    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
+
+
+    <button *ngIf="!is_tutorial" class="btn btn-info" (click)="setImageEdit()">New Image</button>
+    <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-info">New Image</button>
+    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-info" (click)="setImageEdit()">New Image</button>
+
+    <button *ngIf="!is_tutorial" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button>
+    <!-- <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-success">New Link Box</button>
+    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button> -->
+</div>
+
+<div class="editor-body">
 <div class="container tutorial-box" *ngIf="is_tutorial && tutorial_sequence < 9">
   <h3 class = "text-info" *ngIf="tutorial_sequence == 1"> This is the site editor. Click the flashing ok button to continue.<button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
   <h3 class = "text-info" *ngIf="tutorial_sequence == 2"> It is currently empty as no content has been created yet. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
@@ -9,18 +43,13 @@
   <h3 class = "text-info" *ngIf="tutorial_sequence == 8"> Consider creating an Admin if you want to build a site page you can share with others. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
 </div>
 
-<div *ngIf= "is_tutorial == false">
-  <h4 class="generic-element" *ngIf="preview_mode == false">To see what your leaf looks like you can <button class="btn btn-success" (click)="togglePreview()"> Toggle Preview Mode </button></h4>
-  <h4 *ngIf="preview_mode == true" class="generic-element">View your leaf below or go <button class="btn btn-info" (click)="togglePreview()"> Back to Editor </button></h4>
-</div>
+
 
 <app-page-generator *ngIf="preview_mode === true" [formatted_site]="formatted_site"> </app-page-generator>
 
 <div *ngIf="preview_mode === false">
   <app-leaf-nav-bar *ngIf ="!is_tutorial" [is_edit_mode]="true" [nav_bar_object]="formatted_site.nav_bar"></app-leaf-nav-bar> 
   <div *ngIf="current_site_id != 0 && !is_tutorial">
-    <h4 *ngIf="!is_tutorial && !nav_bar_editor_open" class="generic-element">To modify the leaf's nav bar you can <button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
-    <h4 *ngIf="!is_tutorial && nav_bar_editor_open" class="generic-element">To close the nav bar editor you can <button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
     
     <div class="nav-editor-form" *ngIf="nav_bar_editor_open">
       <h3>Nav Bar Editor: </h3>
@@ -45,6 +74,7 @@
     </div>
   </div>
 
+  
   <h1 class="leaf-title" *ngIf="formatted_site.title != ''"> {{formatted_site.title}} </h1>
 
   <div *ngFor="let site_component of formatted_site.site_components">
@@ -84,31 +114,6 @@
   </div>
 
   <h4 class = "end-site-mark box-shadow" *ngIf="open_next_component === ''">(Additional Site Elements Will Be Created Here)</h4>
-
-  <div class = "creation-tools box-shadow" *ngIf="open_next_component === '' ">
-    <h3>Add a new Element by selecting from the following options:</h3>
-    <button *ngIf="!is_tutorial" class="btn btn-success" (click)=setPboxEdit()> New Paragraph Box </button>
-    <button *ngIf="is_tutorial && tutorial_sequence < 7 && tutorial_sequence != 4" class="btn btn-success"> New Paragraph Box </button>
-    <button *ngIf="is_tutorial && tutorial_sequence == 4" (click)="setPboxEdit()" class="btn highlight"> New Paragraph Box </button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" (click)="setPboxEdit()" class="btn btn-success"> New Paragraph Box </button>
-
-    <button *ngIf="!is_tutorial" class="btn btn-info" (click)="set2cBoxEdit()">New Two Column Box</button>
-    <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-info">New Two Column Box</button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-info" (click)="set2cBoxEdit()" >New Two Column Box</button>
-    
-    <button *ngIf="!is_tutorial" class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
-    <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-success">New Portrait</button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
-
-
-    <button *ngIf="!is_tutorial" class="btn btn-info" (click)="setImageEdit()">New Image</button>
-    <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-info">New Image</button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-info" (click)="setImageEdit()">New Image</button>
-
-    <button *ngIf="!is_tutorial" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button>
-    <!-- <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-success">New Link Box</button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button> -->
-  </div>
 
 
   <div class="text-center bump-down">
@@ -199,5 +204,8 @@
       </form>
     </div>
 </div>
+</div>
+
+
 
 

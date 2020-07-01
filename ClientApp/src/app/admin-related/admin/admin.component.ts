@@ -47,8 +47,8 @@ export class AdminComponent implements OnInit{
     this.current_site_editor_id = $event;
   }
 
-  resetEditor(){
-    this.current_site_editor_id = 0;
+  resetEditor($event){
+    this.current_site_editor_id = 0; //exits editor and displays all sites
   }
 
   resetLogin(){ //used by nav bar tab to log admins out

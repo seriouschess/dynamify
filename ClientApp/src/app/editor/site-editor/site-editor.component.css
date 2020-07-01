@@ -1,5 +1,12 @@
 /* Editor Specific Options */
 
+.leaf-title{
+    display: block;
+    text-align: center;
+    margin-bottom: 5%;
+    margin-top: 2%;
+}
+
 .editor-form {
     margin-bottom: 50px;
     margin-top: 60px;
@@ -15,17 +22,30 @@
     border-radius: 5px;
 }
 
-
 .editor-form input, textarea {
     margin-left: 2%;
 } 
 
+.editor-side-menu{
+    left: -10%;
+    width: 19%;
+    position: -webkit-sticky;
+    position: sticky;
+    display:inline-block;
+    background-color: blue;
+    top: 100px;
+    z-index: 9;
+}
+.editor-body{
+    display: inline-block;
+    width: 80%;
+}
+
 .creation-tools {
-    width: 100%;
-    padding-top: 3%;
-    padding-bottom: 3%;
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
     margin-top: 2%;
     margin-left: auto;
     margin-right: auto;
@@ -85,7 +105,6 @@
 }
 
 .nav-edit-button{
-    margin-left: 5%;
     margin-bottom: 2%;
     margin-top: 2%;
     display: inline-block;
@@ -114,29 +133,11 @@
     .editor-form{
         width: 80%;
     }
-
-    .creation-tools{
-        width: 80%;
-    }
 }
 
 @media (min-width:875px){
     .end-site-mark {
         max-width: 875px;
-    }
-
-    .creation-tools{
-        padding-top: 2%;
-        padding-bottom: 2%;
-        padding-left: 3%;
-        padding-right: 3%;
-    }
-
-    .editor-form{
-        padding-top: 2%;
-        padding-bottom: 2%;
-        padding-left: 3%;
-        padding-right: 3%;
     }
 }
 
