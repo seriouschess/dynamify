@@ -1,23 +1,35 @@
 
-.background-forest{
-    background-image: url("../image-files/high-leaves.jpg");
+.title-background{
+    background-image: url("../image-files/banana-leaf.jpg");
     background-color: black;
     max-width: 2000px;
     margin-left: auto;
     margin-right: auto;
-    background-attachment: fixed; 
+    /* background-attachment: fixed;  */
     margin-top: 0%;
     margin-bottom:0%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-repeat: repeat-x;
+    height: 335px;
+}
+
+.background-leaf{
+    background-image: url("../image-files/high-leaves.jpg");
 }
 
 .title-element{
     margin-top:0%;
     margin-bottom: 2%;
-    color: rgb(173, 226, 0);
+    color: rgb(231, 241, 94);
     font-size: 20px;
+}
+
+.title-mask{
+    background-color: rgba(111, 202, 105, 0.575);
+    border-radius: 4px;
+    padding: 1%;
 }
 
 .question-container{
@@ -26,10 +38,24 @@
     padding-bottom: 5%;
 }
 
+.top-information-header{
+    background-color: rgb(163, 195, 163);
+    padding: 1%;
+    border-radius: 2px;
+}
+
+.top-information-header h3{
+    text-align: center;
+}
+
 .top-information-container{
-    background-color: rgb(174, 209, 192);
+    background-image: url("../image-files/high-leaves.jpg");
+    background-position: bottom left;
+    background-attachment: fixed; 
     padding-top:3%;
     padding-bottom: 3%;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
 }
 
 .bottom-information-container{

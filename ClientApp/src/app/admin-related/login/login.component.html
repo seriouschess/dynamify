@@ -1,8 +1,8 @@
 <h1 class="text-center">Let's get started</h1>
 <!-- <div class="background-forest generic-element bf-one"></div> -->
 
-<h3 class="space" *ngIf="open_registration == true"> Register Here: </h3>
-<form *ngIf="open_registration == true" class="form-horizontal registration-box" (submit)="postAdminToService()">
+<h3 class="space generic-element" *ngIf="open_registration == true"> Register Here: </h3>
+<form *ngIf="open_registration == true" class="form-horizontal registration-box generic-element" (submit)="postAdminToService()">
     <h3 *ngIf="general_invalid_registration_error_flag" class="text-danger"> Server rejected registration credentials. Try changing them. </h3>
     <label>First Name: </label><input class="form-control" name="first_name"[(ngModel)]="newAdminObject.first_name">
     <p *ngIf="first_name_required_error" class="text-danger"> First Name Required. </p>
@@ -38,7 +38,7 @@
 
 
 
-<div *ngIf="open_registration == false" >
+<div class="generic-element" *ngIf="open_registration == false" >
 <h3 class="space"> Login here to begin: </h3>
 <p class="text-danger"> {{error_display}} </p>
   <form class="form-horizontal registration-box" (submit)="loginAdmin()">
@@ -50,7 +50,7 @@
   </form>
 </div>
 
-<h5 class="registration-button" *ngIf="open_registration == false"> If you do not have an admin account, you may register one here. <button (click)="openRegistration()" class="btn btn-info"> Register </button></h5>
+<h5 class="registration-button generic-element" *ngIf="open_registration == false"> If you do not have an admin account, you may register one here. <button (click)="openRegistration()" class="btn btn-info"> Register </button></h5>
 
 <div class="background-forest generic-element bf-two"></div>
 
