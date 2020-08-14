@@ -10,22 +10,22 @@ import{ IComponentRequestDto } from '../../../interfaces/dtos/component_request_
 })
 export class TwoColumnBoxComponent implements OnInit {
 
-  tcb_object:TwoColumnBox;
+  @Input() tcb_object:TwoColumnBox;
   @Input() component_id:number;
   @Input() site_id:number;
 
   constructor(private _httpService:HttpService) { }
 
   ngOnInit() {
-    this.tcb_object = null;
-    let request:IComponentRequestDto = {
-      component_id: this.component_id,
-      site_id: this.site_id
+    if(this.tcb_object == null){ //attempt to api call for object if not provided
+      let request:IComponentRequestDto = {
+        component_id: this.component_id,
+        site_id: this.site_id
+      }
+      console.log("component ID: "+this.component_id+" Site Id: "+this.site_id);
+      this._httpService.getTwoColumnBox(request).subscribe((data) =>{
+        this.tcb_object = data;
+      });
     }
-    console.log("component ID: "+this.component_id+" Site Id: "+this.site_id);
-    this._httpService.getTwoColumnBox(request).subscribe((data) =>{
-      this.tcb_object = data;
-    });
   }
-
 }

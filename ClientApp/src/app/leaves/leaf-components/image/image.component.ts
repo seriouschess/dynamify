@@ -10,21 +10,22 @@ import{ IComponentRequestDto } from '../../../interfaces/dtos/component_request_
 })
 export class ImageComponent implements OnInit {
 
-  image_object:Image;
+  @Input() image_object:Image;
   @Input() component_id:number;
   @Input() site_id:number;
 
   constructor(private _httpService:HttpService) { }
 
   ngOnInit() {
-    this.image_object = null;
-    let request:IComponentRequestDto = {
-      component_id: this.component_id,
-      site_id: this.site_id
+    if(this.image_object == null){ //makes api call if image is not provided
+      let request:IComponentRequestDto = {
+        component_id: this.component_id,
+        site_id: this.site_id
+      }
+      this._httpService.getImage(request).subscribe((data) =>{
+        this.image_object = data;
+      });
     }
-    this._httpService.getImage(request).subscribe((data) =>{
-      this.image_object = data;
-    });
   }
 
 }

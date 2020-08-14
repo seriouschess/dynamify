@@ -1,11 +1,13 @@
 <div class="editor-side-menu creation-tools box-shadow" >
     <!-- *ngIf="open_next_component === '' " -->
-    <h4 *ngIf="!is_tutorial"><button class="btn btn-success" (click)="leaveEditor()">Go Back to Your Leaves</button></h4>
-    <h4 *ngIf="!is_tutorial && !nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
-    <h4 *ngIf="!is_tutorial && nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
-    <div *ngIf= "is_tutorial == false">
-      <h4 *ngIf="preview_mode == false"> <button class="btn btn-success" (click)="togglePreview()"> Toggle Preview Mode </button></h4>
-      <h4 *ngIf="preview_mode == true"> <button class="btn btn-info" (click)="togglePreview()"> Back to Editor </button></h4>
+    <div class="top-creation-tools">
+      <h4 *ngIf="!is_tutorial"><button class="btn btn-success" (click)="leaveEditor()">Go Back to Your Leaves</button></h4>
+      <h4 *ngIf="!is_tutorial && !nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
+      <h4 *ngIf="!is_tutorial && nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
+      <div *ngIf= "is_tutorial == false">
+        <h4 *ngIf="preview_mode == false"> <button class="btn btn-success" (click)="togglePreview()"> Toggle Preview Mode </button></h4>
+        <h4 *ngIf="preview_mode == true"> <button class="btn btn-info" (click)="togglePreview()"> Back to Editor </button></h4>
+      </div>
     </div>
   
     <button *ngIf="!is_tutorial" class="btn btn-success" (click)=setPboxEdit()> New Paragraph Box </button>
@@ -16,19 +18,19 @@
     <button *ngIf="!is_tutorial" class="btn btn-info" (click)="set2cBoxEdit()">New Two Column Box</button>
     <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-info">New Two Column Box</button>
     <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-info" (click)="set2cBoxEdit()" >New Two Column Box</button>
+
+    <button *ngIf="!is_tutorial" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button>
+    <!-- <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-success">New Link Box</button>
+    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button> -->
     
     <button *ngIf="!is_tutorial" class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
     <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-success">New Portrait</button>
     <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
 
-
     <button *ngIf="!is_tutorial" class="btn btn-info" (click)="setImageEdit()">New Image</button>
     <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-info">New Image</button>
     <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-info" (click)="setImageEdit()">New Image</button>
-
-    <button *ngIf="!is_tutorial" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button>
-    <!-- <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-success">New Link Box</button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button> -->
+    
 </div>
 
 <div class="editor-body">
@@ -40,9 +42,8 @@
   <h3 class = "text-info" *ngIf="tutorial_sequence == 5"> Every paragraph box requires a title and content. It's your content so you put what you want! Note this demo site will not be saved. </h3>
   <h3 class = "text-info" *ngIf="tutorial_sequence == 6"> Nicely done! You just created your first site component! In a real session, your content saves as you go. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
   <h3 class = "text-info" *ngIf="tutorial_sequence == 7"> Create site components in order to build your site page. You now have access to the other site components. Try them out! The tutorial ends when you leave this page. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 class = "text-info" *ngIf="tutorial_sequence == 8"> Consider creating an Admin if you want to build a site page you can share with others. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 class = "text-info" *ngIf="tutorial_sequence == 8"> Consider going to My Sites in the navbar at the top if you want to build a site page you can share with others. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
 </div>
-
 
 
 <app-page-generator *ngIf="preview_mode === true" [formatted_site]="formatted_site"> </app-page-generator>
@@ -73,44 +74,63 @@
       </div>
     </div>
   </div>
-
   
   <h1 class="leaf-title" *ngIf="formatted_site.title != ''"> {{formatted_site.title}} </h1>
-
-  <div *ngFor="let site_component of formatted_site.site_components">
-    <div *ngIf="site_component.type === 'p_box'">
-      <app-paragraph-box [component_id]="site_component.paragraph_box_id" [site_id]="formatted_site.site_id"></app-paragraph-box>
-      <div class="text-center">
-        <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.paragraph_box_id, site_component.type)'>Delete</button>
+  <!-- display tutorial site content -->
+  <div *ngIf="is_tutorial">
+    <div *ngFor="let site_component of formatted_site.site_components">
+      <div *ngIf="site_component.type === 'p_box'">
+        <app-paragraph-box [component_id]="site_component.paragraph_box_id" [site_id]="formatted_site.site_id" [pbox_object]=site_component></app-paragraph-box>
       </div>
-    </div>
-
-    <div *ngIf="site_component.type === 'image'">
-      <app-image [component_id]="site_component.image_id" [site_id]="formatted_site.site_id"></app-image>
-      <div class="text-center">
-        <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.image_id, site_component.type)'>Delete</button>
-      </div>  
-    </div>
-
-    <div *ngIf="site_component.type === 'portrait'">
-      <app-portrait [component_id]="site_component.portrait_id" [site_id]="formatted_site.site_id"></app-portrait>
-      <div class="text-center">
-        <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.portrait_id, site_component.type)'>Delete</button>
+      <div *ngIf="site_component.type === 'image'">
+        <app-image [component_id]="site_component.image_id" [site_id]="formatted_site.site_id" [image_object]="site_component"></app-image>
       </div>
-    </div>
-
-    <div *ngIf="site_component.type === '2c_box'">
-      <app-two-column-box [component_id]="site_component.two_column_box_id" [site_id]="formatted_site.site_id"></app-two-column-box>
-      <div class="text-center">
-        <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
+      <div *ngIf="site_component.type === 'portrait'">
+        <app-portrait [component_id]="site_component.portrait_id" [site_id]="formatted_site.site_id" [portrait_object]="site_component"></app-portrait>
       </div>
-  </div>
-  <div *ngIf="site_component.type === 'link_box'">
-    <app-link-box [component_id]="site_component.link_box_id" [site_id]="formatted_site.site_id"></app-link-box>
-    <div class="text-center">
-      <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.link_box_id, site_component.type)'>Delete</button>
+      <div *ngIf="site_component.type === '2c_box'">
+        <app-two-column-box [component_id]="site_component.two_column_box_id" [site_id]="formatted_site.site_id" [tcb_object]="site_component"></app-two-column-box>
+      </div>
     </div>
   </div>
+
+  <!-- display site content for the non-tutorial editor -->
+  <div *ngIf="!is_tutorial">
+    <div *ngFor="let site_component of formatted_site.site_components">
+      <div *ngIf="site_component.type === 'p_box'">
+        <app-paragraph-box [component_id]="site_component.paragraph_box_id" [site_id]="formatted_site.site_id"></app-paragraph-box>
+        <div class="text-center">
+          <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.paragraph_box_id, site_component.type)'>Delete</button>
+        </div>
+      </div>
+
+      <div *ngIf="site_component.type === 'image'">
+        <app-image [component_id]="site_component.image_id" [site_id]="formatted_site.site_id"></app-image>
+        <div class="text-center">
+          <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.image_id, site_component.type)'>Delete</button>
+        </div>  
+      </div>
+
+      <div *ngIf="site_component.type === 'portrait'">
+        <app-portrait [component_id]="site_component.portrait_id" [site_id]="formatted_site.site_id"></app-portrait>
+        <div class="text-center">
+          <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.portrait_id, site_component.type)'>Delete</button>
+        </div>
+      </div>
+
+      <div *ngIf="site_component.type === '2c_box'">
+        <app-two-column-box [component_id]="site_component.two_column_box_id" [site_id]="formatted_site.site_id"></app-two-column-box>
+        <div class="text-center">
+          <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
+        </div>
+    </div>
+    <div *ngIf="site_component.type === 'link_box'">
+      <app-link-box [component_id]="site_component.link_box_id" [site_id]="formatted_site.site_id"></app-link-box>
+      <div class="text-center">
+        <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.link_box_id, site_component.type)'>Delete</button>
+      </div>
+    </div>
+    </div>
   </div>
 
   <h4 class = "end-site-mark box-shadow" *ngIf="open_next_component === ''">(Additional Site Elements Will Be Created Here)</h4>

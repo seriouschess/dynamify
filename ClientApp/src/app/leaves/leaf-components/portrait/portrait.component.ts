@@ -10,22 +10,23 @@ import{ IComponentRequestDto } from '../../../interfaces/dtos/component_request_
 })
 export class PortraitComponent implements OnInit {
 
- portrait_object: Portrait;
+ @Input() portrait_object: Portrait;
  @Input() component_id:number;
  @Input() site_id:number;
 
   constructor( private _httpService:HttpService ) { }
 
   ngOnInit() {
-    this.portrait_object = null;
-    let request:IComponentRequestDto = {
-      component_id: this.component_id,
-      site_id: this.site_id
+    if(this.portrait_object == null){ //attempt to api call for object if not provided
+      let request:IComponentRequestDto = {
+        component_id: this.component_id,
+        site_id: this.site_id
+      }
+      console.log("component ID: "+this.component_id+" Site Id: "+this.site_id);
+      this._httpService.getPortrait(request).subscribe((data) =>{
+        this.portrait_object = data;
+      });
     }
-    console.log("component ID: "+this.component_id+" Site Id: "+this.site_id);
-    this._httpService.getPortrait(request).subscribe((data) =>{
-      this.portrait_object = data;
-    });
   }
 
 }

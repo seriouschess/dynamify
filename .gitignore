@@ -19,7 +19,7 @@ x64/
 x86/
 build/
 bld/
-bin/
+bin/ it's coming with us!
 Bin/
 obj/
 Obj/
@@ -130,6 +130,7 @@ DocProject/Help/html
 
 # Click-Once directory
 publish/
+ClientApp/dist
 
 # Publish Web Output
 *.[Pp]ublish.xml

@@ -214,35 +214,41 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
       }
     }
     this.open_next_component="p_box";
+    this.viewEditorBottom();
   }
 
   set2cBoxEdit(){
     this.validator.resetValidation();
     this.initializeComponents();
     this.open_next_component="2c_box";
+    this.viewEditorBottom();
   }
 
   setPortraitEdit(){
     this.validator.resetValidation();
     this.initializeComponents();
     this.open_next_component="portrait";
+    this.viewEditorBottom();
   }
 
   setImageEdit(){
     this.validator.resetValidation();
     this.initializeComponents();
     this.open_next_component="image";
+    this.viewEditorBottom();
   }
 
   setLinkBoxEdit(){
       this.validator.resetValidation();
       this.initializeComponents();
       this.open_next_component= "link_box";
+      this.viewEditorBottom();
   }
 
   toggleNavBarEditor(){
     if(this.nav_bar_editor_open == false){
       this.nav_bar_editor_open = true;
+      this.viewEditorTop();
     }else{
       this.nav_bar_editor_open = false;
     }
@@ -416,6 +422,23 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
       this_component.validator.image_src_invalid_flag = false;
       this_component.validator.image_src_invalid_size_flag = false;
     }
+  }
+
+  //QOL scrolling methods
+  viewEditorBottom(){
+    setTimeout(() => {
+      if(!this.preview_mode){
+        window.scrollTo(0,document.body.scrollHeight);
+      }
+    },50); //you are bad
+  }
+
+  viewEditorTop(){
+    setTimeout(() => {
+      if(!this.preview_mode){
+        window.scrollTo(0,0);
+      }
+    },50);
   }
 
   //tutorial related

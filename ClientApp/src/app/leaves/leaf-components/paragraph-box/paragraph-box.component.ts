@@ -12,20 +12,21 @@ export class ParagraphBoxComponent implements OnInit {
 
   @Input() component_id:number;
   @Input() site_id:number;
-  pbox_object: ParagraphBox;
+  @Input() pbox_object: ParagraphBox;
 
   constructor( private _httpService:HttpService ) { }
 
   ngOnInit() {
-    this.pbox_object = null;
-    let request:IComponentRequestDto = {
-      component_id: this.component_id,
-      site_id: this.site_id
+    if(this.pbox_object == null){ //tutorial inputs pbox_object, null means call api for one
+      let request:IComponentRequestDto = {
+        component_id: this.component_id,
+        site_id: this.site_id
+      }
+      console.log("component ID: "+this.component_id+" Site Id: "+this.site_id);
+      this._httpService.getParagraphBox(request).subscribe((data) =>{
+        this.pbox_object = data;
+      });
     }
-    console.log("component ID: "+this.component_id+" Site Id: "+this.site_id);
-    this._httpService.getParagraphBox(request).subscribe((data) =>{
-      this.pbox_object = data;
-    });
   }
 
 }

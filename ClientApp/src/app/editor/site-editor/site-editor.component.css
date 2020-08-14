@@ -20,6 +20,7 @@
     background-color: rgb(167, 228, 167);
     border: 2px solid rgb(160, 192, 176);
     border-radius: 5px;
+    display:block;
 }
 
 .editor-form input, textarea {
@@ -56,9 +57,17 @@
 }
 
 .creation-tools button {
-    margin-left: 5%;
     margin-top: 2%;
     margin-bottom: 2%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top-creation-tools{
+    background-color: rgba(0,0,0,0.2);
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .end-site-mark {
@@ -76,7 +85,7 @@
     margin-top: 60px;
     margin-left: auto;
     margin-right: auto;
-    width: 100%;
+    width: 80%;
     padding-top: 3%;
     padding-bottom: 3%;
     padding-left: 5%;
@@ -127,6 +136,41 @@
 
 .bump-down{
     margin-top: 5%;
+}
+
+@media (max-width:1080px){
+    .creation-tools{
+        position:sticky;
+        overflow:auto;
+        height:800px;
+    }
+}
+
+@media (max-width:800px){
+    .creation-tools{
+        margin-top: 0%;
+        width: 95%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        height: 170px;
+        position:sticky;
+        overflow:auto;
+    }
+
+    .creation-tools h4{
+        display: inline-block;
+        width: 45%;
+    }
+
+    .creation-tools button{
+        margin-left: 2px;
+        display: inline-block;
+    }
+
+    .editor-body{
+        width: 100%;
+    }
 }
 
 @media (min-width:500px){

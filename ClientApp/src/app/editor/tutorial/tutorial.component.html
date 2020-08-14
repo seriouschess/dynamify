@@ -27,3 +27,23 @@
     [current_admin_id]= "0" 
     [current_admin_token]= ""
 ></app-site-editor>
+
+<div *ngIf="open_editor == false && open_site_select == false">
+    <div class="bottom-information-container">
+        <div class="text-center">
+            <h2 class="push-me-down"> General guide video: </h2>
+            <div class="h-video generic-element">
+                <iframe
+                    src="https://www.youtube.com/embed/TeixVm1TFQY">
+                </iframe>
+            </div>
+            <h2> How to link multipage sites: </h2>
+            <div class="h-video generic-element">
+                <iframe
+                    src="https://www.youtube.com/embed/EAAiXQCHs8c">
+                </iframe>
+            </div>
+        </div>
+    </div>
+    <div class="footer"></div>
+</div>

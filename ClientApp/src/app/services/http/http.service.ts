@@ -160,7 +160,7 @@ export class HttpService {
       time_on_homepage:0,
       url: window.location.href
     }
-    return this._http.post(`http://analytics.siteleaves.com/storage/create`, s);
+    return this._http.post(`https://analytics.siteleaves.com/storage/create`, s);
   }
 
   updateSession( s:session ):Observable<object>{
@@ -170,7 +170,7 @@ export class HttpService {
     //   time_on_homepage: time,
     //   url: window.location.href
     // }
-    return this._http.post(`http://analytics.siteleaves.com/storage/update`, s);
+    return this._http.post(`https://analytics.siteleaves.com/storage/update`, s);
   } 
 }
 

@@ -29,11 +29,11 @@ export class AnaComponent implements OnInit, OnDestroy {
     this.startUpdateSequence();
    
 
-    // this._httpService.createSession().subscribe(results =>{
-    //   var x:any = results;
-    //   this.s.token = x.token;
-    //   this.s.session_id = x.session_id;
-    // }, error => console.log(error));
+    this._httpService.createSession().subscribe(results =>{
+      var x:any = results;
+      this.s.token = x.token;
+      this.s.session_id = x.session_id;
+    }, error => console.log(error));
   }
 
   ngOnDestroy(){
@@ -61,7 +61,7 @@ export class AnaComponent implements OnInit, OnDestroy {
   update( ){
     console.log("Update Test");
     console.log(JSON.stringify(this.s));
-    //this._httpService.updateSession(this.s);
+    this._httpService.updateSession(this.s);
   }
 
 }
