@@ -214,6 +214,9 @@ FakesAssemblies/
 # Visual Studio 6 build log
 *.plg
 
+#vscode
+.vscode/
+
 # Visual Studio 6 workspace options file
 *.opt
 
@@ -233,3 +236,6 @@ _Pvt_Extensions
 
 #Server Connection Information
 appsettings.json
+
+#Migrations
+Migrations/
