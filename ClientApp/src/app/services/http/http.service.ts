@@ -15,6 +15,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { session } from 'src/app/interfaces/dtos/analytics_session_dto';
 import { IComponentRequestDto } from 'src/app/interfaces/dtos/component_request_dto';
+import { admin_request_dto } from 'src/app/interfaces/dtos/admin_request_dto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,11 +26,6 @@ export class HttpService {
   constructor(private _http:HttpClient) { }
 
   //admin services
-
-  getAdmins<Admin>(){
-    var data:any = this._http.get<Admin[]>('admin');
-    return data;
-  }
 
   loginAdmin(login_payload:Login){
     return this._http.post(`api/admin/login`, login_payload);
@@ -42,11 +38,14 @@ export class HttpService {
 
   deleteAdmin(admin_id:number, token:string){
     console.log(`Admin ID for deletion:${admin_id}`);
-    let payload = {
+    let payload:admin_request_dto = {
       admin_id: admin_id,
       token: token
     }
-    return this._http.post(`admin/${admin_id}`, payload);
+
+    //http.request('delete', url, { body: { ... } });
+    //delete requests don't allow payloads
+    return this._http.request('delete',`api/admin/delete`, { body: payload });
   }
 
   editAdmin(AdminToEdit:Admin){

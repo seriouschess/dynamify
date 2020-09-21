@@ -5,36 +5,3 @@
 <app-display-sites *ngIf="current_admin.admin_id != 0 && current_admin.admin_id != null && current_site_editor_id == 0" [is_tutorial] = "false" [current_admin_id]="current_admin.admin_id" [current_admin_token]="current_admin.token" (siteIdSelectEvent)="setSelectedSite($event)"></app-display-sites>
 
 <app-site-editor (exitEvent)="resetEditor($event)" *ngIf="current_admin.admin_id != 0 && current_site_editor_id != 0" [is_tutorial]="false" [current_site_id]="current_site_editor_id" [current_admin_id]="current_admin.admin_id" [current_admin_token]="current_admin.token"></app-site-editor>
-
-
-<!-- -------FOR TESTING--------
-<div *ngIf="current_admin.admin_id == null">
-  <p *ngIf="!admins"><em>Loading...</em></p>
-
-  <p class="text-center">All admin data*: not for production</p>
-  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="admins">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Password</th>
-        <th>Delete</th>
-        <th>Select</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let admin of admins">
-        <td>{{ admin.admin_id }}</td>
-        <td>{{ admin.first_name }}</td>
-        <td>{{ admin.last_name }}</td>
-        <td>{{ admin.email }}</td>
-        <td>{{ admin.password }}</td>
-        <td><button class="btn btn-success" (click)="openEditor(admin)">Edit</button></td>
-        <td><button class="btn btn-info" (click)="selectAdmin(admin.admin_id)">Select :D</button></td>
-        <td><button class="btn btn-warning" (click)="deleteAdminByID(admin.admin_id)">Delete :O</button></td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->

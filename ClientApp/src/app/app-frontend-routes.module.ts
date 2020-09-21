@@ -7,11 +7,13 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { LeafComponent } from './leaves/leaf/leaf.component';
 import { LogoutComponent } from './admin-related/logout/logout.component';
 import { AboutComponent } from './about/about.component';
+import { AdminAccountComponent } from './admin-related/admin-account/admin-account.component';
 
 const routes: Routes = [
     { path: '', component: HomepageComponent, pathMatch: 'full' },
     { path: 'base/about', component: AboutComponent },
     { path: 'base/admin', component: AdminComponent },
+    { path: 'base/account', component: AdminAccountComponent },
     { path: 'base/tutorial', component: TutorialComponent },
     { path: 'base/not-found', component: PageNotFoundComponent },
     { path: 'base/logout', component: LogoutComponent },

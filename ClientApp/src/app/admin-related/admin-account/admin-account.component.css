@@ -1,0 +1,39 @@
+.warning-box{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid rgb(167, 1, 1);
+    background-color:rgb(193, 236, 72);
+    width: 80%;
+    max-width: 1020px;
+    padding: 10px;
+}
+
+.title-box{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    padding-top: 20px;
+}
+
+.inner-warning-box{
+    width:80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.selection-buffer{
+    width: 200px;
+    display: inline-block;
+}
+
+.first-button{
+    margin-left:20px;
+}
+
+@media (max-width:1200px){
+    .selection-buffer{
+        display: block;
+        height: 150px;
+    }
+}

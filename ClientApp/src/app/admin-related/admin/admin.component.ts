@@ -56,22 +56,6 @@ export class AdminComponent implements OnInit{
     this.initiateLogin();
   }
 
-  //currently unused methods
-  allAdmins(){
-    this._httpService.getAdmins().subscribe(result => {
-      if(result){
-        this.admins = result;
-      }
-    }, error => console.log(error));
-  }
-
-  deleteAdminByID(id:number){
-    this._httpService.deleteAdmin(id, this.current_admin.token).subscribe(result =>{
-      console.log(result);
-      this.allAdmins();
-    });
-  }
-
   initiateLogin(){
     if( this._clientStorage.checkLogin() ){
       let test_admin = this._clientStorage.getAdmin() as Admin;

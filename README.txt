@@ -1,9 +1,14 @@
-Dynamify (WorkingTitle):
+# Site Leaves (Formally Dynamify)
 
 --- App is live on www.siteleaves.com ---
 
  - Web Application where users can register and create their own websites using in app tools.
  - Indended to enable non-technical people to be able to easily create their own websites.
+
+1.01 version complete:
+- Page loads asynchronously
+- UI editor improvements
+- Persistant login
 
 1.0 version complete:
 - Admins create sites with custom url extensions

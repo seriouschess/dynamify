@@ -1,0 +1,25 @@
+<app-nav-menu [logged_in]="true" ></app-nav-menu>
+
+<div class="title-box">
+    <h3> {{ current_admin.first_name }} {{current_admin.last_name}}'s account settings </h3>
+</div>
+
+<p> Change Username </p>
+
+<p> Change Password </p>
+
+<p> Delete This Admin Account </p>
+
+<button class="btn btn-danger" *ngIf="!delete_selected" (click)="toggleDeleteSelection()"> Delete This Account</button>
+
+<div class="warning-box" *ngIf="delete_selected">
+    <div class="inner-warning-box">
+        <h3 class="text-danger">
+            Deleting this account will remove ALL websites associated with the account!
+        </h3>
+        <h3> Be absolutely sure you want to do this because this action is not reversable. </h3>
+        <button class="btn btn-info first-button" (click)="toggleDeleteSelection()">Keep account</button>
+        <div class="selection-buffer"></div>
+        <button class="btn btn-danger" (click)="deleteAccount()">Delete this account!</button>
+    </div>
+</div>

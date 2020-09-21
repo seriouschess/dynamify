@@ -26,6 +26,7 @@ import { AnaComponent } from './ana/ana.component';
 import { LogoutComponent } from './admin-related/logout/logout.component';
 import { PopInComponent } from './pop-in/pop-in.component';
 import { AboutComponent } from './about/about.component';
+import { AdminAccountComponent } from './admin-related/admin-account/admin-account.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { AboutComponent } from './about/about.component';
     AnaComponent,
     LogoutComponent,
     PopInComponent,
-    AboutComponent
+    AboutComponent,
+    AdminAccountComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

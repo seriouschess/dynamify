@@ -47,8 +47,7 @@ namespace dynamify.Controllers
            return methods.RegisterMethod(NewAdmin);
         }
 
-        //not currently used
-        [HttpPost]
+        [HttpDelete]
         [Route("delete")]
         public JsonResponse Delete([FromBody] AdminRequestDto request){
             return methods.DeleteMethod(request);
@@ -58,11 +57,6 @@ namespace dynamify.Controllers
         [HttpPut] 
         public ActionResult<Admin> Update([FromBody] string _TargetAdmin){
             return methods.UpdateMethod(_TargetAdmin);
-        }
-
-        [HttpGet] //used for testing
-        public IEnumerable Get(){
-            return methods.GetAllMethod();
         }
 
         [HttpGet]
