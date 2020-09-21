@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using dynamify.Models;
 using Microsoft.EntityFrameworkCore;
 using dynamify.Models.QueryClasses;
+using dynamify.Configuration;
 
 namespace dynamify
 {
@@ -18,6 +19,7 @@ namespace dynamify
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ConfSettings.Configuration = Configuration;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -40,7 +42,7 @@ namespace dynamify
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            string mySqlConnection = Configuration["DBInfo:ConnectionString"];
+            string mySqlConnection = Configuration["ConnectionString"];
             System.Console.WriteLine(mySqlConnection);
             services.AddDbContext<MyContext>(options => options.UseMySql(mySqlConnection));
             services.AddScoped<AdminQueries>();

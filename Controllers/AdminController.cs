@@ -11,6 +11,7 @@ using dynamify.Models;
 using dynamify.dtos;
 using dynamify.Models.JsonModels;
 using dynamify.Controllers.ControllerMethods;
+using System.Threading.Tasks;
 
 namespace dynamify.Controllers
 {
@@ -66,15 +67,8 @@ namespace dynamify.Controllers
 
         [HttpGet]
         [Route("test")]
-        public string Test(){
+        public Task<string> Test(){
             return methods.TestMethod();
-        }
-
-        [HttpGet]
-        [Route("test2")]
-        public string Test2(){
-            string input = "$2a$13$/8Wncr26eAmxD1l6cAF9FuejrBm3X3XqSSOPLW11Jxsr1X.LNVnAm";
-            return methods.TestMethodTwo(input);
         }
     }
 }

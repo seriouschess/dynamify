@@ -13,7 +13,8 @@ using dynamify.Models.QueryClasses;
 using dynamify.Models;
 using dynamify.dtos;
 using dynamify.Models.JsonModels;
-
+using dynamify.Email;
+using System.Threading.Tasks;
 
 namespace dynamify.Controllers.ControllerMethods
 {
@@ -102,14 +103,10 @@ namespace dynamify.Controllers.ControllerMethods
             return results;
         }
 
-        public string TestMethod(){
-            string final = authenticator.HashString("hi");
-            return final;
-        }
-
-        public string TestMethodTwo(string input){
-            bool result = authenticator.VerifyHash("hi", input);
-            return $"Result {result}";
+        public async Task<string> TestMethod(){
+            Mailer Mail = new Mailer();
+            await Mail.SendPasswordResetMail("bigchunk1@comcast.net", "SomeRandomString");
+            return "mail sent!";
         }
     }
 }
