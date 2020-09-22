@@ -48,10 +48,14 @@ export class HttpService {
     return this._http.request('delete',`api/admin/delete`, { body: payload });
   }
 
-  editAdmin(AdminToEdit:Admin){
+  editAdmin( AdminToEdit:Admin ): Observable<Admin>{
     console.log(JSON.stringify(AdminToEdit));
-    return this._http.put('api/admin', AdminToEdit);
+    return this._http.put<Admin>('api/admin', AdminToEdit);
   }
+
+  // changeAdminPassword(){
+
+  // }
 
   //site services
 

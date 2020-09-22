@@ -90,9 +90,8 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public Admin UpdateMethod(string _TargetAdmin ){
-            Admin TargetAdmin = JsonSerializer.Deserialize<Admin>(_TargetAdmin);
-            Admin FoundAdmin = dbQuery.UpdateAdminById(TargetAdmin);
+        public Admin UpdateMethod(Admin TargetAdmin ){
+            Admin FoundAdmin = dbQuery.UpdateAdmin(TargetAdmin);
             return FoundAdmin;
         }
 

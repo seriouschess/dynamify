@@ -4,13 +4,30 @@
     <h3> {{ current_admin.first_name }} {{current_admin.last_name}}'s account settings </h3>
 </div>
 
-<p> Change Username </p>
+<div *ngIf="!edit_selected">
+    <p> Change Username </p>
+    <button class="btn btn-success" (click)="toggleEditSelection()"> Change Username </button>
+</div>
+
+<div *ngIf="edit_selected">
+    <p> {{updated_admin | json}} </p>
+    <p>Edit Admin information here, note that Email addresses cannot be changed. Delete current Admin and Create a new admin to change email.</p>
+    <form (submit)="editAdminAccount()">
+    <label>First Name: </label><input name="first_name" [(ngModel)]="updated_admin.first_name">
+    <label>Last Name: </label><input name="last_name" [(ngModel)]="updated_admin.last_name">
+    <input type="submit" class="btn btn-success" value="Change Username">
+    </form>
+    <button class="btn btn-info" (click)="toggleEditSelection"> Cancel Edit </button>
+</div> 
+
+<p> See Account's sites </p>
+<button class="btn btn-info" (click)="toMySites()"> My Sites </button>
 
 <p> Change Password </p>
 
 <p> Delete This Admin Account </p>
 
-<button class="btn btn-danger" *ngIf="!delete_selected" (click)="toggleDeleteSelection()"> Delete This Account</button>
+<button class="btn btn-danger first-button" *ngIf="!delete_selected" (click)="toggleDeleteSelection()"> Delete This Account</button>
 
 <div class="warning-box" *ngIf="delete_selected">
     <div class="inner-warning-box">

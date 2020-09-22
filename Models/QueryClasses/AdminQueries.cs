@@ -57,16 +57,30 @@ namespace dynamify.Models.QueryClasses
         }
 
         //Update
-        public Admin UpdateAdminById(Admin TargetAdmin){
+        public Admin UpdateAdmin(Admin TargetAdmin){
+            Admin SubjectAdmin = GetAdminById(TargetAdmin.admin_id);
+            
+            if(TargetAdmin.first_name != null){
+                SubjectAdmin.first_name = TargetAdmin.first_name;
+            }
 
-            Admin AdminToUpdate = GetAdminById(TargetAdmin.admin_id);
-            AdminToUpdate.first_name = TargetAdmin.first_name;
-            AdminToUpdate.last_name = TargetAdmin.last_name;
+            if(TargetAdmin.last_name != null){
+                SubjectAdmin.last_name = TargetAdmin.last_name;
+            }
+
             //email cannot be changed
-            AdminToUpdate.password = TargetAdmin.password;
-            AdminToUpdate.UpdatedAt = DateTime.Now;
+
+            SubjectAdmin.UpdatedAt = DateTime.Now;
             dbContext.SaveChanges();
-            return AdminToUpdate;
+            return SubjectAdmin;
+        }
+
+        public Admin ChangeAdminPassword(int admin_id, string new_password){
+            Admin FoundAdmin = GetAdminById(admin_id);
+            FoundAdmin.password = new_password;
+            FoundAdmin.UpdatedAt = DateTime.Now;
+            dbContext.SaveChanges();
+            return FoundAdmin;
         }
     }
 }

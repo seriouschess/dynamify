@@ -53,16 +53,17 @@ namespace dynamify.Controllers
             return methods.DeleteMethod(request);
         }
 
-        //not currently used, antiquated method
         [HttpPut] 
-        public ActionResult<Admin> Update([FromBody] string _TargetAdmin){
-            return methods.UpdateMethod(_TargetAdmin);
+        public ActionResult<Admin> Update([FromBody] Admin TargetAdmin){
+            System.Console.WriteLine($"Updating admin Id:{TargetAdmin.admin_id}");
+            return methods.UpdateMethod(TargetAdmin);
         }
 
         [HttpGet]
         [Route("test")]
-        public Task<string> Test(){
-            return methods.TestMethod();
+        public string Test(){
+            System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            return "string ok";//methods.TestMethod();
         }
     }
 }
