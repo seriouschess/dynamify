@@ -12,7 +12,7 @@
 <div *ngIf="edit_selected">
     <p> {{updated_admin | json}} </p>
     <p>Edit Admin information here, note that Email addresses cannot be changed. Delete current Admin and Create a new admin to change email.</p>
-    <form (submit)="editAdminAccount()">
+    <form (submit)="updateAdminAccount()">
     <label>First Name: </label><input name="first_name" [(ngModel)]="updated_admin.first_name">
     <label>Last Name: </label><input name="last_name" [(ngModel)]="updated_admin.last_name">
     <input type="submit" class="btn btn-success" value="Change Username">
