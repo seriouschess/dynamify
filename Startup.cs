@@ -42,11 +42,14 @@ namespace dynamify
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
             string mySqlConnection = Configuration["ConnectionString"];
             System.Console.WriteLine(mySqlConnection);
             services.AddDbContext<MyContext>(options => options.UseMySql(mySqlConnection));
             services.AddScoped<AdminQueries>();
             services.AddScoped<SiteQueries>();
+
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +81,10 @@ namespace dynamify
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+
+            // Register the Swagger generator and the Swagger UI middlewares
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseSpa(spa =>
             {

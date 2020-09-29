@@ -104,6 +104,11 @@ export class DisplaySitesComponent implements OnInit {
       this.reserved_url_error_flag = true;
     }
 
+    if(this.newSiteObject.url.toLowerCase() == "swagger"){
+      errors += 1;
+      this.reserved_url_error_flag = true;
+    }
+
     if(errors > 0 ){
       return false;
     }else{

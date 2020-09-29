@@ -108,7 +108,7 @@ namespace dynamify.ServerClasses.Validators
         public string ValidateSiteUrl(string leaf_url){
             List<Site> test = SiteDbContext.QueryFeaturelessSiteByUrl(leaf_url);
             
-            if(test.Count > 0){
+            if(test.Count > 0 || leaf_url == "base" || leaf_url == "default" || leaf_url == "api" || leaf_url == "swagger" ){
                 return "Site must not have duplicate title with existing site.";
             }
 
