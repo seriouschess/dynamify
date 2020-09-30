@@ -47,6 +47,12 @@ namespace dynamify.Controllers
            return methods.RegisterMethod(NewAdmin);
         }
 
+        [HttpPut]
+        [Route("activate/{admin_email}/{admin_token}")]
+        public ActionResult<Admin> ActivateValidEmail(string admin_email, string admin_token){
+            return methods.VerifyEmailForAdmin(admin_email, admin_token);
+        }
+
         [HttpDelete]
         [Route("delete")]
         public JsonResponse Delete([FromBody] AdminRequestDto request){
@@ -61,9 +67,9 @@ namespace dynamify.Controllers
 
         [HttpGet]
         [Route("test")]
-        public string Test(){
+        public Task<string> Test(){
             System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            return "string ok";//methods.TestMethod();
+            return methods.TestMethod();
         }
     }
 }

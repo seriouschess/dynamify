@@ -7,7 +7,7 @@ using dynamify.dtos;
 using dynamify.Models.JsonModels;
 using dynamify.Models.SiteModels;
 using System.Collections.Generic;
-using dynamify.ServerClasses.Validators;
+using dynamify.ServerClasses.Auth;
 
 namespace dynamify.Controllers.ControllerMethods
 {

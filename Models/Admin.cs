@@ -20,6 +20,8 @@ namespace dynamify.Models
         public string password {get;set;}
 
         public string token {get;set;} = "XXX"; //authentication token
+
+        public bool email_verified {get;set;} = false;
         
         [InverseProperty("owner")]
         public List<Site> sites_owned {get;set;}

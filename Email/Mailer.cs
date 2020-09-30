@@ -25,12 +25,12 @@ namespace dynamify.Email
             PORT = Int32.Parse(ConfSettings.Configuration["EmailConfig:PORT"]);
         }
 
-        public String CreateRegistrationMailBody(string email, string password){
+        public String CreateRegistrationMailBody(string email, string token){
             String new_body = "<h1>Thank you for registering to siteleaves.com</h1>" +
-            "<p>You may now log in using the following information:</p>" +
-            $"<p>Email: {email}</p>" +
-            $"<p>Password: {password}</p><br>"+
-            $"<p>Get started at: <a href='https://siteleaves.com'>siteleaves.com</a></p>";
+            "<p>You may now click the following link to activate your account:</p>" +
+            $"<p>Get started by clicking <a href='https://siteleaves.com/base/activate/{email}/{token}'>this link</a>.</p>"+
+            $"<br> This email was sent automatically as a direct result of a registration action"+
+            "<p>If you happen to have gotten this email by mistake, please send a reply to this email to give feedback the admin and we will do our best to apprehend the traitors.</p>";
             return new_body; 
         }
 

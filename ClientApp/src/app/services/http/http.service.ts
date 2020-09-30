@@ -53,6 +53,10 @@ export class HttpService {
     return this._http.put<Admin>('api/admin', AdminToEdit);
   }
 
+  activateAccount(admin_email:string, admin_password:string){
+    return this._http.request<Admin>('put',`api/admin/activate/${admin_email}/${admin_password}`);
+  }
+
   // changeAdminPassword(){
 
   // }

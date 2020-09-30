@@ -18,6 +18,15 @@ namespace dynamify.Models.QueryClasses
             return dbContext.Admins.SingleOrDefault(x => x.admin_id == admin_id);
         }
 
+        public Admin GetAdminByEmail(string admin_email){
+            List<Admin> FoundAdmins = dbContext.Admins.Where(x => x.email == admin_email).ToList();
+            if(FoundAdmins.Count == 1){
+                return FoundAdmins[0];
+            }else{
+                throw new System.ArgumentException($"Failed to find admin email {admin_email}");
+            }
+        }
+
         public List<Admin> GetAdminsByEmail(string email){
             List<Admin> FoundAdmins = dbContext.Admins.Where(x => x.email == email).ToList();
             return FoundAdmins;
@@ -46,6 +55,18 @@ namespace dynamify.Models.QueryClasses
 
             Admin Test = NewAdmin = dbContext.Admins.FirstOrDefault(x => x.email == NewAdmin.email);
             return Test;
+        }
+
+        public Admin SetValidEmailAdmin(string admin_email, string admin_token){
+            List<Admin> found_admins = GetAdminsByEmail(admin_email);
+            if( found_admins.Count == 1 ){
+                Admin found_admin = found_admins[0];
+                found_admin.email_verified = true;
+                dbContext.SaveChanges();
+                return found_admin;
+            }else{
+                throw new ArgumentException($"Failed to find admin email {admin_email}.");
+            }
         }
 
         //Delete

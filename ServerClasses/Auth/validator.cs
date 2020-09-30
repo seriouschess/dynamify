@@ -6,7 +6,7 @@ using dynamify.Models;
 using dynamify.Models.QueryClasses;
 using dynamify.Models.SiteModels;
 
-namespace dynamify.ServerClasses.Validators
+namespace dynamify.ServerClasses.Auth
 {
     public class RegistrationValidator
     {

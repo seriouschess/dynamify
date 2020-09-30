@@ -47,6 +47,9 @@ namespace dynamify.Classes.Auth
                 System.Console.WriteLine("Email Denied");
             }else{
                 QueryAdmin = QueryAdmins[0];
+                if(QueryAdmin.email_verified == false){
+                    errors += 1;
+                }
                 if(!VerifyHash(password, QueryAdmin.password)){
                     System.Console.WriteLine($"Password: {password}");
                     System.Console.WriteLine($"Hashed Password: {QueryAdmin.password}");
@@ -77,9 +80,22 @@ namespace dynamify.Classes.Auth
 
         public bool VerifyAdmin(int admin_id, string token){ //use to login admin
             Admin QueryAdmin = dbQueryA.GetAdminById(admin_id);
-            if(QueryAdmin.token == token){
+            if(QueryAdmin.token == token && QueryAdmin.email_verified){
                 return true;
             }else{
+                return false;
+            }
+        }
+
+        public bool VerifyAdminForEmailValidation(string admin_email, string token){ //use to login admin
+            try{
+                Admin QueryAdmin = dbQueryA.GetAdminByEmail(admin_email);
+                if(QueryAdmin.token == token){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch{
                 return false;
             }
         }

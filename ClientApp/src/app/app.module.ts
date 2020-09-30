@@ -27,6 +27,7 @@ import { LogoutComponent } from './admin-related/logout/logout.component';
 import { PopInComponent } from './pop-in/pop-in.component';
 import { AboutComponent } from './about/about.component';
 import { AdminAccountComponent } from './admin-related/admin-account/admin-account.component';
+import { ActivateAccountComponent } from './activate-account/activate-account.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { AdminAccountComponent } from './admin-related/admin-account/admin-accou
     LogoutComponent,
     PopInComponent,
     AboutComponent,
-    AdminAccountComponent
+    AdminAccountComponent,
+    ActivateAccountComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

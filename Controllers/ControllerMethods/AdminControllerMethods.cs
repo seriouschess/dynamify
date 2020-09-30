@@ -6,7 +6,7 @@ using System.Linq;
 
 //project dependencies
 using dynamify.Classes.Auth;
-using dynamify.ServerClasses.Validators;
+using dynamify.ServerClasses.Auth;
 using dynamify.Models.QueryClasses;
 
 //models
@@ -26,10 +26,13 @@ namespace dynamify.Controllers.ControllerMethods
 
         private RegistrationValidator validator;
 
+        private Mailer mailer;
+
         public AdminControllerMethods(AdminQueries _dbQuery){
             dbQuery = _dbQuery;
             authenticator = new Auth(_dbQuery);
             validator = new RegistrationValidator(_dbQuery);
+            mailer = new Mailer();
         }
 
         public Admin LoginAdminMethod(LoginDto LoginInfo){
@@ -42,15 +45,18 @@ namespace dynamify.Controllers.ControllerMethods
                 NewAdmin.first_name = _NewAdmin.first_name;
                 NewAdmin.last_name = _NewAdmin.last_name;
                 NewAdmin.email = _NewAdmin.email;
-                NewAdmin.password = _NewAdmin.password; 
+                NewAdmin.password = _NewAdmin.password;
                 NewAdmin.token = authenticator.Generate().token;
-
                 string verdict = validator.ValidateAdmin(NewAdmin);
              if(verdict == "pass"){
                 string unhashed_password = _NewAdmin.password; //for the first login 
                 NewAdmin.password = authenticator.HashString(_NewAdmin.password);
-                dbQuery.SaveNewAdmin(NewAdmin); //create admin
-                return authenticator.ValidateAdmin(NewAdmin.email, unhashed_password); //login admin
+                Admin RegisteredAdmin = dbQuery.SaveNewAdmin(NewAdmin); //create admin
+
+                //send validation email
+                mailer.SendRegistrationConfirmationEmail(RegisteredAdmin.email, RegisteredAdmin.token);
+
+                return authenticator.ValidateAdmin(NewAdmin.email, unhashed_password); //email not yet validated!
              }else if( verdict == "invalid credentials"){
                  string message = "< Error: Invalid Registration >";
 
@@ -74,6 +80,14 @@ namespace dynamify.Controllers.ControllerMethods
 
                 return blank_admin;
              }
+        }
+
+        public Admin VerifyEmailForAdmin(string admin_email, string admin_token){
+            if( authenticator.VerifyAdminForEmailValidation(admin_email, admin_token) ){
+                return dbQuery.SetValidEmailAdmin(admin_email, admin_token);
+            }else{
+                throw new System.ArgumentException("Invalid credentials");
+            }
         }
 
         public JsonResponse DeleteMethod(AdminRequestDto request){
@@ -104,7 +118,7 @@ namespace dynamify.Controllers.ControllerMethods
 
         public async Task<string> TestMethod(){
             Mailer Mail = new Mailer();
-            await Mail.SendPasswordResetMail("bigchunk1@comcast.net", "SomeRandomString");
+            await Mail.SendPasswordResetMail("rehayemb@gmail.com", "SomeRandomString");
             return "mail sent!";
         }
     }
