@@ -53,13 +53,15 @@ export class HttpService {
     return this._http.put<Admin>('api/admin', AdminToEdit);
   }
 
-  activateAccount(admin_email:string, admin_password:string){
-    return this._http.request<Admin>('put',`api/admin/activate/${admin_email}/${admin_password}`);
+  activateAccount(admin_email:string, admin_token:string){
+    return this._http.request<Admin>('put',`api/admin/activate/${admin_email}/${admin_token}`);
   }
 
-  // changeAdminPassword(){
-
-  // }
+  changeAdminPassword(admin_email:string, admin_token:string, new_password:string){
+    console.log("new password"+new_password);
+    console.log(`api/admin/password/reset/${admin_email}/${admin_token}/${new_password}`);
+    return this._http.request<Admin>(`put`, `api/admin/password/reset/${admin_email}/${admin_token}/${new_password}`);
+  }
 
   //site services
 

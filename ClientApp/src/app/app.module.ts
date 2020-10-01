@@ -27,7 +27,8 @@ import { LogoutComponent } from './admin-related/logout/logout.component';
 import { PopInComponent } from './pop-in/pop-in.component';
 import { AboutComponent } from './about/about.component';
 import { AdminAccountComponent } from './admin-related/admin-account/admin-account.component';
-import { ActivateAccountComponent } from './activate-account/activate-account.component';
+import { ActivateAccountComponent } from './admin-related/activate-account/activate-account.component';
+import { PasswordResetComponent } from './admin-related/password-reset/password-reset.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ActivateAccountComponent } from './activate-account/activate-account.co
     PopInComponent,
     AboutComponent,
     AdminAccountComponent,
-    ActivateAccountComponent
+    ActivateAccountComponent,
+    PasswordResetComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -109,6 +109,16 @@ namespace dynamify.Controllers.ControllerMethods
             return FoundAdmin;
         }
 
+        public Admin UpdatePasswordMethod(string admin_email, string admin_token, string new_password){
+            if( authenticator.VerifyAdminForEmailValidation(admin_email, admin_token) ){
+                Admin FoundAdmin = dbQuery.GetAdminByEmail(admin_email);
+                string password_hash = authenticator.HashString(new_password);
+                return dbQuery.UpdateAdminPassword(FoundAdmin.admin_id, password_hash);
+            }else{
+                throw new System.ArgumentException("Invalid credentials");
+            }
+        }
+
         public IEnumerable GetAllMethod(){
             List<Admin> AllAdmins = dbQuery.All();
             System.Console.WriteLine(AllAdmins);
@@ -116,10 +126,10 @@ namespace dynamify.Controllers.ControllerMethods
             return results;
         }
 
-        public async Task<string> TestMethod(){
-            Mailer Mail = new Mailer();
-            await Mail.SendPasswordResetMail("rehayemb@gmail.com", "SomeRandomString");
-            return "mail sent!";
-        }
+        // public async Task<string> TestMethod(){
+        //     Mailer Mail = new Mailer();
+        //     await Mail.SendPasswordResetMail("SOME_EMAIL :D", "SomeRandomString");
+        //     return "mail sent!";
+        // }
     }
 }

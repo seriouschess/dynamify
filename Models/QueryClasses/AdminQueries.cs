@@ -96,7 +96,7 @@ namespace dynamify.Models.QueryClasses
             return SubjectAdmin;
         }
 
-        public Admin ChangeAdminPassword(int admin_id, string new_password){
+        public Admin UpdateAdminPassword(int admin_id, string new_password){
             Admin FoundAdmin = GetAdminById(admin_id);
             FoundAdmin.password = new_password;
             FoundAdmin.UpdatedAt = DateTime.Now;

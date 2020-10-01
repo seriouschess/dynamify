@@ -65,11 +65,18 @@ namespace dynamify.Controllers
             return methods.UpdateMethod(TargetAdmin);
         }
 
-        [HttpGet]
-        [Route("test")]
-        public Task<string> Test(){
-            System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            return methods.TestMethod();
+        [HttpPut]
+        [Route("password/reset/{admin_email}/{admin_token}/{new_password}")]
+        public ActionResult<Admin> UpdatePassword(string admin_email, string admin_token, string new_password){
+            System.Console.WriteLine($"New Password: {new_password}");
+            return methods.UpdatePasswordMethod(admin_email, admin_token, new_password);
         }
+
+        // [HttpGet]
+        // [Route("test")]
+        // public Task<string> Test(){
+        //     System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        //     return methods.TestMethod();
+        // }
     }
 }

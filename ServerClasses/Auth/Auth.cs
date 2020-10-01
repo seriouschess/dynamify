@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using dynamify.Configuration;
 using dynamify.Models;
 using dynamify.Models.QueryClasses;
 using dynamify.Models.SiteModels;
@@ -68,7 +69,7 @@ namespace dynamify.Classes.Auth
 
         public string HashString(string unhashed_string){
             int PASSWORD_BCRYPT_COST = 13;
-            string PASSWORD_SALT = "/8Wncr26eAmxD1l6cAF9F8";
+            string PASSWORD_SALT = ConfSettings.Configuration["EncryptionSalt"];
             string salt = "$2a$" + PASSWORD_BCRYPT_COST + "$" + PASSWORD_SALT;
             return BCrypt.Net.BCrypt.HashPassword(unhashed_string, salt);
         }
