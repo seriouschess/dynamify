@@ -90,6 +90,12 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
+        public async Task<JsonResponse> SendPasswordResetEmailMethod(string requested_mail){
+            Admin FoundAdmin = dbQuery.GetAdminByEmail(requested_mail);
+            await mailer.SendPasswordResetMail(FoundAdmin.email, FoundAdmin.token);
+            return new JsonSuccess("Password verification email sent.");
+        }
+
         public JsonResponse DeleteMethod(AdminRequestDto request){
             if(authenticator.VerifyAdmin(request.admin_id, request.token)){
                 Admin FoundAdmin = dbQuery.GetAdminById(request.admin_id);

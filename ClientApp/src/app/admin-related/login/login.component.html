@@ -37,7 +37,6 @@
 </div>
 
 
-
 <div class="generic-element" *ngIf="open_registration == false" >
 <h3 class="space"> Login here to begin: </h3>
 <p class="text-danger"> {{error_display}} </p>
@@ -48,6 +47,7 @@
     <p *ngIf="login_password_validation_error_flag" class="text-danger"> Enter a password </p>
     <input class="btn btn-info space" type="submit" value="Login">
   </form>
+  <h3 class="space"> <a [routerLink]="['/base/password/email/confirmation']" > Forgot Password </a> </h3>
 </div>
 
 <h5 class="registration-button generic-element" *ngIf="open_registration == false"> If you do not have an admin account, you may register one here. <button (click)="openRegistration()" class="btn btn-info"> Register </button></h5>

@@ -29,6 +29,7 @@ import { AboutComponent } from './about/about.component';
 import { AdminAccountComponent } from './admin-related/admin-account/admin-account.component';
 import { ActivateAccountComponent } from './admin-related/activate-account/activate-account.component';
 import { PasswordResetComponent } from './admin-related/password-reset/password-reset.component';
+import { VerificationEmailSentConfirmationComponent } from './admin-related/verification-email-sent-confirmation/verification-email-sent-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { PasswordResetComponent } from './admin-related/password-reset/password-
     AboutComponent,
     AdminAccountComponent,
     ActivateAccountComponent,
-    PasswordResetComponent
+    PasswordResetComponent,
+    VerificationEmailSentConfirmationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

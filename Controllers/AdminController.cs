@@ -20,19 +20,21 @@ namespace dynamify.Controllers
     public class AdminController : ControllerBase
     {
         private AdminQueries adminQueries;
-        private Auth authenticator;
         private AdminControllerMethods methods;
         public AdminController(AdminQueries _adminQueries)
         {
             adminQueries = _adminQueries;
-            authenticator = new Auth(adminQueries);
             methods = new AdminControllerMethods(adminQueries);
         }
 
         [HttpGet]
-        [Route("auth/generate")]
-        public ActionResult<Token> GenAuth(){
-            return authenticator.Generate();
+        [Route("email/password_reset/send/{email}")]
+        public async Task<ActionResult<JsonResponse>> SendPasswordResetEmail(string email){
+            try{
+                return await methods.SendPasswordResetEmailMethod(email);
+            }catch{
+                return StatusCode(400, "email not found");
+            }
         }
 
         [HttpPost]
