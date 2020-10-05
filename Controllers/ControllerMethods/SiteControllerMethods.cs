@@ -42,9 +42,9 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public SiteContentDto GetSkeletonSiteByUrlMethod( string url ){
+        public SkeletonSiteDto GetSkeletonSiteByUrlMethod( string url ){
             try{
-                SiteContentDto FoundSite = dbQuery.QuerySkeletonContentByUrl( url );
+                SkeletonSiteDto FoundSite = dbQuery.QuerySkeletonContentByUrl( url );
                 return FoundSite;
             }catch{
                 throw new System.ArgumentException("url not found");

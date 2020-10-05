@@ -34,48 +34,70 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
-        public Site QuerySkeletonSiteById(int site_id){
-            List<Site> FoundSites = dbContext.Sites.Where(x => x.site_id == site_id).Select( s => new Site(){
+        public SkeletonSiteDto QuerySkeletonContentByUrl(string url){
+            List<Site> FoundSite = QueryFeaturelessSiteByUrl(url);
+            if(FoundSite.Count == 1){
+                return QuerySkeletonSiteById( FoundSite[0].site_id );
+            }else{
+                throw new System.ArgumentException("url not found");
+            } 
+        }
+
+        public SiteContentDto QuerySiteContentByURL(string url){
+            List<Site> FoundSite = QueryFeaturelessSiteByUrl(url);
+            if(FoundSite.Count == 1){
+                return QuerySiteContentById( FoundSite[0].site_id );
+            }else{
+                throw new System.ArgumentException("url not found");
+            } 
+        }
+
+        public List<SiteComponentDto> GetSiteComponentDtosForId(int site_id){
+            List<SiteComponentDto> site_components = new List<SiteComponentDto>();
+            List<SiteComponentDto> paragraph_boxes = dbContext.ParagraphBoxes.Where(x => x.site_id == site_id).Select(box => new SiteComponentDto(){
+                    component_id = box.paragraph_box_id,
+                    priority = box.priority,
+                    type = box.type
+                }).ToList();
+                site_components.AddRange(paragraph_boxes);
+
+            List<SiteComponentDto> images = dbContext.Images.Where(x => x.site_id == site_id).Select(box => new SiteComponentDto(){
+                    component_id = box.image_id,
+                    priority = box.priority,
+                    type = box.type
+                }).ToList();
+                site_components.AddRange(images);
+
+            List<SiteComponentDto> portraits = dbContext.Portraits.Where(x => x.site_id == site_id).Select(box => new SiteComponentDto(){
+                    component_id = box.portrait_id,
+                    priority = box.priority,
+                    type = box.type
+                }).ToList();
+                site_components.AddRange(portraits);
+
+            List<SiteComponentDto> two_column_boxes = dbContext.TwoColumnBoxes.Where(x => x.site_id == site_id).Select(box => new SiteComponentDto(){
+                    component_id = box.two_column_box_id,
+                    priority = box.priority,
+                    type = box.type
+                }).ToList();
+                site_components.AddRange(two_column_boxes);
+
+            List<SiteComponentDto> link_boxes = dbContext.LinkBoxes.Where(x => x.site_id == site_id).Select(box => new SiteComponentDto(){
+                    component_id = box.link_box_id,
+                    priority = box.priority,
+                    type = box.type
+                }).ToList();
+                site_components.AddRange(link_boxes);
+    
+            return site_components.OrderBy( x => x.priority).ToList();
+        }
+
+        public SkeletonSiteDto QuerySkeletonSiteById(int site_id){
+            
+            List<SkeletonSiteDto> FoundSites = dbContext.Sites.Where(x => x.site_id == site_id).Select( s => new SkeletonSiteDto(){
                 site_id = s.site_id,
                 title = s.title,
-                active = s.active,
-                admin_id = s.admin_id,
-                owner = null,
-                paragraph_boxes = dbContext.ParagraphBoxes.Where(x => x.site_id == s.site_id).Select(box => new ParagraphBox(){
-                    paragraph_box_id = box.paragraph_box_id,
-                    site_id = box.site_id,
-                    priority = box.priority
-                }).ToList(),
-                images = dbContext.Images.Where(x => x.site_id == s.site_id).Select(i => new Image()
-                {
-                    image_id = i.image_id,
-                    site_id = i.site_id,
-                    priority = i.priority
-                }).ToList(),
-                portraits = dbContext.Portraits.Where(x => x.site_id == s.site_id).Select(p => new Portrait()
-                {
-                    portrait_id = p.portrait_id,
-                    site_id = p.site_id,
-                    priority = p.priority
-                }).ToList(),
-                two_column_boxes = dbContext.TwoColumnBoxes.Where(x => x.site_id == s.site_id).Select(tcb => new TwoColumnBox()
-                {
-                    two_column_box_id = tcb.two_column_box_id,
-                    site_id = s.site_id,
-                    priority = tcb.priority
-                }).ToList(),
-                link_boxes = dbContext.LinkBoxes.Where(x => x.site_id == s.site_id).Select(lb => new LinkBox()
-                {
-                    link_box_id = lb.link_box_id,
-                    site_id = s.site_id,
-                    priority = lb.priority
-                }).ToList(),
-                nav_bars = dbContext.NavBars.Where(x => x.site_id == s.site_id).Select(nb => new NavBar(){
-                    nav_bar_id= nb.nav_bar_id,
-                    site_id = nb.site_id,
-                    string_of_links = nb.string_of_links
-                    
-                }).ToList()
+                site_components = GetSiteComponentDtosForId(site_id)
             }).ToList();
              if(FoundSites.Count == 1){
                 return FoundSites[0];
@@ -223,48 +245,28 @@ namespace dynamify.Models.QueryClasses
             return converted_format;
         }
 
-        public SiteContentDto QuerySkeletonContentById(int site_id){
-            Site FoundSite = QuerySkeletonSiteById( site_id );
-            SiteContentDto ReturnSite = new SiteContentDto(){
-                title = FoundSite.title,
-                site_id = FoundSite.site_id,
-                paragraph_boxes = FoundSite.paragraph_boxes,
-                images = FoundSite.images,
-                two_column_boxes = FoundSite.two_column_boxes,
-                portraits = FoundSite.portraits,
-                link_boxes = FoundSite.link_boxes
-            };
+        // public SiteContentDto QuerySkeletonContentById(int site_id){
+        //     Site FoundSite = QuerySkeletonSiteById( site_id );
+        //     SiteContentDto ReturnSite = new SiteContentDto(){
+        //         title = FoundSite.title,
+        //         site_id = FoundSite.site_id,
+        //         paragraph_boxes = FoundSite.paragraph_boxes,
+        //         images = FoundSite.images,
+        //         two_column_boxes = FoundSite.two_column_boxes,
+        //         portraits = FoundSite.portraits,
+        //         link_boxes = FoundSite.link_boxes
+        //     };
 
-            try{
-                ReturnSite.nav_bar = FormatNavBar(FoundSite.nav_bars[0]);
-            }catch(Exception e){
-                string message = e.Message;
-                message = "No nav bar found";
-                System.Console.WriteLine(message);
-                ReturnSite.nav_bar = null;
-            }
-            return ReturnSite;
-        }
-
-           public SiteContentDto QuerySkeletonContentByUrl(string url){
-            List<Site> FoundSite = QueryFeaturelessSiteByUrl(url);
-            if(FoundSite.Count == 1){
-                return QuerySkeletonContentById( FoundSite[0].site_id );
-            }else{
-                throw new System.ArgumentException("url not found");
-            } 
-        }
-
-
-
-        public SiteContentDto QuerySiteContentByURL(string url){
-            List<Site> FoundSite = QueryFeaturelessSiteByUrl(url);
-            if(FoundSite.Count == 1){
-                return QuerySiteContentById( FoundSite[0].site_id );
-            }else{
-                throw new System.ArgumentException("url not found");
-            } 
-        }
+        //     try{
+        //         ReturnSite.nav_bar = FormatNavBar(FoundSite.nav_bars[0]);
+        //     }catch(Exception e){
+        //         string message = e.Message;
+        //         message = "No nav bar found";
+        //         System.Console.WriteLine(message);
+        //         ReturnSite.nav_bar = null;
+        //     }
+        //     return ReturnSite;
+        // }
 
 
         // --- site component queries ---

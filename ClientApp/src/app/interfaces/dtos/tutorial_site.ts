@@ -1,9 +1,8 @@
-import { TwoColumnBox, Image, ParagraphBox, Portrait, LinkBox, NavBar } from "./site_dtos";
+import { LinkBox, ParagraphBox, Portrait, TwoColumnBox, Image } from "./site_dtos";
 
-export interface ISiteContentDto{
-    title: string;
+export interface ITutorialSite{
+    title:string;
     site_id: number;
-    nav_bar: NavBar;
     paragraph_boxes: ParagraphBox[];
     images: Image[];
     two_column_boxes: TwoColumnBox[];

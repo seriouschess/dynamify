@@ -5,8 +5,9 @@ import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { ValidationService } from '../../services/validation/validation.service';
 import { BSfourConverterService } from '../../services/b-sfour-converter/b-sfour-converter.service';
 import { ISiteFormatted } from '../../interfaces/formatted_site_content';
-import { SiteFormatterService } from '../../services/leaf-formatter/site-formatter.service';
+//import { SiteFormatterService } from '../../services/leaf-formatter/site-formatter.service';
 import { DOCUMENT } from '@angular/common';
+import { SiteFormatterService } from 'src/app/services/leaf-formatter/site-formatter.service';
 
 // import { ConsoleReporter } from 'jasmine';
 
@@ -78,7 +79,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     this.formatted_site = {
       title: null,
       site_id: null,
-      nav_bar: null,
+      //nav_bar: null,
       site_components: null
      }
 
@@ -165,7 +166,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
 
   //used to get site content from the backend
   requireSite(){
-    this._siteFormatter.getSiteByIdFormatted(this.site_request_object, this.recieveSite, this);
+    //this._siteFormatter.getSiteByIdFormatted(this.site_request_object, this.recieveSite, this);
   }
 
   getTutorialSite(){ //retrieves a blank site for demo use
@@ -176,7 +177,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   recieveSite(formatted_site:ISiteFormatted, this_component:SiteEditorComponent){
     this_component.formatted_site = formatted_site;
     if(this_component.new_nav_bar.links.length === 0 && this_component.is_tutorial === false){
-      this_component.new_nav_bar.links = formatted_site.nav_bar.links;
+      //this_component.new_nav_bar.links = formatted_site.nav_bar.links;
     }
     //this_component.initializeComponents(); can't have this due to nav bar link push logic resetting
   }

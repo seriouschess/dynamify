@@ -1,11 +1,12 @@
 
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
-import { ISiteContentDto } from '../../interfaces/dtos/site_content_dto';
 import { ISiteFormatted } from '../../interfaces/formatted_site_content';
 import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { IGenericSiteComponent } from '../../interfaces/generic_site_component';
 import { NavLink, NavBar } from '../../interfaces/dtos/site_dtos';
+import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/skeleton_site_dto';
+import { ITutorialSite } from 'src/app/interfaces/dtos/tutorial_site';
 
 @Injectable({
   providedIn: 'root'
@@ -14,38 +15,13 @@ export class SiteFormatterService {
 
   component_to_add:IGenericSiteComponent;
 
-  constructor(private _httpService:HttpService) { }
-  
-  getSiteByIdFormatted(request:ISiteRequestDto, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called:any){ //object which called is an angular component object
-    this._httpService.getSite(request).subscribe(data => format(data,callback, object_which_called));
-  }
-
-  getLeafByURLFormatted(leaf_url, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called:any){
-      this._httpService.getLeafByURL(leaf_url).subscribe(data =>{
-        console.log(data.body);
-        format(data.body, callback, object_which_called);
-      },
-      err =>{
-        returnNull(callback, object_which_called);
-      } );
-  }
-
-  getLeafSkeletonByURLFormatted(leaf_url, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called:any){
-    this._httpService.getLeafSkeletonByUrl(leaf_url).subscribe(data =>{
-      console.log(data.body);
-      format(data.body, callback, object_which_called);
-    },
-    err =>{
-      returnNull(callback, object_which_called);
-    } );
-  }
+  constructor() { }
 
   //methods used by tuorial
   getBlankSite(callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
     var formatted_site:ISiteFormatted = {
       title: "Demo Site",
       site_id: 0,
-      nav_bar: { site_id: null, links: [] },
       site_components: []
     }
 
@@ -132,7 +108,6 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
       let unfound_site:ISiteFormatted = {
         title: s.title,
         site_id: s.site_id,
-        nav_bar: null,
         site_components: [],
       }
       callback(unfound_site, object_which_called);
@@ -148,18 +123,15 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
         nav_bar = s.nav_bar;
       }
 
-      var unformatted_site:ISiteContentDto = {
+      var unformatted_site:ITutorialSite = {
         title: s.title,
         site_id: s.site_id,
-        nav_bar: nav_bar,
         paragraph_boxes: s.paragraph_boxes,
         images: s.images,
         two_column_boxes: s.two_column_boxes,
         portraits: s.portraits,
         link_boxes: s.link_boxes
       }
-
-      console.log("Paragraph Boxes"+JSON.stringify(s.paragraph_boxes));
 
       //sort site components in order
       var sorted_list_of_site_components = [];
@@ -185,7 +157,6 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
       var formatted_site: ISiteFormatted = {
         title: unformatted_site.title,
         site_id: s.site_id,
-        nav_bar: unformatted_site.nav_bar,
         site_components: sorted_list_of_site_components
       }
   

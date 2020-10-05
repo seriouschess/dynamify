@@ -14,11 +14,5 @@ export class PageGeneratorComponent implements OnInit {
   @Input() formatted_site:ISiteFormatted;
   site_credentials:ISiteCredentials;
 
-  ngOnInit() {
-    console.log(this.formatted_site.nav_bar);
-    if(this.formatted_site.nav_bar != null){
-      console.log("Condition Approved");
-    }
-  }
-
+  ngOnInit() { }
 }

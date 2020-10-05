@@ -78,6 +78,7 @@
   <h1 class="leaf-title" *ngIf="formatted_site.title != ''"> {{formatted_site.title}} </h1>
   <!-- display tutorial site content -->
   <div *ngIf="is_tutorial">
+    <p>{{formatted_site | json}}</p>
     <div *ngFor="let site_component of formatted_site.site_components">
       <div *ngIf="site_component.type === 'p_box'">
         <app-paragraph-box [component_id]="site_component.paragraph_box_id" [site_id]="formatted_site.site_id" [pbox_object]=site_component></app-paragraph-box>

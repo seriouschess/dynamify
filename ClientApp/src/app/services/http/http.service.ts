@@ -9,13 +9,13 @@ import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox, NavBar } from '..
 import { ComponentReference } from '../../interfaces/dtos/component_reference';
 import { INewSiteDto } from '../../interfaces/dtos/new_site_dto';
 import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
-import { ISiteContentDto } from '../../interfaces/dtos/site_content_dto';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { session } from 'src/app/interfaces/dtos/analytics_session_dto';
 import { IComponentRequestDto } from 'src/app/interfaces/dtos/component_request_dto';
 import { admin_request_dto } from 'src/app/interfaces/dtos/admin_request_dto';
+import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/skeleton_site_dto';
 
 @Injectable({
   providedIn: 'root'
@@ -71,22 +71,19 @@ export class HttpService {
     return this._http.post<ISiteContentDto>(`api/site/get`, request);
   }
 
-  getLeafByURL(leaf_url:string){
-    return this._http.get<ISiteContentDto>(`api/site/get_by_url/full/${leaf_url}`, {observe: 'response'})
-    .pipe(
-      catchError(() =>{
-        return throwError(new Error('Leaf Not Found'));
-      })
-    );
+  getLeafByURL(leaf_url:string):Observable<ISkeletonSiteDto>{
+    return this._http.get<ISkeletonSiteDto>(`api/site/get_by_url/full/${leaf_url}`);
   }
 
-  getLeafSkeletonByUrl(leaf_url:string){
-    return this._http.get<ISiteContentDto>(`api/site/get_by_url/skeleton/${leaf_url}`, {observe: 'response'})
-    .pipe(
-      catchError(() =>{
-        return throwError(new Error('Leaf Not Found'));
-      })
-    );
+  getLeafSkeletonByUrl(leaf_url:string):Observable<ISkeletonSiteDto>{
+    return this._http.get<ISkeletonSiteDto>(`api/site/get_by_url/skeleton/${leaf_url}`);
+
+    // return this._http.get<ISkeletonSiteDto>(`api/site/get_by_url/skeleton/${leaf_url}`, {observe: 'response'})
+    // .pipe(
+    //   catchError(() =>{
+    //     return throwError(new Error('Leaf Not Found'));
+    //   })
+    // );
   }
 
   getSitesByAdmin(admin_id: number, admin_token: string) {

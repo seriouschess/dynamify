@@ -63,7 +63,7 @@ namespace dynamify.Controllers
 
         [HttpGet] //retrieve site content for one site by url
         [Route("get_by_url/skeleton/{leaf_url}")]
-        public ActionResult<SiteContentDto> GetSkeletonSiteByURL (string leaf_url){
+        public ActionResult<SkeletonSiteDto> GetSkeletonSiteByURL (string leaf_url){
             
             try{
                 return methods.GetSkeletonSiteByUrlMethod(leaf_url);
