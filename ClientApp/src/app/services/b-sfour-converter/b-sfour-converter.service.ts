@@ -1,7 +1,6 @@
 //base64 conversion module
 
 import { Injectable } from '@angular/core';
-import { SiteEditorComponent } from '../../editor/site-editor/site-editor.component';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,7 @@ export class BSfourConverterService {
   }
 
   
-    setImageBase64(inputValue: any, residing_component:SiteEditorComponent) : void {
+    setImageBase64(inputValue: any, residing_component:any) : void { //must be any to accomidate multiple component types
       this.image_converter_working == true;
       var file:File = inputValue.files[0]; 
       var reader:FileReader = new FileReader();
@@ -24,7 +23,7 @@ export class BSfourConverterService {
       let file_too_big_flag = false;
   
       //cheating
-      //let this_component_object:SiteEditorComponent = residing_component; //used for callback function
+      //let this_component_object:any = residing_component; //used for callback function
       let callback = residing_component.B64Callback;
   
       reader.onload = function() {

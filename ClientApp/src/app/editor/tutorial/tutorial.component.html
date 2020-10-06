@@ -20,13 +20,13 @@
     (done)="checkDone($event)"
 ></app-display-sites>
 
-<app-site-editor 
+<app-tutorial-editor 
     *ngIf="open_editor"
     [is_tutorial]="true" 
     [current_site_id]= "0" 
     [current_admin_id]= "0" 
     [current_admin_token]= ""
-></app-site-editor>
+></app-tutorial-editor>
 
 <div *ngIf="open_editor == false && open_site_select == false">
     <div class="bottom-information-container">

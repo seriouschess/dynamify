@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 //import { SiteFormatterService } from '../../services/leaf-formatter/site-formatter.service';
 import { ISiteFormatted } from '../../interfaces/formatted_site_content';
-import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { NavBar, NavLink } from '../../interfaces/dtos/site_dtos';
 import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/skeleton_site_dto';
@@ -22,7 +21,6 @@ export class LeafComponent implements OnInit {
 
   test_nav_bar: NavBar;
   formatted_site: ISkeletonSiteDto;
-  request: ISiteRequestDto;
   sucessful_load:boolean;
 
   ngOnInit() {

@@ -2,7 +2,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
 import { ISiteFormatted } from '../../interfaces/formatted_site_content';
-import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { IGenericSiteComponent } from '../../interfaces/generic_site_component';
 import { NavLink, NavBar } from '../../interfaces/dtos/site_dtos';
 import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/skeleton_site_dto';

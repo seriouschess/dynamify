@@ -24,13 +24,8 @@ namespace dynamify.Controllers.ControllerMethods
             validator = new SiteCreationValidator(dbQuery);
         }
 
-        public SiteContentDto GetSiteByIdMethod(SiteRequestDto request){
-            if(authenticator.VerifyAdmin(request.admin_id, request.token)){
-                SiteContentDto foundSite = dbQuery.QuerySiteContentById(request.site_id);
-                return foundSite;
-            }else{
-                return new SiteContentDto();
-            }
+        public SkeletonSiteDto GetSkeletonSiteByIdMethod(int site_id){
+            return dbQuery.QuerySkeletonSiteById(site_id);
         }
 
         public SiteContentDto GetByURLMethod( string leaf_url ){

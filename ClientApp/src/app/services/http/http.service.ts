@@ -1,6 +1,6 @@
 //Angular resources
 import { Injectable } from '@angular/core';
-import{ HttpClient, HttpErrorResponse } from '@angular/common/http';
+import{ HttpClient } from '@angular/common/http';
 
 //dto imports
 import { Admin } from '../../interfaces/dtos/admin_dto';
@@ -8,10 +8,8 @@ import { Login } from '../../interfaces/dtos/login_dto';
 import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox, NavBar } from '../../interfaces/dtos/site_dtos';
 import { ComponentReference } from '../../interfaces/dtos/component_reference';
 import { INewSiteDto } from '../../interfaces/dtos/new_site_dto';
-import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
+//import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { session } from 'src/app/interfaces/dtos/analytics_session_dto';
 import { IComponentRequestDto } from 'src/app/interfaces/dtos/component_request_dto';
 import { admin_request_dto } from 'src/app/interfaces/dtos/admin_request_dto';
@@ -67,12 +65,12 @@ export class HttpService {
 
   //site services
 
-  getSite<ISiteContentDto>(request:ISiteRequestDto){
-    return this._http.post<ISiteContentDto>(`api/site/get`, request);
-  }
+  // getLeafByURL(leaf_url:string):Observable<ISkeletonSiteDto>{
+  //   return this._http.get<ISkeletonSiteDto>(`api/site/get_by_url/full/${leaf_url}`);
+  // }
 
-  getLeafByURL(leaf_url:string):Observable<ISkeletonSiteDto>{
-    return this._http.get<ISkeletonSiteDto>(`api/site/get_by_url/full/${leaf_url}`);
+  getSkeletonSiteById(site_id:number):Observable<ISkeletonSiteDto>{
+    return this._http.get<ISkeletonSiteDto>(`api/site/get_by_id/skeleton/${site_id}`);
   }
 
   getLeafSkeletonByUrl(leaf_url:string):Observable<ISkeletonSiteDto>{

@@ -1,20 +1,24 @@
 import { Component, OnInit, Input, Inject, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { HttpService } from '../../services/http/http.service';
-import { ParagraphBox, Image, TwoColumnBox, Portrait, LinkBox, NavBar, NavLink } from '../../interfaces/dtos/site_dtos';
-import { ValidationService } from '../../services/validation/validation.service';
-import { BSfourConverterService } from '../../services/b-sfour-converter/b-sfour-converter.service';
-import { DOCUMENT } from '@angular/common';
-import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/skeleton_site_dto';
 
-// import { ConsoleReporter } from 'jasmine';
+//import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
+
+//import { SiteFormatterService } from '../../services/leaf-formatter/site-formatter.service';
+import { DOCUMENT } from '@angular/common';
+import { SiteFormatterService } from 'src/app/services/leaf-formatter/site-formatter.service';
+import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/skeleton_site_dto';
+import { ParagraphBox, TwoColumnBox, Image, LinkBox, NavLink, Portrait } from 'src/app/interfaces/dtos/site_dtos';
+import { ISiteFormatted } from 'src/app/interfaces/formatted_site_content';
+import { HttpService } from 'src/app/services/http/http.service';
+import { ValidationService } from 'src/app/services/validation/validation.service';
+import { BSfourConverterService } from 'src/app/services/b-sfour-converter/b-sfour-converter.service';
 
 @Component({
-  selector: 'app-site-editor',
-  templateUrl: './site-editor.component.html',
-  styleUrls: ['./site-editor.component.css']
+  selector: 'app-tutorial-editor',
+  templateUrl: './tutorial-editor.component.html',
+  styleUrls: ['./tutorial-editor.component.css']
 })
 
-export class SiteEditorComponent implements OnInit, AfterViewInit {
+export class TutorialEditorComponent implements OnInit, AfterViewInit {
   @Output() exitEvent = new EventEmitter<boolean>();
   //route parameters
   @Input() current_site_id: number;
@@ -26,7 +30,6 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   new_2c_box: TwoColumnBox;
   new_image: Image;
   new_link_box: LinkBox;
-  new_nav_bar: NavBar;
   new_nav_link: NavLink;
   curlies: string; //have to do this because of the way angular templates handles curlies
 
@@ -42,9 +45,12 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   nav_bar_editor_open: boolean;
 
   //dtos
+  //site_request_object:ISiteRequestDto;
+  tutorial_site: ISiteFormatted; //not a Site type technically
   formatted_skeleton_site:ISkeletonSiteDto;
 
-
+  //tutorial related
+  @Input() is_tutorial:boolean;
   tutorial_sequence:number;
   flash:boolean; 
 
@@ -52,7 +58,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     private _httpService:HttpService,
     private validator:ValidationService,
     private b64converter:BSfourConverterService,
-    private _apiClient:HttpService,
+    private _siteFormatter:SiteFormatterService,
     @Inject(DOCUMENT) private document: Document,
     @Inject('Window') private window: Window //for scrolling
   ) 
@@ -65,7 +71,17 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   }
 
    ngOnInit() {
-    this.formatted_skeleton_site = {
+    //  this.site_request_object = {
+    //    site_id: this.current_site_id,
+    //    admin_id: this.current_admin_id,
+    //    token: this.current_admin_token
+    //  }
+
+    // this.formatted_skeleton_site = {
+
+    // }
+
+    this.tutorial_site = {
       title: null,
       site_id: null,
       //nav_bar: null,
@@ -73,7 +89,6 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
      }
 
      this.initializeComponents();
-     this.resetNavBar();
      this.validator.resetValidation();
 
     //image converter async flag
@@ -84,7 +99,15 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     this.nav_bar_editor_open = false;
     this.preview_mode = false;
 
-    this.requireSite();
+    //start mode
+    if(this.is_tutorial){
+      this.flash = false;
+      this.tutorial_sequence = 1; //sequence starts from 1
+      this.getTutorialSite();
+    }else{
+      this.tutorial_sequence = 0; //no tutorial
+      this.requireSite();
+    }
   }
 
   initializeComponents(){
@@ -134,36 +157,29 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  resetNavBar(){
-    this.new_nav_bar = {
-      links: [],
-      site_id: this.current_site_id
-    }
-    this.new_nav_link = {
-      label: "",
-      url: ""
-    }
-  }
-
   //used to get site content from the backend
   requireSite(){
-    this._apiClient.getSkeletonSiteById(this.current_site_id).subscribe((res) =>{
-      this.formatted_skeleton_site = res;
-    },
-     (err) => {
-      console.log(err);
-     });
+    //this._siteFormatter.getSiteByIdFormatted(this.site_request_object, this.recieveSite, this);
+  }
+
+  getTutorialSite(){ //retrieves a blank site for demo use
+    this._siteFormatter.getBlankSite(this.recieveSite, this);
+  }
+
+  //callback sent to site formatter frontend service
+  recieveSite(tutorial_site:ISiteFormatted, this_component:TutorialEditorComponent){
+    this_component.tutorial_site = tutorial_site;
   }
 
   //sets priority value for newly posted sites to be at the end of the list
   setPriority(){
-    let new_priority:number;
-    let number_of_components = this.formatted_skeleton_site.site_components.length-1;
+    let new_priority;
+    let number_of_components = this.tutorial_site.site_components.length-1;
     
     if(number_of_components <= 0){
       new_priority = 0;
     }else{
-      new_priority = this.formatted_skeleton_site.site_components[number_of_components].priority + 100;
+      new_priority = this.tutorial_site.site_components[number_of_components].priority + 100;
     }
     this.new_paragraph_box.priority = new_priority;
     this.new_2c_box.priority = new_priority;
@@ -182,6 +198,11 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   setPboxEdit(){
     this.initializeComponents();
     this.validator.resetValidation();
+    if( this.is_tutorial ){
+      if(this.tutorial_sequence == 4){
+        this.iterateTutorial();
+      }
+    }
     this.open_next_component="p_box";
     this.viewEditorBottom();
   }
@@ -224,10 +245,12 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   }
 
   resetEditOptions(){
-    this.open_next_component='';
-    this.new_image.image_src = ""; //reset potentially uploaded files
-    this.new_portrait.image_src ="";
-    this.validator.image_src_invalid_flag = false;
+    if(!this.is_tutorial || this.tutorial_sequence > 5){
+      this.open_next_component='';
+      this.new_image.image_src = ""; //reset potentially uploaded files
+      this.new_portrait.image_src ="";
+      this.validator.image_src_invalid_flag = false;
+    }
     this.initializeComponents();
   }
 
@@ -244,85 +267,88 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  //Site update methods
-  pushLinkToBar(){
-    if(this.validator.validateNavBarLink(this.new_nav_link)){
-      let addition:NavLink = {
-        label: this.new_nav_link.label,
-        url: this.new_nav_link.url
-      }
-      this.new_nav_bar.links.push(addition);
-      this.new_nav_link.label = "";
-      this.new_nav_link.url = "";
-      this.postNavBarToService();
-    }
-  }
-  
-  RemoveNavBarLinks(){
-    if(this.new_nav_bar != null){
-      this.new_nav_bar.links = [];
-      this.postNavBarToService();
-    }
-  }
-
-  postNavBarToService(){
-    if(true){ //additional validators required?
-      this._httpService.postNavBar(this.new_nav_bar, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-        this.requireSite();
-        //this.toggleNavBarEditor();
-        this.open_next_component="";
-      }, error => console.log(error)); 
-    }
-  }
-
   postParagraphBoxToService(){
     this.validator.resetValidation();
     if(this.validator.validatePbox(this.new_paragraph_box)){
-      this.setPriority();
+      if(this.is_tutorial == true){
+        let type = "p_box";
+        this._siteFormatter.sortSite(this.tutorial_site, this.new_paragraph_box, type, this.recieveSite, this);
+        this.iterateTutorial();
+        this.initializeComponents();
+        this.open_next_component=""; //reset editing tool options
+      }else{
+        this.setPriority();
         this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           this.requireSite();
           this.open_next_component=""; //reset editing tool options
         }, error => console.log(error));
+      } 
     }
   }
 
   postTwoColumnBoxToService(){
     this.validator.resetValidation();
     if(this.validator.validateTwoColumnBox(this.new_2c_box)){
-      this.setPriority();
+      if(this.is_tutorial == true){
+        let type = "2c_box";
+        this._siteFormatter.sortSite(this.tutorial_site, this.new_2c_box, type, this.recieveSite, this);
+        this.initializeComponents();
+        this.open_next_component="";
+      }else{
+        this.setPriority();
         this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           this.requireSite();
           this.open_next_component="";
         }, error => console.log(error));
+      }
     }
   }
 
   postImageToService(){
      //this.validator.resetValidation();
     if(this.validator.validateImage(this.new_image.image_src)){ //validate this.new_image?
-      this.setPriority();
+      if(this.is_tutorial == true){
+        let type = "image";
+        this._siteFormatter.sortSite(this.tutorial_site, this.new_image, type, this.recieveSite, this);
+        this.initializeComponents();
+        this.open_next_component="";
+      }else{
+          this.setPriority();
           //this.new_image.image_src = this.temp_file.data;
           this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
             this.requireSite();
             this.open_next_component="";
           }, error => console.log(error));
+      }
     }
   }
 
   postPortraitToService(){
     this.validator.resetValidation();
     if(this.validator.validatePortrait(this.new_portrait, this.new_portrait.image_src)){
-      this.setPriority();
-      this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-        this.requireSite();
+      if(this.is_tutorial == true){
+        let type = "portrait";
+        this._siteFormatter.sortSite(this.tutorial_site, this.new_portrait, type, this.recieveSite, this);
+        this.initializeComponents();
         this.open_next_component="";
-      }, error => console.log(error));
+      }else{
+        this.setPriority();
+          this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
+            this.requireSite();
+            this.open_next_component="";
+          }, error => console.log(error));
+      }
     }
   }
 
   postLinkBoxToService(){
     this.validator.resetValidation();
-    if(this.validator.validateLinkBox(this.new_link_box)){
+    if(this.is_tutorial == true){
+      let type = "link_box";
+      this._siteFormatter.sortSite(this.tutorial_site, this.new_portrait, type, this.recieveSite, this);
+      this.initializeComponents();
+      this.open_next_component="";
+    }else{
       this.setPriority();
       if(this.validator.validateLinkBox(this.new_link_box)){
         this._httpService.postLinkBox(this.new_link_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
@@ -339,7 +365,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   };
 
   //for use with setImageBase64() required for async data retrieval
-  B64Callback(output_string: string, this_component:SiteEditorComponent){
+  B64Callback(output_string: string, this_component:TutorialEditorComponent){
     this_component.image_converter_working = false;
     if(output_string === "invalid_file_size"){
       this_component.validator.image_src_invalid_size_flag = true;
@@ -368,5 +394,24 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
         window.scrollTo(0,0);
       }
     },50);
+  }
+
+  //tutorial related
+  iterateTutorial(){
+    if(this.is_tutorial){
+      this.tutorial_sequence += 1;
+      if(this.tutorial_sequence == 6 || this.tutorial_sequence == 1){
+        //this.window = this.document.defaultView;
+        this.window.scrollTo(0,0);
+      }
+    }
+  }
+
+  cycleCssHighlight(){ //do we need this?
+    if(this.flash){
+      this.flash = false;
+    }else{
+      this.flash = true;
+    }
   }
 }

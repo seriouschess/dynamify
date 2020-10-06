@@ -27,10 +27,20 @@ namespace dynamify.Models.QueryClasses
             if(queryList.Count == 1){
                 return queryList[0];
             }else{
-                Site blank_site = new Site();
-                blank_site.admin_id = 0; //impossible sql id for impossible site
-                blank_site.site_id = 0;
-                return new Site(); //query not found, bad user action
+                throw new System.ArgumentException($"Site id: {site_id} not found.");
+            }
+        }
+
+        public SkeletonSiteDto QuerySkeletonSiteById(int site_id){
+            List<SkeletonSiteDto> FoundSites = dbContext.Sites.Where(x => x.site_id == site_id).Select( s => new SkeletonSiteDto(){
+                site_id = s.site_id,
+                title = s.title,
+                site_components = GetSiteComponentDtosForId(site_id)
+            }).ToList();
+             if(FoundSites.Count == 1){
+                return FoundSites[0];
+            }else{
+                throw new System.ArgumentException("site not found");
             }
         }
 
@@ -90,20 +100,6 @@ namespace dynamify.Models.QueryClasses
                 site_components.AddRange(link_boxes);
     
             return site_components.OrderBy( x => x.priority).ToList();
-        }
-
-        public SkeletonSiteDto QuerySkeletonSiteById(int site_id){
-            
-            List<SkeletonSiteDto> FoundSites = dbContext.Sites.Where(x => x.site_id == site_id).Select( s => new SkeletonSiteDto(){
-                site_id = s.site_id,
-                title = s.title,
-                site_components = GetSiteComponentDtosForId(site_id)
-            }).ToList();
-             if(FoundSites.Count == 1){
-                return FoundSites[0];
-            }else{
-                throw new System.ArgumentException("site not found");
-            }
         }
 
         public Site QuerySiteById(int site_id_parameter){ //Used to get full site data to the frontend for rendering

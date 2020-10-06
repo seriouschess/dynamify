@@ -1,56 +1,31 @@
 <div class="editor-side-menu creation-tools box-shadow" >
     <!-- *ngIf="open_next_component === '' " -->
     <div class="top-creation-tools">
-      <h4 *ngIf="!is_tutorial"><button class="btn btn-success" (click)="leaveEditor()">Go Back to Your Leaves</button></h4>
-      <h4 *ngIf="!is_tutorial && !nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
-      <h4 *ngIf="!is_tutorial && nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
-      <div *ngIf= "is_tutorial == false">
-        <h4 *ngIf="preview_mode == false"> <button class="btn btn-success" (click)="togglePreview()"> Toggle Preview Mode </button></h4>
-        <h4 *ngIf="preview_mode == true"> <button class="btn btn-info" (click)="togglePreview()"> Back to Editor </button></h4>
-      </div>
+      <h4 ><button class="btn btn-success" (click)="leaveEditor()">Go Back to Your Leaves</button></h4>
+      <h4 *ngIf="!nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
+      <h4 *ngIf="nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
+      <h4 *ngIf="preview_mode == false"> <button class="btn btn-success" (click)="togglePreview()"> Toggle Preview Mode </button></h4>
+      <h4 *ngIf="preview_mode == true"> <button class="btn btn-info" (click)="togglePreview()"> Back to Editor </button></h4>
     </div>
   
-    <button *ngIf="!is_tutorial" class="btn btn-success" (click)=setPboxEdit()> New Paragraph Box </button>
-    <button *ngIf="is_tutorial && tutorial_sequence < 7 && tutorial_sequence != 4" class="btn btn-success"> New Paragraph Box </button>
-    <button *ngIf="is_tutorial && tutorial_sequence == 4" (click)="setPboxEdit()" class="btn highlight"> New Paragraph Box </button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" (click)="setPboxEdit()" class="btn btn-success"> New Paragraph Box </button>
+    <button class="btn btn-success" (click)=setPboxEdit()> New Paragraph Box </button>
 
-    <button *ngIf="!is_tutorial" class="btn btn-info" (click)="set2cBoxEdit()">New Two Column Box</button>
-    <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-info">New Two Column Box</button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-info" (click)="set2cBoxEdit()" >New Two Column Box</button>
+    <button class="btn btn-info" (click)="set2cBoxEdit()">New Two Column Box</button>
 
-    <button *ngIf="!is_tutorial" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button>
-    <!-- <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-success">New Link Box</button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button> -->
+    <button class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button>
     
-    <button *ngIf="!is_tutorial" class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
-    <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-success">New Portrait</button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
+    <button class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
 
-    <button *ngIf="!is_tutorial" class="btn btn-info" (click)="setImageEdit()">New Image</button>
-    <button *ngIf="is_tutorial && tutorial_sequence < 7" class="btn btn-info">New Image</button>
-    <button *ngIf="is_tutorial && tutorial_sequence >= 7" class="btn btn-info" (click)="setImageEdit()">New Image</button>
+    <button class="btn btn-info" (click)="setImageEdit()">New Image</button>
     
 </div>
 
 <div class="editor-body">
-<div class="container tutorial-box" *ngIf="is_tutorial && tutorial_sequence < 9">
-  <h3 class = "text-info" *ngIf="tutorial_sequence == 1"> This is the site editor. Click the flashing ok button to continue.<button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 class = "text-info" *ngIf="tutorial_sequence == 2"> It is currently empty as no content has been created yet. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 class = "text-info" *ngIf="tutorial_sequence == 3"> Content is created by filling out forms and adding components. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 class = "text-info" *ngIf="tutorial_sequence == 4"> Click the button highlighted below to add a paragraph box.</h3>
-  <h3 class = "text-info" *ngIf="tutorial_sequence == 5"> Every paragraph box requires a title and content. It's your content so you put what you want! Note this demo site will not be saved. </h3>
-  <h3 class = "text-info" *ngIf="tutorial_sequence == 6"> Nicely done! You just created your first site component! In a real session, your content saves as you go. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 class = "text-info" *ngIf="tutorial_sequence == 7"> Create site components in order to build your site page. You now have access to the other site components. Try them out! The tutorial ends when you leave this page. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 class = "text-info" *ngIf="tutorial_sequence == 8"> Consider going to My Sites in the navbar at the top if you want to build a site page you can share with others. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-</div>
-
-
-<app-page-generator *ngIf="preview_mode === true" [formatted_site]="formatted_site"> </app-page-generator>
+<app-page-generator *ngIf="preview_mode === true" [formatted_site]="formatted_skeleton_site"> </app-page-generator>
 
 <div *ngIf="preview_mode === false">
-  <app-leaf-nav-bar *ngIf ="!is_tutorial" [is_edit_mode]="true" [nav_bar_object]="formatted_site.nav_bar"></app-leaf-nav-bar> 
-  <div *ngIf="current_site_id != 0 && !is_tutorial">
+  <!-- <app-leaf-nav-bar [is_edit_mode]="true" [nav_bar_object]="formatted_skeleton_site.nav_bar"></app-leaf-nav-bar> 
+  <div *ngIf="current_site_id != 0">
     
     <div class="nav-editor-form" *ngIf="nav_bar_editor_open">
       <h3>Nav Bar Editor: </h3>
@@ -73,62 +48,43 @@
         <button *ngIf = "new_nav_bar.links.length > 0" class="btn btn-danger nav-edit-button" (click)="RemoveNavBarLinks()"> Remove all links </button>
       </div>
     </div>
-  </div>
+  </div> -->
   
-  <h1 class="leaf-title" *ngIf="formatted_site.title != ''"> {{formatted_site.title}} </h1>
-  <!-- display tutorial site content -->
-  <div *ngIf="is_tutorial">
-    <p>{{formatted_site | json}}</p>
-    <div *ngFor="let site_component of formatted_site.site_components">
-      <div *ngIf="site_component.type === 'p_box'">
-        <app-paragraph-box [component_id]="site_component.paragraph_box_id" [site_id]="formatted_site.site_id" [pbox_object]=site_component></app-paragraph-box>
-      </div>
-      <div *ngIf="site_component.type === 'image'">
-        <app-image [component_id]="site_component.image_id" [site_id]="formatted_site.site_id" [image_object]="site_component"></app-image>
-      </div>
-      <div *ngIf="site_component.type === 'portrait'">
-        <app-portrait [component_id]="site_component.portrait_id" [site_id]="formatted_site.site_id" [portrait_object]="site_component"></app-portrait>
-      </div>
-      <div *ngIf="site_component.type === '2c_box'">
-        <app-two-column-box [component_id]="site_component.two_column_box_id" [site_id]="formatted_site.site_id" [tcb_object]="site_component"></app-two-column-box>
-      </div>
-    </div>
-  </div>
+  <h1 class="leaf-title" *ngIf="formatted_skeleton_site.title != ''"> {{formatted_skeleton_site.title}} </h1>
 
-  <!-- display site content for the non-tutorial editor -->
-  <div *ngIf="!is_tutorial">
-    <div *ngFor="let site_component of formatted_site.site_components">
+  <div>
+    <div *ngFor="let site_component of formatted_skeleton_site.site_components">
       <div *ngIf="site_component.type === 'p_box'">
-        <app-paragraph-box [component_id]="site_component.paragraph_box_id" [site_id]="formatted_site.site_id"></app-paragraph-box>
+        <app-paragraph-box [component_id]="site_component.component_id" [site_id]="formatted_skeleton_site.site_id"></app-paragraph-box>
         <div class="text-center">
-          <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.paragraph_box_id, site_component.type)'>Delete</button>
+          <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.component_id, site_component.type)'>Delete</button>
         </div>
       </div>
 
       <div *ngIf="site_component.type === 'image'">
-        <app-image [component_id]="site_component.image_id" [site_id]="formatted_site.site_id"></app-image>
+        <app-image [component_id]="site_component.component_id" [site_id]="formatted_skeleton_site.site_id"></app-image>
         <div class="text-center">
-          <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.image_id, site_component.type)'>Delete</button>
+          <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.component_id, site_component.type)'>Delete</button>
         </div>  
       </div>
 
       <div *ngIf="site_component.type === 'portrait'">
-        <app-portrait [component_id]="site_component.portrait_id" [site_id]="formatted_site.site_id"></app-portrait>
+        <app-portrait [component_id]="site_component.component_id" [site_id]="formatted_skeleton_site.site_id"></app-portrait>
         <div class="text-center">
-          <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.portrait_id, site_component.type)'>Delete</button>
+          <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.component_id, site_component.type)'>Delete</button>
         </div>
       </div>
 
       <div *ngIf="site_component.type === '2c_box'">
-        <app-two-column-box [component_id]="site_component.two_column_box_id" [site_id]="formatted_site.site_id"></app-two-column-box>
+        <app-two-column-box [component_id]="site_component.component_id" [site_id]="formatted_skeleton_site.site_id"></app-two-column-box>
         <div class="text-center">
-          <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.two_column_box_id, site_component.type)'>Delete</button>
+          <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.component_id, site_component.type)'>Delete</button>
         </div>
     </div>
     <div *ngIf="site_component.type === 'link_box'">
-      <app-link-box [component_id]="site_component.link_box_id" [site_id]="formatted_site.site_id"></app-link-box>
+      <app-link-box [component_id]="site_component.component_id" [site_id]="formatted_skeleton_site.site_id"></app-link-box>
       <div class="text-center">
-        <button *ngIf="!is_tutorial" class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.link_box_id, site_component.type)'>Delete</button>
+        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.component_id, site_component.type)'>Delete</button>
       </div>
     </div>
     </div>
@@ -186,7 +142,7 @@
       </form>
     </div>
     
-    <div class="editor-form" *ngIf="!is_tutorial && open_next_component === 'p_box'">
+    <div class="editor-form" *ngIf="open_next_component === 'p_box'">
       <h3> Add a paragraph box </h3>
       <form (submit)=postParagraphBoxToService()>
         <p *ngIf="new_paragraph_box.title == ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
@@ -197,7 +153,7 @@
       </form>
     </div>
 
-    <div class="editor-form" *ngIf="!is_tutorial && open_next_component === 'link_box'">
+    <div class="editor-form" *ngIf="open_next_component === 'link_box'">
       <h3> Add a link and description </h3>
       <form (submit)=postLinkBoxToService()>
         <p *ngIf="new_link_box.title == ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
@@ -211,17 +167,6 @@
         <p><label>Label: </label><input name="link_display" [(ngModel)]="new_link_box.link_display"> (this is what the user sees when they click the link)</p>
         <p *ngIf="validator.link_box_display_invalid_flag" class="text-danger">A link must have a label.</p>
         <p><input type="submit" class="btn btn-warning" value="Add Link Box"></p>
-      </form>
-    </div>
-
-    <div class="editor-form" *ngIf="is_tutorial && open_next_component === 'p_box'">
-      <h3> Add a paragraph box </h3>
-      <form (submit)=postParagraphBoxToService()>
-        <p *ngIf="new_paragraph_box.title == ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
-        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
-        <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>
-        <p *ngIf="validator.pbox_content_invalid_flag" class="text-danger">Enter valid content text or consider a different component type.</p>
-        <p><input type="submit" class="btn highlight" value="Add Paragraph Box"></p>
       </form>
     </div>
 </div>

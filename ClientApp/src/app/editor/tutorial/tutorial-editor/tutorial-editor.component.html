@@ -1,0 +1,109 @@
+<div class="editor-side-menu creation-tools box-shadow" >  
+    <button *ngIf="tutorial_sequence < 7 && tutorial_sequence != 4" class="btn btn-success"> New Paragraph Box </button>
+    <button *ngIf="tutorial_sequence == 4" (click)="setPboxEdit()" class="btn highlight"> New Paragraph Box </button>
+    <button *ngIf="tutorial_sequence >= 7" (click)="setPboxEdit()" class="btn btn-success"> New Paragraph Box </button>
+
+    <button *ngIf="tutorial_sequence < 7" class="btn btn-info">New Two Column Box</button>
+    <button *ngIf="tutorial_sequence >= 7" class="btn btn-info" (click)="set2cBoxEdit()" >New Two Column Box</button>
+    
+    <button *ngIf="tutorial_sequence < 7" class="btn btn-success">New Portrait</button>
+    <button *ngIf="tutorial_sequence >= 7" class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
+
+    <button *ngIf="tutorial_sequence < 7" class="btn btn-info">New Image</button>
+    <button *ngIf="tutorial_sequence >= 7" class="btn btn-info" (click)="setImageEdit()">New Image</button>
+</div>
+
+<div class="editor-body">
+<div class="container tutorial-box" *ngIf="tutorial_sequence < 9">
+  <h3 class = "text-info" *ngIf="tutorial_sequence == 1"> This is the site editor. Click the flashing ok button to continue.<button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 class = "text-info" *ngIf="tutorial_sequence == 2"> It is currently empty as no content has been created yet. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 class = "text-info" *ngIf="tutorial_sequence == 3"> Content is created by filling out forms and adding components. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 class = "text-info" *ngIf="tutorial_sequence == 4"> Click the button highlighted below to add a paragraph box.</h3>
+  <h3 class = "text-info" *ngIf="tutorial_sequence == 5"> Every paragraph box requires a title and content. It's your content so you put what you want! Note this demo site will not be saved. </h3>
+  <h3 class = "text-info" *ngIf="tutorial_sequence == 6"> Nicely done! You just created your first site component! In a real session, your content saves as you go. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 class = "text-info" *ngIf="tutorial_sequence == 7"> Create site components in order to build your site page. You now have access to the other site components. Try them out! The tutorial ends when you leave this page. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 class = "text-info" *ngIf="tutorial_sequence == 8"> Consider Registering an account in the navbar at the top if you want to build a site page you can share with others and have access to more features. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+</div>
+
+<!-- <app-page-generator *ngIf="preview_mode === true" [formatted_site]="tutorial_site"> </app-page-generator> -->
+
+<div *ngIf="preview_mode === false">
+  <h1 class="leaf-title" *ngIf="tutorial_site.title != ''"> {{tutorial_site.title}} </h1>
+    <div *ngFor="let site_component of tutorial_site.site_components">
+      <div *ngIf="site_component.type === 'p_box'">
+        <app-paragraph-box [component_id]="site_component.paragraph_box_id" [site_id]="tutorial_site.site_id" [pbox_object]=site_component></app-paragraph-box>
+      </div>
+      <div *ngIf="site_component.type === 'image'">
+        <app-image [component_id]="site_component.image_id" [site_id]="tutorial_site.site_id" [image_object]="site_component"></app-image>
+      </div>
+      <div *ngIf="site_component.type === 'portrait'">
+        <app-portrait [component_id]="site_component.portrait_id" [site_id]="tutorial_site.site_id" [portrait_object]="site_component"></app-portrait>
+      </div>
+      <div *ngIf="site_component.type === '2c_box'">
+        <app-two-column-box [component_id]="site_component.two_column_box_id" [site_id]="tutorial_site.site_id" [tcb_object]="site_component"></app-two-column-box>
+      </div>
+  </div>
+
+  <h4 class = "end-site-mark box-shadow" *ngIf="open_next_component === ''">(Additional Site Elements Will Be Created Here)</h4>
+
+  <div class="text-center bump-down">
+    <button class="btn btn-info" *ngIf="open_next_component != ''" (click)=resetEditOptions()>Go Back To Options</button>
+  </div>
+    
+    <div class="editor-form" *ngIf="open_next_component === '2c_box'">
+      <h3> Add a two column box </h3>
+      <form (submit)=postTwoColumnBoxToService()>
+        <p *ngIf="new_2c_box.title === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_2c_box.title"></p>
+        <p *ngIf="new_2c_box.heading_one === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p><label>Column One Heading: </label><input class="title_box" name="heading_one" [(ngModel)]="new_2c_box.heading_one"></p>
+        <p *ngIf="validator.tcb_content_one_invalid_flag" class="text-danger">Enter valid content or consider using a different component type.</p>
+        <p><label>Column One Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_one" [(ngModel)]="new_2c_box.content_one"></textarea></p>
+        <p *ngIf="new_2c_box.heading_two === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p><label>Column Two Heading: </label><input class="title_box" name="heading_two" [(ngModel)]="new_2c_box.heading_two"></p>
+        <p *ngIf="validator.tcb_content_two_invalid_flag" class="text-danger"> Enter valid content or consider using a different component type. </p>
+        <p><label>Column Two Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_two" [(ngModel)]="new_2c_box.content_two"></textarea></p>
+        <p><input type="submit" class="btn btn-warning" value="Add Two Column Box"></p>
+      </form>
+    </div>
+
+    <div class="editor-form" *ngIf="open_next_component === 'image'">
+      <h3> Add an image </h3>
+      <form (submit)=postImageToService()>
+        <p *ngIf="new_image.title === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_image.title"></p>
+        <p *ngIf="validator.image_src_invalid_flag" class="text-danger">File must be a valid .png or .jpg</p>
+        <p *ngIf="validator.image_src_invalid_size_flag" class="text-danger">File size must be less than 500 Kilobytes. Try resizing to a smaller image.</p>
+        <p><label>Add a .png or .jpg image file: </label><input type="file" (change)="fileConversionListener($event)"></p> 
+        <p *ngIf="image_converter_working"> Loading... </p>
+        <p><input *ngIf="!image_converter_working && !validator.image_src_invalid_flag && !validator.image_src_invalid_size_flag" type="submit" class="btn btn-warning" value="Add Image"></p>
+      </form>
+    </div>
+
+    <div class="editor-form" *ngIf="open_next_component === 'portrait'">
+      <h3> Add a portrait </h3>
+      <form (submit)=postPortraitToService()>
+        <p *ngIf="new_portrait.title === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_portrait.title"></p>
+        <p *ngIf="validator.image_src_invalid_flag" class="text-danger">File must be a valid .png or .jpg</p>
+        <p *ngIf="validator.image_src_invalid_size_flag" class="text-danger">File size must be less than 500 Kilobytes. Try resizing to a smaller image.</p>
+        <p><label>Add a .png or .jpg image file: </label><input type="file" (change)="fileConversionListener($event)"></p>
+        <p *ngIf="validator.portrait_content_invalid_flag" class="text-danger">Save a valid file or consider using a different component.</p>
+        <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_portrait.content"></textarea></p>
+        <p *ngIf="image_converter_working"> Loading... </p>
+        <p><input *ngIf="!image_converter_working && !validator.image_src_invalid_flag && !validator.image_src_invalid_size_flag" type="submit" class="btn btn-warning" value="Add Portrait"></p>
+      </form>
+    </div>
+    
+    <div class="editor-form" *ngIf="open_next_component === 'p_box'">
+      <h3> Add a paragraph box </h3>
+      <form (submit)=postParagraphBoxToService()>
+        <p *ngIf="new_paragraph_box.title == ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
+        <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>
+        <p *ngIf="validator.pbox_content_invalid_flag" class="text-danger">Enter valid content text or consider a different component type.</p>
+        <p><input type="submit" class="btn highlight" value="Add Paragraph Box"></p>
+      </form>
+    </div>
+</div>
+</div>
