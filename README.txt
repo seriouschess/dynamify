@@ -8,7 +8,7 @@
 1.01 version complete:
 - Page loads asynchronously
 - UI editor improvements
-- Persistant login
+- Persistent login
 
 1.0 version complete:
 - Admins create sites with custom url extensions
