@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http/http.service';
 
 //dto imports
-import { Admin } from '../../interfaces/dtos/admin_dto';
+import { Admin } from '../../interfaces/dtos/admin_related/admin_dto';
 import { ClientStorageService } from '../../services/client-storage/client-storage.service';
 
 @Component({

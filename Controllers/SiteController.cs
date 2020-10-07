@@ -50,17 +50,6 @@ namespace dynamify.Controllers
             return methods.GetByAdminIdMethod(admin_id, admin_token);
         }
 
-        // [HttpGet] //retrieve site content for one site by url
-        // [Route("get_by_url/full/{leaf_url}")]
-        // public ActionResult<SiteContentDto> GetByURL (string leaf_url){
-        //     try{
-        //         return methods.GetByURLMethod(leaf_url);
-        //     }catch{
-        //         JsonFailure err = new JsonFailure("url not found");
-        //         return StatusCode(404, err);
-        //     }
-        // }
-
         [HttpGet] //retrieve site content for one site by url
         [Route("get_by_url/skeleton/{leaf_url}")]
         public ActionResult<SkeletonSiteDto> GetSkeletonSiteByURL (string leaf_url){

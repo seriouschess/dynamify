@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 //import { SiteFormatterService } from '../../services/leaf-formatter/site-formatter.service';
-import { ISiteFormatted } from '../../interfaces/formatted_site_content';
+import { ISiteFormatted } from '../../interfaces/dtos/tutorial_site_emulator_dtos/formatted_site_content';
 import { Params, ActivatedRoute, Router } from '@angular/router';
-import { NavBar, NavLink } from '../../interfaces/dtos/site_dtos';
-import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/skeleton_site_dto';
+import { NavBar, NavLink } from '../../interfaces/dtos/graveyard/site_dtos';
+import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skeleton_site_dto';
 import { HttpService } from 'src/app/services/http/http.service';
 
 @Component({

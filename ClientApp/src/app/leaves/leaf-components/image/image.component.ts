@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Image } from '../../../interfaces/dtos/site_dtos';
+import { Image } from 'src/app/interfaces/dtos/site_components/Image';
 import{ HttpService } from '../../../services/http/http.service';
-import{ IComponentRequestDto } from '../../../interfaces/dtos/component_request_dto';
+import{ IComponentRequestDto } from '../../../interfaces/dtos/formatted_sites/component_request_dto';
 
 @Component({
   selector: 'app-image',

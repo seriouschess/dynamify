@@ -5,12 +5,17 @@ import { Component, OnInit, Input, Inject, Output, EventEmitter, AfterViewInit }
 //import { SiteFormatterService } from '../../services/leaf-formatter/site-formatter.service';
 import { DOCUMENT } from '@angular/common';
 import { SiteFormatterService } from 'src/app/services/leaf-formatter/site-formatter.service';
-import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/skeleton_site_dto';
-import { ParagraphBox, TwoColumnBox, Image, LinkBox, NavLink, Portrait } from 'src/app/interfaces/dtos/site_dtos';
-import { ISiteFormatted } from 'src/app/interfaces/formatted_site_content';
+import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skeleton_site_dto';
+import { ISiteFormatted } from 'src/app/interfaces/dtos/tutorial_site_emulator_dtos/formatted_site_content';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ValidationService } from 'src/app/services/validation/validation.service';
 import { BSfourConverterService } from 'src/app/services/b-sfour-converter/b-sfour-converter.service';
+import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
+import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnBox';
+import { Image } from 'src/app/interfaces/dtos/site_components/Image';
+import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
+import { NavLink } from 'src/app/interfaces/dtos/site_components/NavLink';
+import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
 
 @Component({
   selector: 'app-tutorial-editor',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Admin } from 'src/app/interfaces/dtos/admin_dto';
+import { Admin } from 'src/app/interfaces/dtos/admin_related/admin_dto';
 import { ClientStorageService } from 'src/app/services/client-storage/client-storage.service';
 import { HttpService } from 'src/app/services/http/http.service';
 import { AdminComponent } from '../admin/admin.component';

@@ -3,17 +3,17 @@ import { Injectable } from '@angular/core';
 import{ HttpClient } from '@angular/common/http';
 
 //dto imports
-import { Admin } from '../../interfaces/dtos/admin_dto';
-import { Login } from '../../interfaces/dtos/login_dto';
-import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox, NavBar } from '../../interfaces/dtos/site_dtos';
-import { ComponentReference } from '../../interfaces/dtos/component_reference';
-import { INewSiteDto } from '../../interfaces/dtos/new_site_dto';
+import { Admin } from '../../interfaces/dtos/admin_related/admin_dto';
+import { Login } from '../../interfaces/dtos/admin_related/login_dto';
+import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox, NavBar } from '../../interfaces/dtos/graveyard/site_dtos';
+import { ComponentReference } from '../../interfaces/dtos/graveyard/component_reference';
+import { INewSiteDto } from '../../interfaces/dtos/database_changers/new_site_dto';
 //import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { Observable } from 'rxjs';
 import { session } from 'src/app/interfaces/dtos/analytics_session_dto';
-import { IComponentRequestDto } from 'src/app/interfaces/dtos/component_request_dto';
-import { admin_request_dto } from 'src/app/interfaces/dtos/admin_request_dto';
-import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/skeleton_site_dto';
+import { IComponentRequestDto } from 'src/app/interfaces/dtos/formatted_sites/component_request_dto';
+import { admin_request_dto } from 'src/app/interfaces/dtos/admin_related/admin_request_dto';
+import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skeleton_site_dto';
 
 @Injectable({
   providedIn: 'root'

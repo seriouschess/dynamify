@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NavBar } from '../../../interfaces/dtos/site_dtos';
+import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
 
 @Component({
   selector: 'app-leaf-nav-bar',

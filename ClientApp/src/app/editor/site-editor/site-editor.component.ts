@@ -1,10 +1,16 @@
 import { Component, OnInit, Input, Inject, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http/http.service';
-import { ParagraphBox, Image, TwoColumnBox, Portrait, LinkBox, NavBar, NavLink } from '../../interfaces/dtos/site_dtos';
 import { ValidationService } from '../../services/validation/validation.service';
 import { BSfourConverterService } from '../../services/b-sfour-converter/b-sfour-converter.service';
 import { DOCUMENT } from '@angular/common';
-import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/skeleton_site_dto';
+import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skeleton_site_dto';
+import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
+import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnBox';
+import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
+import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
+import { NavLink } from 'src/app/interfaces/dtos/site_components/NavLink';
+import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
+import { Image } from 'src/app/interfaces/dtos/site_components/Image';
 
 // import { ConsoleReporter } from 'jasmine';
 

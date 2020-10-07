@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpService } from '../../services/http/http.service';
-import { AdminRegistrationDto } from '../../interfaces/dtos/admin_registration_dto';
-import { Login } from '../../interfaces/dtos/login_dto';
-import { Admin } from '../../interfaces/dtos/admin_dto';
+import { AdminRegistrationDto } from '../../interfaces/dtos/admin_related/admin_registration_dto';
+import { Login } from '../../interfaces/dtos/admin_related/login_dto';
+import { Admin } from '../../interfaces/dtos/admin_related/admin_dto';
 import { ClientStorageService } from '../../services/client-storage/client-storage.service';
 
 @Component({

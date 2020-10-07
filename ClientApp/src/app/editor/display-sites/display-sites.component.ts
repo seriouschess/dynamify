@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpService } from '../../services/http/http.service';
-import { INewSiteDto } from '../../interfaces/dtos/new_site_dto';
+import { INewSiteDto } from '../../interfaces/dtos/database_changers/new_site_dto';
 import { JsonResponseDto } from '../../interfaces/dtos/json_response_dto';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Admin } from 'src/app/interfaces/dtos/admin_dto';
+import { Admin } from 'src/app/interfaces/dtos/admin_related/admin_dto';
 import { AdminComponent } from 'src/app/admin-related/admin/admin.component';
 
 @Injectable({

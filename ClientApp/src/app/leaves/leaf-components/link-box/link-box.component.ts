@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { LinkBox } from '../../../interfaces/dtos/site_dtos';
 import{ HttpService } from '../../../services/http/http.service';
-import{ IComponentRequestDto } from '../../../interfaces/dtos/component_request_dto';
+import{ IComponentRequestDto } from '../../../interfaces/dtos/formatted_sites/component_request_dto';
+import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
 
 @Component({
   selector: 'app-link-box',
