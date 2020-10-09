@@ -4,7 +4,10 @@
   <h3 *ngIf="tutorial_sequence == 2" class="text-info"> This is where you create leaves using your account. You will see that there are none becuse you need to create one! <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
   <h3 *ngIf="tutorial_sequence == 3" class="text-info"> Enter a title to be displayed at the top of your leaf as well as a valid url extension so people can find it. All leaf urls must be unique and must be all letters. </h3>
   <h3 *ngIf="tutorial_sequence == 4" class="text-info"> Well Done! You've made a leaf. Now click Edit to start adding content.</h3>
-</div>  
+</div>
+
+<button class="btn btn-info back-button"[routerLink]="['/base/account']">Settings</button>
+
 <div class="container">
   <h2 *ngIf="all_sites.length == 0"> Create a new leaf by filling out the information below. </h2>
   <h1 *ngIf="all_sites.length > 0" class="leaf-display-title"> Your Leaves: </h1>

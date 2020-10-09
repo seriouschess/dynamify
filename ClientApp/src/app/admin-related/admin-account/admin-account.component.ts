@@ -49,6 +49,7 @@ export class AdminAccountComponent implements OnInit {
       console.log(res);
       this.initAdmin(res);
       this._clientStorage.storeAdmin(this.current_admin);
+      this.toggleEditSelection();
     });
   }
 

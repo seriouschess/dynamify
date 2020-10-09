@@ -4,30 +4,42 @@
     <h3> {{ current_admin.first_name }} {{current_admin.last_name}}'s account settings </h3>
 </div>
 
-<div *ngIf="!edit_selected">
-    <p> Change Username </p>
-    <button class="btn btn-success" (click)="toggleEditSelection()"> Change Username </button>
+<div *ngIf="!edit_selected" class="option-display">
+    <h4> Change Username </h4>
+    <p>Change the name you use to idenfity yourself on this platform. This name is mainly for your personal user experience on the platform. May be used as artist's labels for sites you create in the future. It is recommended to be tasteful.</p>
+    <button class="btn btn-success option-button" (click)="toggleEditSelection()"> Change Username </button>
 </div>
 
-<div *ngIf="edit_selected">
-    <p> {{updated_admin | json}} </p>
-    <p>Edit Admin information here, note that Email addresses cannot be changed. Delete current Admin and Create a new admin to change email.</p>
+<div *ngIf="edit_selected" class="edit-box">
+    <h4>Edit Admin information here</h4>
+    <p class="input-box-information">Note that Email addresses cannot be changed. Delete current Admin and Create a new admin to change email.</p>
     <form (submit)="updateAdminAccount()">
-    <label>First Name: </label><input name="first_name" [(ngModel)]="updated_admin.first_name">
-    <label>Last Name: </label><input name="last_name" [(ngModel)]="updated_admin.last_name">
+    <div class="input-box" >
+        <label>First Name: <input class="form-control" name="first_name" [(ngModel)]="updated_admin.first_name"></label>
+        <div><label>Last Name: <input class="form-control" name="last_name" [(ngModel)]="updated_admin.last_name"></label></div>
+    </div>
     <input type="submit" class="btn btn-success" value="Change Username">
     </form>
-    <button class="btn btn-info" (click)="toggleEditSelection"> Cancel Edit </button>
-</div> 
+    <button class="btn btn-info cancel-button" (click)="toggleEditSelection()"> Cancel Edit </button>
+</div>
 
-<p> See Account's sites </p>
-<button class="btn btn-info" (click)="toMySites()"> My Sites </button>
+<div *ngIf="!edit_selected" class="option-display">
+    <h4> Change Password </h4>
+    <p> Change your password using email verification. Be ready to check your email after selecting this option. It is recommended you change your password every so often to ensure your account remains secure from attackers. </p>
+    <button class="btn btn-success option-button" [routerLink]="['/base/password/email/confirmation']"> Change Password </button>
+</div>
 
-<p> <button class="btn btn-success" [routerLink]="['/base/password/email/confirmation']"> Change Password </button> </p>
+<div *ngIf="!edit_selected" class="option-display">
+    <h4> See Account's sites </h4>
+    <p> See your sites on the display sites page. </p>
+    <button class="btn btn-info option-button" (click)="toMySites()"> My Sites </button>
+</div>
 
-<p> Delete This Admin Account </p>
-
-<button class="btn btn-danger first-button" *ngIf="!delete_selected" (click)="toggleDeleteSelection()"> Delete This Account</button>
+<div *ngIf="!edit_selected" class="option-display">
+    <h4> Delete This Admin Account </h4>
+    <p> Remove your account and delete all sites accociated with this account. Once this action is completed, it cannot be reversed. Be sure you have all data you do not wish to lose before performing this action. </p>
+    <button class="btn btn-danger first-button option-button" *ngIf="!delete_selected" (click)="toggleDeleteSelection()"> Delete This Account</button>
+</div>
 
 <div class="warning-box" *ngIf="delete_selected">
     <div class="inner-warning-box">
