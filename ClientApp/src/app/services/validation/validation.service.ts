@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ParagraphBox, Image, Portrait, TwoColumnBox, LinkBox, NavBar, NavLink } from '../../interfaces/dtos/graveyard/site_dtos';
+
+import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
+import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
+import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnBox';
+import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
+import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
+import { Image } from 'src/app/interfaces/dtos/site_components/Image';
+import { NavLink } from 'src/app/interfaces/dtos/site_components/NavLink';
 
 @Injectable({
   providedIn: 'root'

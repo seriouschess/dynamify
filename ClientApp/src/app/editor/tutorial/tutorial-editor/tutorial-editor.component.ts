@@ -61,7 +61,7 @@ export class TutorialEditorComponent implements OnInit, AfterViewInit {
 
   constructor( 
     private _httpService:HttpService,
-    private validator:ValidationService,
+    public validator:ValidationService,
     private b64converter:BSfourConverterService,
     private _siteFormatter:SiteFormatterService,
     @Inject(DOCUMENT) private document: Document,

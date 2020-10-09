@@ -20,9 +20,9 @@
       <tbody>
         <tr *ngFor="let site of all_sites">
           <td>{{ site.title }}</td>
-          <td *ngIf="!is_tutorial"><button class="btn btn-success" (click)="editSite(site.site_id, current_admin_id)">Edit</button></td>
-          <td *ngIf="is_tutorial && tutorial_sequence < 4"><button class="btn btn-success" (click)="editSite(site.site_id, current_admin_id)">Edit</button></td>
-          <td *ngIf="is_tutorial && tutorial_sequence == 4"><button class="btn btn-success highlight" (click)="editSite(0, 0)">Edit</button></td>
+          <td *ngIf="!is_tutorial"><button class="btn btn-success" (click)="editSite(site.site_id)">Edit</button></td>
+          <td *ngIf="is_tutorial && tutorial_sequence < 4"><button class="btn btn-success" (click)="editSite(site.site_id)">Edit</button></td>
+          <td *ngIf="is_tutorial && tutorial_sequence == 4"><button class="btn btn-success highlight" (click)="editSite(0)">Edit</button></td>
           <td><button class="btn btn-danger" (click)="deleteSiteById(site.site_id)">Delete</button></td>
           <td class="no-mobile"> http://www.siteleaves.com/{{site.url}} </td>
         </tr>

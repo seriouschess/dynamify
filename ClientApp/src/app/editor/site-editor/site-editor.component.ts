@@ -56,7 +56,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
 
   constructor( 
     private _httpService:HttpService,
-    private validator:ValidationService,
+    public validator:ValidationService,
     private b64converter:BSfourConverterService,
     private _apiClient:HttpService,
     @Inject(DOCUMENT) private document: Document,

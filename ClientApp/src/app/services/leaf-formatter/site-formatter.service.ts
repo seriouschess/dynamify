@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
 import { ISiteFormatted } from '../../interfaces/dtos/tutorial_site_emulator_dtos/formatted_site_content';
 import { IGenericSiteComponent } from '../../interfaces/dtos/tutorial_site_emulator_dtos/generic_site_component';
-import { NavLink, NavBar } from '../../interfaces/dtos/graveyard/site_dtos';
 import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skeleton_site_dto';
 import { ITutorialSite } from 'src/app/interfaces/dtos/tutorial_site_emulator_dtos/tutorial_site';
+import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
+import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
 
 @Injectable({
   providedIn: 'root'

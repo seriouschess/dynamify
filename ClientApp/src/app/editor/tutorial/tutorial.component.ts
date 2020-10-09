@@ -9,8 +9,8 @@ export class TutorialComponent implements OnInit {
 
   constructor() { }
 
-  open_site_select: boolean
-  open_editor: boolean
+  open_site_select: boolean;
+  open_editor: boolean;
   display_sites_done: boolean;
 
 

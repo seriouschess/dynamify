@@ -26,7 +26,7 @@ export class VerificationEmailSentConfirmationComponent implements OnInit {
       this._httpClient.sendPasswordResetEmail(this.email_to_send).subscribe(res =>{
         this.email_sent = true;
       },err =>{
-        this.email_sent_validation_error = err.error;
+        this.email_sent_validation_error = err.error.message;
       });
     }
   }
