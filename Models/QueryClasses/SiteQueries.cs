@@ -53,15 +53,6 @@ namespace dynamify.Models.QueryClasses
             } 
         }
 
-        public SiteContentDto QuerySiteContentByURL(string url){
-            List<Site> FoundSite = QueryFeaturelessSiteByUrl(url);
-            if(FoundSite.Count == 1){
-                return QuerySiteContentById( FoundSite[0].site_id );
-            }else{
-                throw new System.ArgumentException("url not found");
-            } 
-        }
-
         public List<SiteComponentDto> GetSiteComponentDtosForId(int site_id){
             List<SiteComponentDto> site_components = new List<SiteComponentDto>();
             List<SiteComponentDto> paragraph_boxes = dbContext.ParagraphBoxes.Where(x => x.site_id == site_id).Select(box => new SiteComponentDto(){
@@ -169,9 +160,9 @@ namespace dynamify.Models.QueryClasses
                 }).Where(x => x.site_id == site.site_id).ToList(),
             
                 nav_bars = dbContext.NavBars.Where(x => x.site_id == site.site_id).Select(nb => new NavBar(){
+                    nav_bar_id = nb.nav_bar_id,
                     site_id = nb.site_id,
-                    string_of_links = nb.string_of_links
-                    
+                    links = dbContext.NavLinks.Where( x => x.nav_bar_id == nb.nav_bar_id ).ToList()
                 }).ToList()
             }).ToList();
 
@@ -186,86 +177,24 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
-        public NavBarDto FormatNavBar(NavBar unformatted_nav_bar){
-            NavBarDto formatted_nav_bar = new NavBarDto();
-            formatted_nav_bar.site_id = 1;
-            formatted_nav_bar.links = new List<NavLinkDto>();
-            string  s = unformatted_nav_bar.string_of_links;
-            string string_label = "";
-            string string_url = "";
-            bool write_label = true;
-            for(var x=0; x<s.Length ;x++){
-                if(s[x]+"" == "}"){
-                    System.Console.WriteLine($"url: {string_url}");
-                    System.Console.WriteLine($"label: {string_label}");
-                    formatted_nav_bar.links.Add(new NavLinkDto(){
-                        url = string_url,
-                        label = string_label
-                    });
-                    string_url = "";
-                    string_label = "";
-                    write_label = true;
-                }else if( s[x]+"" == "{" ){
-                    write_label = false;
-                }else{
-                    if(write_label == true){
-                        string_label += s[x]+"";
-                    }else{
-                        string_url += s[x]+"";
-                    }
-                }
-            }
-            return formatted_nav_bar;
-        }
-
-        public SiteContentDto QuerySiteContentById(int site_id){
-            Site found_site = QuerySiteById(site_id);
-            SiteContentDto converted_format = new SiteContentDto();
-            converted_format.title = found_site.title;
-            converted_format.site_id = found_site.site_id;
-            converted_format.images = found_site.images;
-            converted_format.paragraph_boxes = found_site.paragraph_boxes;
-            converted_format.portraits = found_site.portraits;
-            converted_format.two_column_boxes = found_site.two_column_boxes;
-            converted_format.link_boxes = found_site.link_boxes;
-
-            try{
-                converted_format.nav_bar = FormatNavBar(found_site.nav_bars[0]);
-            }catch(Exception e){
-                string message = e.Message;
-                message = "No nav bar found";
-                System.Console.WriteLine(message);
-                converted_format.nav_bar = null;
-            }
-
-            return converted_format;
-        }
-
-        // public SiteContentDto QuerySkeletonContentById(int site_id){
-        //     Site FoundSite = QuerySkeletonSiteById( site_id );
-        //     SiteContentDto ReturnSite = new SiteContentDto(){
-        //         title = FoundSite.title,
-        //         site_id = FoundSite.site_id,
-        //         paragraph_boxes = FoundSite.paragraph_boxes,
-        //         images = FoundSite.images,
-        //         two_column_boxes = FoundSite.two_column_boxes,
-        //         portraits = FoundSite.portraits,
-        //         link_boxes = FoundSite.link_boxes
-        //     };
-
-        //     try{
-        //         ReturnSite.nav_bar = FormatNavBar(FoundSite.nav_bars[0]);
-        //     }catch(Exception e){
-        //         string message = e.Message;
-        //         message = "No nav bar found";
-        //         System.Console.WriteLine(message);
-        //         ReturnSite.nav_bar = null;
-        //     }
-        //     return ReturnSite;
-        // }
-
-
         // --- site component queries ---
+
+        public NavBarDto QueryNavBarById( int site_id ){
+            List<NavBarDto> QueriedBars = dbContext.NavBars.Where(x => x.site_id == site_id).Select(nb => new NavBarDto(){
+                links = dbContext.NavLinks.Where(x => x.nav_bar_id == nb.nav_bar_id).Select( li => new NavLinkDto(){
+                    label = li.label,
+                    url = li.url
+                }).ToList(),
+                site_id = nb.site_id
+            }).ToList();
+            if( QueriedBars.Count == 1 ){
+                return QueriedBars[0];
+            }else if( QueriedBars.Count == 0 ){
+                return null;
+            }else{
+                throw new System.ArgumentException($"Site id {site_id} has {QueriedBars.Count} NavBars and may not exceed 1.");
+            }
+        }
         public ParagraphBox QueryParagraphBoxById(int paragraph_box_id, int site_id ){
             System.Console.WriteLine("Paragraph Box Id: "+paragraph_box_id+" Site Id: "+site_id);
             List<ParagraphBox> FoundBox = dbContext.ParagraphBoxes.Where(x => x.site_id == site_id).Where(x=> x.paragraph_box_id == paragraph_box_id).ToList();
@@ -331,6 +260,16 @@ namespace dynamify.Models.QueryClasses
             dbContext.Remove( FoundSite );
             dbContext.SaveChanges();
             return FoundSite;
+        }
+
+        public NavBar DeleteNavBarBySiteId(int site_id){
+            List<NavBar> found_nb = dbContext.NavBars.Where(x => x.site_id == site_id).ToList();
+            if(found_nb.Count == 1){
+                dbContext.Remove(found_nb);
+                return found_nb[0];
+            }else{
+                return null; //you didn't want it and it's still gone.
+            }
         }
 
         public ParagraphBox DeleteParagraphBox(int p_box_id){
@@ -403,24 +342,9 @@ namespace dynamify.Models.QueryClasses
             List<NavBar> test_query = dbContext.NavBars.Where(x => x.site_id == nav_bar_dto.site_id).ToList();
 
             NavBar nav_bar = new NavBar();
-            nav_bar.site_id = nav_bar_dto.site_id;
-            //convert to string_of_links format
-            string s = ""; 
-            for(var x=0; x < nav_bar_dto.links.Count; x++){
-                s += nav_bar_dto.links[x].label;
-                s += "{";
-                s += nav_bar_dto.links[x].url;
-                s += "}";
-            }
-            nav_bar.string_of_links = s;
-            if(test_query.Count > 0){
-                System.Console.WriteLine("Detect more than one nav bar");
-                test_query[0].site_id = nav_bar.site_id;
-                test_query[0].string_of_links = nav_bar.string_of_links;
-            }else{
-                System.Console.WriteLine("Nav Bar Created");
-                dbContext.Add( nav_bar ); 
-            }
+
+
+            
             dbContext.SaveChanges(); 
         }
         

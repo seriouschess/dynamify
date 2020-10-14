@@ -23,6 +23,8 @@ namespace dynamify.Models
 
         public DbSet<LinkBox> LinkBoxes {get;set;}
 
+        public DbSet<NavLink> NavLinks {get;set;}
+
         public DbSet<NavBar> NavBars {get;set;}
     }
 }
