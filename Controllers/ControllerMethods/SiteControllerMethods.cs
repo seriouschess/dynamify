@@ -62,7 +62,7 @@ namespace dynamify.Controllers.ControllerMethods
                 return OwnedSites;
             }else{
                 return new List<Site>();
-            }
+            } 
         }
 
         public JsonResponse PostBoxMethod(ParagraphBox NewBox, int admin_id, string admin_token){
@@ -102,6 +102,14 @@ namespace dynamify.Controllers.ControllerMethods
                 return r;
             }else{
                 return new JsonFailure("Invalid Token. Stranger Danger.");
+            }
+        }
+
+        public NavLinkDto PostNavLinkMethod( NewNavLinkDto new_link, int admin_id, string admin_token, int site_id ){
+             if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                return dbQuery.AddNavBarLinkToSite(new_link, site_id);
+            }else{
+                throw new System.ArgumentException("I'm not sure what that means.");
             }
         }
 
@@ -146,7 +154,12 @@ namespace dynamify.Controllers.ControllerMethods
 
         //------         COMPONENT QUERY METHODS        -----
         public NavBarDto GetNavBarMethod(int site_id){
-            return dbQuery.QueryNavBarById(site_id);
+            try{
+                return dbQuery.QueryNavBarDtoBySiteId(site_id);
+            }catch{
+                throw new System.ArgumentException($"Nav Bar for site id {site_id} not found.");
+            }
+            
         }
     
         public ParagraphBox GetParagraphBoxMethod(ComponentRequestDto request){
@@ -195,6 +208,8 @@ namespace dynamify.Controllers.ControllerMethods
         }
         
         public JsonResponse DeleteSiteComponentMethod(ComponentReference Component, int admin_id, string admin_token){
+
+            //requires refactor, requires site Id
             if(authenticator.VerifyAdmin(admin_id, admin_token)){ //terrible!!!! Fix This!!!
                 if(Component.component_type == "p_box"){
                     ParagraphBox paragraph_box = dbQuery.DeleteParagraphBox(Component.component_id);
@@ -225,14 +240,23 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public JsonResponse DeleteNavBar(int admin_id, string admin_token, int site_id){
-            if(authenticator.VerifyAdmin( admin_id, admin_token )){
+        public JsonResponse DeleteNavBarMethod(int admin_id, string admin_token, int site_id){
+            if(authenticator.VerifyAdminForLeaf( admin_id, site_id, admin_token )){
                 dbQuery.DeleteNavBarBySiteId(site_id);
                 return new JsonSuccess($"NavBar Deleted for site id: {site_id}");
             }else{
                 return new JsonFailure("I wish I only knew why.");
             }
+        }
 
+        public JsonResponse DeleteNavLinkMethod(int admin_id, string admin_token, int site_id, int link_id){
+            if(authenticator.VerifyAdminForLeaf( admin_id, site_id, admin_token )){
+                dbQuery.DeleteNavLinkById(link_id);
+                return new JsonSuccess($"NavLink Deleted for link id: {link_id}");
+            }else{
+                return new JsonFailure("I wish I only knew why.");
+            }
+            
         }
 
     }

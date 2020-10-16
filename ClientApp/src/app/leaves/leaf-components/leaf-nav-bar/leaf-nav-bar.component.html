@@ -1,14 +1,6 @@
-
-<!-- <div class="nav-bar">
-    <div class="nav-link" *ngFor="let link of nav_bar_object.links">
-        <a *ngIf="!is_edit_mode" href="{{link.url}}"> {{link.label}} </a>
-        <a *ngIf="is_edit_mode"> {{link.label}} </a> 
-    </div>
-</div> -->
-
 <nav
     class="navbar nav-margin navbar-expand-sm navbar-toggleable-sm nav-bg navbar-light border-bottom box-shadow"
-    *ngIf="nav_bar_object.links.length != 0"
+    *ngIf="nav_bar != null"
 >
     <div class="container">
         <button
@@ -28,7 +20,7 @@
     >
 
         <ul class="navbar-nav flex-grow">
-            <li *ngFor="let link of nav_bar_object.links" class="nav-item">
+            <li *ngFor="let link of nav_bar.links" class="nav-item">
                 <a class="nav-link text-light" *ngIf="!is_edit_mode" href="{{link.url}}"> {{link.label}} </a>
                 <a class="nav-link text-light" *ngIf="is_edit_mode"> {{link.label}} </a> 
             </li>

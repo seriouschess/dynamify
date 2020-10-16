@@ -179,7 +179,7 @@ namespace dynamify.Models.QueryClasses
 
         // --- site component queries ---
 
-        public NavBarDto QueryNavBarById( int site_id ){
+        public NavBarDto QueryNavBarDtoBySiteId( int site_id ){
             List<NavBarDto> QueriedBars = dbContext.NavBars.Where(x => x.site_id == site_id).Select(nb => new NavBarDto(){
                 links = dbContext.NavLinks.Where(x => x.nav_bar_id == nb.nav_bar_id).Select( li => new NavLinkDto(){
                     label = li.label,
@@ -195,6 +195,18 @@ namespace dynamify.Models.QueryClasses
                 throw new System.ArgumentException($"Site id {site_id} has {QueriedBars.Count} NavBars and may not exceed 1.");
             }
         }
+
+        public NavBar QueryNavBarBySiteId(int site_id){
+            List<NavBar> QueriedBars = dbContext.NavBars.Where(x => x.site_id == site_id).ToList();
+            if( QueriedBars.Count == 1 ){
+                return QueriedBars[0];
+            }else if( QueriedBars.Count == 0 ){
+                return null;
+            }else{
+                throw new System.ArgumentException($"Site id {site_id} has {QueriedBars.Count} NavBars and may not exceed 1.");
+            }
+        }
+
         public ParagraphBox QueryParagraphBoxById(int paragraph_box_id, int site_id ){
             System.Console.WriteLine("Paragraph Box Id: "+paragraph_box_id+" Site Id: "+site_id);
             List<ParagraphBox> FoundBox = dbContext.ParagraphBoxes.Where(x => x.site_id == site_id).Where(x=> x.paragraph_box_id == paragraph_box_id).ToList();
@@ -272,6 +284,17 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
+        public NavLink DeleteNavLinkById( int link_id ){
+            List<NavLink> found_links = dbContext.NavLinks.Where(x => x.link_id == link_id).ToList();
+            if(found_links.Count == 1){
+                dbContext.Remove(found_links[0]);
+                dbContext.SaveChanges();
+                return found_links[0];
+            }else{
+                throw new System.ArgumentException($"Could not find link id: {link_id}");
+            }
+        }
+
         public ParagraphBox DeleteParagraphBox(int p_box_id){
             List<ParagraphBox> Subject = dbContext.ParagraphBoxes.Where(x => x.paragraph_box_id == p_box_id).ToList();
             if(Subject.Count == 1){
@@ -346,6 +369,20 @@ namespace dynamify.Models.QueryClasses
 
             
             dbContext.SaveChanges(); 
+        }
+
+        public NavLinkDto AddNavBarLinkToSite(NewNavLinkDto new_nav_link, int site_id){
+            NavLink link_to_add = new NavLink();
+            link_to_add.nav_bar_id = QueryNavBarBySiteId(site_id).nav_bar_id;
+            link_to_add.label = new_nav_link.label;
+            link_to_add.url = link_to_add.url;
+            dbContext.Add(link_to_add);
+            dbContext.SaveChanges();
+            NavLinkDto link_to_send = new NavLinkDto();
+            link_to_send.link_id = link_to_add.link_id;
+            link_to_send.label = link_to_add.label;
+            link_to_send.url = link_to_add.url;
+            return link_to_send;
         }
         
 

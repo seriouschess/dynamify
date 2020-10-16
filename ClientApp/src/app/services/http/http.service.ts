@@ -18,6 +18,8 @@ import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnB
 import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
 import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
 import { Image } from 'src/app/interfaces/dtos/site_components/Image';
+import { JsonResponseDto } from 'src/app/interfaces/dtos/json_response_dto';
+import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/NewNavLinKDto';
 
 @Injectable({
   providedIn: 'root'
@@ -69,23 +71,12 @@ export class HttpService {
 
   //site services
 
-  // getLeafByURL(leaf_url:string):Observable<ISkeletonSiteDto>{
-  //   return this._http.get<ISkeletonSiteDto>(`api/site/get_by_url/full/${leaf_url}`);
-  // }
-
   getSkeletonSiteById(site_id:number):Observable<ISkeletonSiteDto>{
     return this._http.get<ISkeletonSiteDto>(`api/site/get_by_id/skeleton/${site_id}`);
   }
 
   getLeafSkeletonByUrl(leaf_url:string):Observable<ISkeletonSiteDto>{
     return this._http.get<ISkeletonSiteDto>(`api/site/get_by_url/skeleton/${leaf_url}`);
-
-    // return this._http.get<ISkeletonSiteDto>(`api/site/get_by_url/skeleton/${leaf_url}`, {observe: 'response'})
-    // .pipe(
-    //   catchError(() =>{
-    //     return throwError(new Error('Leaf Not Found'));
-    //   })
-    // );
   }
 
   getSitesByAdmin(admin_id: number, admin_token: string) {
@@ -127,6 +118,9 @@ export class HttpService {
     return this._http.get<LinkBox>( api_url );
   }
 
+  getNavBar(site_id:number){
+    return this._http.get<NavBar>( `api/site/get_component/navbar/${site_id}` );
+  }
   
   //site configuration services
   deleteSiteComponent(component_id:number, component_type:string, admin_id:number, admin_token:string){
@@ -135,6 +129,14 @@ export class HttpService {
       component_type:component_type
     }
     return this._http.post(`api/site/delete/site_component/${admin_id}/${admin_token}`, component_reference);
+  }
+
+  deleteNavBar( admin_id:number, admin_token:string, site_id:number){
+    return this._http.delete<JsonResponseDto>( `api/site/delete/site_component/${admin_id}/${admin_token}/${site_id}` );
+  }
+
+  deleteNavLink(admin_id:number, admin_token:string, site_id:number, link_id:number){
+    return this._http.delete<JsonResponseDto>(`delete/navlink/${admin_id}/${admin_token}/${site_id}/${link_id}`);
   }
 
   postParagraphBox(paragraph_box: ParagraphBox, admin_id:number, admin_token: string){
@@ -160,6 +162,10 @@ export class HttpService {
 
   postNavBar(nav_bar: NavBar, admin_id: number, admin_token:string){
     return this._http.post(`api/site/create/nav_bar/${admin_id}/${admin_token}`, nav_bar);
+  }
+
+  postNavLink(new_link:NewNavLinkDto, admin_id:number , admin_token:string, site_id:number ){
+    return this._http.post( `api/site/create/nav_link/{admin_id}/{admin_token}/{site_id}`, new_link);
   }
 
   //analytics

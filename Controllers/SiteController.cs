@@ -158,6 +158,12 @@ namespace dynamify.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("get_component/navbar/{site_id}")]
+        public ActionResult<NavBarDto> GetNavBar(int site_id){
+            return methods.GetNavBarMethod(site_id);
+        }
+
         //create site components
         [HttpPost] //create paragraph box
         [Route("create/paragraph_box/{admin_id}/{admin_token}")]
@@ -186,7 +192,7 @@ namespace dynamify.Controllers
         [HttpPost] //create two column box
         [Route("create/2c_box/{admin_id}/{admin_token}")]
         [Produces("application/json")]
-        public JsonResponse PostTwoColumnBox([FromBody] string _two_column_box, int admin_id,  string admin_token){
+        public JsonResponse PostTwoColumnBox([FromBody] string _two_column_box, int admin_id, string admin_token){
             TwoColumnBox NewTwoColumnBox = JsonSerializer.Deserialize<TwoColumnBox>(_two_column_box);
             return methods.PostTwoColumnBoxMethod(NewTwoColumnBox, admin_id, admin_token);
         }
@@ -205,6 +211,12 @@ namespace dynamify.Controllers
             return methods.PostNavBarMethod(NewNavBar, admin_id, admin_token);
         }
 
+        [HttpPost]
+        [Route("create/nav_link/{admin_id}/{admin_token}/{site_id}")]
+        public NavLinkDto PostNavLink( [FromBody] NewNavLinkDto new_link, int admin_id, string admin_token, int site_id ){
+            return methods.PostNavLinkMethod(new_link, admin_id, admin_token, site_id);
+        }
+
         //delete site
 
         [HttpDelete] 
@@ -220,6 +232,27 @@ namespace dynamify.Controllers
         [Produces("application/json")]
         public JsonResponse DeleteSiteComponent([FromBody] ComponentReference Component, int admin_id, string admin_token){
             return methods.DeleteSiteComponentMethod(Component, admin_id, admin_token);
+        }
+
+        [HttpDelete]
+        [Route("delete/site_component/{admin_id}/{admin_token}/{site_id}")]
+        [Produces("application/json")]
+        public JsonResponse DeleteSiteComponent(int admin_id, string admin_token, int site_id){
+            return methods.DeleteNavBarMethod( admin_id, admin_token, site_id );
+        }
+
+        [HttpDelete]
+        [Route("delete/navbar/{admin_id}/{admin_token}/{site_id}")]
+        [Produces("application/json")]
+        public JsonResponse DeleteNavBar(int admin_id, string admin_token, int site_id){
+            return methods.DeleteNavBarMethod(admin_id, admin_token, site_id);
+        }
+
+        [HttpDelete]
+        [Route("delete/navlink/{admin_id}/{admin_token}/{site_id}/{link_id}")]
+        [Produces("application/json")]
+        public JsonResponse DeleteNavLink(int admin_id, string admin_token, int site_id, int link_id){
+            return methods.DeleteNavBarMethod(admin_id, admin_token, site_id);
         }
     }
 }

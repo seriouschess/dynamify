@@ -1,5 +1,4 @@
 <div class="editor-side-menu creation-tools box-shadow" >
-    <!-- *ngIf="open_next_component === '' " -->
     <div class="top-creation-tools">
       <h4 ><button class="btn btn-success" (click)="leaveEditor()">Go Back to Your Leaves</button></h4>
       <h4 *ngIf="!nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
@@ -24,8 +23,8 @@
 <app-page-generator *ngIf="preview_mode === true" [formatted_site]="formatted_skeleton_site"> </app-page-generator>
 
 <div *ngIf="preview_mode === false">
-  <!-- <app-leaf-nav-bar [is_edit_mode]="true" [nav_bar_object]="formatted_skeleton_site.nav_bar"></app-leaf-nav-bar> 
-  <div *ngIf="current_site_id != 0">
+  <div *ngIf="current_site_id != 0"></div>
+    <app-leaf-nav-bar [is_edit_mode]="true" [site_id]="current_site_id"></app-leaf-nav-bar> 
     
     <div class="nav-editor-form" *ngIf="nav_bar_editor_open">
       <h3>Nav Bar Editor: </h3>
@@ -48,7 +47,7 @@
         <button *ngIf = "new_nav_bar.links.length > 0" class="btn btn-danger nav-edit-button" (click)="RemoveNavBarLinks()"> Remove all links </button>
       </div>
     </div>
-  </div> -->
+  </div>
   
   <h1 class="leaf-title" *ngIf="formatted_skeleton_site.title != ''"> {{formatted_skeleton_site.title}} </h1>
 
@@ -169,7 +168,6 @@
         <p><input type="submit" class="btn btn-warning" value="Add Link Box"></p>
       </form>
     </div>
-</div>
 </div>
 
 

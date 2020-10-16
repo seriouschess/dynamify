@@ -146,6 +146,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
       site_id: this.current_site_id
     }
     this.new_nav_link = {
+      link_id: 0,
       label: "",
       url: ""
     }
@@ -253,7 +254,8 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   //Site update methods
   pushLinkToBar(){
     if(this.validator.validateNavBarLink(this.new_nav_link)){
-      let addition:NavLink = {
+      let addition:NavLink = { //to be fixed later use httpService
+        link_id: 0,
         label: this.new_nav_link.label,
         url: this.new_nav_link.url
       }

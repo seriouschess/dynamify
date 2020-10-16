@@ -1,5 +1,7 @@
+
 import { Component, OnInit, Input } from '@angular/core';
 import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
+import { HttpService } from 'src/app/services/http/http.service';
 
 @Component({
   selector: 'app-leaf-nav-bar',
@@ -8,22 +10,28 @@ import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
 })
 export class LeafNavBarComponent implements OnInit {
 
-  @Input() nav_bar_object: NavBar;
-  @Input() is_edit_mode: boolean;
+  nav_bar: NavBar;
+  @Input() site_id:number;
+  @Input() is_edit_mode:boolean;
   isExpanded = false;
 
-  constructor() { }
+  constructor( private _httpClient:HttpService) { }
 
   ngOnInit() {
-    if(this.nav_bar_object === null){
-      this.nav_bar_object = { links:[], site_id:0 }
-    }
-    
-    for(var x = 0; x<this.nav_bar_object.links.length ;x++){
-      let url = this.nav_bar_object.links[x].url;
-      this.nav_bar_object.links[x].url = this.formatURL(url);
-    }
+    this.nav_bar = null;
+    this.requestNavBar();
+  }
 
+  requestNavBar(){
+    this._httpClient.getNavBar(this.site_id).subscribe( res => {
+      this.nav_bar = res
+      for(let i=0; i<this.nav_bar.links.length ;i++){
+        let temp_url = this.nav_bar.links[i].url;
+        temp_url = this.formatURL(temp_url);
+      }
+    }, err => {
+      console.log(err);
+    });
   }
 
   formatURL(input_url){
