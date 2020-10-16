@@ -205,15 +205,16 @@ namespace dynamify.Controllers
         }
 
         [HttpPost] //create or replace nav bar
-        [Route("create/nav_bar/{admin_id}/{admin_token}")]
+        [Route("create/nav_bar/{admin_id}/{admin_token}/{site_id}")]
         [Produces("application/json")]
-        public JsonResponse PostNavBar([FromBody] NavBarDto NewNavBar, int admin_id, string admin_token){
-            return methods.PostNavBarMethod(NewNavBar, admin_id, admin_token);
+        public JsonResponse PostNavBar(int admin_id, string admin_token, int site_id ){
+            return methods.PostNavBarMethod(admin_id, admin_token, site_id);
         }
 
         [HttpPost]
         [Route("create/nav_link/{admin_id}/{admin_token}/{site_id}")]
         public NavLinkDto PostNavLink( [FromBody] NewNavLinkDto new_link, int admin_id, string admin_token, int site_id ){
+            System.Console.WriteLine($"NEW LINK URL: {new_link.url}");
             return methods.PostNavLinkMethod(new_link, admin_id, admin_token, site_id);
         }
 

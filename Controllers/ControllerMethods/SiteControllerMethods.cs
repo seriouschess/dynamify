@@ -95,9 +95,9 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public JsonResponse PostNavBarMethod(NavBarDto NewNavBar, int admin_id, string admin_token){
-             if(authenticator.VerifyAdminForLeaf(admin_id, NewNavBar.site_id, admin_token)){
-                dbQuery.AddNavBar(NewNavBar);
+        public JsonResponse PostNavBarMethod(int admin_id, string admin_token, int site_id){
+             if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                dbQuery.AddNavBarToSite( site_id );
                 JsonResponse r = new JsonSuccess("Nav Bar posted sucessfully!");
                 return r;
             }else{

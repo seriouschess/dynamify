@@ -7,8 +7,6 @@ import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skelet
 import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
 import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnBox';
 import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
-import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
-import { NavLink } from 'src/app/interfaces/dtos/site_components/NavLink';
 import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
 import { Image } from 'src/app/interfaces/dtos/site_components/Image';
 
@@ -32,9 +30,6 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   new_2c_box: TwoColumnBox;
   new_image: Image;
   new_link_box: LinkBox;
-  new_nav_bar: NavBar;
-  new_nav_link: NavLink;
-  curlies: string; //have to do this because of the way angular templates handles curlies
 
   //temp_file:File;
   new_portrait: Portrait;
@@ -74,19 +69,16 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     this.formatted_skeleton_site = {
       title: null,
       site_id: null,
-      //nav_bar: null,
       site_components: null
      }
 
      this.initializeComponents();
-     this.resetNavBar();
      this.validator.resetValidation();
 
     //image converter async flag
     this.image_converter_working = false;
 
     this.open_next_component = ""; //used to select editor
-    this.curlies = "{ or }";
     this.nav_bar_editor_open = false;
     this.preview_mode = false;
 
@@ -94,7 +86,6 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   }
 
   initializeComponents(){
-    // let link_one:NavLink = {url:"http://www.cnn.com", label:"News Site"}
 
     this.new_paragraph_box = {
       title: "",
@@ -140,17 +131,6 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  resetNavBar(){
-    this.new_nav_bar = {
-      links: [],
-      site_id: this.current_site_id
-    }
-    this.new_nav_link = {
-      link_id: 0,
-      label: "",
-      url: ""
-    }
-  }
 
   //used to get site content from the backend
   requireSite(){
@@ -248,38 +228,6 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
       this.preview_mode = false;
     }else{
       this.preview_mode = true;
-    }
-  }
-
-  //Site update methods
-  pushLinkToBar(){
-    if(this.validator.validateNavBarLink(this.new_nav_link)){
-      let addition:NavLink = { //to be fixed later use httpService
-        link_id: 0,
-        label: this.new_nav_link.label,
-        url: this.new_nav_link.url
-      }
-      this.new_nav_bar.links.push(addition);
-      this.new_nav_link.label = "";
-      this.new_nav_link.url = "";
-      this.postNavBarToService();
-    }
-  }
-  
-  RemoveNavBarLinks(){
-    if(this.new_nav_bar != null){
-      this.new_nav_bar.links = [];
-      this.postNavBarToService();
-    }
-  }
-
-  postNavBarToService(){
-    if(true){ //additional validators required?
-      this._httpService.postNavBar(this.new_nav_bar, this.current_admin_id, this.current_admin_token).subscribe(results =>{
-        this.requireSite();
-        //this.toggleNavBarEditor();
-        this.open_next_component="";
-      }, error => console.log(error)); 
     }
   }
 

@@ -29,3 +29,24 @@
     </div>
 </nav>
 
+<div class="nav-editor-form" *ngIf="nav_bar_editor_open">
+  <h3>Nav Bar Editor: </h3>
+  <div class="nav-edit-subsection-one" *ngIf="nav_bar != null">
+    <p>Current Links:</p>
+    <div *ngFor="let link of nav_bar.links">
+        <p class="text-info"> Label: {{link.label}}  Url: {{link.url}}</p>
+    </div>
+  </div>
+  <div class="nav-edit-subsection-two" >
+    <small>(A link label is what the user sees when they click your link)</small>
+    <p><label> Add A link label: </label> <input class="title_box" name="label" [(ngModel)]="new_nav_link.label"></p>
+    <p *ngIf="new_nav_link.url != ''">Link will go to: http://{{new_nav_link.url}}</p>
+    <p *ngIf="validator.nav_bar_invalid_label_flag" class="text-danger"> A label may not be left blank. </p>
+    <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p>
+    <p *ngIf="validator.nav_bar_invalid_url_flag" class="text-danger"> A url must be of the form www.example.com/... </p>
+    <p class="text-danger"> May not contain curley brackets e.g. {{curlies}} </p>
+    <button class="btn btn-info nav-edit-button" (click)="addLinkToBar()"> Add link to nav bar </button>
+    <button *ngIf = "nav_bar != null" class="btn btn-danger nav-edit-button" (click)="deleteNavBar()"> Remove all links </button>
+  </div>
+</div> 
+

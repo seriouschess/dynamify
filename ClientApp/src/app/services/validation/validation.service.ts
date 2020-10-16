@@ -7,6 +7,7 @@ import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
 import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
 import { Image } from 'src/app/interfaces/dtos/site_components/Image';
 import { NavLink } from 'src/app/interfaces/dtos/site_components/NavLink';
+import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/NewNavLinKDto';
 
 @Injectable({
   providedIn: 'root'
@@ -241,7 +242,7 @@ export class ValidationService {
     }
   }
 
-  validateNavBarLink(test_nav_link: NavLink){
+  validateNavBarLink(test_nav_link: NewNavLinkDto){
     let error_count = 0;
 
     if( test_nav_link.url == "" ){

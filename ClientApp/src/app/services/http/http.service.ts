@@ -160,12 +160,12 @@ export class HttpService {
     return this._http.post(`api/site/create/link_box/${admin_id}/${admin_token}`, link_box);
   }
 
-  postNavBar(nav_bar: NavBar, admin_id: number, admin_token:string){
-    return this._http.post(`api/site/create/nav_bar/${admin_id}/${admin_token}`, nav_bar);
+  postNavBar(admin_id:number, admin_token:string, site_id:number){
+    return this._http.request('post' ,`api/site/create/nav_bar/${admin_id}/${admin_token}/${site_id}`);
   }
 
   postNavLink(new_link:NewNavLinkDto, admin_id:number , admin_token:string, site_id:number ){
-    return this._http.post( `api/site/create/nav_link/{admin_id}/{admin_token}/{site_id}`, new_link);
+    return this._http.post( `api/site/create/nav_link/${admin_id}/${admin_token}/${site_id}`, new_link);
   }
 
   //analytics

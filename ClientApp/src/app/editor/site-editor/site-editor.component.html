@@ -24,29 +24,14 @@
 
 <div *ngIf="preview_mode === false">
   <div *ngIf="current_site_id != 0"></div>
-    <app-leaf-nav-bar [is_edit_mode]="true" [site_id]="current_site_id"></app-leaf-nav-bar> 
-    
-    <div class="nav-editor-form" *ngIf="nav_bar_editor_open">
-      <h3>Nav Bar Editor: </h3>
-      <div class="nav-edit-subsection-one">
-        <p *ngIf="new_nav_bar.links.length == 0"> Add links for your topside Nav Bar</p>
-        <p *ngIf="new_nav_bar.links.length > 0">Current Links:</p>
-        <div *ngFor="let link of new_nav_bar.links">
-            <p class="text-info"> Label: {{link.label}}  Url: {{link.url}}</p>
-        </div>
-      </div>
-      <div class="nav-edit-subsection-two" >
-        <small>(A link label is what the user sees when they click your link)</small>
-        <p><label> Add A link label: </label> <input class="title_box" name="label" [(ngModel)]="new_nav_link.label"></p>
-        <p *ngIf="new_nav_link.url != ''">Link will go to: http://{{new_nav_link.url}}</p>
-        <p *ngIf="validator.nav_bar_invalid_label_flag" class="text-danger"> A label may not be left blank. </p>
-        <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p>
-        <p *ngIf="validator.nav_bar_invalid_url_flag" class="text-danger"> A url must be of the form www.example.com/... </p>
-        <p class="text-danger"> May not contain curley brackets e.g. {{curlies}} </p>
-        <button class="btn btn-info nav-edit-button" (click)="pushLinkToBar()"> Add link to nav bar </button>
-        <button *ngIf = "new_nav_bar.links.length > 0" class="btn btn-danger nav-edit-button" (click)="RemoveNavBarLinks()"> Remove all links </button>
-      </div>
-    </div>
+    <app-leaf-nav-bar 
+    [is_edit_mode]="true" 
+    [site_id]="current_site_id" 
+    [nav_bar_editor_open]="nav_bar_editor_open"
+    [current_admin_id]="current_admin_id"
+    [current_admin_token]="current_admin_token"
+    [current_site_id]="current_site_id"
+    ></app-leaf-nav-bar>
   </div>
   
   <h1 class="leaf-title" *ngIf="formatted_skeleton_site.title != ''"> {{formatted_skeleton_site.title}} </h1>

@@ -201,7 +201,7 @@ namespace dynamify.Models.QueryClasses
             if( QueriedBars.Count == 1 ){
                 return QueriedBars[0];
             }else if( QueriedBars.Count == 0 ){
-                return null;
+                throw new System.ArgumentException($"No nav bar currently exists for site id: ${site_id}");
             }else{
                 throw new System.ArgumentException($"Site id {site_id} has {QueriedBars.Count} NavBars and may not exceed 1.");
             }
@@ -277,10 +277,11 @@ namespace dynamify.Models.QueryClasses
         public NavBar DeleteNavBarBySiteId(int site_id){
             List<NavBar> found_nb = dbContext.NavBars.Where(x => x.site_id == site_id).ToList();
             if(found_nb.Count == 1){
-                dbContext.Remove(found_nb);
+                dbContext.Remove(found_nb[0]);
+                dbContext.SaveChanges();
                 return found_nb[0];
             }else{
-                return null; //you didn't want it and it's still gone.
+                throw new System.ArgumentException($"Unable to find nav bar with site id {site_id}");
             }
         }
 
@@ -361,21 +362,31 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
-        public void AddNavBar( NavBarDto nav_bar_dto ){
-            List<NavBar> test_query = dbContext.NavBars.Where(x => x.site_id == nav_bar_dto.site_id).ToList();
+        public NavBar AddNavBarToSite( int site_id){
 
+            Site test_site = QuerySiteById(site_id);
             NavBar nav_bar = new NavBar();
+            nav_bar.site_id = site_id;
+            List<NavBar> test_query = dbContext.NavBars.Where(x => x.site_id == nav_bar.site_id).ToList();
 
+            //only one may exist per site
+            if(test_query.Count == 0){
+                dbContext.Add(nav_bar);
+                dbContext.SaveChanges(); 
+            }
 
-            
-            dbContext.SaveChanges(); 
+            return nav_bar;
         }
 
         public NavLinkDto AddNavBarLinkToSite(NewNavLinkDto new_nav_link, int site_id){
+            // add nav bar to site if not exists
+            AddNavBarToSite(site_id);
+
+            //add nav link
             NavLink link_to_add = new NavLink();
             link_to_add.nav_bar_id = QueryNavBarBySiteId(site_id).nav_bar_id;
             link_to_add.label = new_nav_link.label;
-            link_to_add.url = link_to_add.url;
+            link_to_add.url = new_nav_link.url;
             dbContext.Add(link_to_add);
             dbContext.SaveChanges();
             NavLinkDto link_to_send = new NavLinkDto();
