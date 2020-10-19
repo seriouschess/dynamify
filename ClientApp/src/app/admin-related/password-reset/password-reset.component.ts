@@ -33,10 +33,13 @@ export class PasswordResetComponent implements OnInit {
   }
 
   resetPassword(){
+    this.password_entry_error = false;
     if(this.entered_password == this.confirm_entered_password){
       this._httpClient.changeAdminPassword(this.email, this.token, this.entered_password).subscribe((res:Admin) => {
         this._clientStorage.storeAdmin(res);
         this._router.navigate(['base/admin']);
+      }, err=>{
+        console.log(err);
       });
     }else{
       this.password_entry_error = true;
