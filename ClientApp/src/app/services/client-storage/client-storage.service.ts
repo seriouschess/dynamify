@@ -26,14 +26,8 @@ export class ClientStorageService {
     let test_admin = this.getAdmin() as Admin; //it's definitely an Admin!
 
     if(test_admin === undefined || test_admin === null){
-      console.log("Admin not in storage");
       return false;
     }else{
-      console.log("Admin in storage");
-      console.log("-----local storage admin---------");
-      console.log( JSON.stringify(test_admin) );
-      console.log( "Name: "+test_admin.first_name );
-      console.log("-------------------");
       return true;
     } 
   }
