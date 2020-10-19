@@ -33,7 +33,7 @@ namespace dynamify.Controllers
             try{
                 return await methods.SendPasswordResetEmailMethod(email);
             }catch{
-                return StatusCode(400, "email not found");
+                return StatusCode(400, "Email not found");
             }
         }
 

@@ -13,9 +13,13 @@ export class VerificationEmailSentConfirmationComponent implements OnInit {
 
   email_to_send:string;
   email_sent:boolean;
-  email_sent_validation_error:string;
+  email_sent_validation_error:any;
 
   ngOnInit() {
+    this.resetValidators();
+  }
+
+  resetValidators(){
     this.email_sent_validation_error = "";
     this.email_to_send = "";
   }
@@ -26,7 +30,7 @@ export class VerificationEmailSentConfirmationComponent implements OnInit {
       this._httpClient.sendPasswordResetEmail(this.email_to_send).subscribe(res =>{
         this.email_sent = true;
       },err =>{
-        this.email_sent_validation_error = err.error.message;
+        this.email_sent_validation_error = err.error;
       });
     }
   }
