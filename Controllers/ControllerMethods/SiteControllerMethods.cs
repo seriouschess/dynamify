@@ -164,7 +164,7 @@ namespace dynamify.Controllers.ControllerMethods
     
         public ParagraphBox GetParagraphBoxMethod(ComponentRequestDto request){
             try{
-                ParagraphBox paragraph_box = dbQuery.QueryParagraphBoxById( request.component_id, request.site_id );
+                ParagraphBox paragraph_box = dbQuery.QueryParagraphBoxById( request.component_id );
                 return paragraph_box;
             }catch{
                 throw new System.ArgumentException("Component or Site Not Found");
@@ -173,7 +173,7 @@ namespace dynamify.Controllers.ControllerMethods
 
         public Portrait GetPortraitMethod(ComponentRequestDto request){
             try{
-                Portrait portrait = dbQuery.QueryPortraitById( request.component_id, request.site_id );
+                Portrait portrait = dbQuery.QueryPortraitById( request.component_id );
                 return portrait;
             }catch{
                 throw new System.ArgumentException("Component or Site Not Found");
@@ -182,7 +182,7 @@ namespace dynamify.Controllers.ControllerMethods
 
         public TwoColumnBox GetTwoColumnBoxMethod(ComponentRequestDto request){
             try{
-                TwoColumnBox two_column_box = dbQuery.QueryTwoColumnBoxById( request.component_id, request.site_id );
+                TwoColumnBox two_column_box = dbQuery.QueryTwoColumnBoxById( request.component_id );
                 return two_column_box;
             }catch{
                 throw new System.ArgumentException("Component or Site Not Found");
@@ -191,7 +191,7 @@ namespace dynamify.Controllers.ControllerMethods
 
         public LinkBox GetLinkBoxMethod(ComponentRequestDto request){
             try{
-                LinkBox link_box = dbQuery.QueryLinkBoxById( request.component_id, request.site_id );
+                LinkBox link_box = dbQuery.QueryLinkBoxById( request.component_id );
                 return link_box;
             }catch{
                 throw new System.ArgumentException("Component or Site Not Found");
@@ -200,7 +200,7 @@ namespace dynamify.Controllers.ControllerMethods
 
         public Image GetImageMethod( ComponentRequestDto request ){
             try{
-                Image image = dbQuery.QueryImageById(request.component_id, request.site_id);
+                Image image = dbQuery.QueryImageById(request.component_id);
                 return image;
             }catch{
                 throw new System.ArgumentException("Component or Site Not Found");

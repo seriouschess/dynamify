@@ -207,9 +207,8 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
-        public ParagraphBox QueryParagraphBoxById(int paragraph_box_id, int site_id ){
-            System.Console.WriteLine("Paragraph Box Id: "+paragraph_box_id+" Site Id: "+site_id);
-            List<ParagraphBox> FoundBox = dbContext.ParagraphBoxes.Where(x => x.site_id == site_id).Where(x=> x.paragraph_box_id == paragraph_box_id).ToList();
+        public ParagraphBox QueryParagraphBoxById(int paragraph_box_id ){
+            List<ParagraphBox> FoundBox = dbContext.ParagraphBoxes.Where(x=> x.paragraph_box_id == paragraph_box_id).ToList();
             if(FoundBox.Count == 1){
                 return FoundBox[0];
             }else{
@@ -217,8 +216,8 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
-        public Portrait QueryPortraitById(int portrait_id, int site_id ){
-            List<Portrait> FoundBox = dbContext.Portraits.Where(x => x.site_id == site_id).Where(x=> x.portrait_id == portrait_id).ToList();
+        public Portrait QueryPortraitById(int portrait_id ){
+            List<Portrait> FoundBox = dbContext.Portraits.Where(x=> x.portrait_id == portrait_id).ToList();
             if(FoundBox.Count == 1){
                 return FoundBox[0];
             }else{
@@ -226,8 +225,8 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
-        public TwoColumnBox QueryTwoColumnBoxById(int two_column_box_id, int site_id ){
-            List<TwoColumnBox> FoundBox = dbContext.TwoColumnBoxes.Where(x => x.site_id == site_id).Where(x=> x.two_column_box_id == two_column_box_id).ToList();
+        public TwoColumnBox QueryTwoColumnBoxById(int two_column_box_id ){
+            List<TwoColumnBox> FoundBox = dbContext.TwoColumnBoxes.Where(x=> x.two_column_box_id == two_column_box_id).ToList();
             if(FoundBox.Count == 1){
                 return FoundBox[0];
             }else{
@@ -235,8 +234,8 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
-        public Image QueryImageById(int image_id, int site_id ){
-            List<Image> FoundImage = dbContext.Images.Where(x => x.site_id == site_id).Where(x=> x.image_id == image_id).ToList();
+        public Image QueryImageById(int image_id ){
+            List<Image> FoundImage = dbContext.Images.Where(x=> x.image_id == image_id).ToList();
             if(FoundImage.Count == 1){
                 return FoundImage[0];
             }else{
@@ -244,8 +243,8 @@ namespace dynamify.Models.QueryClasses
             }
         }
 
-        public LinkBox QueryLinkBoxById(int link_box_id, int site_id ){
-            List<LinkBox> FoundLinkBox = dbContext.LinkBoxes.Where(x => x.site_id == site_id).Where(x=> x.link_box_id == link_box_id).ToList();
+        public LinkBox QueryLinkBoxById(int link_box_id ){
+            List<LinkBox> FoundLinkBox = dbContext.LinkBoxes.Where(x=> x.link_box_id == link_box_id).ToList();
             if(FoundLinkBox.Count == 1){
                 return FoundLinkBox[0];
             }else{
@@ -420,6 +419,18 @@ namespace dynamify.Models.QueryClasses
         public void AddParagraphBox(ParagraphBox p_box){
             dbContext.Add(p_box);
             dbContext.SaveChanges();
+        }
+
+
+        //edit queries
+        public ParagraphBox EditParagraphBox(ParagraphBox updated_box){
+            ParagraphBox box_to_update = QueryParagraphBoxById(updated_box.paragraph_box_id);
+            box_to_update.title = updated_box.title;
+            box_to_update.content = updated_box.content;
+            box_to_update.UpdatedAt = DateTime.Now;
+            dbContext.Add( box_to_update );
+            dbContext.SaveChanges();
+            return box_to_update;
         }
 
     }
