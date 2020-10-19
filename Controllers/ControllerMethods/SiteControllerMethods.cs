@@ -167,7 +167,7 @@ namespace dynamify.Controllers.ControllerMethods
                 ParagraphBox paragraph_box = dbQuery.QueryParagraphBoxById( request.component_id );
                 return paragraph_box;
             }catch{
-                throw new System.ArgumentException("Component or Site Not Found");
+                throw new System.ArgumentException("Component Not Found");
             }
         }
 
@@ -176,7 +176,7 @@ namespace dynamify.Controllers.ControllerMethods
                 Portrait portrait = dbQuery.QueryPortraitById( request.component_id );
                 return portrait;
             }catch{
-                throw new System.ArgumentException("Component or Site Not Found");
+                throw new System.ArgumentException("Component Not Found");
             }
         }
 
@@ -185,7 +185,7 @@ namespace dynamify.Controllers.ControllerMethods
                 TwoColumnBox two_column_box = dbQuery.QueryTwoColumnBoxById( request.component_id );
                 return two_column_box;
             }catch{
-                throw new System.ArgumentException("Component or Site Not Found");
+                throw new System.ArgumentException("Component Not Found");
             }
         }
 
@@ -194,7 +194,7 @@ namespace dynamify.Controllers.ControllerMethods
                 LinkBox link_box = dbQuery.QueryLinkBoxById( request.component_id );
                 return link_box;
             }catch{
-                throw new System.ArgumentException("Component or Site Not Found");
+                throw new System.ArgumentException("Component Not Found");
             } 
         }
 
@@ -203,7 +203,7 @@ namespace dynamify.Controllers.ControllerMethods
                 Image image = dbQuery.QueryImageById(request.component_id);
                 return image;
             }catch{
-                throw new System.ArgumentException("Component or Site Not Found");
+                throw new System.ArgumentException("Component Not Found");
             }      
         }
         

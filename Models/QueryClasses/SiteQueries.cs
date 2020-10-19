@@ -428,9 +428,63 @@ namespace dynamify.Models.QueryClasses
             box_to_update.title = updated_box.title;
             box_to_update.content = updated_box.content;
             box_to_update.UpdatedAt = DateTime.Now;
+            UpdateSiteDateTime(box_to_update.site_id);
             dbContext.Add( box_to_update );
             dbContext.SaveChanges();
             return box_to_update;
+        }
+
+        public Portrait EditPortrait(Portrait updated_portrait){
+            Portrait portrait_to_update = QueryPortraitById(updated_portrait.portrait_id);
+            portrait_to_update.title = updated_portrait.title;
+            portrait_to_update.image_src = updated_portrait.image_src;
+            portrait_to_update.content = updated_portrait.content;
+            portrait_to_update.UpdatedAt = DateTime.Now;
+            UpdateSiteDateTime(portrait_to_update.site_id);
+            dbContext.Add( portrait_to_update );
+            dbContext.SaveChanges();
+            return portrait_to_update;
+        }
+
+        public Image EditAddImage(Image updated_image){
+            Image image_to_update = QueryImageById(updated_image.image_id);
+            image_to_update.title = updated_image.title;
+            image_to_update.image_src = image_to_update.image_src;
+            image_to_update.UpdatedAt = DateTime.Now;
+            UpdateSiteDateTime(image_to_update.site_id);
+            dbContext.Add(image_to_update);
+            dbContext.SaveChanges();
+            return image_to_update;
+        }
+
+        public TwoColumnBox EditTwoColumnBox(TwoColumnBox updated_two_column_box){
+            TwoColumnBox two_column_box_to_update = QueryTwoColumnBoxById(updated_two_column_box.two_column_box_id);
+            two_column_box_to_update.heading_one = updated_two_column_box.heading_one;
+            two_column_box_to_update.heading_two = updated_two_column_box.heading_two;
+            two_column_box_to_update.content_one = updated_two_column_box.content_one;
+            two_column_box_to_update.content_two = updated_two_column_box.content_two;
+            two_column_box_to_update.title = two_column_box_to_update.title;
+            two_column_box_to_update.UpdatedAt = DateTime.Now;
+            return two_column_box_to_update;
+        }
+
+        public LinkBox EditLinkBox(LinkBox updated_link_box){
+            LinkBox link_box_to_update = QueryLinkBoxById(updated_link_box.link_box_id);
+            link_box_to_update.title = updated_link_box.title;
+            link_box_to_update.url = updated_link_box.url;
+            link_box_to_update.link_display = updated_link_box.link_display;
+            link_box_to_update.content = updated_link_box.content;
+            UpdateSiteDateTime(updated_link_box.site_id);
+            dbContext.Add(link_box_to_update);
+            dbContext.SaveChanges();
+            return link_box_to_update;
+        }
+
+        public Site UpdateSiteDateTime(int site_id){
+            Site found_site = QueryFeaturelessSiteById(site_id);
+            found_site.UpdatedAt = DateTime.Now;
+            dbContext.Add(found_site);
+            return found_site;
         }
 
     }
