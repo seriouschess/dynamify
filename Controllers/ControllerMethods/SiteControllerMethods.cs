@@ -259,5 +259,45 @@ namespace dynamify.Controllers.ControllerMethods
             
         }
 
+        //Component Edit Methods
+        public ParagraphBox EditParagraphBoxMethod(ParagraphBox paragraph_box, int admin_id, string admin_token, int site_id){
+            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                return dbQuery.EditParagraphBox( paragraph_box );
+            }else{
+                throw new System.ArgumentException("Invalid credentials.");
+            }
+        }
+
+         public TwoColumnBox EditTwoColumnBoxMethod(TwoColumnBox paragraph_box, int admin_id, string admin_token, int site_id){
+            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                return dbQuery.EditTwoColumnBox( paragraph_box );
+            }else{
+                throw new System.ArgumentException("Invalid credentials.");
+            }
+        }
+
+         public Image EditImageMethod(Image image, int admin_id, string admin_token, int site_id){
+            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                return dbQuery.EditImage( image );
+            }else{
+                throw new System.ArgumentException("Invalid credentials.");
+            }
+        }
+        
+         public Portrait EditPortraitMethod(Portrait portrait, int admin_id, string admin_token, int site_id){
+            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                return dbQuery.EditPortrait( portrait );
+            }else{
+                throw new System.ArgumentException("Invalid credentials.");
+            }
+        }
+
+        public LinkBox EditLinkBoxMethod(LinkBox link_box, int admin_id, string admin_token, int site_id){
+            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                return dbQuery.EditLinkBox( link_box );
+            }else{
+                throw new System.ArgumentException("Invalid credentials.");
+            }
+        }
     }
 }

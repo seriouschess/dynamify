@@ -255,5 +255,39 @@ namespace dynamify.Controllers
         public JsonResponse DeleteNavLink(int admin_id, string admin_token, int site_id, int link_id){
             return methods.DeleteNavBarMethod(admin_id, admin_token, site_id);
         }
+
+        //edit site components
+
+        [HttpPut]
+        [Route("edit/paragraph_box/{admin_id}/{admin_token}/{site_id}")]
+        [Produces("application/json")]
+        public ParagraphBox EditParagraphBox([FromBody] ParagraphBox updated_paragraph_box, int admin_id, string admin_token, int site_id){
+            return methods.EditParagraphBoxMethod(updated_paragraph_box, admin_id, admin_token, site_id);
+        }
+
+        [HttpPut]
+        [Route("edit/two_column_box/{admin_id}/{admin_token}/{site_id}")]
+        public TwoColumnBox EditTwoColumnBox( [FromBody] TwoColumnBox two_column_box, int admin_id, string admin_token, int site_id){
+            return methods.EditTwoColumnBoxMethod(two_column_box, admin_id, admin_token, site_id);
+        }
+
+        [HttpPut]
+        [Route("edit/image/{admin_id}/{admin_token}/{site_id}")]
+        public Image EditImage([FromBody] Image image, int admin_id, string admin_token, int site_id){
+            return methods.EditImageMethod(image, admin_id, admin_token, site_id);
+        }
+
+        [HttpPut]
+        [Route("edit/link_box/{admin_id}/{admin_token}/{site_id}")]
+        public LinkBox EditLinkBox([FromBody] LinkBox link_box, int admin_id, string admin_token, int site_id){
+            return methods.EditLinkBoxMethod(link_box, admin_id, admin_token, site_id);
+        }
+
+        [HttpPut]
+        [Route("edit/portrait/{admin_id}/{admin_token}/{site_id}")]
+        public Portrait EditPortrait([FromBody] Portrait portrait, int admin_id, string admin_token, int site_id){
+            return methods.EditPortraitMethod(portrait, admin_id, admin_token, site_id);
+        }
+
     }
 }

@@ -446,7 +446,7 @@ namespace dynamify.Models.QueryClasses
             return portrait_to_update;
         }
 
-        public Image EditAddImage(Image updated_image){
+        public Image EditImage(Image updated_image){
             Image image_to_update = QueryImageById(updated_image.image_id);
             image_to_update.title = updated_image.title;
             image_to_update.image_src = image_to_update.image_src;
