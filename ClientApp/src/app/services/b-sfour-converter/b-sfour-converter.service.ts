@@ -54,7 +54,7 @@ export class BSfourConverterService {
           console.log("invalid_file_size");
           callback("invalid_file_size", residing_component);
         }else if(valid == true){
-          console.log("Base64 String: "+file_base_64);
+          //console.log("Base64 String: "+file_base_64);
           callback(file_base_64, residing_component);
         }else{ //invalid file type
           console.log("invalid_file_type");

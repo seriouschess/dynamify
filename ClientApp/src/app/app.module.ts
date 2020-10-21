@@ -32,6 +32,10 @@ import { PasswordResetComponent } from './admin-related/password-reset/password-
 import { VerificationEmailSentConfirmationComponent } from './admin-related/verification-email-sent-confirmation/verification-email-sent-confirmation.component';
 import { TutorialEditorComponent } from './editor/tutorial/tutorial-editor/tutorial-editor.component';
 import { ParagraphBoxEditorComponent } from './editor/component-editors/paragraph-box-editor/paragraph-box-editor.component';
+import { TwoColumnBoxEditorComponent } from './editor/component-editors/two-column-box-editor/two-column-box-editor.component';
+import { ImageEditorComponent } from './editor/component-editors/image-editor/image-editor.component';
+import { PortraitEditorComponent } from './editor/component-editors/portrait-editor/portrait-editor.component';
+import { LinkBoxEditorComponent } from './editor/component-editors/link-box-editor/link-box-editor.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +66,11 @@ import { ParagraphBoxEditorComponent } from './editor/component-editors/paragrap
     PasswordResetComponent,
     VerificationEmailSentConfirmationComponent,
     TutorialEditorComponent,
-    ParagraphBoxEditorComponent
+    ParagraphBoxEditorComponent,
+    TwoColumnBoxEditorComponent,
+    ImageEditorComponent,
+    PortraitEditorComponent,
+    LinkBoxEditorComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

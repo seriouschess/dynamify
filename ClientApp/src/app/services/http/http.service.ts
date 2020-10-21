@@ -36,12 +36,10 @@ export class HttpService {
   }
 
   postAdmin<AdminRegistrationDto>(NewAdmin:AdminRegistrationDto){
-   console.log(JSON.stringify(NewAdmin));
    return this._http.post<Admin>('api/admin/new', NewAdmin);
   }
 
   deleteAdmin(admin_id:number, token:string){
-    console.log(`Admin ID for deletion:${admin_id}`);
     let payload:admin_request_dto = {
       admin_id: admin_id,
       token: token
@@ -53,7 +51,6 @@ export class HttpService {
   }
 
   editAdmin( AdminToEdit:Admin ): Observable<Admin>{
-    console.log(JSON.stringify(AdminToEdit));
     return this._http.put<Admin>('api/admin', AdminToEdit);
   }
 
@@ -156,7 +153,6 @@ export class HttpService {
   }
 
   postLinkBox(link_box: LinkBox, admin_id: number, admin_token:string){
-    console.log(link_box);
     return this._http.post(`api/site/create/link_box/${admin_id}/${admin_token}`, link_box);
   }
 
@@ -171,6 +167,22 @@ export class HttpService {
   //edit components
   editParagraphBox(paragraph_box:ParagraphBox, admin_id:number, admin_token:string, site_id:number){
     return this._http.put<ParagraphBox>(`api/site/edit/paragraph_box/${admin_id}/${admin_token}/${site_id}`, paragraph_box);
+  }
+
+  editImage(image:Image, admin_id:number, admin_token:string, site_id:number){
+    return this._http.put<Image>(`api/site/edit/image/${admin_id}/${admin_token}/${site_id}`, image);
+  }
+
+  editTwoColumnBox(two_column_box:TwoColumnBox, admin_id:number, admin_token:string, site_id:number){
+    return this._http.put<TwoColumnBox>(`api/site/edit/two_column_box/${admin_id}/${admin_token}/${site_id}`, two_column_box);
+  }
+
+  editPortrait(portrait:Portrait, admin_id:number, admin_token:string, site_id:number){
+    return this._http.put<Portrait>(`api/site/edit/portrait/${admin_id}/${admin_token}/${site_id}`, portrait);
+  }
+
+  editLinkBox(link_box:LinkBox, admin_id:number, admin_token:string, site_id:number){
+    return this._http.put<Image>(`api/site/edit/link_box/${admin_id}/${admin_token}/${site_id}`, link_box);
   }
 
 
