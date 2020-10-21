@@ -22,7 +22,7 @@ export class ParagraphBoxComponent implements OnInit {
         component_id: this.component_id,
         site_id: this.site_id
       }
-      console.log("component ID: "+this.component_id+" Site Id: "+this.site_id);
+      console.log("Component ID: "+this.component_id+" Site Id: "+this.site_id);
       this._httpService.getParagraphBox(request).subscribe((data) =>{
         this.pbox_object = data;
       });

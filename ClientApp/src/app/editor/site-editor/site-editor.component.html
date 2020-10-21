@@ -39,10 +39,13 @@
   <div>
     <div *ngFor="let site_component of formatted_skeleton_site.site_components">
       <div *ngIf="site_component.type === 'p_box'">
-        <app-paragraph-box [component_id]="site_component.component_id" [site_id]="formatted_skeleton_site.site_id"></app-paragraph-box>
-        <div class="text-center">
-          <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.component_id, site_component.type)'>Delete</button>
-        </div>
+        <app-paragraph-box-editor
+          [pbox_id]="site_component.component_id"
+          [admin_id]="current_admin_id"
+          [admin_token]="current_admin_token"
+          [site_id]="current_site_id"
+          (deleteEvent)="refreshRequest($event)"> 
+          </app-paragraph-box-editor>
       </div>
 
       <div *ngIf="site_component.type === 'image'">

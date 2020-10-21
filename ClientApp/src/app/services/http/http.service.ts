@@ -168,6 +168,12 @@ export class HttpService {
     return this._http.post( `api/site/create/nav_link/${admin_id}/${admin_token}/${site_id}`, new_link);
   }
 
+  //edit components
+  editParagraphBox(paragraph_box:ParagraphBox, admin_id:number, admin_token:string, site_id:number){
+    return this._http.put<ParagraphBox>(`api/site/edit/paragraph_box/${admin_id}/${admin_token}/${site_id}`, paragraph_box);
+  }
+
+
   //analytics
   createSession():Observable<object>{
     let s:session = {

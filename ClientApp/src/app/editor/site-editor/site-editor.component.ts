@@ -289,6 +289,11 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     }
   }
 
+  //refresh editor data
+  refreshRequest($event){
+    this.requireSite();
+  }
+
   //Image Conversion Methods
   fileConversionListener($event) : void {
     this.b64converter.setImageBase64($event.target, this);

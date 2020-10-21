@@ -31,6 +31,7 @@ import { ActivateAccountComponent } from './admin-related/activate-account/activ
 import { PasswordResetComponent } from './admin-related/password-reset/password-reset.component';
 import { VerificationEmailSentConfirmationComponent } from './admin-related/verification-email-sent-confirmation/verification-email-sent-confirmation.component';
 import { TutorialEditorComponent } from './editor/tutorial/tutorial-editor/tutorial-editor.component';
+import { ParagraphBoxEditorComponent } from './editor/component-editors/paragraph-box-editor/paragraph-box-editor.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { TutorialEditorComponent } from './editor/tutorial/tutorial-editor/tutor
     ActivateAccountComponent,
     PasswordResetComponent,
     VerificationEmailSentConfirmationComponent,
-    TutorialEditorComponent
+    TutorialEditorComponent,
+    ParagraphBoxEditorComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

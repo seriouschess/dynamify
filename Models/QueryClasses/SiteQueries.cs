@@ -429,7 +429,6 @@ namespace dynamify.Models.QueryClasses
             box_to_update.content = updated_box.content;
             box_to_update.UpdatedAt = DateTime.Now;
             UpdateSiteDateTime(box_to_update.site_id);
-            dbContext.Add( box_to_update );
             dbContext.SaveChanges();
             return box_to_update;
         }
@@ -441,7 +440,6 @@ namespace dynamify.Models.QueryClasses
             portrait_to_update.content = updated_portrait.content;
             portrait_to_update.UpdatedAt = DateTime.Now;
             UpdateSiteDateTime(portrait_to_update.site_id);
-            dbContext.Add( portrait_to_update );
             dbContext.SaveChanges();
             return portrait_to_update;
         }
@@ -452,7 +450,6 @@ namespace dynamify.Models.QueryClasses
             image_to_update.image_src = image_to_update.image_src;
             image_to_update.UpdatedAt = DateTime.Now;
             UpdateSiteDateTime(image_to_update.site_id);
-            dbContext.Add(image_to_update);
             dbContext.SaveChanges();
             return image_to_update;
         }
@@ -475,7 +472,6 @@ namespace dynamify.Models.QueryClasses
             link_box_to_update.link_display = updated_link_box.link_display;
             link_box_to_update.content = updated_link_box.content;
             UpdateSiteDateTime(updated_link_box.site_id);
-            dbContext.Add(link_box_to_update);
             dbContext.SaveChanges();
             return link_box_to_update;
         }
@@ -483,7 +479,6 @@ namespace dynamify.Models.QueryClasses
         public Site UpdateSiteDateTime(int site_id){
             Site found_site = QueryFeaturelessSiteById(site_id);
             found_site.UpdatedAt = DateTime.Now;
-            dbContext.Add(found_site);
             return found_site;
         }
 
