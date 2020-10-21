@@ -59,10 +59,13 @@
       </div>
 
       <div *ngIf="site_component.type === 'portrait'">
-        <app-portrait [component_id]="site_component.component_id" [site_id]="formatted_skeleton_site.site_id"></app-portrait>
-        <div class="text-center">
-          <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.component_id, site_component.type)'>Delete</button>
-        </div>
+        <app-portrait-editor
+        [portrait_id]="site_component.component_id"
+        [admin_id]="current_admin_id"
+        [admin_token]="current_admin_token"
+        [site_id]="current_site_id"
+        (deleteEvent)="refreshRequest($event)"> 
+        </app-portrait-editor>
       </div>
 
       <div *ngIf="site_component.type === '2c_box'">
