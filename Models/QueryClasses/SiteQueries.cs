@@ -447,7 +447,7 @@ namespace dynamify.Models.QueryClasses
         public Image EditImage(Image updated_image){
             Image image_to_update = QueryImageById(updated_image.image_id);
             image_to_update.title = updated_image.title;
-            image_to_update.image_src = image_to_update.image_src;
+            image_to_update.image_src = updated_image.image_src;
             image_to_update.UpdatedAt = DateTime.Now;
             UpdateSiteDateTime(image_to_update.site_id);
             dbContext.SaveChanges();
