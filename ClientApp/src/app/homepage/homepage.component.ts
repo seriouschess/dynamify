@@ -11,4 +11,9 @@ export class HomepageComponent implements OnInit {
   
   ngOnInit() { }
 
+  paypalDonate(){
+    let url = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=G7ZYNSSEFQQ8N&currency_code=USD";
+    window.open(url, "_blank");
+  }
+
 }
