@@ -69,12 +69,16 @@
       </div>
 
       <div *ngIf="site_component.type === '2c_box'">
-        <app-two-column-box [component_id]="site_component.component_id" [site_id]="formatted_skeleton_site.site_id"></app-two-column-box>
-        <div class="text-center">
-          <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.component_id, site_component.type)'>Delete</button>
-        </div>
-    </div>
-    <div *ngIf="site_component.type === 'link_box'">
+        <app-two-column-box-editor
+        [two_column_box_id]="site_component.component_id"
+        [admin_id]="current_admin_id"
+        [admin_token]="current_admin_token"
+        [site_id]="current_site_id"
+        (deleteEvent)="refreshRequest($event)"> 
+        </app-two-column-box-editor>
+      </div>
+    
+      <div *ngIf="site_component.type === 'link_box'">
       <app-link-box [component_id]="site_component.component_id" [site_id]="formatted_skeleton_site.site_id"></app-link-box>
       <div class="text-center">
         <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType(site_component.component_id, site_component.type)'>Delete</button>

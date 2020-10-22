@@ -1,1 +1,26 @@
-<p>two-column-box-editor works!</p>
+<div *ngIf="two_column_box != null">
+    <app-two-column-box [component_id]="two_column_box_id" [site_id]="site_id" [tcb_object]="two_column_box"></app-two-column-box>
+
+    <div class="editor-form" *ngIf="toggle_edit">
+        <button class="btn btn-info" (click)='toggleEdit()'>Cancel Edit</button>
+        <h3> Edit Two Column Box </h3>
+        <form (submit)=editTwoColumnBox()>
+            <p *ngIf="two_column_box_edits.title === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+            <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="two_column_box_edits.title"></p>
+            <p *ngIf="two_column_box_edits.heading_one === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+            <p><label>Column One Heading: </label><input class="title_box" name="heading_one" [(ngModel)]="two_column_box_edits.heading_one"></p>
+            <p *ngIf="validator.tcb_content_one_invalid_flag" class="text-danger">Enter valid content or consider using a different component type.</p>
+            <p><label>Column One Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_one" [(ngModel)]="two_column_box_edits.content_one"></textarea></p>
+            <p *ngIf="two_column_box_edits.heading_two === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+            <p><label>Column Two Heading: </label><input class="title_box" name="heading_two" [(ngModel)]="two_column_box_edits.heading_two"></p>
+            <p *ngIf="validator.tcb_content_two_invalid_flag" class="text-danger"> Enter valid content or consider using a different component type. </p>
+            <p><label>Column Two Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_two" [(ngModel)]="two_column_box_edits.content_two"></textarea></p>
+            <p><input type="submit" class="btn btn-warning" value="Edit Two Column Box"></p>
+        </form>
+    </div>
+
+    <div class="text-center">
+        <button *ngIf="!toggle_edit" class="btn btn-info" (click)='toggleEdit()'>Edit</button>
+        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType()'>Delete</button>
+    </div>
+</div>

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IComponentRequestDto } from 'src/app/interfaces/dtos/formatted_sites/component_request_dto';
 import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
 import { HttpService } from 'src/app/services/http/http.service';
+import { ValidationService } from 'src/app/services/validation/validation.service';
 
 @Component({
   selector: 'app-paragraph-box-editor',
@@ -10,7 +11,8 @@ import { HttpService } from 'src/app/services/http/http.service';
 })
 export class ParagraphBoxEditorComponent implements OnInit {
 
-  constructor(private _httpService:HttpService) { }
+  constructor(private _httpService:HttpService,
+    public validator:ValidationService) { }
 
   @Input() admin_id:number;
   @Input() admin_token:string;
@@ -46,10 +48,14 @@ export class ParagraphBoxEditorComponent implements OnInit {
   }
 
   editParagraphBox(){
-    this._httpService.editParagraphBox(this.paragraph_box_edits, this.admin_id, this.admin_token, this.site_id).subscribe(res => {
-      this.paragraph_box = res;
-      this.paragraph_box_edits = res;
-    });
+    this.validator.resetValidation();
+    if(this.validator.validatePbox(this.paragraph_box_edits)){
+      this._httpService.editParagraphBox(this.paragraph_box_edits, this.admin_id, this.admin_token, this.site_id).subscribe(res => {
+        this.paragraph_box = res;
+        this.paragraph_box_edits = res;
+        this.toggle_edit = false;
+      });
+    }
   }
 
   deleteSiteComponentByIdAndType(){
