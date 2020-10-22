@@ -6,8 +6,7 @@ namespace dynamify.Models.SiteModels
 {
     public abstract class SiteComponent
     {
-        [Required]
-        public string title {get;set;}
+        public string title {get;set;} = "";
 
         [Required]
         //determines order in which components are displayed

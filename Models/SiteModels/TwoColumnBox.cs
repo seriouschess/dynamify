@@ -9,11 +9,9 @@ namespace dynamify.Models.SiteModels
 
         public override string type {get;set;} = "2c_box";
 
-        [Required]
-        public string heading_one {get;set;}
+        public string heading_one {get;set;} = "";
 
-        [Required]
-        public string heading_two {get;set;}
+        public string heading_two {get;set;} = "";
 
         [Required]
         public string content_one {get;set;}

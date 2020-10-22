@@ -8,8 +8,7 @@ namespace dynamify.Models.SiteModels
         public int link_box_id {get;set;}
         public override string type {get;set;} = "link_box";
 
-        [Required]
-        public string content {get;set;}
+        public string content {get;set;} = "";
 
         [Required]
         public string url{get;set;}
