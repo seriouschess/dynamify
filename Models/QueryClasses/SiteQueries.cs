@@ -460,7 +460,7 @@ namespace dynamify.Models.QueryClasses
             two_column_box_to_update.heading_two = updated_two_column_box.heading_two;
             two_column_box_to_update.content_one = updated_two_column_box.content_one;
             two_column_box_to_update.content_two = updated_two_column_box.content_two;
-            two_column_box_to_update.title = two_column_box_to_update.title;
+            two_column_box_to_update.title = updated_two_column_box.title;
             two_column_box_to_update.UpdatedAt = DateTime.Now;
             return two_column_box_to_update;
         }
