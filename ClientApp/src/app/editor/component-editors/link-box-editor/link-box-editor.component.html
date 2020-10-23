@@ -1,5 +1,5 @@
 <div *ngIf="link_box != null">
-    <app-link-box [component_id]="lbox_id" [site_id]="site_id" [link_box_object]="link_box"></app-link-box>
+    <app-link-box *ngIf="link_display" [component_id]="lbox_id" [site_id]="site_id" [link_box_object]="link_box"></app-link-box>
   
     <div class="editor-form" *ngIf="toggle_edit">
         <button class="btn btn-info" (click)='toggleEdit()'>Cancel Edit</button>

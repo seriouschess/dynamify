@@ -22,12 +22,14 @@ export class LinkBoxEditorComponent implements OnInit {
   link_box:LinkBox;
   link_box_edits:LinkBox;
   toggle_edit:boolean;
+  link_display:boolean;
 
   ngOnInit(): void {
     this.getLinkBox();
   }
 
   getLinkBox(){
+    this.link_display = true;
     this.toggle_edit = false;
     this.link_box = null;
     this.link_box_edits = null;
@@ -52,10 +54,15 @@ export class LinkBoxEditorComponent implements OnInit {
   editLinkBox(){
     this.validator.resetValidation();
     if(this.validator.validatePbox(this.link_box_edits)){
+      this.link_display = false;
       this._httpService.editLinkBox(this.link_box_edits, this.admin_id, this.admin_token, this.site_id).subscribe(res => {
         this.link_box = res;
         this.link_box_edits = res;
         this.toggle_edit = false;
+        this.link_display = true;
+      }, err =>{
+        console.log(err);
+        this.link_display = true;
       });
     }
   }
