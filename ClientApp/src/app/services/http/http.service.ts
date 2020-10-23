@@ -182,7 +182,7 @@ export class HttpService {
   }
 
   editLinkBox(link_box:LinkBox, admin_id:number, admin_token:string, site_id:number){
-    return this._http.put<Image>(`api/site/edit/link_box/${admin_id}/${admin_token}/${site_id}`, link_box);
+    return this._http.put<LinkBox>(`api/site/edit/link_box/${admin_id}/${admin_token}/${site_id}`, link_box);
   }
 
 

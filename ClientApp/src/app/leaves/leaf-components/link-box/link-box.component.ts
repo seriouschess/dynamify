@@ -10,19 +10,26 @@ import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
 })
 export class LinkBoxComponent implements OnInit {
 
-  link_box_object: LinkBox;
+  @Input() link_box_object: LinkBox;
   @Input() component_id:number;
   @Input() site_id:number;
 
   constructor(private _httpService:HttpService) { }
 
   ngOnInit() {
-    this.link_box_object = null;
+    if(this.link_box_object == null){
+      this.getLinkBox();
+    }else{
+      this.formatURL();
+    }
+  }
+
+  getLinkBox(){
     let request:IComponentRequestDto = {
       component_id: this.component_id,
       site_id: this.site_id
     }
-    console.log("component ID: "+this.component_id+" Site Id: "+this.site_id);
+
     this._httpService.getLinkBox(request).subscribe((data) =>{
       this.link_box_object = data;
       this.formatURL();
