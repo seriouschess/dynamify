@@ -206,6 +206,16 @@ namespace dynamify.Controllers.ControllerMethods
                 throw new System.ArgumentException("Component Not Found");
             }      
         }
+
+        public JsonSuccess SwapComponentPriorityMethod(ComponentSwapDto Components, int admin_id, string admin_token, int site_id){
+            if(authenticator.VerifyAdminForLeaf( admin_id, site_id, admin_token )){
+                dbQuery.SwapSiteComponentOrder(Components.component_one, Components.component_two);
+                return new JsonSuccess(
+                    $"Component id {Components.component_one.component_id} type {Components.component_one.component_type} sucessfully swapped with Component id {Components.component_two.component_id} type {Components.component_two.component_type}");
+            }else{
+                throw new System.ArgumentException("Invalid Credentials.");
+            }
+        }
         
         public JsonResponse DeleteSiteComponentMethod(ComponentReference Component, int admin_id, string admin_token){
 

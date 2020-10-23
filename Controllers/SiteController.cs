@@ -289,5 +289,13 @@ namespace dynamify.Controllers
             return methods.EditPortraitMethod(portrait, admin_id, admin_token, site_id);
         }
 
+        //misc
+
+        [HttpPut]
+        [Route("edit/swap_components/{admin_id}/{admin_token}/{site_id}")]
+        public JsonSuccess SwapComponentPriority(ComponentSwapDto Components, int admin_id, string admin_token, int site_id){
+            return methods.SwapComponentPriorityMethod(Components, admin_id, admin_token, site_id);
+        }
+
     }
 }

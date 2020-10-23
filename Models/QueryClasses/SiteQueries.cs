@@ -179,6 +179,42 @@ namespace dynamify.Models.QueryClasses
 
         // --- site component queries ---
 
+        public void SwapSiteComponentOrder( ComponentReference component_one, ComponentReference component_two ){
+            int priority_one = ChangeComponentPriorityAndReturnOldPriority(component_one, 0); //0 is a no consequence value
+            int priority_two = ChangeComponentPriorityAndReturnOldPriority(component_two, priority_one);
+            priority_one = ChangeComponentPriorityAndReturnOldPriority(component_one, priority_two);
+            dbContext.SaveChanges();
+        }
+
+        public int ChangeComponentPriorityAndReturnOldPriority( ComponentReference cr, int new_priority ){
+            int old_priority = 0;
+            if(cr.component_type == "p_box"){
+                ParagraphBox pb = QueryParagraphBoxById(cr.component_id);
+                old_priority = pb.priority;
+                pb.priority = new_priority;
+            }else if(cr.component_type == "2c_box"){
+                TwoColumnBox tcb = QueryTwoColumnBoxById(cr.component_id);
+                old_priority = tcb.priority;
+                tcb.priority = new_priority;
+            }else if(cr.component_type == "image"){
+                Image image = QueryImageById(cr.component_id);
+                old_priority = image.priority;
+                image.priority = new_priority;
+            }else if(cr.component_type == "portrait"){
+                Portrait portrait = QueryPortraitById(cr.component_id);
+                old_priority = portrait.priority;
+                portrait.priority = new_priority;
+            }else if(cr.component_type == "link_box"){
+                LinkBox lb = QueryLinkBoxById(cr.component_id);
+                old_priority = lb.priority;
+                lb.priority = new_priority;
+            }else{
+                throw new System.ArgumentException($"Component component_type {cr.component_type} is not suitable to swap");
+            }
+
+            return old_priority;
+        }
+
         public NavBarDto QueryNavBarDtoBySiteId( int site_id ){
             List<NavBarDto> QueriedBars = dbContext.NavBars.Where(x => x.site_id == site_id).Select(nb => new NavBarDto(){
                 links = dbContext.NavLinks.Where(x => x.nav_bar_id == nb.nav_bar_id).Select( li => new NavLinkDto(){

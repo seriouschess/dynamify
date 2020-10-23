@@ -185,6 +185,10 @@ export class HttpService {
     return this._http.put<LinkBox>(`api/site/edit/link_box/${admin_id}/${admin_token}/${site_id}`, link_box);
   }
 
+  SwapComponentPriority(component_one:ComponentReference, component_two:ComponentReference, admin_id:number, admin_token:string, site_id:number ){
+    return this._http.put<JsonResponseDto>(`api/site/edit/swap_components/${admin_id}/${admin_token}/${site_id}`, {component_one:component_one, component_two:component_two});
+  }
+
 
   //analytics
   createSession():Observable<object>{
