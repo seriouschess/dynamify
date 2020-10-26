@@ -60,6 +60,7 @@ export class ImageEditorComponent implements OnInit {
         image_src:res.image_src
       };
       this.image_edits = res;
+      this.toggle_edit = false;
     });
   }
 

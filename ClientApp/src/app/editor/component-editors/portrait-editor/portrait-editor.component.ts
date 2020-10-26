@@ -64,6 +64,7 @@ export class PortraitEditorComponent implements OnInit {
         content:res.content
       };
       this.portrait_edits = res;
+      this.toggle_edit = false;
     });
   }
 
