@@ -9,6 +9,7 @@ import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnB
 import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
 import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
 import { Image } from 'src/app/interfaces/dtos/site_components/Image';
+import { ComponentReference } from 'src/app/interfaces/dtos/site_components/ComponentReference';
 
 // import { ConsoleReporter } from 'jasmine';
 
@@ -145,18 +146,32 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   //sets priority value for newly posted sites to be at the end of the list
   setPriority(){
     let new_priority:number;
-    let number_of_components = this.formatted_skeleton_site.site_components.length-1;
+    let component_count = this.formatted_skeleton_site.site_components.length;
     
-    if(number_of_components <= 0){
+    if(component_count <= 0){
       new_priority = 0;
     }else{
-      new_priority = this.formatted_skeleton_site.site_components[number_of_components].priority + 100;
+      new_priority = this.formatted_skeleton_site.site_components[component_count-1].priority + 1;
     }
     this.new_paragraph_box.priority = new_priority;
     this.new_2c_box.priority = new_priority;
     this.new_image.priority = new_priority;
     this.new_portrait.priority = new_priority;
     this.new_link_box.priority = new_priority;
+  }
+
+  swapSiteComponents(component_one_id:number, type_one:string, component_two_id:number, type_two:string){
+    let component_one:ComponentReference = {
+      component_id:component_one_id,
+      component_type:type_one
+    }
+    let component_two:ComponentReference = {
+      component_id: component_two_id,
+      component_type:type_two
+    }
+    this._httpService.SwapComponentPriority(component_one, component_two, this.current_admin_id, this.current_admin_token, this.current_site_id ).subscribe(res =>{
+      this.requireSite();
+    });
   }
 
   deleteSiteComponentByIdAndType(component_id:number, type:string){

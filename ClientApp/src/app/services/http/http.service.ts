@@ -20,6 +20,7 @@ import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
 import { Image } from 'src/app/interfaces/dtos/site_components/Image';
 import { JsonResponseDto } from 'src/app/interfaces/dtos/json_response_dto';
 import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/NewNavLinKDto';
+import { ComponentReference } from 'src/app/interfaces/dtos/site_components/ComponentReference';
 
 @Injectable({
   providedIn: 'root'
@@ -211,12 +212,5 @@ export class HttpService {
     return this._http.post(`https://analytics.siteleaves.com/storage/update`, s);
   } 
 }
-
-//Needs a home. Adopt an interface today
-interface ComponentReference{
-  component_id:number,
-  component_type:string
-}
-
 
 
