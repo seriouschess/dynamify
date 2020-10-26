@@ -80,7 +80,9 @@ export class ImageEditorComponent implements OnInit {
 
    //Image Conversion Methods
    fileConversionListener($event) : void {
-    this.b64converter.setImageBase64($event.target, this);
+    if($event.target != null){ 
+      this.b64converter.setImageBase64($event.target, this);
+    }
   };
 
   //for use with setImageBase64() required for async data retrieval

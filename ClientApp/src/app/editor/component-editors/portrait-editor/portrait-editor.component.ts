@@ -84,13 +84,14 @@ export class PortraitEditorComponent implements OnInit {
 
    //portrait Conversion Methods
    fileConversionListener($event) : void {
-    this.b64converter.setImageBase64($event.target, this);
+    if($event.target != null){
+      this.b64converter.setImageBase64($event.target, this);
+    }
   };
 
   //for use with setportraitBase64() required for async data retrieval
   B64Callback(output_string: string, this_component:PortraitEditorComponent){
     if(output_string === "invalid_file_size"){
-      console.log("invalid file size");
       this_component.validator.image_src_invalid_size_flag = true;
     }else if(output_string === "invalid_file_type"){
       this_component.validator.image_src_invalid_flag = true;
