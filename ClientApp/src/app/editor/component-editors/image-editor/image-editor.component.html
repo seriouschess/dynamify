@@ -1,5 +1,12 @@
 <div *ngIf="image != null">
-    <app-image [component_id]="image_id" [site_id]="site_id" [image_object]="image"></app-image>
+    <app-image class="editor-component" [component_id]="image_id" [site_id]="site_id" [image_object]="image"></app-image>
+
+    <div class="text-center component-options-bar">
+        <button *ngIf="!toggle_delete" class="btn btn-danger" (click)='toggleDelete()'>Delete</button>
+        <button *ngIf="toggle_delete" class="btn btn-info" (click)='toggleDelete()'>Cancel Delete</button>
+        <button *ngIf="toggle_delete" class="btn btn-warning component-options-bottom-button" (click)='deleteSiteComponentByIdAndType()'>Confirm Delete</button>
+        <button *ngIf="!toggle_edit && !toggle_delete" class="btn btn-info component-options-bottom-button" (click)='toggleEdit()'>Edit</button>
+      </div>
     
     <div class="editor-form" *ngIf="toggle_edit">
         <button *ngIf="toggle_edit" class="btn btn-info" (click)="toggleEdit()"> Cancel Edit </button>
@@ -12,10 +19,5 @@
         <p><label>Add a .png or .jpg image file: </label><input type="file" (change)="fileConversionListener($event)"></p> 
         <p><input type="submit" *ngIf="!validator.image_src_invalid_flag && !validator.image_src_invalid_size_flag" class="btn btn-warning" value="Edit Image"></p>
         </form>
-    </div>
-    
-    <div class="text-center">
-        <button class="btn btn-info" *ngIf="!toggle_edit" (click)="toggleEdit()"> Edit </button>
-        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType()'>Delete</button>
     </div>
 </div>

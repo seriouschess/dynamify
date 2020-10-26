@@ -22,6 +22,7 @@ export class ParagraphBoxEditorComponent implements OnInit {
   paragraph_box:ParagraphBox;
   paragraph_box_edits:ParagraphBox;
   toggle_edit:boolean;
+  toggle_delete:boolean;
 
   ngOnInit(): void {
     this.getParagraphBox();
@@ -29,6 +30,7 @@ export class ParagraphBoxEditorComponent implements OnInit {
 
   getParagraphBox(){
     this.toggle_edit = false;
+    this.toggle_delete = false;
     this.paragraph_box = null;
     this.paragraph_box_edits = null;
     let thing:IComponentRequestDto = {
@@ -66,5 +68,9 @@ export class ParagraphBoxEditorComponent implements OnInit {
 
   toggleEdit(){
     this.toggle_edit = !this.toggle_edit;
+  }
+
+  toggleDelete(){
+    this.toggle_delete = !this.toggle_delete;
   }
 }

@@ -1,23 +1,22 @@
 <div *ngIf="paragraph_box != null">
-  <app-paragraph-box [component_id]="pbox_id" [site_id]="site_id" [pbox_object]="paragraph_box"></app-paragraph-box>
+  <app-paragraph-box class="editor-component" [component_id]="pbox_id" [site_id]="site_id" [pbox_object]="paragraph_box"></app-paragraph-box>
+  
+  <div class="text-center component-options-bar">
+    <button *ngIf="!toggle_delete" class="btn btn-danger" (click)='toggleDelete()'>Delete</button>
+    <button *ngIf="toggle_delete" class="btn btn-info" (click)='toggleDelete()'>Cancel Delete</button>
+    <button *ngIf="toggle_delete" class="btn btn-warning component-options-bottom-button" (click)='deleteSiteComponentByIdAndType()'>Confirm Delete</button>
+    <button *ngIf="!toggle_edit && !toggle_delete" class="btn btn-info component-options-bottom-button" (click)='toggleEdit()'>Edit</button>
+  </div>
 
   <div class="editor-form" *ngIf="toggle_edit">
     <button class="btn btn-info" (click)='toggleEdit()'>Cancel Edit</button>
-      <h3> Edit paragraph box </h3>
-      <form (submit)=editParagraphBox()>
-        <p *ngIf="paragraph_box_edits.title == ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
-        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="paragraph_box_edits.title"></p>
-        <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="paragraph_box_edits.content"></textarea></p>
-        <p *ngIf="validator.pbox_content_invalid_flag" class="text-danger">Enter valid content text or consider a different component type.</p>
-        <p><input type="submit" class="btn btn-warning" value="Edit Paragraph Box"></p>
-      </form>
-    </div>
-
-    <div class="text-center" *ngIf="!toggle_edit">
-      <button class="btn btn-info" (click)='toggleEdit()'>Edit</button>
-    </div>
-
-    <div class="text-center">
-      <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType()'>Delete</button>
-    </div>
+    <h3> Edit paragraph box </h3>
+    <form (submit)=editParagraphBox()>
+      <p *ngIf="paragraph_box_edits.title == ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+      <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="paragraph_box_edits.title"></p>
+      <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="paragraph_box_edits.content"></textarea></p>
+      <p *ngIf="validator.pbox_content_invalid_flag" class="text-danger">Enter valid content text or consider a different component type.</p>
+      <p><input type="submit" class="btn btn-warning" value="Edit Paragraph Box"></p>
+    </form>
+  </div>
 </div>

@@ -1,5 +1,12 @@
 <div *ngIf="link_box != null">
-    <app-link-box *ngIf="link_display" [component_id]="lbox_id" [site_id]="site_id" [link_box_object]="link_box"></app-link-box>
+    <app-link-box class="editor-component" *ngIf="link_display" [component_id]="lbox_id" [site_id]="site_id" [link_box_object]="link_box"></app-link-box>
+
+    <div class="text-center component-options-bar">
+        <button *ngIf="!toggle_delete" class="btn btn-danger" (click)='toggleDelete()'>Delete</button>
+        <button *ngIf="toggle_delete" class="btn btn-info" (click)='toggleDelete()'>Cancel Delete</button>
+        <button *ngIf="toggle_delete" class="btn btn-warning component-options-bottom-button" (click)='deleteSiteComponentByIdAndType()'>Confirm Delete</button>
+        <button *ngIf="!toggle_edit && !toggle_delete" class="btn btn-info component-options-bottom-button" (click)='toggleEdit()'>Edit</button>
+    </div>
   
     <div class="editor-form" *ngIf="toggle_edit">
         <button class="btn btn-info" (click)='toggleEdit()'>Cancel Edit</button>
@@ -17,13 +24,5 @@
           <p *ngIf="validator.link_box_display_invalid_flag" class="text-danger">A link must have a label.</p>
           <p><input type="submit" class="btn btn-warning" value="Edit Link Box"></p>
         </form>
-    </div>
-
-    <div class="text-center" *ngIf="!toggle_edit">
-        <button class="btn btn-info" (click)='toggleEdit()'>Edit</button>
-    </div>
-
-    <div class="text-center">
-    <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType()'>Delete</button>
     </div>
 </div>

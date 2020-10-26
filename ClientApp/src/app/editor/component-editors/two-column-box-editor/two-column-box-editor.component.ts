@@ -22,6 +22,7 @@ export class TwoColumnBoxEditorComponent implements OnInit {
   two_column_box:TwoColumnBox;
   two_column_box_edits:TwoColumnBox;
   toggle_edit:boolean;
+  toggle_delete:boolean;
 
   ngOnInit(): void {
     this.getTwoColumnBox();
@@ -29,6 +30,7 @@ export class TwoColumnBoxEditorComponent implements OnInit {
 
   getTwoColumnBox(){
     this.toggle_edit = false;
+    this.toggle_delete = false;
     this.two_column_box = null;
     this.two_column_box_edits = null;
     let thing:IComponentRequestDto = {
@@ -66,5 +68,9 @@ export class TwoColumnBoxEditorComponent implements OnInit {
 
   toggleEdit(){
     this.toggle_edit = !this.toggle_edit;
+  }
+
+  toggleDelete(){
+    this.toggle_delete = !this.toggle_delete;
   }
 }

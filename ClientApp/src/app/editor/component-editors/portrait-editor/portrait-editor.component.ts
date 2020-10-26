@@ -25,6 +25,7 @@ export class PortraitEditorComponent implements OnInit {
   portrait:Portrait;
   portrait_edits:Portrait;
   toggle_edit:boolean;
+  toggle_delete:boolean;
 
   ngOnInit(): void {
     console.log("aslkdfjn;asldknfklasdjnf");
@@ -33,6 +34,7 @@ export class PortraitEditorComponent implements OnInit {
 
   getportrait(){
     this.toggle_edit = false;
+    this.toggle_delete = false;
     this.portrait = null;
     this.portrait_edits = null;
     let thing:IComponentRequestDto = {
@@ -73,6 +75,10 @@ export class PortraitEditorComponent implements OnInit {
 
   toggleEdit(){
     this.toggle_edit = !this.toggle_edit;
+  }
+
+  toggleDelete(){
+    this.toggle_delete = !this.toggle_delete;
   }
 
    //portrait Conversion Methods

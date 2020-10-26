@@ -1,5 +1,12 @@
 <div *ngIf="two_column_box != null">
-    <app-two-column-box [component_id]="two_column_box_id" [site_id]="site_id" [tcb_object]="two_column_box"></app-two-column-box>
+    <app-two-column-box class="editor-component" [component_id]="two_column_box_id" [site_id]="site_id" [tcb_object]="two_column_box"></app-two-column-box>
+
+    <div class="text-center component-options-bar">
+        <button *ngIf="!toggle_delete" class="btn btn-danger" (click)='toggleDelete()'>Delete</button>
+        <button *ngIf="toggle_delete" class="btn btn-info" (click)='toggleDelete()'>Cancel Delete</button>
+        <button *ngIf="toggle_delete" class="btn btn-warning component-options-bottom-button" (click)='deleteSiteComponentByIdAndType()'>Confirm Delete</button>
+        <button *ngIf="!toggle_edit && !toggle_delete" class="btn btn-info component-options-bottom-button" (click)='toggleEdit()'>Edit</button>
+    </div>
 
     <div class="editor-form" *ngIf="toggle_edit">
         <button class="btn btn-info" (click)='toggleEdit()'>Cancel Edit</button>
@@ -17,10 +24,5 @@
             <p><label>Column Two Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_two" [(ngModel)]="two_column_box_edits.content_two"></textarea></p>
             <p><input type="submit" class="btn btn-warning" value="Edit Two Column Box"></p>
         </form>
-    </div>
-
-    <div class="text-center">
-        <button *ngIf="!toggle_edit" class="btn btn-info" (click)='toggleEdit()'>Edit</button>
-        <button class="btn btn-danger" (click)='deleteSiteComponentByIdAndType()'>Delete</button>
     </div>
 </div>

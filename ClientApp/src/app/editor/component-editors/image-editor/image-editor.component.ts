@@ -24,6 +24,7 @@ export class ImageEditorComponent implements OnInit {
   image:Image;
   image_edits:Image;
   toggle_edit:boolean;
+  toggle_delete:boolean;
 
   ngOnInit(): void {
     this.getImage();
@@ -31,6 +32,7 @@ export class ImageEditorComponent implements OnInit {
 
   getImage(){
     this.toggle_edit = false;
+    this.toggle_delete = false;
     this.image = null;
     this.image_edits = null;
     let thing:IComponentRequestDto = {
@@ -69,6 +71,10 @@ export class ImageEditorComponent implements OnInit {
 
   toggleEdit(){
     this.toggle_edit = !this.toggle_edit;
+  }
+
+  toggleDelete(){
+    this.toggle_delete = !this.toggle_delete;
   }
 
    //Image Conversion Methods

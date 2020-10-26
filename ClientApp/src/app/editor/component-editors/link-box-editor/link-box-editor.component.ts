@@ -22,6 +22,7 @@ export class LinkBoxEditorComponent implements OnInit {
   link_box:LinkBox;
   link_box_edits:LinkBox;
   toggle_edit:boolean;
+  toggle_delete:boolean;
   link_display:boolean;
 
   ngOnInit(): void {
@@ -31,6 +32,7 @@ export class LinkBoxEditorComponent implements OnInit {
   getLinkBox(){
     this.link_display = true;
     this.toggle_edit = false;
+    this.toggle_delete = false;
     this.link_box = null;
     this.link_box_edits = null;
     let thing:IComponentRequestDto = {
@@ -75,5 +77,9 @@ export class LinkBoxEditorComponent implements OnInit {
 
   toggleEdit(){
     this.toggle_edit = !this.toggle_edit;
+  }
+
+  toggleDelete(){
+    this.toggle_delete = !this.toggle_delete;
   }
 }

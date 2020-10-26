@@ -7,6 +7,22 @@
     margin-top: 2%;
 }
 
+.component-options-bar{
+    width: 10%;
+    display:inline-block;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+.component-options-bottom-button{
+    margin-top: 30px;
+}
+
+.editor-component{
+    display:inline-block;
+    width:90%;
+}
+
 .editor-form {
     margin-bottom: 50px;
     margin-top: 60px;
@@ -37,9 +53,18 @@
     top: 100px;
     z-index: 9;
 }
+
 .editor-body{
     display: inline-block;
     width: 80%;
+}
+
+.swap-component-button{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 .creation-tools {
