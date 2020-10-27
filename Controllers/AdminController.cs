@@ -30,11 +30,7 @@ namespace dynamify.Controllers
         [HttpGet]
         [Route("email/password_reset/send/{email}")]
         public async Task<ActionResult<JsonResponse>> SendPasswordResetEmail(string email){
-            try{
-                return await methods.SendPasswordResetEmailMethod(email);
-            }catch{
-                return StatusCode(400, "Email not found");
-            }
+            return await methods.SendPasswordResetEmailMethod(email);
         }
 
         [HttpPost]

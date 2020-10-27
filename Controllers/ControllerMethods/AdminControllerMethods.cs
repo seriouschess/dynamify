@@ -15,10 +15,11 @@ using dynamify.Models.JsonModels;
 using System.Threading.Tasks;
 using dynamify.ServerClasses.QueryClasses;
 using dynamify.ServerClasses.Email;
+using Microsoft.AspNetCore.Mvc;
 
 namespace dynamify.Controllers.ControllerMethods
 {
-    public class AdminControllerMethods
+    public class AdminControllerMethods: ControllerBase
     {
         private AdminQueries dbQuery;
 
@@ -35,7 +36,7 @@ namespace dynamify.Controllers.ControllerMethods
             mailer = new Mailer();
         }
 
-        public Admin LoginAdminMethod(LoginDto LoginInfo){
+        public ActionResult<Admin> LoginAdminMethod(LoginDto LoginInfo){
             return authenticator.ValidateAdmin(LoginInfo.email, LoginInfo.password);
         }
 
@@ -90,10 +91,14 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public async Task<JsonResponse> SendPasswordResetEmailMethod(string requested_mail){
-            Admin FoundAdmin = dbQuery.GetAdminByEmail(requested_mail);
-            await mailer.SendPasswordResetMail(FoundAdmin.email, FoundAdmin.token);
-            return new JsonSuccess("Password verification email sent.");
+        public async Task<ActionResult<JsonResponse>> SendPasswordResetEmailMethod(string requested_mail){
+            try{
+                Admin FoundAdmin = dbQuery.GetAdminByEmail(requested_mail);
+                await mailer.SendPasswordResetMail(FoundAdmin.email, FoundAdmin.token);
+                return new JsonSuccess("Password verification email sent.");
+            }catch{
+                return StatusCode(400, "Email not found");
+            }
         }
 
         public JsonResponse DeleteMethod(AdminRequestDto request){
