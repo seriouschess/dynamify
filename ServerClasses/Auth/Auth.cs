@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using dynamify.Configuration;
 using dynamify.Models;
-using dynamify.Models.QueryClasses;
 using dynamify.Models.SiteModels;
+using dynamify.ServerClasses.QueryClasses;
 
 namespace dynamify.Classes.Auth
 {
@@ -45,16 +45,12 @@ namespace dynamify.Classes.Auth
 
             if( QueryAdmins.Count ==  0){ //no matching email
                 errors += 1;
-                System.Console.WriteLine("Email Denied");
             }else{
                 QueryAdmin = QueryAdmins[0];
                 if(QueryAdmin.email_verified == false){
                     errors += 1;
                 }
                 if(!VerifyHash(password, QueryAdmin.password)){
-                    System.Console.WriteLine($"Password: {password}");
-                    System.Console.WriteLine($"Hashed Password: {QueryAdmin.password}");
-                    System.Console.WriteLine("Password Denied");
                     errors += 1;
                 }
             }
@@ -62,7 +58,6 @@ namespace dynamify.Classes.Auth
             if(errors > 0){
                 return ErrorAdmin;
             }else{
-                System.Console.WriteLine("Password Accepted");
                 return QueryAdmin;
             }
         }
@@ -109,8 +104,6 @@ namespace dynamify.Classes.Auth
         }
 
          public bool VerifyAdminForLeaf(int admin_id, int site_id, string token){ //use when modifying a leaf
-            System.Console.WriteLine($"Site Id: {site_id}");
-            System.Console.WriteLine($"Admin Id: {admin_id}");
 
             if(VerifyAdmin(admin_id, token) == false){
                 return false;

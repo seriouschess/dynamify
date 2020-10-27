@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 //project dependencies
 using dynamify.Classes.Auth;
-using dynamify.Models.QueryClasses;
 
 //models
 using dynamify.Models;
@@ -12,6 +11,7 @@ using dynamify.dtos;
 using dynamify.Models.JsonModels;
 using dynamify.Controllers.ControllerMethods;
 using System.Threading.Tasks;
+using dynamify.ServerClasses.QueryClasses;
 
 namespace dynamify.Controllers
 {
@@ -63,22 +63,13 @@ namespace dynamify.Controllers
 
         [HttpPut] 
         public ActionResult<Admin> Update([FromBody] Admin TargetAdmin){
-            System.Console.WriteLine($"Updating admin Id:{TargetAdmin.admin_id}");
             return methods.UpdateMethod(TargetAdmin);
         }
 
         [HttpPut]
         [Route("password/reset/{admin_email}/{admin_token}/{new_password}")]
         public ActionResult<Admin> UpdatePassword(string admin_email, string admin_token, string new_password){
-            System.Console.WriteLine($"New Password: {new_password}");
             return methods.UpdatePasswordMethod(admin_email, admin_token, new_password);
         }
-
-        // [HttpGet]
-        // [Route("test")]
-        // public Task<string> Test(){
-        //     System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        //     return methods.TestMethod();
-        // }
     }
 }

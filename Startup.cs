@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using dynamify.Models;
 using Microsoft.EntityFrameworkCore;
-using dynamify.Models.QueryClasses;
+using dynamify.ServerClasses.QueryClasses;
 using dynamify.Configuration;
 
 namespace dynamify

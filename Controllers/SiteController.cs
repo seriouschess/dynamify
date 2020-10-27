@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 //project dependencies
-using dynamify.Models.QueryClasses;
 using dynamify.Classes.Auth;
 using dynamify.Controllers.ControllerMethods;
 
@@ -13,6 +11,7 @@ using dynamify.Controllers.ControllerMethods;
 using dynamify.Models.SiteModels;
 using dynamify.Models.JsonModels;
 using dynamify.dtos;
+using dynamify.ServerClasses.QueryClasses;
 
 namespace dynamify.Controllers
 {
@@ -214,7 +213,6 @@ namespace dynamify.Controllers
         [HttpPost]
         [Route("create/nav_link/{admin_id}/{admin_token}/{site_id}")]
         public NavLinkDto PostNavLink( [FromBody] NewNavLinkDto new_link, int admin_id, string admin_token, int site_id ){
-            System.Console.WriteLine($"NEW LINK URL: {new_link.url}");
             return methods.PostNavLinkMethod(new_link, admin_id, admin_token, site_id);
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using dynamify.Models;
-using dynamify.Models.QueryClasses;
+using dynamify.ServerClasses.QueryClasses;
 using dynamify.Models.SiteModels;
 
 namespace dynamify.ServerClasses.Auth
@@ -30,7 +30,6 @@ namespace dynamify.ServerClasses.Auth
             //     fails += 1;
             // }
 
-            System.Console.WriteLine($"Email bogie: {email_bogie}");
             //check Valid email Regex -- Removed to avoid inconsistencies with frontend check
             Regex regex = new Regex(
                 @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"+ "@"
@@ -61,37 +60,30 @@ namespace dynamify.ServerClasses.Auth
 
         public string ValidateAdmin(Admin NewAdmin){
             int errors = 0;
-            System.Console.WriteLine("doe");
 
             if( NewAdmin.first_name == "" ){
                 errors += 1;
-                System.Console.WriteLine("ray");
             }
 
             if( NewAdmin.last_name == "" ){
                 errors += 1;
-                System.Console.WriteLine("me");
             }
 
             if( !ValidateEmail(NewAdmin.email) ){
                 errors += 1;
-                System.Console.WriteLine("fa");
             }
 
             if(NewAdmin.password.Length < 8){
                 errors += 1;
-                System.Console.WriteLine("so");
             }
 
             if(errors == 0){
-                System.Console.WriteLine("la");
                 if(CheckUniqueEmail(NewAdmin.email)){
                     return "pass";
                 }else{
                     return "duplicate email";
                 }
             }else{
-                System.Console.WriteLine("ti");
                 return "invalid credentials";
             }
 

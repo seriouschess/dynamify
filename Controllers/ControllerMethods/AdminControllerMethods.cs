@@ -7,14 +7,14 @@ using System.Linq;
 //project dependencies
 using dynamify.Classes.Auth;
 using dynamify.ServerClasses.Auth;
-using dynamify.Models.QueryClasses;
 
 //models
 using dynamify.Models;
 using dynamify.dtos;
 using dynamify.Models.JsonModels;
-using dynamify.Email;
 using System.Threading.Tasks;
+using dynamify.ServerClasses.QueryClasses;
+using dynamify.ServerClasses.Email;
 
 namespace dynamify.Controllers.ControllerMethods
 {
@@ -127,15 +127,8 @@ namespace dynamify.Controllers.ControllerMethods
 
         public IEnumerable GetAllMethod(){
             List<Admin> AllAdmins = dbQuery.All();
-            System.Console.WriteLine(AllAdmins);
             IEnumerable results = AllAdmins.AsEnumerable();
             return results;
         }
-
-        // public async Task<string> TestMethod(){
-        //     Mailer Mail = new Mailer();
-        //     await Mail.SendPasswordResetMail("SOME_EMAIL :D", "SomeRandomString");
-        //     return "mail sent!";
-        // }
     }
 }

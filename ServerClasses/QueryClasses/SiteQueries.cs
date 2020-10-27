@@ -1,10 +1,12 @@
 using System.Linq;
-using dynamify.Models.SiteModels;
+using dynamify.ServerClasses.QueryClasses;
 using System.Collections.Generic;
 using dynamify.dtos;
 using System;
+using dynamify.Models;
+using dynamify.Models.SiteModels;
 
-namespace dynamify.Models.QueryClasses
+namespace dynamify.ServerClasses.QueryClasses
 {
     public class SiteQueries
     {
@@ -172,7 +174,6 @@ namespace dynamify.Models.QueryClasses
                 default_site.title = "Query error: Either no site was found or too many sites were found. Contact admin.";
                 return default;
             }else{ //return first active site found
-                System.Console.WriteLine($"Got Site: {FoundSites[0].title}");
                 return FoundSites[0];
             }
         }

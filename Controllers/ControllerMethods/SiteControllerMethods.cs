@@ -1,6 +1,5 @@
 //project dependencies
 using dynamify.Classes.Auth;
-using dynamify.Models.QueryClasses;
 
 //project models
 using dynamify.dtos;
@@ -8,6 +7,7 @@ using dynamify.Models.JsonModels;
 using dynamify.Models.SiteModels;
 using System.Collections.Generic;
 using dynamify.ServerClasses.Auth;
+using dynamify.ServerClasses.QueryClasses;
 
 namespace dynamify.Controllers.ControllerMethods
 {

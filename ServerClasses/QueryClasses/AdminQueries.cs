@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using dynamify.Models;
+using dynamify.ServerClasses;
 
-namespace dynamify.Models.QueryClasses
+namespace dynamify.ServerClasses.QueryClasses
 {
     public class AdminQueries
     {
