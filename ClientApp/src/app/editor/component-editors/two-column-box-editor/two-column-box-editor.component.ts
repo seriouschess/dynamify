@@ -33,12 +33,8 @@ export class TwoColumnBoxEditorComponent implements OnInit {
     this.toggle_delete = false;
     this.two_column_box = null;
     this.two_column_box_edits = null;
-    let thing:IComponentRequestDto = {
-      component_id: this.two_column_box_id,
-      site_id: this.site_id
-    }
 
-    this._httpService.getTwoColumnBox(thing).subscribe(res => {
+    this._httpService.getTwoColumnBox(this.two_column_box_id).subscribe(res => {
       this.two_column_box = {
         title:res.title,
         priority:res.priority,

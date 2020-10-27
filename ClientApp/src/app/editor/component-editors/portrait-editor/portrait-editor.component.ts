@@ -28,7 +28,6 @@ export class PortraitEditorComponent implements OnInit {
   toggle_delete:boolean;
 
   ngOnInit(): void {
-    console.log("aslkdfjn;asldknfklasdjnf");
     this.getportrait();
   }
 
@@ -37,12 +36,8 @@ export class PortraitEditorComponent implements OnInit {
     this.toggle_delete = false;
     this.portrait = null;
     this.portrait_edits = null;
-    let thing:IComponentRequestDto = {
-      component_id: this.portrait_id,
-      site_id: this.site_id
-    }
 
-    this._httpService.getPortrait(thing).subscribe(res => {
+    this._httpService.getPortrait(this.portrait_id).subscribe(res => {
       this.portrait = {
         title:res.title,
         priority:res.priority,

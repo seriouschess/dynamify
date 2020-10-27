@@ -35,12 +35,8 @@ export class ImageEditorComponent implements OnInit {
     this.toggle_delete = false;
     this.image = null;
     this.image_edits = null;
-    let thing:IComponentRequestDto = {
-      component_id: this.image_id,
-      site_id: this.site_id
-    }
 
-    this._httpService.getImage(thing).subscribe(res => {
+    this._httpService.getImage(this.image_id).subscribe(res => {
       this.image = {
         title:res.title,
         priority:res.priority,

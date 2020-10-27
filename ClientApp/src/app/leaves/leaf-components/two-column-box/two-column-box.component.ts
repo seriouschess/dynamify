@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import{ HttpService } from '../../../services/http/http.service';
-import{ IComponentRequestDto } from '../../../interfaces/dtos/formatted_sites/component_request_dto';
 import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnBox';
 
 @Component({
@@ -18,12 +17,7 @@ export class TwoColumnBoxComponent implements OnInit {
 
   ngOnInit() {
     if(this.tcb_object == null){ //attempt to api call for object if not provided
-      let request:IComponentRequestDto = {
-        component_id: this.component_id,
-        site_id: this.site_id
-      }
-      console.log("component ID: "+this.component_id+" Site Id: "+this.site_id);
-      this._httpService.getTwoColumnBox(request).subscribe((data) =>{
+      this._httpService.getTwoColumnBox(this.component_id).subscribe((data) =>{
         this.tcb_object = data;
       });
     }

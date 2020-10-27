@@ -177,9 +177,9 @@ namespace dynamify.Controllers.ControllerMethods
             
         }
     
-        public ActionResult<ParagraphBox> GetParagraphBoxMethod(ComponentRequestDto request){
+        public ActionResult<ParagraphBox> GetParagraphBoxMethod(int p_box_id){
             try{
-                ParagraphBox paragraph_box = dbQuery.QueryParagraphBoxById( request.component_id );
+                ParagraphBox paragraph_box = dbQuery.QueryParagraphBoxById( p_box_id );
                 return paragraph_box;
             }catch{
                 JsonFailure f = new JsonFailure("Component Not Found");
@@ -187,9 +187,9 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public ActionResult<Portrait> GetPortraitMethod(ComponentRequestDto request){
+        public ActionResult<Portrait> GetPortraitMethod(int portrait_id){
             try{
-                Portrait portrait = dbQuery.QueryPortraitById( request.component_id );
+                Portrait portrait = dbQuery.QueryPortraitById( portrait_id );
                 return portrait;
             }catch{
                 JsonFailure f = new JsonFailure("Component Not Found");
@@ -197,9 +197,9 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public ActionResult<TwoColumnBox> GetTwoColumnBoxMethod(ComponentRequestDto request){
+        public ActionResult<TwoColumnBox> GetTwoColumnBoxMethod(int two_column_box_id){
             try{
-                TwoColumnBox two_column_box = dbQuery.QueryTwoColumnBoxById( request.component_id );
+                TwoColumnBox two_column_box = dbQuery.QueryTwoColumnBoxById( two_column_box_id );
                 return two_column_box;
             }catch{
                 JsonFailure f = new JsonFailure("Component Not Found");
@@ -207,9 +207,9 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-        public ActionResult<LinkBox> GetLinkBoxMethod(ComponentRequestDto request){
+        public ActionResult<LinkBox> GetLinkBoxMethod(int link_box_id){
             try{
-                LinkBox link_box = dbQuery.QueryLinkBoxById( request.component_id );
+                LinkBox link_box = dbQuery.QueryLinkBoxById( link_box_id );
                 return link_box;
             }catch{
                 JsonFailure f = new JsonFailure("Component Not Found");
@@ -217,9 +217,9 @@ namespace dynamify.Controllers.ControllerMethods
             } 
         }
 
-        public ActionResult<Image> GetImageMethod( ComponentRequestDto request ){
+        public ActionResult<Image> GetImageMethod( int image_id ){
             try{
-                Image image = dbQuery.QueryImageById(request.component_id);
+                Image image = dbQuery.QueryImageById(image_id);
                 return image;
             }catch{
                 JsonFailure f = new JsonFailure("Component Not Found");

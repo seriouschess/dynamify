@@ -25,12 +25,7 @@ export class LinkBoxComponent implements OnInit {
   }
 
   getLinkBox(){
-    let request:IComponentRequestDto = {
-      component_id: this.component_id,
-      site_id: this.site_id
-    }
-
-    this._httpService.getLinkBox(request).subscribe((data) =>{
+    this._httpService.getLinkBox(this.component_id).subscribe((data) =>{
       this.link_box_object = data;
       this.formatURL();
     });

@@ -33,12 +33,8 @@ export class ParagraphBoxEditorComponent implements OnInit {
     this.toggle_delete = false;
     this.paragraph_box = null;
     this.paragraph_box_edits = null;
-    let thing:IComponentRequestDto = {
-      component_id: this.pbox_id,
-      site_id: this.site_id
-    }
 
-    this._httpService.getParagraphBox(thing).subscribe(res => {
+    this._httpService.getParagraphBox(this.pbox_id).subscribe(res => {
       this.paragraph_box = {
         title:res.title,
         priority:res.priority,

@@ -91,28 +91,28 @@ export class HttpService {
 
   //component retrieval services
 
-  getParagraphBox( request:IComponentRequestDto ){
-    let api_url = `api/site/get_component/paragraph_box/${request.component_id}/${request.site_id}`;
+  getParagraphBox( component_id:number ){
+    let api_url = `api/site/get_component/paragraph_box/${component_id}`;
     return this._http.get<ParagraphBox>( api_url );
   }
 
-  getPortrait( request:IComponentRequestDto ){
-    let api_url = `api/site/get_component/portrait/${request.component_id}/${request.site_id}`;
+  getPortrait( component_id:number ){
+    let api_url = `api/site/get_component/portrait/${component_id}`;
     return this._http.get<Portrait>( api_url );
   }
 
-  getTwoColumnBox( request:IComponentRequestDto ){
-    let api_url = `api/site/get_component/two_column_box/${request.component_id}/${request.site_id}`;
+  getTwoColumnBox( component_id:number ){
+    let api_url = `api/site/get_component/two_column_box/${component_id}`;
     return this._http.get<TwoColumnBox>( api_url );
   }
 
-  getImage( request:IComponentRequestDto ){
-    let api_url = `api/site/get_component/image/${request.component_id}/${request.site_id}`;
+  getImage( component_id:number ){
+    let api_url = `api/site/get_component/image/${component_id}`;
     return this._http.get<Image>( api_url );
   }
 
-  getLinkBox( request:IComponentRequestDto ){
-    let api_url = `api/site/get_component/link_box/${request.component_id}/${request.site_id}`;
+  getLinkBox( component_id:number ){
+    let api_url = `api/site/get_component/link_box/${component_id}`;
     return this._http.get<LinkBox>( api_url );
   }
 

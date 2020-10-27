@@ -35,12 +35,8 @@ export class LinkBoxEditorComponent implements OnInit {
     this.toggle_delete = false;
     this.link_box = null;
     this.link_box_edits = null;
-    let thing:IComponentRequestDto = {
-      component_id: this.lbox_id,
-      site_id: this.site_id
-    }
 
-    this._httpService.getLinkBox(thing).subscribe(res => {
+    this._httpService.getLinkBox(this.lbox_id).subscribe(res => {
       this.link_box = {
         title:res.title,
         priority:res.priority,
