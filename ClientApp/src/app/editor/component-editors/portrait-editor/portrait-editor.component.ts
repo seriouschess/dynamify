@@ -64,7 +64,7 @@ export class PortraitEditorComponent implements OnInit {
   }
 
   deleteSiteComponentByIdAndType(){
-    this._httpService.deleteSiteComponent(this.portrait_id, "portrait", this.admin_id, this.admin_token).subscribe(result =>{
+    this._httpService.deleteSiteComponent(this.portrait_id, "portrait", this.admin_id, this.admin_token, this.site_id).subscribe(result =>{
       this.deleteEvent.emit(true);
     });  
   }

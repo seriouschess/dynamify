@@ -121,12 +121,12 @@ export class HttpService {
   }
   
   //site configuration services
-  deleteSiteComponent(component_id:number, component_type:string, admin_id:number, admin_token:string){
+  deleteSiteComponent(component_id:number, component_type:string, admin_id:number, admin_token:string, site_id:number){
     var component_reference: ComponentReference = {
       component_id: component_id,
       component_type:component_type
     }
-    return this._http.post(`api/site/delete/site_component/${admin_id}/${admin_token}`, component_reference);
+    return this._http.post(`api/site/delete/site_component/${admin_id}/${admin_token}/${site_id}`, component_reference);
   }
 
   deleteNavBar( admin_id:number, admin_token:string, site_id:number){

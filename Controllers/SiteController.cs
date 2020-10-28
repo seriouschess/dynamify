@@ -156,10 +156,10 @@ namespace dynamify.Controllers
         //delete site components
 
         [HttpPost]
-        [Route("delete/site_component/{admin_id}/{admin_token}")]
+        [Route("delete/site_component/{admin_id}/{admin_token}/{site_id}")]
         [Produces("application/json")]
-        public ActionResult<JsonResponse> DeleteSiteComponent([FromBody] ComponentReference Component, int admin_id, string admin_token){
-            return methods.DeleteSiteComponentMethod(Component, admin_id, admin_token);
+        public ActionResult<JsonResponse> DeleteSiteComponent([FromBody] ComponentReference Component, int admin_id, string admin_token, int site_id){
+            return methods.DeleteSiteComponentMethod(Component, admin_id, admin_token, site_id);
         }
 
         [HttpDelete]

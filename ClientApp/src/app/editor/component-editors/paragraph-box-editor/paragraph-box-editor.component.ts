@@ -57,7 +57,7 @@ export class ParagraphBoxEditorComponent implements OnInit {
   }
 
   deleteSiteComponentByIdAndType(){
-    this._httpService.deleteSiteComponent(this.pbox_id, "p_box", this.admin_id, this.admin_token).subscribe(result =>{
+    this._httpService.deleteSiteComponent(this.pbox_id, "p_box", this.admin_id, this.admin_token, this.site_id).subscribe(result =>{
       this.deleteEvent.emit(true);
     });  
   }

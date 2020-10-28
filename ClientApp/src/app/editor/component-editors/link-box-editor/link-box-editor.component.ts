@@ -66,7 +66,7 @@ export class LinkBoxEditorComponent implements OnInit {
   }
 
   deleteSiteComponentByIdAndType(){
-    this._httpService.deleteSiteComponent(this.lbox_id, "link_box", this.admin_id, this.admin_token).subscribe(result =>{
+    this._httpService.deleteSiteComponent(this.lbox_id, "link_box", this.admin_id, this.admin_token, this.site_id).subscribe(result =>{
       this.deleteEvent.emit(true);
     });  
   }

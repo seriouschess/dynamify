@@ -238,10 +238,9 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
         
-        public ActionResult<JsonResponse> DeleteSiteComponentMethod(ComponentReference Component, int admin_id, string admin_token){
+        public ActionResult<JsonResponse> DeleteSiteComponentMethod(ComponentReference Component, int admin_id, string admin_token, int site_id){
 
-            //requires refactor, requires site Id
-            if(authenticator.VerifyAdmin(admin_id, admin_token)){ //terrible!!!! Fix This!!!
+            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
                 if(Component.component_type == "p_box"){
                     try{
                         ParagraphBox paragraph_box = dbQuery.DeleteParagraphBox(Component.component_id);

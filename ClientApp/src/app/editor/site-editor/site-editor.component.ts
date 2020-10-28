@@ -174,12 +174,6 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     });
   }
 
-  deleteSiteComponentByIdAndType(component_id:number, type:string){
-    this._httpService.deleteSiteComponent(component_id, type, this.current_admin_id, this.current_admin_token).subscribe(result =>{
-      this.requireSite();
-    });  
-  }
-
   //set editors
   setPboxEdit(){
     this.initializeComponents();
