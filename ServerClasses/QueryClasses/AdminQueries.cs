@@ -15,7 +15,14 @@ namespace dynamify.ServerClasses.QueryClasses
 
         //Read & Get
         public Admin GetAdminById(int admin_id){
-            return dbContext.Admins.SingleOrDefault(x => x.admin_id == admin_id);
+            return dbContext.Admins.Where(x => x.admin_id == admin_id).Select(a => new Admin(){
+                admin_id = a.admin_id,
+                email = a.email,
+                token = a.token,
+                password = a.password,
+                email_verified = a.email_verified,
+                data_plans = dbContext.DataPlans.Where(x => x.admin_id == admin_id).ToList()
+            }).SingleOrDefault();
         }
 
         public Admin GetAdminByEmail(string admin_email){
@@ -98,7 +105,6 @@ namespace dynamify.ServerClasses.QueryClasses
             dbContext.SaveChanges();
             return FoundAdmin;
         }
-
 
         //DataPlans
         public DataPlan FindDataPlanByAdminId(int admin_id){
