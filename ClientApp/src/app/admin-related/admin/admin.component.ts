@@ -63,8 +63,7 @@ export class AdminComponent implements OnInit{
 
       this.current_admin = {
         admin_id: test_admin.admin_id,
-        first_name: test_admin.first_name,
-        last_name: test_admin.last_name,
+        username: test_admin.username,
         email: test_admin.email,
         password: test_admin.password,
         token: test_admin.token
@@ -75,8 +74,7 @@ export class AdminComponent implements OnInit{
 
       this.current_admin = {
         admin_id: 0,
-        first_name: "",
-        last_name: "",
+        username: "",
         email: "",
         password: "",
         token: ""

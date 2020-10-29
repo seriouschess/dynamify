@@ -43,8 +43,7 @@ namespace dynamify.Controllers.ControllerMethods
         public Admin RegisterMethod(AdminRegistrationDto _NewAdmin){
              Admin NewAdmin = new Admin();
 
-                NewAdmin.first_name = _NewAdmin.first_name;
-                NewAdmin.last_name = _NewAdmin.last_name;
+                NewAdmin.username = _NewAdmin.username;
                 NewAdmin.email = _NewAdmin.email;
                 NewAdmin.password = _NewAdmin.password;
                 NewAdmin.token = authenticator.Generate().token;
@@ -53,6 +52,7 @@ namespace dynamify.Controllers.ControllerMethods
                 string unhashed_password = _NewAdmin.password; //for the first login 
                 NewAdmin.password = authenticator.HashString(_NewAdmin.password);
                 Admin RegisteredAdmin = dbQuery.SaveNewAdmin(NewAdmin); //create admin
+                dbQuery.CreateNewDataPlan(RegisteredAdmin.admin_id); //create data plan for admin
 
                 //send validation email
                 mailer.SendRegistrationConfirmationEmail(RegisteredAdmin.email, RegisteredAdmin.token);
@@ -62,8 +62,7 @@ namespace dynamify.Controllers.ControllerMethods
                  string message = "< Error: Invalid Registration >";
 
                 Admin blank_admin = new Admin();
-                blank_admin.first_name = message;
-                blank_admin.last_name = message;
+                blank_admin.username = message;
                 blank_admin.email = message;
                 blank_admin.password = message;
                 blank_admin.token = "XXX";
@@ -73,8 +72,7 @@ namespace dynamify.Controllers.ControllerMethods
                 string message = "< Error: Duplicate Email >";
 
                 Admin blank_admin = new Admin();
-                blank_admin.first_name = message;
-                blank_admin.last_name = message;
+                blank_admin.username = message;
                 blank_admin.email = message;
                 blank_admin.password = message;
                 blank_admin.token = "XXX";

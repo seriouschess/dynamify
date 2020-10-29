@@ -11,9 +11,7 @@ namespace dynamify.Models
         [Key]
         public int admin_id {get;set;}
         [Required]
-        public string first_name {get;set;}
-        [Required]
-        public string last_name {get;set;}
+        public string username {get;set;}
         [Required]
         public string email {get;set;}
         [Required]
@@ -25,6 +23,9 @@ namespace dynamify.Models
         
         [InverseProperty("owner")]
         public List<Site> sites_owned {get;set;}
+
+        [InverseProperty("admin")]
+        public List<DataPlan> data_plans {get;set;} //should only be one
         public DateTime CreatedAt {get;set;} = DateTime.Now;
         public DateTime UpdatedAt {get;set;} = DateTime.Now;
     }

@@ -1,7 +1,7 @@
 <app-nav-menu [logged_in]="true" ></app-nav-menu>
 
 <div class="title-box">
-    <h3> {{ current_admin.first_name }} {{current_admin.last_name}}'s account settings </h3>
+    <h3> {{ current_admin.username}}'s account settings </h3>
 </div>
 
 <div *ngIf="!edit_selected" class="option-display">
@@ -15,8 +15,7 @@
     <p class="input-box-information">Note that Email addresses cannot be changed. Delete current Admin and Create a new admin to change email.</p>
     <form (submit)="updateAdminAccount()">
     <div class="input-box" >
-        <label>First Name: <input class="form-control" name="first_name" [(ngModel)]="updated_admin.first_name"></label>
-        <div><label>Last Name: <input class="form-control" name="last_name" [(ngModel)]="updated_admin.last_name"></label></div>
+        <label>Username: <input class="form-control" name="username" [(ngModel)]="updated_admin.username"></label>
     </div>
     <input type="submit" class="btn btn-success" value="Change Username">
     </form>

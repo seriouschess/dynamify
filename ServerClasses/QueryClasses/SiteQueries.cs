@@ -10,9 +10,9 @@ namespace dynamify.ServerClasses.QueryClasses
 {
     public class SiteQueries
     {
-        private MyContext dbContext;
+        private DatabaseContext dbContext;
         
-        public SiteQueries(MyContext _context){
+        public SiteQueries(DatabaseContext _context){
             dbContext = _context;
         }
 
@@ -106,8 +106,7 @@ namespace dynamify.ServerClasses.QueryClasses
                 owner = dbContext.Admins.Where(x => x.admin_id == site.admin_id).Select(s => new Admin()
                 {
                     admin_id = s.admin_id,
-                    first_name = s.first_name,
-                    last_name = s.last_name,
+                    username = s.username,
                     email = s.email,
                     password = s.password
                 }).FirstOrDefault(),

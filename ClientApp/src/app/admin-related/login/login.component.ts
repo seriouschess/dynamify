@@ -30,8 +30,7 @@ export class LoginComponent implements OnInit {
   registration_password_error_flag: boolean;
   password_confirm: string;
   password_confirm_error_flag:boolean;
-  first_name_required_error:boolean;
-  last_name_required_error:boolean;
+  username_required_error:boolean;
   email_validation_error_flag: boolean;
   duplicate_email_error: boolean;
 
@@ -44,16 +43,14 @@ export class LoginComponent implements OnInit {
    ngOnInit() {
 
     this.newAdminObject = {
-      first_name: "",
-      last_name: "",
+      username: "",
       email: "",
       password: "",
      }
 
     this.logged_admin = {
       admin_id: 0,
-      first_name: "",
-      last_name: "",
+      username: "",
       email: "",
       password: "",
       token: ""
@@ -77,8 +74,7 @@ export class LoginComponent implements OnInit {
     this.email_validation_error_flag = false;
     this.login_email_validation_error_flag = false;
     this.login_password_validation_error_flag = false;
-    this.first_name_required_error = false;
-    this.last_name_required_error = false;
+    this.username_required_error = false;
     this.logEvent.emit(this.logged_admin); //zero is the default non sql ID value
   }
 
@@ -90,18 +86,11 @@ export class LoginComponent implements OnInit {
   validateRegistration():boolean{ //returns true of registration information is valid
     let error_count = 0;
 
-    if(this.newAdminObject.first_name == ""){
-      this.first_name_required_error = true;
+    if(this.newAdminObject.username == ""){
+      this.username_required_error = true;
       error_count += 1;
     }else{
-      this.first_name_required_error = false;
-    }
-
-    if(this.newAdminObject.last_name == ""){
-      this.last_name_required_error = true;
-      error_count += 1;
-    }else{
-      this.last_name_required_error = false;
+      this.username_required_error = false;
     }
 
     if( !this.validateEmail(this.newAdminObject.email) ){ //validate email
@@ -144,19 +133,18 @@ export class LoginComponent implements OnInit {
           this.general_invalid_registration_error_flag = false;
           this.duplicate_email_error = false;
 
-          if(incomingAdmin.first_name == "< Error: Invalid Registration >"){ //clear backend validators
+          if(incomingAdmin.username == "< Error: Invalid Registration >"){ //clear backend validators
 
             //notify user of denied credentials
             this.general_invalid_registration_error_flag = true;
 
-          }else if(incomingAdmin.first_name == "< Error: Duplicate Email >"){
+          }else if(incomingAdmin.username == "< Error: Duplicate Email >"){
             this.duplicate_email_error = true;
 
           }else{
             //initialize newly created admin
             this.logged_admin.admin_id = incomingAdmin.admin_id;
-            this.logged_admin.first_name = incomingAdmin.first_name;
-            this.logged_admin.last_name = incomingAdmin.last_name;
+            this.logged_admin.username = incomingAdmin.username;
             this.logged_admin.email = incomingAdmin.email;
             this.logged_admin.password = incomingAdmin.password;
             this.logged_admin.token = incomingAdmin.token;
@@ -207,7 +195,7 @@ export class LoginComponent implements OnInit {
            
             let errors = 0;
             
-            if(incomingAdmin.first_name === "<ACCESS DENIED, Password or Email Invalid>"){
+            if(incomingAdmin.username === "<ACCESS DENIED, Password or Email Invalid>"){
               this.error_display = "Invalid password";
               errors += 1;
             }

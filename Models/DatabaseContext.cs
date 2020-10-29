@@ -3,14 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace dynamify.Models
 {
-    public class MyContext : DbContext
+    public class DatabaseContext : DbContext
     {
-        //base() calls the parent class' constructor passing the "opptions" parameter along public MyContext(DbContextOptions options) : base(options) { }
-        public MyContext(DbContextOptions options) : base (options) { }
+        //base() calls the parent class' constructor passing the "opptions" parameter along public DatabaseContext(DbContextOptions options) : base(options) { }
+        public DatabaseContext(DbContextOptions options) : base (options) { }
 
         public DbSet<Admin> Admins {get;set;}
 
         public DbSet<Site> Sites {get;set;}
+
+        public DbSet<DataPlan> DataPlans {get;set;}
 
         //site components
         public DbSet<ParagraphBox>  ParagraphBoxes {get;set;}

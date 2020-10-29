@@ -45,7 +45,7 @@ namespace dynamify
 
             string mySqlConnection = Configuration["ConnectionString"];
             System.Console.WriteLine(mySqlConnection);
-            services.AddDbContext<MyContext>(options => options.UseMySql(mySqlConnection));
+            services.AddDbContext<DatabaseContext>(options => options.UseMySql(mySqlConnection));
             services.AddScoped<AdminQueries>();
             services.AddScoped<SiteQueries>();
 

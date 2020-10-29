@@ -61,11 +61,7 @@ namespace dynamify.ServerClasses.Auth
         public string ValidateAdmin(Admin NewAdmin){
             int errors = 0;
 
-            if( NewAdmin.first_name == "" ){
-                errors += 1;
-            }
-
-            if( NewAdmin.last_name == "" ){
+            if( NewAdmin.username == "" ){
                 errors += 1;
             }
 

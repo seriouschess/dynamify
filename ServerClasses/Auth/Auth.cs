@@ -35,8 +35,7 @@ namespace dynamify.Classes.Auth
             Admin ErrorAdmin = new Admin();
 
             string err_msg = "<ACCESS DENIED, Password or Email Invalid>";
-            ErrorAdmin.first_name = err_msg;
-            ErrorAdmin.last_name = err_msg;
+            ErrorAdmin.username = err_msg;
             ErrorAdmin.email = err_msg;
             ErrorAdmin.password = err_msg;
 

@@ -77,8 +77,7 @@ export class AdminAccountComponent implements OnInit {
   initAdmin(changed_admin:Admin){
     this.current_admin = {
       admin_id: changed_admin.admin_id,
-      first_name: changed_admin.first_name,
-      last_name: changed_admin.last_name,
+      username: changed_admin.username,
       email: changed_admin.email,
       password: changed_admin.password,
       token: changed_admin.token
@@ -86,8 +85,7 @@ export class AdminAccountComponent implements OnInit {
 
     this.updated_admin = {
       admin_id: changed_admin.admin_id,
-      first_name: changed_admin.first_name,
-      last_name: changed_admin.last_name,
+      username: changed_admin.username,
       email: changed_admin.email,
       password: changed_admin.password,
       token: changed_admin.token

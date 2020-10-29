@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using dynamify.Models;
-using dynamify.ServerClasses;
 
 namespace dynamify.ServerClasses.QueryClasses
 {
     public class AdminQueries
     {
-        private MyContext dbContext;
+        private DatabaseContext dbContext;
 
-        public AdminQueries(MyContext _context){
+        public AdminQueries(DatabaseContext _context){
             dbContext = _context;
         }
 
@@ -47,8 +46,7 @@ namespace dynamify.ServerClasses.QueryClasses
             }else{
                 Admin ErrorAdmin = new Admin();
                 string error_msg = "<Error: email exists!, May not create more than one admin with existing email!>";
-                ErrorAdmin.first_name = error_msg;
-                ErrorAdmin.last_name = error_msg;
+                ErrorAdmin.username = error_msg;
                 ErrorAdmin.email = error_msg;
                 ErrorAdmin.password = error_msg;
                 return ErrorAdmin; 
@@ -82,12 +80,8 @@ namespace dynamify.ServerClasses.QueryClasses
         public Admin UpdateAdmin(Admin TargetAdmin){
             Admin SubjectAdmin = GetAdminById(TargetAdmin.admin_id);
             
-            if(TargetAdmin.first_name != null){
-                SubjectAdmin.first_name = TargetAdmin.first_name;
-            }
-
-            if(TargetAdmin.last_name != null){
-                SubjectAdmin.last_name = TargetAdmin.last_name;
+            if(TargetAdmin.username != null){
+                SubjectAdmin.username = TargetAdmin.username;
             }
 
             //email cannot be changed
@@ -103,6 +97,34 @@ namespace dynamify.ServerClasses.QueryClasses
             FoundAdmin.UpdatedAt = DateTime.Now;
             dbContext.SaveChanges();
             return FoundAdmin;
+        }
+
+
+        //DataPlans
+        public DataPlan FindDataPlanByAdminId(int admin_id){
+            List<DataPlan> found_plans = dbContext.DataPlans.Where(x => x.admin_id == admin_id).ToList();
+            if(found_plans.Count == 0){
+                return null;
+            }else if(found_plans.Count == 1){
+                return found_plans[0];
+            }else{
+                throw new System.Exception($"More than one Data Plan exists for admin_id {admin_id}");
+            }
+        }
+
+        public DataPlan CreateNewDataPlan(int admin_id){
+            if(FindDataPlanByAdminId(admin_id) == null){
+                DataPlan new_data_plan = new DataPlan();
+                new_data_plan.admin_id = admin_id;
+                new_data_plan.total_bytes = 0;
+                new_data_plan.max_bytes = 1000000*10; //10MB
+                new_data_plan.premium_tier = 0;
+                dbContext.Add(new_data_plan);
+                dbContext.SaveChanges();
+                return new_data_plan;
+            }else{
+                throw new System.ArgumentException($"Data Plan already exists for admin id {admin_id}");
+            }
         }
     }
 }
