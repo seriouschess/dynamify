@@ -12,6 +12,7 @@ using dynamify.Models.JsonModels;
 using dynamify.Controllers.ControllerMethods;
 using System.Threading.Tasks;
 using dynamify.ServerClasses.QueryClasses;
+using dynamify.ServerClasses.Email;
 
 namespace dynamify.Controllers
 {
@@ -21,10 +22,10 @@ namespace dynamify.Controllers
     {
         private AdminQueries adminQueries;
         private AdminControllerMethods methods;
-        public AdminController(AdminQueries _adminQueries)
+        public AdminController(AdminQueries _adminQueries, Mailer _mailer )
         {
             adminQueries = _adminQueries;
-            methods = new AdminControllerMethods(adminQueries);
+            methods = new AdminControllerMethods(adminQueries, _mailer);
         }
 
         [HttpGet]

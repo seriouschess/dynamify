@@ -9,6 +9,7 @@ using dynamify.Models;
 using Microsoft.EntityFrameworkCore;
 using dynamify.ServerClasses.QueryClasses;
 using dynamify.Configuration;
+using dynamify.ServerClasses.Email;
 
 namespace dynamify
 {
@@ -48,6 +49,7 @@ namespace dynamify
             services.AddDbContext<DatabaseContext>(options => options.UseMySql(mySqlConnection));
             services.AddScoped<AdminQueries>();
             services.AddScoped<SiteQueries>();
+            services.AddScoped<Mailer>();
 
             services.AddSwaggerDocument();
         }

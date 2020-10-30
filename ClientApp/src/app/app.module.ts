@@ -36,6 +36,7 @@ import { TwoColumnBoxEditorComponent } from './editor/component-editors/two-colu
 import { ImageEditorComponent } from './editor/component-editors/image-editor/image-editor.component';
 import { PortraitEditorComponent } from './editor/component-editors/portrait-editor/portrait-editor.component';
 import { LinkBoxEditorComponent } from './editor/component-editors/link-box-editor/link-box-editor.component';
+import { ContactFormComponent } from './contact-form/contact-form.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { LinkBoxEditorComponent } from './editor/component-editors/link-box-edit
     TwoColumnBoxEditorComponent,
     ImageEditorComponent,
     PortraitEditorComponent,
-    LinkBoxEditorComponent
+    LinkBoxEditorComponent,
+    ContactFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

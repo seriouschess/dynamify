@@ -21,6 +21,7 @@ import { Image } from 'src/app/interfaces/dtos/site_components/Image';
 import { JsonResponseDto } from 'src/app/interfaces/dtos/json_response_dto';
 import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/NewNavLinKDto';
 import { ComponentReference } from 'src/app/interfaces/dtos/site_components/ComponentReference';
+import { ContactForm } from 'src/app/interfaces/dtos/reports_related/ContactForm';
 
 @Injectable({
   providedIn: 'root'
@@ -188,6 +189,12 @@ export class HttpService {
 
   SwapComponentPriority(component_one:ComponentReference, component_two:ComponentReference, admin_id:number, admin_token:string, site_id:number ){
     return this._http.put<JsonResponseDto>(`api/site/edit/swap_components/${admin_id}/${admin_token}/${site_id}`, {component_one:component_one, component_two:component_two});
+  }
+
+
+  //reports
+  SendFeedbackReport(contact_form:ContactForm){
+    return this._http.post(`api/reports/feedback`, contact_form);
   }
 
 

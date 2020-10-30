@@ -1,0 +1,18 @@
+<p *ngIf="!feedback_sent"> 
+    Contact us regarding feeback or any technical issues you have with using siteleaves. Positive or negative, we want it all. - 
+    <button class="btn btn-success" (click)="toggleContact()">Open Contact Form</button>
+</p>
+
+<p class="text-success" *ngIf="feedback_sent">
+    Feedback sent! Thank you for your interest in siteleaves!
+</p>
+
+<div *ngIf="open_contact && !feedback_sent">
+    <h3> Contact Form </h3>
+    <form (submit)=sendFeedback()>
+      <p><label>Email (optional) </label><input class="title_box" name="email" [(ngModel)]="contact_form.email"></p>
+      <p><label>Feedback: </label><textarea rows="5" cols="200" style="width:80%;" name="feedback" [(ngModel)]="contact_form.feedback"></textarea></p>
+      <p *ngIf="invalid_feedback_flag" class="text-danger">Unable to send empty feedback.</p>
+      <p><input type="submit" class="btn btn-warning" value="Send Feedback"></p>
+    </form>
+</div>

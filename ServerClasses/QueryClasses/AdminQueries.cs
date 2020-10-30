@@ -111,7 +111,6 @@ namespace dynamify.ServerClasses.QueryClasses
         public Admin UpdateAdminPassword(int admin_id, string new_hashed_password){
             Admin FoundAdmin = QueryAdminById(admin_id);
             FoundAdmin.password = new_hashed_password;
-            System.Console.WriteLine($"Found admin ID: {admin_id} Password: {FoundAdmin.password}");
             FoundAdmin.UpdatedAt = DateTime.Now;
             dbContext.SaveChanges();
             return FoundAdmin;

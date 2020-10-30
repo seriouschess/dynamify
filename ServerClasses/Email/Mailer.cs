@@ -44,6 +44,18 @@ namespace dynamify.ServerClasses.Email
             return new_body;
         }
 
+        public String CreateFeedbackMailBody(string email, string feedback){
+            String new_body = "<h2>Someone has left feedback on siteleaves.com</h2>" +
+            $"<p>{feedback}</p>";
+
+            if(email != null && email != ""){
+                new_body += $"<p>They left an email at {email}</p>";
+            }else{
+                new_body += "<p>They did not leave an email.</p>";
+            }
+            return new_body;
+        }
+
         public async Task<string> SendMail(String recipient_address, String subject, String body){
 
             //Configure message content
@@ -90,6 +102,12 @@ namespace dynamify.ServerClasses.Email
             String mail_content = CreateRegistrationMailBody(recipient_address, password);
             String mail_title = "Site Leaves Registration confirmation";
             return await SendMail(recipient_address, mail_title, mail_content );
+        }
+
+        public void SendFeedbackEmail(string return_email, string feedback){
+            String mail_body = CreateFeedbackMailBody(return_email, feedback);
+            String mail_title = "Siteleaves Feedback";
+            Task.Run(() => SendMail(ConfSettings.Configuration["AppAdminEmail"],mail_title,mail_body));
         }
     }
 }

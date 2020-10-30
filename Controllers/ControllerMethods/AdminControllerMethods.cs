@@ -29,11 +29,11 @@ namespace dynamify.Controllers.ControllerMethods
 
         private Mailer mailer;
 
-        public AdminControllerMethods(AdminQueries _dbQuery){
+        public AdminControllerMethods(AdminQueries _dbQuery, Mailer _mailer){
             dbQuery = _dbQuery;
             authenticator = new Auth(_dbQuery);
             validator = new RegistrationValidator(_dbQuery);
-            mailer = new Mailer();
+            mailer = _mailer;
         }
 
         public ActionResult<Admin> LoginAdminMethod(LoginDto LoginInfo){
