@@ -1,18 +1,24 @@
-<p *ngIf="!feedback_sent"> 
-    Contact us regarding feeback or any technical issues you have with using siteleaves. Positive or negative, we want it all. - 
-    <button class="btn btn-success" (click)="toggleContact()">Open Contact Form</button>
-</p>
+<div class="generic-element">
+    <p *ngIf="!feedback_sent"> 
+        Send feedback or information about any technical issues you have with using siteleaves through the contact form. Positive or negative, it's all wanted.
+    </p>
+    <div class="text-center">
+        <button *ngIf="!open_contact" class="btn btn-success" (click)="toggleContact()">Open Contact Form</button>
+        <button *ngIf="open_contact" class="btn btn-info" (click)="toggleContact()">Close Contact Form</button>
+    </div>
+    
 
-<p class="text-success" *ngIf="feedback_sent">
-    Feedback sent! Thank you for your interest in siteleaves!
-</p>
+    <p class="text-success" *ngIf="feedback_sent">
+        Feedback sent! Thank you for your interest in siteleaves!
+    </p>
 
-<div *ngIf="open_contact && !feedback_sent">
-    <h3> Contact Form </h3>
-    <form (submit)=sendFeedback()>
-      <p><label>Email (optional) </label><input class="title_box" name="email" [(ngModel)]="contact_form.email"></p>
-      <p><label>Feedback: </label><textarea rows="5" cols="200" style="width:80%;" name="feedback" [(ngModel)]="contact_form.feedback"></textarea></p>
-      <p *ngIf="invalid_feedback_flag" class="text-danger">Unable to send empty feedback.</p>
-      <p><input type="submit" class="btn btn-warning" value="Send Feedback"></p>
-    </form>
+    <div *ngIf="open_contact && !feedback_sent" class="form-background">
+        <h3> Contact Form </h3>
+        <form (submit)=sendFeedback()>
+        <p><label>Email (optional): </label><input class="title_box form-control" name="email" [(ngModel)]="contact_form.email"></p>
+        <p><label>Feedback: </label><textarea class="form-control" rows="5" cols="200" name="feedback" [(ngModel)]="contact_form.feedback"></textarea></p>
+        <p *ngIf="invalid_feedback_flag" class="text-danger">Unable to send empty feedback.</p>
+        <p><input type="submit" class="btn btn-warning" value="Send Feedback"></p>
+        </form>
+    </div>
 </div>
