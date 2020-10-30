@@ -25,6 +25,16 @@ namespace dynamify.ServerClasses.QueryClasses
             }).SingleOrDefault();
         }
 
+        //must be used when changing admin properties
+        public Admin QueryAdminById(int admin_id){
+            List<Admin> found_admins = dbContext.Admins.Where(x => x.admin_id == admin_id).ToList();
+            if(found_admins.Count == 1){
+                return found_admins[0];
+            }else{
+                throw new System.ArgumentException($"Cannot find admin ID: {admin_id}");
+            }
+        }
+
         public Admin GetAdminByEmail(string admin_email){
             List<Admin> FoundAdmins = dbContext.Admins.Where(x => x.email == admin_email).ToList();
             if(FoundAdmins.Count == 1){
@@ -77,7 +87,7 @@ namespace dynamify.ServerClasses.QueryClasses
 
         //Delete
         public Admin DeleteAdminById(int admin_id){
-            Admin Subject = GetAdminById( admin_id );
+            Admin Subject = QueryAdminById( admin_id );
             dbContext.Remove( Subject );
             dbContext.SaveChanges();
             return Subject;
@@ -85,7 +95,7 @@ namespace dynamify.ServerClasses.QueryClasses
 
         //Update
         public Admin UpdateAdmin(Admin TargetAdmin){
-            Admin SubjectAdmin = GetAdminById(TargetAdmin.admin_id);
+            Admin SubjectAdmin = QueryAdminById(TargetAdmin.admin_id);
             
             if(TargetAdmin.username != null){
                 SubjectAdmin.username = TargetAdmin.username;
@@ -98,9 +108,10 @@ namespace dynamify.ServerClasses.QueryClasses
             return SubjectAdmin;
         }
 
-        public Admin UpdateAdminPassword(int admin_id, string new_password){
-            Admin FoundAdmin = GetAdminById(admin_id);
-            FoundAdmin.password = new_password;
+        public Admin UpdateAdminPassword(int admin_id, string new_hashed_password){
+            Admin FoundAdmin = QueryAdminById(admin_id);
+            FoundAdmin.password = new_hashed_password;
+            System.Console.WriteLine($"Found admin ID: {admin_id} Password: {FoundAdmin.password}");
             FoundAdmin.UpdatedAt = DateTime.Now;
             dbContext.SaveChanges();
             return FoundAdmin;
