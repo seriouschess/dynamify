@@ -433,26 +433,41 @@ namespace dynamify.ServerClasses.QueryClasses
         
 
         public void AddLinkBox( LinkBox link_box ){
+            if(link_box.byte_size == 0){
+                throw new System.ArgumentException("Link box must have byte size greater than 0. Is it being calculated?");
+            }
             dbContext.Add( link_box );
             dbContext.SaveChanges();
         }
 
         public void AddTwoColumnBox(TwoColumnBox tc_box){
+            if(tc_box.byte_size == 0){
+                throw new System.ArgumentException("Two column box must have byte size greater than 0. Is it being calculated?");
+            }
             dbContext.Add(tc_box);
             dbContext.SaveChanges();
         }
 
         public void AddPortrait(Portrait portrait){
+            if(portrait.byte_size == 0){
+                throw new System.ArgumentException("Portrait must have byte size greater than 0. Is it being calculated?");
+            }
             dbContext.Add(portrait);
             dbContext.SaveChanges();
         }
 
         public void AddImage(Image image){
+            if(image.byte_size == 0){
+                throw new System.ArgumentException("Image must have byte size greater than 0. Is it being calculated?");
+            }
             dbContext.Add(image);
             dbContext.SaveChanges();
         }
 
         public void AddParagraphBox(ParagraphBox p_box){
+            if(p_box.byte_size == 0){
+                throw new System.ArgumentException("Paragraph box must have byte size greater than 0. Is it being calculated?");
+            }
             dbContext.Add(p_box);
             dbContext.SaveChanges();
         }
@@ -460,6 +475,9 @@ namespace dynamify.ServerClasses.QueryClasses
 
         //edit queries
         public ParagraphBox EditParagraphBox(ParagraphBox updated_box){
+            if(updated_box.byte_size == 0){
+                throw new System.ArgumentException("Paragraph box must have byte size greater than 0. Is it being calculated?");
+            }
             ParagraphBox box_to_update = QueryParagraphBoxById(updated_box.paragraph_box_id);
             box_to_update.title = updated_box.title;
             box_to_update.content = updated_box.content;
@@ -470,6 +488,9 @@ namespace dynamify.ServerClasses.QueryClasses
         }
 
         public Portrait EditPortrait(Portrait updated_portrait){
+            if(updated_portrait.byte_size == 0){
+                throw new System.ArgumentException("Portrait must have byte size greater than 0. Is it being calculated?");
+            }
             Portrait portrait_to_update = QueryPortraitById(updated_portrait.portrait_id);
             portrait_to_update.title = updated_portrait.title;
             portrait_to_update.image_src = updated_portrait.image_src;
@@ -481,6 +502,9 @@ namespace dynamify.ServerClasses.QueryClasses
         }
 
         public Image EditImage(Image updated_image){
+            if(updated_image.byte_size == 0){
+                throw new System.ArgumentException("Image must have byte size greater than 0. Is it being calculated?");
+            }
             Image image_to_update = QueryImageById(updated_image.image_id);
             image_to_update.title = updated_image.title;
             image_to_update.image_src = updated_image.image_src;
@@ -491,6 +515,9 @@ namespace dynamify.ServerClasses.QueryClasses
         }
 
         public TwoColumnBox EditTwoColumnBox(TwoColumnBox updated_two_column_box){
+            if(updated_two_column_box.byte_size == 0){
+                throw new System.ArgumentException("Paragraph box must have byte size greater than 0. Is it being calculated?");
+            }
             TwoColumnBox two_column_box_to_update = QueryTwoColumnBoxById(updated_two_column_box.two_column_box_id);
             two_column_box_to_update.heading_one = updated_two_column_box.heading_one;
             two_column_box_to_update.heading_two = updated_two_column_box.heading_two;
@@ -502,6 +529,9 @@ namespace dynamify.ServerClasses.QueryClasses
         }
 
         public LinkBox EditLinkBox(LinkBox updated_link_box){
+            if(updated_link_box.byte_size == 0){
+                throw new System.ArgumentException("Link box must have byte size greater than 0. Is it being calculated?");
+            }
             LinkBox link_box_to_update = QueryLinkBoxById(updated_link_box.link_box_id);
             link_box_to_update.title = updated_link_box.title;
             link_box_to_update.url = updated_link_box.url;

@@ -10,7 +10,9 @@ namespace dynamify.Models.SiteModels
 
         [Required]
         //determines order in which components are displayed
-        public int priority {get;set;} = 0; 
+        public int priority {get;set;} = 0;
+
+        public int byte_size {get;set;} 
 
         [Required]
         public abstract string type {get;set;} //used by frontend to determine how to build site component
