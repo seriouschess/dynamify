@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dynamify.Models.SiteModels
 {
-    public class TwoColumnBox : SiteComponent
+    public partial class TwoColumnBox : SiteComponent
     {
         [Key]
         public int two_column_box_id {get;set;}

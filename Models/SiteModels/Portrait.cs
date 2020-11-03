@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dynamify.Models.SiteModels
 {
-    public class Portrait : SiteComponent
+    public partial class Portrait : SiteComponent
     {
         [Key]
         public int portrait_id {get;set;}

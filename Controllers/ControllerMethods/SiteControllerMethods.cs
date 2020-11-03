@@ -77,7 +77,7 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<JsonResponse> PostBoxMethod(ParagraphBox NewBox, int admin_id, string admin_token){
             if(authenticator.VerifyAdminForLeaf(admin_id, NewBox.site_id, admin_token)){
-                NewBox.byte_size =  dataLimiter.FindParagraphBoxCharLength(NewBox);
+                NewBox.byte_size =  NewBox.FindCharLength();
                 dbQuery.AddParagraphBox(NewBox);
                 JsonResponse r = new JsonSuccess("Paragraph box posted sucessfully!");
                 return r;
@@ -89,7 +89,7 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<JsonResponse> PostImageMethod(Image NewImage, int admin_id, string admin_token){
              if(authenticator.VerifyAdminForLeaf(admin_id, NewImage.site_id, admin_token)){
-                NewImage.byte_size = dataLimiter.FindImageCharLength(NewImage);
+                NewImage.byte_size = NewImage.FindCharLength();
                 dbQuery.AddImage(NewImage);
                 JsonResponse r = new JsonSuccess("Image posted sucessfully!");
                 return r;
@@ -101,7 +101,7 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<JsonResponse> PostTwoColumnBoxMethod(TwoColumnBox NewTwoColumnBox, int admin_id, string admin_token){
              if(authenticator.VerifyAdminForLeaf(admin_id, NewTwoColumnBox.site_id, admin_token)){
-                NewTwoColumnBox.byte_size = dataLimiter.FindTwoColumnBoxCharLength(NewTwoColumnBox);
+                NewTwoColumnBox.byte_size = NewTwoColumnBox.FindCharLength();
                 dbQuery.AddTwoColumnBox(NewTwoColumnBox);
                 JsonResponse r = new JsonSuccess("Two column box posted sucessfully!");
                 return r;
@@ -133,7 +133,7 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<JsonResponse> PostPortraitMethod(Portrait NewPortrait, int admin_id, string admin_token){
              if(authenticator.VerifyAdminForLeaf(admin_id, NewPortrait.site_id, admin_token)){
-                NewPortrait.byte_size = dataLimiter.FindPortraitCharLength(NewPortrait);
+                NewPortrait.byte_size = NewPortrait.FindCharLength();
                 dbQuery.AddPortrait(NewPortrait);
                 JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
                 return r;
@@ -153,7 +153,7 @@ namespace dynamify.Controllers.ControllerMethods
                 NewLinkBox.content = _NewLinkBox.content;
                 NewLinkBox.url = _NewLinkBox.url;
                 NewLinkBox.link_display = _NewLinkBox.link_display;
-                NewLinkBox.byte_size = dataLimiter.FindLinkBoxCharLength(NewLinkBox);
+                NewLinkBox.byte_size = NewLinkBox.FindCharLength();
 
                 dbQuery.AddLinkBox(NewLinkBox);
                 JsonResponse r = new JsonSuccess("Link Box posted sucessfully!");
@@ -331,7 +331,7 @@ namespace dynamify.Controllers.ControllerMethods
         //Component Edit Methods
         public ActionResult<ParagraphBox> EditParagraphBoxMethod(ParagraphBox paragraph_box, int admin_id, string admin_token, int site_id){
             if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
-                paragraph_box.byte_size = dataLimiter.FindParagraphBoxCharLength(paragraph_box);
+                paragraph_box.byte_size = paragraph_box.FindCharLength();
                 return dbQuery.EditParagraphBox( paragraph_box );
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");
@@ -341,7 +341,7 @@ namespace dynamify.Controllers.ControllerMethods
 
          public ActionResult<TwoColumnBox> EditTwoColumnBoxMethod(TwoColumnBox tc_box, int admin_id, string admin_token, int site_id){
             if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
-                tc_box.byte_size = dataLimiter.FindTwoColumnBoxCharLength(tc_box);
+                tc_box.byte_size = tc_box.FindCharLength();
                 return dbQuery.EditTwoColumnBox( tc_box );
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");
@@ -351,7 +351,7 @@ namespace dynamify.Controllers.ControllerMethods
 
          public ActionResult<Image> EditImageMethod(Image image, int admin_id, string admin_token, int site_id){
             if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
-                image.byte_size = dataLimiter.FindImageCharLength(image);
+                image.byte_size = image.FindCharLength();
                 return dbQuery.EditImage( image );
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");
@@ -361,7 +361,7 @@ namespace dynamify.Controllers.ControllerMethods
         
          public ActionResult<Portrait> EditPortraitMethod(Portrait portrait, int admin_id, string admin_token, int site_id){
             if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
-                portrait.byte_size = dataLimiter.FindPortraitCharLength(portrait);
+                portrait.byte_size = portrait.FindCharLength();
                 return dbQuery.EditPortrait( portrait );
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");
@@ -371,7 +371,7 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<LinkBox> EditLinkBoxMethod(LinkBox link_box, int admin_id, string admin_token, int site_id){
             if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
-                link_box.byte_size = dataLimiter.FindLinkBoxCharLength(link_box);
+                link_box.byte_size = link_box.FindCharLength();
                 return dbQuery.EditLinkBox( link_box );
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");

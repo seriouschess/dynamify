@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace dynamify.Models.SiteModels
 {
-    public abstract class SiteComponent
+    public abstract partial class SiteComponent
     {
         public string title {get;set;} = "";
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dynamify.Models.SiteModels
 {
-    public class Image : SiteComponent
+    public partial class Image : SiteComponent
     {
         [Key]
         public int image_id {get;set;}

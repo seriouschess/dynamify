@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dynamify.Models.SiteModels
 {
-    public class LinkBox : SiteComponent
+    public partial class LinkBox : SiteComponent
     {
         [Key]
         public int link_box_id {get;set;}
