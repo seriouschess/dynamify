@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using dynamify.Configuration;
 using dynamify.Models;
 using dynamify.Models.SiteModels;
+using dynamify.ServerClasses.DataLimiter;
 using dynamify.ServerClasses.QueryClasses;
 
 namespace dynamify.Classes.Auth
@@ -16,8 +17,10 @@ namespace dynamify.Classes.Auth
             "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
             };
         
+        protected DataLimiter _dataLimiter; 
         public Auth(AdminQueries _dbQueryA){
             dbQueryA = _dbQueryA;
+            _dataLimiter = new DataLimiter();
         }
 
         public Token Generate(){ //produces a random string of length 15 using charset
@@ -82,6 +85,15 @@ namespace dynamify.Classes.Auth
             }
         }
 
+         public Admin ReturnValidAdminOrNull(int admin_id, string token){ 
+            Admin QueryAdmin = dbQueryA.GetAdminById(admin_id);
+            if(QueryAdmin.token == token && QueryAdmin.email_verified){
+                return QueryAdmin;
+            }else{
+                return null;
+            }
+        }
+
         public bool VerifyAdminForEmailValidation(string admin_email, string token){ //use to login admin
             try{
                 Admin QueryAdmin = dbQueryA.GetAdminByEmail(admin_email);
@@ -115,6 +127,25 @@ namespace dynamify.Classes.Auth
             }else{
                 return false;
             }
+        }
+
+        public bool VerifyComponentModification(int admin_id, int site_id, string token, SiteComponent component){
+            //validate admin for site
+            if(VerifyAdminForLeaf(admin_id, site_id, token)){
+
+                //check data limits
+                DataPlan data_plan = dbQueryA.FindDataPlanByAdminId(admin_id);
+                if(_dataLimiter.ValidateDataPlan(component, data_plan)){
+                    dbQueryA.UpdateDataPlan(data_plan);
+                    //return verdict
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }else{
+                return false;
+            }            
         }
     } 
 }

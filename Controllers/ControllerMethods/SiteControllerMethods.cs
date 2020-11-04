@@ -20,14 +20,12 @@ namespace dynamify.Controllers.ControllerMethods
         private SiteQueries dbQuery;
         private SiteAuth authenticator;
 
-        private DataLimiter dataLimiter;
         private SiteCreationValidator validator;
 
         public SiteControllerMethods(SiteQueries _dbQuery, AdminQueries _AdbQuery){
             dbQuery = _dbQuery;
             authenticator = new SiteAuth(_AdbQuery, _dbQuery);
             validator = new SiteCreationValidator(dbQuery);
-            dataLimiter = new DataLimiter();
         }
 
         public ActionResult<SkeletonSiteDto> GetSkeletonSiteByIdMethod(int site_id){
@@ -76,7 +74,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<JsonResponse> PostBoxMethod(ParagraphBox NewBox, int admin_id, string admin_token){
-            if(authenticator.VerifyAdminForLeaf(admin_id, NewBox.site_id, admin_token)){
+            if(authenticator.VerifyComponentModification(admin_id, NewBox.site_id, admin_token, NewBox)){
                 NewBox.byte_size =  NewBox.FindCharLength();
                 dbQuery.AddParagraphBox(NewBox);
                 JsonResponse r = new JsonSuccess("Paragraph box posted sucessfully!");
@@ -88,7 +86,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<JsonResponse> PostImageMethod(Image NewImage, int admin_id, string admin_token){
-             if(authenticator.VerifyAdminForLeaf(admin_id, NewImage.site_id, admin_token)){
+             if(authenticator.VerifyComponentModification(admin_id, NewImage.site_id, admin_token, NewImage)){
                 NewImage.byte_size = NewImage.FindCharLength();
                 dbQuery.AddImage(NewImage);
                 JsonResponse r = new JsonSuccess("Image posted sucessfully!");
@@ -100,7 +98,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<JsonResponse> PostTwoColumnBoxMethod(TwoColumnBox NewTwoColumnBox, int admin_id, string admin_token){
-             if(authenticator.VerifyAdminForLeaf(admin_id, NewTwoColumnBox.site_id, admin_token)){
+             if(authenticator.VerifyComponentModification(admin_id, NewTwoColumnBox.site_id, admin_token, NewTwoColumnBox)){
                 NewTwoColumnBox.byte_size = NewTwoColumnBox.FindCharLength();
                 dbQuery.AddTwoColumnBox(NewTwoColumnBox);
                 JsonResponse r = new JsonSuccess("Two column box posted sucessfully!");
@@ -111,6 +109,40 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
+        public ActionResult<JsonResponse> PostPortraitMethod(Portrait NewPortrait, int admin_id, string admin_token){
+             if(authenticator.VerifyComponentModification(admin_id, NewPortrait.site_id, admin_token, NewPortrait)){
+                NewPortrait.byte_size = NewPortrait.FindCharLength();
+                dbQuery.AddPortrait(NewPortrait);
+                JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
+                return r;
+            }else{
+                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
+                return StatusCode(400, f);
+            }
+        }
+
+        public ActionResult<JsonResponse> PostLinkBoxMethod(NewLinkBoxDto _NewLinkBox, int admin_id, string admin_token){
+
+                LinkBox NewLinkBox = new LinkBox();
+                NewLinkBox.title = _NewLinkBox.title;
+                NewLinkBox.priority = _NewLinkBox.priority;
+                NewLinkBox.site_id = _NewLinkBox.site_id;
+                NewLinkBox.content = _NewLinkBox.content;
+                NewLinkBox.url = _NewLinkBox.url;
+                NewLinkBox.link_display = _NewLinkBox.link_display;
+                NewLinkBox.byte_size = NewLinkBox.FindCharLength();
+
+             if(authenticator.VerifyComponentModification(admin_id, _NewLinkBox.site_id, admin_token, NewLinkBox)){
+
+                dbQuery.AddLinkBox(NewLinkBox);
+                JsonResponse r = new JsonSuccess("Link Box posted sucessfully!");
+                return r;
+            }else{
+                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
+                return StatusCode(400, f);
+            }
+        }
+        
         public ActionResult<JsonResponse> PostNavBarMethod(int admin_id, string admin_token, int site_id){
              if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
                 dbQuery.AddNavBarToSite( site_id );
@@ -125,39 +157,6 @@ namespace dynamify.Controllers.ControllerMethods
         public ActionResult<NavLinkDto> PostNavLinkMethod( NewNavLinkDto new_link, int admin_id, string admin_token, int site_id ){
              if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
                 return dbQuery.AddNavBarLinkToSite(new_link, site_id);
-            }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
-            }
-        }
-
-        public ActionResult<JsonResponse> PostPortraitMethod(Portrait NewPortrait, int admin_id, string admin_token){
-             if(authenticator.VerifyAdminForLeaf(admin_id, NewPortrait.site_id, admin_token)){
-                NewPortrait.byte_size = NewPortrait.FindCharLength();
-                dbQuery.AddPortrait(NewPortrait);
-                JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
-                return r;
-            }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
-            }
-        }
-
-        public ActionResult<JsonResponse> PostLinkBoxMethod(NewLinkBoxDto _NewLinkBox, int admin_id, string admin_token){
-             if(authenticator.VerifyAdminForLeaf(admin_id, _NewLinkBox.site_id, admin_token)){
-
-                LinkBox NewLinkBox = new LinkBox();
-                NewLinkBox.title = _NewLinkBox.title;
-                NewLinkBox.priority = _NewLinkBox.priority;
-                NewLinkBox.site_id = _NewLinkBox.site_id;
-                NewLinkBox.content = _NewLinkBox.content;
-                NewLinkBox.url = _NewLinkBox.url;
-                NewLinkBox.link_display = _NewLinkBox.link_display;
-                NewLinkBox.byte_size = NewLinkBox.FindCharLength();
-
-                dbQuery.AddLinkBox(NewLinkBox);
-                JsonResponse r = new JsonSuccess("Link Box posted sucessfully!");
-                return r;
             }else{
                 JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
                 return StatusCode(400, f);
@@ -330,7 +329,17 @@ namespace dynamify.Controllers.ControllerMethods
 
         //Component Edit Methods
         public ActionResult<ParagraphBox> EditParagraphBoxMethod(ParagraphBox paragraph_box, int admin_id, string admin_token, int site_id){
-            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+            //check available (better way to do this?)
+            ParagraphBox queried_paragraph_box;
+            try{
+                queried_paragraph_box = dbQuery.QueryParagraphBoxById(paragraph_box.paragraph_box_id);
+            }catch{
+                JsonFailure f = new JsonFailure($"paragraph_box Id: {paragraph_box.paragraph_box_id} not found.");
+                return StatusCode(400, f);
+            }
+
+            //verify and change
+            if(authenticator.VerifyComponentModification(admin_id, queried_paragraph_box.site_id, admin_token, paragraph_box)){
                 paragraph_box.byte_size = paragraph_box.FindCharLength();
                 return dbQuery.EditParagraphBox( paragraph_box );
             }else{
@@ -340,7 +349,16 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
          public ActionResult<TwoColumnBox> EditTwoColumnBoxMethod(TwoColumnBox tc_box, int admin_id, string admin_token, int site_id){
-            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+             //check available (better way to do this?)
+            TwoColumnBox queried_two_column_box;
+            try{
+                queried_two_column_box = dbQuery.QueryTwoColumnBoxById(tc_box.two_column_box_id);
+            }catch{
+                JsonFailure f = new JsonFailure($"Two Column Box Id: {tc_box.two_column_box_id} not found.");
+                return StatusCode(400, f);
+            }
+
+            if(authenticator.VerifyComponentModification(admin_id, queried_two_column_box.site_id, admin_token, tc_box)){
                 tc_box.byte_size = tc_box.FindCharLength();
                 return dbQuery.EditTwoColumnBox( tc_box );
             }else{
@@ -349,8 +367,18 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
-         public ActionResult<Image> EditImageMethod(Image image, int admin_id, string admin_token, int site_id){
-            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+        public ActionResult<Image> EditImageMethod(Image image, int admin_id, string admin_token, int site_id){
+            //check available (better way to do this?)
+            Image queried_image;
+            try{
+                queried_image = dbQuery.QueryImageById(image.image_id);
+            }catch{
+                JsonFailure f = new JsonFailure($"Image Id: {image.image_id} not found.");
+                return StatusCode(400, f);
+            }
+
+            //verify and change
+            if(authenticator.VerifyComponentModification(admin_id, queried_image.site_id, admin_token, image)){
                 image.byte_size = image.FindCharLength();
                 return dbQuery.EditImage( image );
             }else{
@@ -360,7 +388,18 @@ namespace dynamify.Controllers.ControllerMethods
         }
         
          public ActionResult<Portrait> EditPortraitMethod(Portrait portrait, int admin_id, string admin_token, int site_id){
-            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+            //check available (better way to do this?)
+            Portrait queried_portrait;
+            try{
+                queried_portrait = dbQuery.QueryPortraitById(portrait.portrait_id);
+            }catch{
+                JsonFailure f = new JsonFailure($"Portrait Id: {portrait.portrait_id} not found.");
+                return StatusCode(400, f);
+            }
+
+            //verify and change
+            dbQuery.QueryPortraitById(portrait.portrait_id); 
+            if(authenticator.VerifyComponentModification(admin_id, queried_portrait.site_id, admin_token, portrait)){
                 portrait.byte_size = portrait.FindCharLength();
                 return dbQuery.EditPortrait( portrait );
             }else{
@@ -370,7 +409,17 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<LinkBox> EditLinkBoxMethod(LinkBox link_box, int admin_id, string admin_token, int site_id){
-            if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+            //check available (better way to do this?)
+            LinkBox queried_link_box;
+            try{
+               queried_link_box = dbQuery.QueryLinkBoxById(link_box.link_box_id);
+            }catch{
+                JsonFailure f = new JsonFailure($"link_box Id: {link_box.link_box_id} not found.");
+                return StatusCode(400, f);
+            }
+
+            //verify and change
+            if(authenticator.VerifyComponentModification(admin_id, queried_link_box.site_id, admin_token, link_box)){
                 link_box.byte_size = link_box.FindCharLength();
                 return dbQuery.EditLinkBox( link_box );
             }else{

@@ -14,14 +14,15 @@ namespace dynamify.ServerClasses.DataLimiter
             return character_sum;
         }
 
-        public int ValidateDataPlan(SiteComponent site_component, DataPlan data_plan){
+        public bool ValidateDataPlan(SiteComponent site_component, DataPlan data_plan){
             data_plan.total_bytes -= site_component.byte_size;
             site_component.byte_size = site_component.FindCharLength();
             data_plan.total_bytes += site_component.byte_size;
             if( data_plan.total_bytes >= data_plan.max_bytes ){
-                throw new System.ArgumentException($"Component data exceeds maximum for this data plan for Admin Id: {data_plan.admin_id}");
+                return false;
+            }else{
+                return true;
             }
-            return data_plan.total_bytes;
         }
     }
 }

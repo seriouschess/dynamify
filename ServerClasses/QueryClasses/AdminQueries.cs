@@ -142,5 +142,13 @@ namespace dynamify.ServerClasses.QueryClasses
                 throw new System.ArgumentException($"Data Plan already exists for admin id {admin_id}");
             }
         }
+
+        public DataPlan UpdateDataPlan( DataPlan updated_data_plan ){
+            DataPlan data_plan = FindDataPlanByAdminId(updated_data_plan.admin_id);
+            data_plan.total_bytes = updated_data_plan.total_bytes;
+            data_plan.max_bytes = updated_data_plan.max_bytes;
+            dbContext.SaveChanges();
+            return data_plan;
+        }
     }
 }
