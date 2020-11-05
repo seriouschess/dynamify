@@ -1,20 +1,24 @@
 <h1 class="text-center">Let's get started</h1>
 <!-- <div class="background-forest generic-element bf-one"></div> -->
 
-<h3 class="space generic-element" *ngIf="open_registration == true"> Register Here: </h3>
-<form *ngIf="open_registration == true" class="form-horizontal registration-box generic-element" (submit)="postAdminToService()">
-    <h3 *ngIf="general_invalid_registration_error_flag" class="text-danger"> Server rejected registration credentials. Try changing them. </h3>
-    <label>First Name: </label><input class="form-control" name="username"[(ngModel)]="newAdminObject.username">
-    <p *ngIf="username_required_error" class="text-danger"> Username Required. </p>
-    <label>Email: </label><input class="form-control" name="email" [(ngModel)]="newAdminObject.email">
-    <p *ngIf="email_validation_error_flag" class="text-danger"> Invalid Email Format.</p>
-    <p *ngIf="duplicate_email_error" class="text-danger"> Email being used by another active Admin. </p>
-    <label>Password: </label><input class="form-control" name="password" type="password" [(ngModel)]="newAdminObject.password">
-    <p *ngIf="registration_password_error_flag" class="text-danger"> Password must be at least 8 characters long. </p>
-    <p *ngIf="password_confirm_error_flag" class="text-danger" > Error: Password does not match Confirmation Password. </p>
-    <label>Confirm Password:</label><input class="form-control" name="password_confirm" type="password" [(ngModel)]=password_confirm>
-    <input class="btn btn-info space" type="submit" value="Post new Admin">
-</form>
+<div *ngIf="!registered">
+  <h3 class="space generic-element" *ngIf="open_registration == true"> Register Here: </h3>
+  <form *ngIf="open_registration == true" class="form-horizontal registration-box generic-element" (submit)="postAdminToService()">
+      <h3 *ngIf="general_invalid_registration_error_flag" class="text-danger"> Server rejected registration credentials. Try changing them. </h3>
+      <label>Username: </label><input class="form-control" name="username"[(ngModel)]="newAdminObject.username">
+      <p *ngIf="username_required_error" class="text-danger"> Username Required. </p>
+      <label>Email: </label><input class="form-control" name="email" [(ngModel)]="newAdminObject.email">
+      <p *ngIf="email_validation_error_flag" class="text-danger"> Invalid Email Format.</p>
+      <p *ngIf="duplicate_email_error" class="text-danger"> Email being used by another active Admin. </p>
+      <label>Password: </label><input class="form-control" name="password" type="password" [(ngModel)]="newAdminObject.password">
+      <p *ngIf="registration_password_error_flag" class="text-danger"> Password must be at least 8 characters long. </p>
+      <p *ngIf="password_confirm_error_flag" class="text-danger" > Error: Password does not match Confirmation Password. </p>
+      <label>Confirm Password:</label><input class="form-control" name="password_confirm" type="password" [(ngModel)]=password_confirm>
+      <input class="btn btn-info space" type="submit" value="Post new Admin">
+  </form>
+</div>
+
+<p *ngIf="registered"> You have registered sucessfully! Check your email to confirm your registration.</p>
 
 <p class="generic-element" *ngIf="open_registration == true && display_use_terms == false"> By registering, it is understood that you have read the terms of use. <button class="btn btn-warning" (click)="toggleTerms()"> Click here to read.</button></p>
 

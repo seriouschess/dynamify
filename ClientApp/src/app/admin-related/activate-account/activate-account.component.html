@@ -1,1 +1,8 @@
-<p>Activating your account...</p>
+<div class="topper"></div>
+
+<p *ngIf="!activated">Activating your account...</p>
+
+<div class="activation-message-box" *ngIf="activated">
+    <h4>Your account has been activated successfully. You should now be able to login with your password and begin using siteleaves.</h4>
+    <p class="msg-bt"> Click here to be redirected to the login page. <button class="btn btn-success" (click)="goToLogin()">Go to login</button> </p>
+</div>    

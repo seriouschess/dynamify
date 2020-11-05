@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   //asthetics
   open_registration:boolean;
   display_use_terms:boolean;
+  registered:boolean;
   
   //validation fields
   error_display: string;
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
   //login validation
   login_password_validation_error_flag: boolean;
   login_email_validation_error_flag: boolean;
+  
 
   general_invalid_registration_error_flag: boolean; //backend denial
 
@@ -62,6 +64,7 @@ export class LoginComponent implements OnInit {
     this.password_confirm = "";
 
     //functionality
+    this.registered = false;
     this.open_registration = false;
     this.display_use_terms = false;
 
@@ -149,9 +152,7 @@ export class LoginComponent implements OnInit {
             this.logged_admin.password = incomingAdmin.password;
             this.logged_admin.token = incomingAdmin.token;
 
-            this._clientStorage.storeAdmin( this.logged_admin );
-
-            this.logEvent.emit(this.logged_admin);
+            this.registered = true;
           }
 
         });
@@ -203,7 +204,7 @@ export class LoginComponent implements OnInit {
             if(errors == 0){ //log admin in
               this.logged_admin = incomingAdmin;
 
-             this._clientStorage.storeAdmin( this.logged_admin );
+              this._clientStorage.storeAdmin( this.logged_admin );
 
               this.logEvent.emit(this.logged_admin); //zero is the default non sql ID value
               this.error_display = "";

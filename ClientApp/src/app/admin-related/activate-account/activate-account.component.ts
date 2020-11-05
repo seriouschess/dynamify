@@ -9,6 +9,8 @@ import { HttpService } from 'src/app/services/http/http.service';
 })
 export class ActivateAccountComponent implements OnInit {
 
+  activated:boolean;
+
   constructor(private _route: ActivatedRoute,
     private _httpClient:HttpService,
     private _router:Router) { }
@@ -17,10 +19,15 @@ export class ActivateAccountComponent implements OnInit {
     this._route.params.subscribe((params:Params) => {
       let email = params['email'];
       let token = params['token'];
-
+      this.activated = false;
+      
       this._httpClient.activateAccount(email, token).subscribe(( ) => {
-        this._router.navigate(['base/admin']);
+        this.activated = true;
       });
     });
+  }
+
+  goToLogin(){
+    this._router.navigate(['base/admin']);
   }
 }

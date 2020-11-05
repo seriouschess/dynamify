@@ -1,0 +1,23 @@
+.topper{
+    background-color: rgb(121, 159, 165);
+    border-bottom: 3px solid rgb(0, 92, 128);
+    height:70px;
+    width:100%;
+}
+
+.activation-message-box{
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
+    display:block;
+    border-radius: 10px;
+    border: 3px solid rgb(109, 128, 0);
+    background-color: rgb(212, 230, 212);
+    width:80%;
+    padding: 5%;
+    text-align: center;
+}
+
+.msg-bt{
+    margin-top: 5%;
+}
