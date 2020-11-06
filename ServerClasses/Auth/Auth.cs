@@ -35,7 +35,7 @@ namespace dynamify.Classes.Auth
         public Admin ValidateAdmin(string email, string password){ //returns admin with access token
             List<Admin> QueryAdmins = dbQueryA.GetAdminsByEmail(email);
             
-            string err_msg = "ACCESS DENIED, Password or Email Invalid";
+            string err_msg = "Password or Email Invalid";
 
             int errors = 0;
             Admin QueryAdmin = null;
