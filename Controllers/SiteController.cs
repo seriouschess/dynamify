@@ -19,14 +19,11 @@ namespace dynamify.Controllers
     [Route("api/[controller]")]
     public class SiteController : ControllerBase
     {
-        private SiteQueries dbQuery;
         private Auth authenticator;
         private SiteControllerMethods methods;
 
         public SiteController(SiteQueries _SiteQueries, AdminQueries _AdminQueries)
         {
-            dbQuery = _SiteQueries;
-            authenticator = new SiteAuth(_AdminQueries, _SiteQueries);
             methods = new SiteControllerMethods(_SiteQueries, _AdminQueries);
         }
 
