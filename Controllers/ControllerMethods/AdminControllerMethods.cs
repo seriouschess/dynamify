@@ -119,11 +119,5 @@ namespace dynamify.Controllers.ControllerMethods
                 throw new System.ArgumentException("Invalid credentials");
             }
         }
-
-        public IEnumerable GetAllMethod(){
-            List<Admin> AllAdmins = dbQuery.All();
-            IEnumerable results = AllAdmins.AsEnumerable();
-            return results;
-        }
     }
 }
