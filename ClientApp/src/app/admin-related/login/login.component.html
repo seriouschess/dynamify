@@ -4,7 +4,7 @@
 <div *ngIf="!registered">
   <h3 class="space generic-element" *ngIf="open_registration == true"> Register Here: </h3>
   <form *ngIf="open_registration == true" class="form-horizontal registration-box generic-element" (submit)="postAdminToService()">
-      <h3 *ngIf="general_invalid_registration_error_flag" class="text-danger"> Server rejected registration credentials. Try changing them. </h3>
+      <h3 *ngIf="general_invalid_registration_error_flag" class="text-danger"> {{login_backend_error_message}} </h3>
       <label>Username: </label><input class="form-control" name="username"[(ngModel)]="newAdminObject.username">
       <p *ngIf="username_required_error" class="text-danger"> Username Required. </p>
       <label>Email: </label><input class="form-control" name="email" [(ngModel)]="newAdminObject.email">

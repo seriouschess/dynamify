@@ -37,10 +37,14 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<Admin> LoginAdminMethod(LoginDto LoginInfo){
-            return authenticator.ValidateAdmin(LoginInfo.email, LoginInfo.password);
+            try{
+                return authenticator.ValidateAdmin(LoginInfo.email, LoginInfo.password);
+            }catch(System.ArgumentException e){
+                return StatusCode(400, e.Message);
+            }
         }
 
-        public Admin RegisterMethod(AdminRegistrationDto _NewAdmin){
+        public ActionResult<Admin> RegisterMethod(AdminRegistrationDto _NewAdmin){
              Admin NewAdmin = new Admin();
 
                 NewAdmin.username = _NewAdmin.username;
@@ -48,7 +52,10 @@ namespace dynamify.Controllers.ControllerMethods
                 NewAdmin.password = _NewAdmin.password;
                 NewAdmin.token = authenticator.Generate().token;
                 string verdict = validator.ValidateAdmin(NewAdmin);
+                //authenticator.ValidateAdmin(NewAdmin.email, unhashed_password); not used
              if(verdict == "pass"){
+
+                //hash password
                 string unhashed_password = _NewAdmin.password; //for the first login 
                 NewAdmin.password = authenticator.HashString(_NewAdmin.password);
                 Admin RegisteredAdmin = dbQuery.SaveNewAdmin(NewAdmin); //create admin
@@ -57,35 +64,20 @@ namespace dynamify.Controllers.ControllerMethods
                 //send validation email
                 mailer.SendRegistrationConfirmationEmail(RegisteredAdmin.email, RegisteredAdmin.token);
 
-                return authenticator.ValidateAdmin(NewAdmin.email, unhashed_password); //email not yet validated!
+                return RegisteredAdmin;
              }else if( verdict == "invalid credentials"){
-                 string message = "< Error: Invalid Registration >";
+                return StatusCode(400, "Invalid Registration" );
 
-                Admin blank_admin = new Admin();
-                blank_admin.username = message;
-                blank_admin.email = message;
-                blank_admin.password = message;
-                blank_admin.token = "XXX";
-
-                return blank_admin;
              }else{
-                string message = "< Error: Duplicate Email >";
-
-                Admin blank_admin = new Admin();
-                blank_admin.username = message;
-                blank_admin.email = message;
-                blank_admin.password = message;
-                blank_admin.token = "XXX";
-
-                return blank_admin;
+                return StatusCode(400, "Duplicate Email, use an Email that has not been taken.");
              }
         }
 
-        public Admin VerifyEmailForAdmin(string admin_email, string admin_token){
+        public ActionResult<Admin> VerifyEmailForAdmin(string admin_email, string admin_token){
             if( authenticator.VerifyAdminForEmailValidation(admin_email, admin_token) ){
                 return dbQuery.SetValidEmailAdmin(admin_email, admin_token);
             }else{
-                throw new System.ArgumentException("Invalid credentials");
+                return StatusCode(400, "Invalid credentials");
             }
         }
 

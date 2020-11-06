@@ -25,6 +25,8 @@ export class LoginComponent implements OnInit {
   open_registration:boolean;
   display_use_terms:boolean;
   registered:boolean;
+
+  login_backend_error_message:any;//:string;
   
   //validation fields
   error_display: string;
@@ -67,6 +69,7 @@ export class LoginComponent implements OnInit {
     this.registered = false;
     this.open_registration = false;
     this.display_use_terms = false;
+    //this.login_backend_error_message = "";
 
     //validation flags
     this.general_invalid_registration_error_flag = false; //backend denial
@@ -125,36 +128,29 @@ export class LoginComponent implements OnInit {
   }
 
   postAdminToService(){
+    //initialize error flags
+    this.general_invalid_registration_error_flag = false;
+    this.duplicate_email_error = false;
+    this.login_backend_error_message = "";
+
     if (this.validateRegistration()){
-      //this.newAdminObject.admin_id = 0; //will be changed on the backend
+      
       this._httpService.postAdmin<AdminRegistrationDto>(this.newAdminObject).subscribe( //send new admin to backend
         result => {
           let _incomingAdmin:any = result; //it's an Admin though.
           let incomingAdmin:Admin = _incomingAdmin;
 
-          //initialize error flags
-          this.general_invalid_registration_error_flag = false;
-          this.duplicate_email_error = false;
+          //initialize newly created admin
+          this.logged_admin.admin_id = incomingAdmin.admin_id;
+          this.logged_admin.username = incomingAdmin.username;
+          this.logged_admin.email = incomingAdmin.email;
+          this.logged_admin.password = incomingAdmin.password;
+          this.logged_admin.token = incomingAdmin.token;
+          this.registered = true;
 
-          if(incomingAdmin.username == "< Error: Invalid Registration >"){ //clear backend validators
-
-            //notify user of denied credentials
-            this.general_invalid_registration_error_flag = true;
-
-          }else if(incomingAdmin.username == "< Error: Duplicate Email >"){
-            this.duplicate_email_error = true;
-
-          }else{
-            //initialize newly created admin
-            this.logged_admin.admin_id = incomingAdmin.admin_id;
-            this.logged_admin.username = incomingAdmin.username;
-            this.logged_admin.email = incomingAdmin.email;
-            this.logged_admin.password = incomingAdmin.password;
-            this.logged_admin.token = incomingAdmin.token;
-
-            this.registered = true;
-          }
-
+        }, err =>{   //400s or worse
+          this.general_invalid_registration_error_flag = true;
+          this.login_backend_error_message = err.error;
         });
     }
   }
