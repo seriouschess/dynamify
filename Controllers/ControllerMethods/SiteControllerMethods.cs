@@ -126,15 +126,17 @@ namespace dynamify.Controllers.ControllerMethods
         public ActionResult<JsonResponse> PostLinkBoxMethod(NewLinkBoxDto _NewLinkBox, int admin_id, string admin_token){
 
                 LinkBox NewLinkBox = new LinkBox();
+
                 NewLinkBox.title = _NewLinkBox.title;
-                NewLinkBox.priority = _NewLinkBox.priority;
-                NewLinkBox.site_id = _NewLinkBox.site_id;
                 NewLinkBox.content = _NewLinkBox.content;
                 NewLinkBox.url = _NewLinkBox.url;
                 NewLinkBox.link_display = _NewLinkBox.link_display;
-                NewLinkBox.byte_size = NewLinkBox.FindCharLength();
 
-             if(authenticator.VerifyComponentModification(admin_id, _NewLinkBox.site_id, admin_token, NewLinkBox)){
+
+                NewLinkBox.priority = _NewLinkBox.priority;
+                NewLinkBox.site_id = _NewLinkBox.site_id;
+
+             if(authenticator.VerifyComponentModification(admin_id, NewLinkBox.site_id, admin_token, NewLinkBox)){
 
                 dbQuery.AddLinkBox(NewLinkBox);
                 JsonResponse r = new JsonSuccess("Link Box posted sucessfully!");
