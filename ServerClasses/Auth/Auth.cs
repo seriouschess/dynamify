@@ -16,11 +16,9 @@ namespace dynamify.Classes.Auth
             "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
             "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
             };
-        
-        protected DataLimiter _dataLimiter; 
+
         public Auth(AdminQueries _dbQueryA){
             dbQueryA = _dbQueryA;
-            _dataLimiter = new DataLimiter();
         }
 
         public Token Generate(){ //produces a random string of length 15 using charset
@@ -105,8 +103,10 @@ namespace dynamify.Classes.Auth
 
     class SiteAuth: Auth{
         private SiteQueries dbQueryS;
-        public SiteAuth(AdminQueries _dbQueryA, SiteQueries _dbQueryS):base(_dbQueryA){
+        private DataLimiter _dataLimiter; 
+        public SiteAuth(AdminQueries _dbQueryA, SiteQueries _dbQueryS, DataLimiter dataLimiter):base(_dbQueryA){
             dbQueryS = _dbQueryS;
+            _dataLimiter = dataLimiter;
         }
 
          public bool VerifyAdminForLeaf(int admin_id, int site_id, string token){ //use when modifying a leaf

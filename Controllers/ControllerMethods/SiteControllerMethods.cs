@@ -19,12 +19,14 @@ namespace dynamify.Controllers.ControllerMethods
     {
         private SiteQueries dbQuery;
         private SiteAuth authenticator;
+        private DataLimiter _dataLimiter;
 
         private SiteCreationValidator validator;
 
         public SiteControllerMethods(SiteQueries _dbQuery, AdminQueries _AdbQuery){
             dbQuery = _dbQuery;
-            authenticator = new SiteAuth(_AdbQuery, _dbQuery);
+            _dataLimiter = new DataLimiter(_AdbQuery);
+            authenticator = new SiteAuth(_AdbQuery, _dbQuery, _dataLimiter);
             validator = new SiteCreationValidator(dbQuery);
         }
 
@@ -253,6 +255,8 @@ namespace dynamify.Controllers.ControllerMethods
                 if(Component.component_type == "p_box"){
                     try{
                         ParagraphBox paragraph_box = dbQuery.DeleteParagraphBox(Component.component_id);
+                        Site parent_site = dbQuery.QueryFeaturelessSiteById(paragraph_box.site_id);
+                        _dataLimiter.RemoveFromDataPlan(paragraph_box, parent_site.admin_id);
                         JsonResponse r = new JsonSuccess("Paragraph box deleted sucessfully!");
                         return r;
                     }catch{
@@ -263,6 +267,8 @@ namespace dynamify.Controllers.ControllerMethods
                 }else if(Component.component_type == "image"){
                     try{
                         Image image = dbQuery.DeleteImage(Component.component_id);
+                        Site parent_site = dbQuery.QueryFeaturelessSiteById(image.site_id);
+                        _dataLimiter.RemoveFromDataPlan(image, parent_site.admin_id);
                         JsonResponse r = new JsonSuccess("Image deleted sucessfully!");
                         return r;
                     }catch{
@@ -272,6 +278,8 @@ namespace dynamify.Controllers.ControllerMethods
                 }else if(Component.component_type == "portrait"){
                     try{
                         Portrait portrait = dbQuery.DeletePortrait(Component.component_id);
+                        Site parent_site = dbQuery.QueryFeaturelessSiteById(portrait.site_id);
+                        _dataLimiter.RemoveFromDataPlan(portrait, parent_site.admin_id);
                         JsonResponse r = new JsonSuccess("Portrait component deleted sucessfully!");
                         return r; 
                     }catch{
@@ -281,6 +289,8 @@ namespace dynamify.Controllers.ControllerMethods
                 }else if(Component.component_type == "2c_box"){
                     try{
                         TwoColumnBox two_column_box = dbQuery.DeleteTwoColumnBox(Component.component_id);
+                        Site parent_site = dbQuery.QueryFeaturelessSiteById(two_column_box.site_id);
+                        _dataLimiter.RemoveFromDataPlan(two_column_box, parent_site.admin_id);
                         JsonResponse r = new JsonSuccess("Two Column Box component deleted sucessfully!");
                         return r;
                     }catch{
@@ -289,11 +299,13 @@ namespace dynamify.Controllers.ControllerMethods
                     }
                 }else if(Component.component_type == "link_box"){
                     try{
-                        LinkBox portrait = dbQuery.DeleteLinkBox(Component.component_id);
+                        LinkBox link_box = dbQuery.DeleteLinkBox(Component.component_id);
+                        Site parent_site = dbQuery.QueryFeaturelessSiteById(link_box.site_id);
+                        _dataLimiter.RemoveFromDataPlan(link_box, parent_site.admin_id);
                         JsonResponse r = new JsonSuccess("Link Box component deleted sucessfully!");
                         return r;
                     }catch{
-                        JsonFailure f = new JsonFailure($"Unable to find portrait id {Component.component_id}");
+                        JsonFailure f = new JsonFailure($"Unable to find link box id {Component.component_id}");
                         return StatusCode(400, f);
                     }
                 }else{
