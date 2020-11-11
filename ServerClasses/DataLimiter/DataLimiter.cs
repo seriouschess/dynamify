@@ -21,9 +21,9 @@ namespace dynamify.ServerClasses.DataLimiter
             DataPlan admin_data_plan =_dbQuery.FindDataPlanByAdminId(admin_id);
             admin_data_plan.total_bytes -= site_component.FindCharLength();
             _dbQuery.UpdateDataPlan( admin_data_plan );
-             
         }
 
+        //adds data to plan if not above max
         public bool ValidateDataPlan(SiteComponent site_component, DataPlan data_plan){
             data_plan.total_bytes -= site_component.byte_size;
             site_component.byte_size = site_component.FindCharLength();

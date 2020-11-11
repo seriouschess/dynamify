@@ -132,9 +132,10 @@ namespace dynamify.Controllers.ControllerMethods
                 NewLinkBox.url = _NewLinkBox.url;
                 NewLinkBox.link_display = _NewLinkBox.link_display;
 
-
+                
                 NewLinkBox.priority = _NewLinkBox.priority;
                 NewLinkBox.site_id = _NewLinkBox.site_id;
+                NewLinkBox.byte_size = NewLinkBox.FindCharLength();
 
              if(authenticator.VerifyComponentModification(admin_id, NewLinkBox.site_id, admin_token, NewLinkBox)){
 
