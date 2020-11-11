@@ -131,7 +131,7 @@ namespace dynamify.Classes.Auth
                 //check data limits
                 DataPlan data_plan = dbQueryA.FindDataPlanByAdminId(admin_id);
                 if(_dataLimiter.ValidateDataPlan(component, data_plan)){
-                    dbQueryA.UpdateDataPlan(data_plan);
+                    
                     //return verdict
                     return true;
                 }else{

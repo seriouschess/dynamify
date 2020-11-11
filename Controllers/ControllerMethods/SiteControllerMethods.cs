@@ -48,13 +48,18 @@ namespace dynamify.Controllers.ControllerMethods
             if(authenticator.VerifyAdmin(NewSite.admin_id, NewSite.token)){
                 string verdict = validator.ValidateSiteUrl(NewSite.url);
                 if(verdict == "pass"){
-                    Site SoonToAddSite = new Site();
-                    SoonToAddSite.title = NewSite.title;
-                    SoonToAddSite.admin_id = NewSite.admin_id;
-                    SoonToAddSite.url = NewSite.url.ToLower();
-                    dbQuery.AddSite(SoonToAddSite);
-                    JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
-                    return r;
+                    if(_dataLimiter.ValidateSiteAdditionForDataPlan(NewSite.admin_id)){
+                        Site SoonToAddSite = new Site();
+                        SoonToAddSite.title = NewSite.title;
+                        SoonToAddSite.admin_id = NewSite.admin_id;
+                        SoonToAddSite.url = NewSite.url.ToLower();
+                        dbQuery.AddSite(SoonToAddSite);
+                        JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
+                        return r;
+                    }else{
+                        JsonFailure f = new JsonFailure("Data plan exceeds limit. Check Data limits for this account.");
+                        return StatusCode(400, f);
+                    }
                 }else{
                     JsonFailure f = new JsonFailure(verdict);
                     return StatusCode(400, f);

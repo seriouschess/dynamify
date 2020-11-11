@@ -16,6 +16,21 @@ namespace dynamify.ServerClasses.DataLimiter
             return character_sum;
         }
 
+        //site
+
+        public bool ValidateSiteAdditionForDataPlan(int admin_id){
+            int site_container_size = 500; //arbitrary number
+            DataPlan admin_data_plan =_dbQuery.FindDataPlanByAdminId(admin_id);
+            if( site_container_size + admin_data_plan.total_bytes <= admin_data_plan.max_bytes ){
+                _dbQuery.UpdateDataPlan( admin_data_plan );
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        //site components
+
         //does not remove component itself.
         public void RemoveFromDataPlan(SiteComponent site_component, int admin_id){
             DataPlan admin_data_plan =_dbQuery.FindDataPlanByAdminId(admin_id);
@@ -28,10 +43,11 @@ namespace dynamify.ServerClasses.DataLimiter
             data_plan.total_bytes -= site_component.byte_size;
             site_component.byte_size = site_component.FindCharLength();
             data_plan.total_bytes += site_component.byte_size;
-            if( data_plan.total_bytes >= data_plan.max_bytes ){
-                return false;
-            }else{
+            if( data_plan.total_bytes <= data_plan.max_bytes ){
+                _dbQuery.UpdateDataPlan( data_plan );
                 return true;
+            }else{
+                return false;
             }
         }
     }
