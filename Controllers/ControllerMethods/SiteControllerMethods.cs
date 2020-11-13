@@ -175,6 +175,16 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<JsonResponse> DeleteSite(int site_id, int admin_id, string admin_token){
             if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                SkeletonSiteDto found_site = dbQuery.QuerySkeletonSiteById(site_id);
+
+                //must be done manually by the app to properly update the data limiter
+                foreach(SiteComponentDto site_component in found_site.site_components){
+                    ComponentReference component_reference = new ComponentReference(){
+                        component_id = site_component.component_id,
+                        component_type = site_component.type
+                    };
+                    DeleteAuthenticatedSiteComponentMethod(component_reference);
+                }
                 Site DeletedSite = dbQuery.DeleteSiteById(site_id);
                 JsonResponse r = new JsonSuccess($"Site {DeletedSite.title} deleted sucessfully!");
                 return r;
@@ -256,10 +266,18 @@ namespace dynamify.Controllers.ControllerMethods
                 return StatusCode(400, f);
             }
         }
-        
+
         public ActionResult<JsonResponse> DeleteSiteComponentMethod(ComponentReference Component, int admin_id, string admin_token, int site_id){
 
             if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                return DeleteAuthenticatedSiteComponentMethod(Component);
+            }else{
+                JsonFailure f = new JsonFailure("Invalid credentials.");
+                return StatusCode(400, f);
+            }
+        }
+
+        public ActionResult<JsonResponse> DeleteAuthenticatedSiteComponentMethod(ComponentReference Component){
                 if(Component.component_type == "p_box"){
                     try{
                         ParagraphBox paragraph_box = dbQuery.DeleteParagraphBox(Component.component_id);
@@ -320,11 +338,8 @@ namespace dynamify.Controllers.ControllerMethods
                     JsonFailure f = new JsonFailure("Type mismatch. Type does not match any known components.");
                     return StatusCode(400, f);
                 }
-            }else{
-                JsonFailure f = new JsonFailure("Invalid credentials.");
-                return StatusCode(400, f);
-            }
         }
+        
 
         public ActionResult<JsonResponse> DeleteNavBarMethod(int admin_id, string admin_token, int site_id){
             if(authenticator.VerifyAdminForLeaf( admin_id, site_id, admin_token )){
