@@ -1,3 +1,4 @@
+using dynamify.Models.AnalyticsModels;
 using dynamify.Models.SiteModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,5 +29,8 @@ namespace dynamify.Models
         public DbSet<NavLink> NavLinks {get;set;}
 
         public DbSet<NavBar> NavBars {get;set;}
+
+        //analytics
+        public DbSet<ViewSession> ViewSessions {get;set;}
     }
 }

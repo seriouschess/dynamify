@@ -49,6 +49,7 @@ namespace dynamify
             services.AddDbContext<DatabaseContext>(options => options.UseMySql(mySqlConnection));
             services.AddScoped<AdminQueries>();
             services.AddScoped<SiteQueries>();
+            services.AddScoped<AnalyticsQueries>();
             services.AddScoped<Mailer>();
 
             services.AddSwaggerDocument();
