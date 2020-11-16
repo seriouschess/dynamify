@@ -1,7 +1,4 @@
 <app-page-not-found *ngIf="formatted_site.title == null"></app-page-not-found>
 <app-page-generator *ngIf="formatted_site.title != null" [formatted_site]="formatted_site"></app-page-generator>
 
-<!-- <p>{{formatted_site | json}}</p> -->
-
-<app-ana *ngIf='leaf_url != null 
-&& sucessful_load === true'></app-ana>
+<app-ana *ngIf='leaf_url != null'></app-ana>

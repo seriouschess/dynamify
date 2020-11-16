@@ -61,7 +61,9 @@ export class AnaComponent implements OnInit, OnDestroy {
   update( ){
     console.log("Update Test");
     console.log(JSON.stringify(this.s));
-    this._httpService.updateSession(this.s);
+    this._httpService.updateSession(this.s).subscribe(res => {
+      console.log(res);
+    });
   }
 
 }
