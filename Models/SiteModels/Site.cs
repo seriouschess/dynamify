@@ -16,8 +16,6 @@ namespace dynamify.Models.SiteModels
 
         public string url {get;set;}
 
-        public bool active {get;set;} = false; 
-
         [Required]
         [ForeignKey("owner")]
         public int admin_id {get;set;}

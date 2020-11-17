@@ -101,7 +101,6 @@ namespace dynamify.ServerClasses.QueryClasses
             {
                 site_id = site_id_parameter,
                 title = site.title,
-                active = site.active,
                 admin_id = site.admin_id,
                 owner = dbContext.Admins.Where(x => x.admin_id == site.admin_id).Select(s => new Admin()
                 {
