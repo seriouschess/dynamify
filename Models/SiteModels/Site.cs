@@ -2,6 +2,7 @@ using System; //for datetime
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using dynamify.Models.AnalyticsModels;
 
 namespace dynamify.Models.SiteModels
 {
@@ -28,18 +29,21 @@ namespace dynamify.Models.SiteModels
 
         [InverseProperty("site")]
         public List<ParagraphBox> paragraph_boxes {get;set;}
+
         [InverseProperty("site")]
         public List<Image> images {get;set;}
+
         [InverseProperty("site")]
         public List<TwoColumnBox> two_column_boxes {get;set;}
 
         [InverseProperty("site")]
-
         public List<Portrait> portraits {get;set;}
+
         [InverseProperty("site")]
         public List<LinkBox> link_boxes {get;set;}
 
-        //public list[Admin] colaberators {get;set;}
+        [InverseProperty("site")]
+        public List<ViewSession> views {get;set;}
 
         public DateTime CreatedAt {get;set;} = DateTime.Now;
         public DateTime UpdatedAt {get;set;} = DateTime.Now;

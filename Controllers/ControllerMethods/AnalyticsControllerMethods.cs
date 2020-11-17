@@ -1,6 +1,7 @@
 using System;
 using dynamify.Models.AnalyticsModels;
 using dynamify.Models.JsonModels;
+using dynamify.ServerClasses.Analytics;
 using dynamify.ServerClasses.Auth;
 using dynamify.ServerClasses.QueryClasses;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +12,12 @@ namespace dynamify.Controllers.ControllerMethods
     {
         private AnalyticsQueries _dbQuery;
         private TokenGenerator _gen;
+
+        private Formatter _urlFormatter;
         public AnalyticsControllerMethods(AnalyticsQueries dbQuery){
             _dbQuery = dbQuery;
             _gen = new TokenGenerator();
+            _urlFormatter = new Formatter();
         }
 
         public ActionResult<ViewSession> genUserSessionMethod(ViewSession NewSession){
@@ -22,8 +26,9 @@ namespace dynamify.Controllers.ControllerMethods
             try{ //load object
                 verdict = (NewSession.token == "duaiosfbol");
                 NewSession.session_id = 0;
-                NewSession.url = NewSession.url;
+                NewSession.url = _urlFormatter.StripDomainFromUrl(NewSession.url);
                 NewSession.token = _gen.GenerateToken();
+                NewSession.site_id = _dbQuery.querySiteIdForUrl(NewSession.url);
             }catch{ //invalid object
                 JsonFailure f = new JsonFailure($"Unable to parse object. See documentation.");
                 return StatusCode(400, f);

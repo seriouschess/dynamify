@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using dynamify.Models.SiteModels;
 
 namespace dynamify.Models.AnalyticsModels
 {
@@ -16,5 +18,9 @@ namespace dynamify.Models.AnalyticsModels
         public int time_on_homepage {get;set;}
 
         public DateTime created_at {get;set;} = DateTime.Now;
+
+        [ForeignKey("site")]
+        public int site_id {get;set;}
+        public Site site {get;set;}
     }
 }
