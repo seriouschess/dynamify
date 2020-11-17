@@ -12,7 +12,7 @@ namespace dynamify.ServerClasses.Auth
 
         public TokenGenerator(){ }
 
-        public string GenerateViewSesionToken(){ //produces a random string of length 15 using charset
+        public string GenerateToken(){ //produces a random string of length 15 using charset
             Random rand = new Random();
             string auth_token = "";
             for(int x=0; x<15 ;x++){

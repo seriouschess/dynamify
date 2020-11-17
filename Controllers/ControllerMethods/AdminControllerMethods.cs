@@ -25,15 +25,18 @@ namespace dynamify.Controllers.ControllerMethods
 
         private Auth authenticator;
 
+        private TokenGenerator _tGen;
+
         private RegistrationValidator validator;
 
         private Mailer mailer;
 
         public AdminControllerMethods(AdminQueries _dbQuery, Mailer _mailer){
             dbQuery = _dbQuery;
+            mailer = _mailer;
             authenticator = new Auth(_dbQuery);
             validator = new RegistrationValidator(_dbQuery);
-            mailer = _mailer;
+            _tGen = new TokenGenerator();
         }
 
         public ActionResult<Admin> LoginAdminMethod(LoginDto LoginInfo){
@@ -45,14 +48,17 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<Admin> RegisterMethod(AdminRegistrationDto _NewAdmin){
-             Admin NewAdmin = new Admin();
 
-                NewAdmin.username = _NewAdmin.username;
-                NewAdmin.email = _NewAdmin.email;
-                NewAdmin.password = _NewAdmin.password;
-                NewAdmin.token = authenticator.Generate().token;
+                Admin NewAdmin = new Admin(){
+                    username = _NewAdmin.username,
+                    email = _NewAdmin.email,
+                    password = _NewAdmin.password,
+                    token = _tGen.GenerateToken()
+                };
+                
                 string verdict = validator.ValidateAdmin(NewAdmin);
                 //authenticator.ValidateAdmin(NewAdmin.email, unhashed_password); not used
+
              if(verdict == "pass"){
 
                 //hash password

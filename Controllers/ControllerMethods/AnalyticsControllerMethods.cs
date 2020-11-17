@@ -23,7 +23,7 @@ namespace dynamify.Controllers.ControllerMethods
                 verdict = (NewSession.token == "duaiosfbol");
                 NewSession.session_id = 0;
                 NewSession.url = NewSession.url;
-                NewSession.token = _gen.GenerateViewSesionToken();
+                NewSession.token = _gen.GenerateToken();
             }catch{ //invalid object
                 JsonFailure f = new JsonFailure($"Unable to parse object. See documentation.");
                 return StatusCode(400, f);
