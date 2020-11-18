@@ -517,6 +517,7 @@ namespace dynamify.ServerClasses.QueryClasses
             if(updated_two_column_box.byte_size == 0){
                 throw new System.ArgumentException("Paragraph box must have byte size greater than 0. Is it being calculated?");
             }
+            System.Console.WriteLine($"Two column box title to update: {updated_two_column_box.title}");
             TwoColumnBox two_column_box_to_update = QueryTwoColumnBoxById(updated_two_column_box.two_column_box_id);
             two_column_box_to_update.heading_one = updated_two_column_box.heading_one;
             two_column_box_to_update.heading_two = updated_two_column_box.heading_two;
@@ -524,6 +525,8 @@ namespace dynamify.ServerClasses.QueryClasses
             two_column_box_to_update.content_two = updated_two_column_box.content_two;
             two_column_box_to_update.title = updated_two_column_box.title;
             two_column_box_to_update.UpdatedAt = DateTime.Now;
+            UpdateSiteDateTime(two_column_box_to_update.site_id);
+            dbContext.SaveChanges();
             return two_column_box_to_update;
         }
 
