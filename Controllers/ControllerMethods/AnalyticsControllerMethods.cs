@@ -2,6 +2,7 @@ using System;
 using dynamify.Models.AnalyticsModels;
 using dynamify.Models.JsonModels;
 using dynamify.ServerClasses.Analytics;
+using dynamify.ServerClasses.Analytics.dtos;
 using dynamify.ServerClasses.Auth;
 using dynamify.ServerClasses.QueryClasses;
 using Microsoft.AspNetCore.Mvc;
@@ -59,9 +60,24 @@ namespace dynamify.Controllers.ControllerMethods
                 JsonFailure f = new JsonFailure($"Invalid token for session ID: {CurrentSession.session_id}.");
                 return StatusCode(400,f);
             }
-
         }
 
+        //analytics queries
+        public ActionResult<SiteViewDataDto> GetAnalyticsForSiteByIdMethod(int site_id){
+            SiteViewDataDto output_data = new SiteViewDataDto();
+            output_data.total_view_count = _dbQuery.returnViewCountForSiteId(site_id);
+            output_data.views_this_month = _dbQuery.returnViewCountForSiteIdThisMonth(site_id);
+            return output_data;
+        }
 
+        public ActionResult<SiteViewDataDto> GetAnalyticsForSiteByURLMethod( string site_url ){
+            int found_site_id;
+            try{
+                found_site_id = _dbQuery.querySiteIdForUrl(site_url);
+            }catch(ArgumentException e){
+                return StatusCode(400, e.Message);
+            }
+            return GetAnalyticsForSiteByIdMethod(found_site_id);
+        }
     }
 }

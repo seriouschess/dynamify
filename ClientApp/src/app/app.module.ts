@@ -37,6 +37,7 @@ import { ImageEditorComponent } from './editor/component-editors/image-editor/im
 import { PortraitEditorComponent } from './editor/component-editors/portrait-editor/portrait-editor.component';
 import { LinkBoxEditorComponent } from './editor/component-editors/link-box-editor/link-box-editor.component';
 import { ContactFormComponent } from './contact-form/contact-form.component';
+import { SiteAnalyticsComponent } from './site-analytics/site-analytics.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
     ImageEditorComponent,
     PortraitEditorComponent,
     LinkBoxEditorComponent,
-    ContactFormComponent
+    ContactFormComponent,
+    SiteAnalyticsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

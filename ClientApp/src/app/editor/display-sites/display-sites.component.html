@@ -15,6 +15,7 @@
       <thead>
         <tr *ngIf="all_sites.length > 0">
           <th> Leaf Title </th>
+          <th> Total Views </th>
           <th> Edit Leaf </th>
           <th> Delete </th>
           <th class="no-mobile"> Live At </th>
@@ -23,6 +24,7 @@
       <tbody>
         <tr *ngFor="let site of all_sites">
           <td>{{ site.title }}</td>
+          <td><app-site-analytics [site_id]="site.site_id"></app-site-analytics></td>
           <td *ngIf="!is_tutorial"><button class="btn btn-success" (click)="editSite(site.site_id)">Edit</button></td>
           <td *ngIf="is_tutorial && tutorial_sequence < 4"><button class="btn btn-success" (click)="editSite(site.site_id)">Edit</button></td>
           <td *ngIf="is_tutorial && tutorial_sequence == 4"><button class="btn btn-success highlight" (click)="editSite(0)">Edit</button></td>

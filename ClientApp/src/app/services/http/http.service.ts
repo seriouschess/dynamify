@@ -22,6 +22,7 @@ import { JsonResponseDto } from 'src/app/interfaces/dtos/json_response_dto';
 import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/NewNavLinKDto';
 import { ComponentReference } from 'src/app/interfaces/dtos/site_components/ComponentReference';
 import { ContactForm } from 'src/app/interfaces/dtos/reports_related/ContactForm';
+import { ISiteViewDto } from 'src/app/interfaces/dtos/analytics_dtos/SiteViewDto';
 
 @Injectable({
   providedIn: 'root'
@@ -217,7 +218,12 @@ export class HttpService {
     //   url: window.location.href
     // }
     return this._http.post(`api/analytics/update`, s);
-  } 
+  }
+  
+  //retrieve analytics data
+  getAnalyticsForSite(site_id:number ){
+    return this._http.get<ISiteViewDto>(`api/analytics/by_site_id/${site_id}`);
+  }
 }
 
 

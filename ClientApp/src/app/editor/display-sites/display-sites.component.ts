@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpService } from '../../services/http/http.service';
 import { INewSiteDto } from '../../interfaces/dtos/database_changers/new_site_dto';
 import { JsonResponseDto } from '../../interfaces/dtos/json_response_dto';
+import { ISiteViewDto } from 'src/app/interfaces/dtos/analytics_dtos/SiteViewDto';
 
 @Component({
   selector: 'app-display-sites',
@@ -117,7 +118,7 @@ export class DisplaySitesComponent implements OnInit {
   }
 
   //creates a new site without any content
-  postSiteToService(){ //add a validator!
+  postSiteToService(){
     if(this.validateSite()){
       if(this.is_tutorial && this.tutorial_sequence == 3){
         this.all_sites = [];
