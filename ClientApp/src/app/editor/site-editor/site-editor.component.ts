@@ -42,6 +42,9 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   preview_mode: boolean;
   open_next_component: string;
   nav_bar_editor_open: boolean;
+  add_title_option_active:boolean;
+  tcb_heading_one_option_active:boolean;
+  tcb_heading_two_option_active:boolean;
 
   //dtos
   formatted_skeleton_site:ISkeletonSiteDto;
@@ -82,6 +85,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     this.open_next_component = ""; //used to select editor
     this.nav_bar_editor_open = false;
     this.preview_mode = false;
+    this.add_title_option_active = false;
 
     this.requireSite();
   }
@@ -130,6 +134,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
       url: "",
       link_display: ""
     }
+
   }
 
 
@@ -217,6 +222,10 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     }else{
       this.nav_bar_editor_open = false;
     }
+  }
+
+  toggleAddTitle(){
+    this.add_title_option_active = !this.add_title_option_active;
   }
 
   resetEditOptions(){

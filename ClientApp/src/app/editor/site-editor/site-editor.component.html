@@ -110,13 +110,14 @@
     <div class="editor-form" *ngIf="open_next_component === '2c_box'">
       <h3> Add a two column box </h3>
       <form (submit)=postTwoColumnBoxToService()>
-        <p *ngIf="new_2c_box.title === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
-        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_2c_box.title"></p>
-        <p *ngIf="new_2c_box.heading_one === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p><button class="btn btn-info" *ngIf="!add_title_option_active" (click)="toggleAddTitle()">Add Title</button></p>
+        <p *ngIf="new_2c_box.title === '' && add_title_option_active" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p *ngIf="add_title_option_active"><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_2c_box.title"></p>
+        <p *ngIf="new_2c_box.heading_one === ''" class="text-info"> You may leave the heading blank. A blank heading will not appear in your leaf. </p>
         <p><label>Column One Heading: </label><input class="title_box" name="heading_one" [(ngModel)]="new_2c_box.heading_one"></p>
         <p *ngIf="validator.tcb_content_one_invalid_flag" class="text-danger">Enter valid content or consider using a different component type.</p>
         <p><label>Column One Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_one" [(ngModel)]="new_2c_box.content_one"></textarea></p>
-        <p *ngIf="new_2c_box.heading_two === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p *ngIf="new_2c_box.heading_two === ''" class="text-info"> You may leave the heading blank. A blank heading will not appear in your leaf. </p>
         <p><label>Column Two Heading: </label><input class="title_box" name="heading_two" [(ngModel)]="new_2c_box.heading_two"></p>
         <p *ngIf="validator.tcb_content_two_invalid_flag" class="text-danger"> Enter valid content or consider using a different component type. </p>
         <p><label>Column Two Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_two" [(ngModel)]="new_2c_box.content_two"></textarea></p>
@@ -127,8 +128,9 @@
     <div class="editor-form" *ngIf="open_next_component === 'image'">
       <h3> Add an image </h3>
       <form (submit)=postImageToService()>
-        <p *ngIf="new_image.title === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
-        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_image.title"></p>
+        <p><button class="btn btn-info" *ngIf="!add_title_option_active" (click)="toggleAddTitle()">Add Title</button></p>
+        <p *ngIf="new_image.title === '' && add_title_option_active" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p *ngIf="add_title_option_active"><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_image.title"></p>
         <p *ngIf="validator.image_src_invalid_flag" class="text-danger">File must be a valid .png or .jpg</p>
         <p *ngIf="validator.image_src_invalid_size_flag" class="text-danger">File size must be less than 500 Kilobytes. Try resizing to a smaller image.</p>
         <p><label>Add a .png or .jpg image file: </label><input type="file" (change)="fileConversionListener($event)"></p> 
@@ -140,8 +142,9 @@
     <div class="editor-form" *ngIf="open_next_component === 'portrait'">
       <h3> Add a portrait </h3>
       <form (submit)=postPortraitToService()>
-        <p *ngIf="new_portrait.title === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
-        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_portrait.title"></p>
+        <p><button class="btn btn-info" *ngIf="!add_title_option_active" (click)="toggleAddTitle()">Add Title</button></p>
+        <p *ngIf="new_portrait.title === '' && add_title_option_active" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p *ngIf="add_title_option_active"><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_portrait.title"></p>
         <p *ngIf="validator.image_src_invalid_flag" class="text-danger">File must be a valid .png or .jpg</p>
         <p *ngIf="validator.image_src_invalid_size_flag" class="text-danger">File size must be less than 500 Kilobytes. Try resizing to a smaller image.</p>
         <p><label>Add a .png or .jpg image file: </label><input type="file" (change)="fileConversionListener($event)"></p>
@@ -155,8 +158,9 @@
     <div class="editor-form" *ngIf="open_next_component === 'p_box'">
       <h3> Add a paragraph box </h3>
       <form (submit)=postParagraphBoxToService()>
-        <p *ngIf="new_paragraph_box.title == ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
-        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
+        <p><button class="btn btn-info" *ngIf="!add_title_option_active" (click)="toggleAddTitle()">Add Title</button></p>
+        <p *ngIf="new_paragraph_box.title == '' && add_title_option_active" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p *ngIf="add_title_option_active"><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
         <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>
         <p *ngIf="validator.pbox_content_invalid_flag" class="text-danger">Enter valid content text or consider a different component type.</p>
         <p><input type="submit" class="btn btn-warning" value="Add Paragraph Box"></p>
@@ -166,8 +170,9 @@
     <div class="editor-form" *ngIf="open_next_component === 'link_box'">
       <h3> Add a link and description </h3>
       <form (submit)=postLinkBoxToService()>
-        <p *ngIf="new_link_box.title == ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
-        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_link_box.title"></p>
+        <p><button class="btn btn-info" *ngIf="!add_title_option_active" (click)="toggleAddTitle()">Add Title</button></p>
+        <p *ngIf="new_link_box.title == '' && add_title_option_active" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+        <p *ngIf="add_title_option_active"><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_link_box.title"></p>
         <p><label>Description: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_link_box.content"></textarea></p>
         <p *ngIf="validator.link_box_content_invalid_flag" class="text-danger">Enter a description for your link. This will be displayed next to the link.</p>
         <p *ngIf="new_link_box.url === ''" class="text-info" > Link will go to http://(Your url here!) </p>
