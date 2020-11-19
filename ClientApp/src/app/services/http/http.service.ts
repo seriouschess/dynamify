@@ -23,6 +23,7 @@ import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/NewNavLin
 import { ComponentReference } from 'src/app/interfaces/dtos/site_components/ComponentReference';
 import { ContactForm } from 'src/app/interfaces/dtos/reports_related/ContactForm';
 import { ISiteViewDto } from 'src/app/interfaces/dtos/analytics_dtos/SiteViewDto';
+import { DataPlan } from 'src/app/interfaces/dtos/admin_related/data_plan';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,12 @@ export class HttpService {
   changeAdminPassword(admin_email:string, admin_token:string, new_password:string){
     return this._http.request<Admin>(`put`, `api/admin/password/reset/${admin_email}/${admin_token}/${new_password}`);
   }
+
+  //Admin DataPlan management
+  getDataPlanByAdminId(admin_id:number){
+    return this._http.get<DataPlan>(`api/admin/data_plan/${admin_id}`);
+  }
+
 
   //site services
 

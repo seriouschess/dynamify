@@ -68,5 +68,12 @@ namespace dynamify.Controllers
         public ActionResult<Admin> UpdatePassword(string admin_email, string admin_token, string new_password){
             return methods.UpdatePasswordMethod(admin_email, admin_token, new_password);
         }
+
+        //DataPlans
+        [HttpGet]
+        [Route("data_plan/{admin_id}")]
+        public ActionResult<DataPlan> GetDataPlanForAdminId(int admin_id){
+            return methods.GetDataPlanForAdminIdMethod(admin_id);
+        }
     }
 }

@@ -20,8 +20,7 @@ namespace dynamify.ServerClasses.QueryClasses
                 email = a.email,
                 token = a.token,
                 password = a.password,
-                email_verified = a.email_verified,
-                data_plans = dbContext.DataPlans.Where(x => x.admin_id == admin_id).ToList()
+                email_verified = a.email_verified
             }).SingleOrDefault();
         }
 
@@ -117,7 +116,7 @@ namespace dynamify.ServerClasses.QueryClasses
         }
 
         //DataPlans
-        public DataPlan FindDataPlanByAdminId(int admin_id){
+        public DataPlan GetDataPlanByAdminId(int admin_id){
             List<DataPlan> found_plans = dbContext.DataPlans.Where(x => x.admin_id == admin_id).ToList();
             if(found_plans.Count == 0){
                 return null;
@@ -129,7 +128,7 @@ namespace dynamify.ServerClasses.QueryClasses
         }
 
         public DataPlan CreateNewDataPlan(int admin_id){
-            if(FindDataPlanByAdminId(admin_id) == null){
+            if(GetDataPlanByAdminId(admin_id) == null){
                 DataPlan new_data_plan = new DataPlan();
                 new_data_plan.admin_id = admin_id;
                 new_data_plan.total_bytes = 0;
@@ -144,7 +143,7 @@ namespace dynamify.ServerClasses.QueryClasses
         }
 
         public DataPlan UpdateDataPlan( DataPlan updated_data_plan ){
-            DataPlan data_plan = FindDataPlanByAdminId(updated_data_plan.admin_id);
+            DataPlan data_plan = GetDataPlanByAdminId(updated_data_plan.admin_id);
             data_plan.total_bytes = updated_data_plan.total_bytes;
             data_plan.max_bytes = updated_data_plan.max_bytes;
             dbContext.SaveChanges();

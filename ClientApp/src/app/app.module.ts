@@ -38,6 +38,7 @@ import { PortraitEditorComponent } from './editor/component-editors/portrait-edi
 import { LinkBoxEditorComponent } from './editor/component-editors/link-box-editor/link-box-editor.component';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { SiteAnalyticsComponent } from './site-analytics/site-analytics.component';
+import { DataPlanDisplayComponent } from './admin-related/data-plan-display/data-plan-display.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { SiteAnalyticsComponent } from './site-analytics/site-analytics.componen
     PortraitEditorComponent,
     LinkBoxEditorComponent,
     ContactFormComponent,
-    SiteAnalyticsComponent
+    SiteAnalyticsComponent,
+    DataPlanDisplayComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

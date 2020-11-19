@@ -4,9 +4,14 @@
     <h3> {{ current_admin.username}}'s account settings </h3>
 </div>
 
+<div class="option-display">
+    <h3> Data plan </h3>
+    <app-data-plan-display [admin_id]="current_admin.admin_id"></app-data-plan-display>
+</div>
+
 <div *ngIf="!edit_selected" class="option-display">
     <h4> Change Username </h4>
-    <p>Change the name you use to idenfity yourself on this platform. This name is mainly for your personal user experience on the platform. May be used as artist's labels for sites you create in the future. It is recommended to be tasteful.</p>
+    <p> Change the name you use to idenfity yourself on this platform. This name is mainly for your personal user experience on the platform. May be used as artist's labels for sites you create in the future. It is recommended to be tasteful. </p>
     <button class="btn btn-success option-button" (click)="toggleEditSelection()"> Change Username </button>
 </div>
 

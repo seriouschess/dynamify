@@ -125,5 +125,10 @@ namespace dynamify.Controllers.ControllerMethods
                 throw new System.ArgumentException("Invalid credentials");
             }
         }
+
+        //Data Plans
+        public ActionResult<DataPlan> GetDataPlanForAdminIdMethod(int admin_id){
+            return dbQuery.GetDataPlanByAdminId( admin_id );
+        }
     }
 }

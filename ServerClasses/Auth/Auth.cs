@@ -115,7 +115,7 @@ namespace dynamify.Classes.Auth
             if(VerifyAdminForLeaf(admin_id, site_id, token)){
 
                 //check data limits
-                DataPlan data_plan = dbQueryA.FindDataPlanByAdminId(admin_id);
+                DataPlan data_plan = dbQueryA.GetDataPlanByAdminId(admin_id);
                 if(_dataLimiter.ValidateDataPlan(component, data_plan)){
                     
                     //return verdict
