@@ -109,24 +109,5 @@ namespace dynamify.Classes.Auth
                 return false;
             }
         }
-
-        public bool VerifyComponentModification(int admin_id, int site_id, string token, SiteComponent component){
-            //validate admin for site
-            if(VerifyAdminForLeaf(admin_id, site_id, token)){
-
-                //check data limits
-                DataPlan data_plan = dbQueryA.GetDataPlanByAdminId(admin_id);
-                if(_dataLimiter.ValidateDataPlan(component, data_plan)){
-                    
-                    //return verdict
-                    return true;
-                }else{
-                    return false;
-                }
-
-            }else{
-                return false;
-            }            
-        }
     } 
 }

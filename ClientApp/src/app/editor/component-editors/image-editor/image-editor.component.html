@@ -17,7 +17,7 @@
         <p *ngIf="validator.image_src_invalid_flag" class="text-danger">File must be a valid .png or .jpg</p>
         <p *ngIf="validator.image_src_invalid_size_flag" class="text-danger">File size must be less than 500 Kilobytes. Try resizing to a smaller image.</p>
         <p><label>Add a .png or .jpg image file: </label><input type="file" (change)="fileConversionListener($event)"></p> 
-        <p><input type="submit" *ngIf="!validator.image_src_invalid_flag && !validator.image_src_invalid_size_flag" class="btn btn-warning" value="Edit Image"></p>
+        <p><input type="submit" class="btn btn-warning" value="Edit Image"></p>
         </form>
     </div>
 </div>

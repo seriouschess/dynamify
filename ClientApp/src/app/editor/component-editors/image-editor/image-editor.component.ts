@@ -57,7 +57,7 @@ export class ImageEditorComponent implements OnInit {
       };
       this.image_edits = res;
       this.toggle_edit = false;
-    });
+    }, err => console.log(err));
   }
 
   deleteSiteComponentByIdAndType(){

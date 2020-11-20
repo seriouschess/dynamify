@@ -7,6 +7,7 @@ namespace dynamify.ServerClasses.DataLimiter
     public class DataLimiter
     {
         AdminQueries _dbQuery;
+        private int _site_container_size = 5000; //arbitraty number
         public DataLimiter(AdminQueries dbQuery){
             _dbQuery = dbQuery;
         }
@@ -17,15 +18,22 @@ namespace dynamify.ServerClasses.DataLimiter
         }
 
         //site
-        public bool ValidateSiteAdditionForDataPlan(int admin_id){
-            int site_container_size = 500; //arbitrary number
-            DataPlan admin_data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
-            if( site_container_size + admin_data_plan.total_bytes <= admin_data_plan.max_bytes ){
-                _dbQuery.UpdateDataPlan( admin_data_plan );
-                return true;
+        public DataPlan ValidateSiteAdditionForDataPlan(int admin_id){
+
+            DataPlan data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
+            data_plan.total_bytes += this._site_container_size;
+            
+            if( data_plan.total_bytes <= data_plan.max_bytes ){
+                return data_plan;
             }else{
-                return false;
+                throw new System.ArgumentException("New site exceeds data plan limits.");
             }
+        }
+
+        public void RemoveSiteFromDataPlan(int admin_id){
+            DataPlan admin_data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
+            admin_data_plan.total_bytes -= this._site_container_size;
+            _dbQuery.UpdateDataPlan( admin_data_plan );
         }
 
         //site components
@@ -37,17 +45,25 @@ namespace dynamify.ServerClasses.DataLimiter
             _dbQuery.UpdateDataPlan( admin_data_plan );
         }
 
-        //adds data to plan if not above max
-        public bool ValidateDataPlan(SiteComponent site_component, DataPlan data_plan){
-            data_plan.total_bytes -= site_component.byte_size;
-            site_component.byte_size = site_component.FindCharLength();
-            data_plan.total_bytes += site_component.byte_size;
+        public DataPlan ValidateDataPlanB(int admin_id, SiteComponent old_site_component, SiteComponent new_site_component){
+
+            DataPlan data_plan = _dbQuery.GetDataPlanByAdminId(admin_id);
+            //remove current component byte cost
+            data_plan.total_bytes -= old_site_component.FindCharLength();
+
+            //calculate new cost
+            data_plan.total_bytes += new_site_component.FindCharLength();
+
+            //compare
             if( data_plan.total_bytes <= data_plan.max_bytes ){
-                _dbQuery.UpdateDataPlan( data_plan );
-                return true;
+                return data_plan;
             }else{
-                return false;
+                throw new System.ArgumentException("New component exceeds data plan limits.");
             }
+        }
+
+        public void UpdateDataPlan(DataPlan data_plan){
+            _dbQuery.UpdateDataPlan( data_plan );
         }
     }
 }

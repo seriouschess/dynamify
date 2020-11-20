@@ -12,6 +12,7 @@ using dynamify.ServerClasses.QueryClasses;
 //for StatusCode
 using Microsoft.AspNetCore.Mvc;
 using dynamify.ServerClasses.DataLimiter;
+using dynamify.Models;
 
 namespace dynamify.Controllers.ControllerMethods
 {
@@ -48,18 +49,24 @@ namespace dynamify.Controllers.ControllerMethods
             if(authenticator.VerifyAdmin(NewSite.admin_id, NewSite.token)){
                 string verdict = validator.ValidateSiteUrl(NewSite.url);
                 if(verdict == "pass"){
-                    if(_dataLimiter.ValidateSiteAdditionForDataPlan(NewSite.admin_id)){
+
+                        DataPlan data_plan;
+                        try{
+                            data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(NewSite.admin_id);
+                        }catch{
+                            JsonFailure f = new JsonFailure("Data plan exceeds limit. Check Data limits for this account.");
+                            return StatusCode(400, f);
+                        }
+                        
                         Site SoonToAddSite = new Site();
                         SoonToAddSite.title = NewSite.title;
                         SoonToAddSite.admin_id = NewSite.admin_id;
                         SoonToAddSite.url = NewSite.url.ToLower();
                         dbQuery.AddSite(SoonToAddSite);
+                        _dataLimiter.UpdateDataPlan(data_plan);
                         JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
                         return r;
-                    }else{
-                        JsonFailure f = new JsonFailure("Data plan exceeds limit. Check Data limits for this account.");
-                        return StatusCode(400, f);
-                    }
+
                 }else{
                     JsonFailure f = new JsonFailure(verdict);
                     return StatusCode(400, f);
@@ -81,9 +88,17 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<JsonResponse> PostBoxMethod(ParagraphBox NewBox, int admin_id, string admin_token){
-            if(authenticator.VerifyComponentModification(admin_id, NewBox.site_id, admin_token, NewBox)){
+            if(authenticator.VerifyAdminForLeaf(admin_id, NewBox.site_id, admin_token)){
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                }catch(System.ArgumentException e){
+                    return StatusCode(400, e.Message);
+                }
+
                 NewBox.byte_size =  NewBox.FindCharLength();
                 dbQuery.AddParagraphBox(NewBox);
+                _dataLimiter.UpdateDataPlan(data_plan);
                 JsonResponse r = new JsonSuccess("Paragraph box posted sucessfully!");
                 return r;
             }else{
@@ -93,9 +108,17 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<JsonResponse> PostImageMethod(Image NewImage, int admin_id, string admin_token){
-             if(authenticator.VerifyComponentModification(admin_id, NewImage.site_id, admin_token, NewImage)){
+             if(authenticator.VerifyAdminForLeaf(admin_id, NewImage.site_id, admin_token)){
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                }catch(System.ArgumentException e){
+                    return StatusCode(400, e.Message);
+                }
                 NewImage.byte_size = NewImage.FindCharLength();
                 dbQuery.AddImage(NewImage);
+                _dataLimiter.UpdateDataPlan(data_plan);
+
                 JsonResponse r = new JsonSuccess("Image posted sucessfully!");
                 return r;
             }else{
@@ -105,9 +128,18 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<JsonResponse> PostTwoColumnBoxMethod(TwoColumnBox NewTwoColumnBox, int admin_id, string admin_token){
-             if(authenticator.VerifyComponentModification(admin_id, NewTwoColumnBox.site_id, admin_token, NewTwoColumnBox)){
+             if(authenticator.VerifyAdminForLeaf(admin_id, NewTwoColumnBox.site_id, admin_token)){
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                }catch(System.ArgumentException e){
+                    return StatusCode(400, e.Message);
+                }
+
                 NewTwoColumnBox.byte_size = NewTwoColumnBox.FindCharLength();
                 dbQuery.AddTwoColumnBox(NewTwoColumnBox);
+                _dataLimiter.UpdateDataPlan(data_plan);
+
                 JsonResponse r = new JsonSuccess("Two column box posted sucessfully!");
                 return r;
             }else{
@@ -117,9 +149,19 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<JsonResponse> PostPortraitMethod(Portrait NewPortrait, int admin_id, string admin_token){
-             if(authenticator.VerifyComponentModification(admin_id, NewPortrait.site_id, admin_token, NewPortrait)){
+             if(authenticator.VerifyAdminForLeaf(admin_id, NewPortrait.site_id, admin_token)){
+
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                }catch(System.ArgumentException e){
+                    return StatusCode(400, e.Message);
+                }
+
                 NewPortrait.byte_size = NewPortrait.FindCharLength();
                 dbQuery.AddPortrait(NewPortrait);
+                _dataLimiter.UpdateDataPlan(data_plan);
+
                 JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
                 return r;
             }else{
@@ -142,9 +184,17 @@ namespace dynamify.Controllers.ControllerMethods
                 NewLinkBox.site_id = _NewLinkBox.site_id;
                 NewLinkBox.byte_size = NewLinkBox.FindCharLength();
 
-             if(authenticator.VerifyComponentModification(admin_id, NewLinkBox.site_id, admin_token, NewLinkBox)){
+             if(authenticator.VerifyAdminForLeaf(admin_id, NewLinkBox.site_id, admin_token)){
+
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                }catch(System.ArgumentException e){
+                    return StatusCode(400, e.Message);
+                }
 
                 dbQuery.AddLinkBox(NewLinkBox);
+                _dataLimiter.UpdateDataPlan(data_plan);
                 JsonResponse r = new JsonSuccess("Link Box posted sucessfully!");
                 return r;
             }else{
@@ -155,7 +205,15 @@ namespace dynamify.Controllers.ControllerMethods
         
         public ActionResult<JsonResponse> PostNavBarMethod(int admin_id, string admin_token, int site_id){
              if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                }catch(System.ArgumentException e){
+                    return StatusCode(400, e.Message);
+                }
+
                 dbQuery.AddNavBarToSite( site_id );
+                _dataLimiter.UpdateDataPlan(data_plan);
                 JsonResponse r = new JsonSuccess("Nav Bar posted sucessfully!");
                 return r;
             }else{
@@ -185,6 +243,7 @@ namespace dynamify.Controllers.ControllerMethods
                     };
                     DeleteAuthenticatedSiteComponentMethod(component_reference);
                 }
+                _dataLimiter.RemoveSiteFromDataPlan(admin_id);
                 Site DeletedSite = dbQuery.DeleteSiteById(site_id);
                 JsonResponse r = new JsonSuccess($"Site {DeletedSite.title} deleted sucessfully!");
                 return r;
@@ -374,9 +433,20 @@ namespace dynamify.Controllers.ControllerMethods
             }
 
             //verify and change
-            if(authenticator.VerifyComponentModification(admin_id, queried_paragraph_box.site_id, admin_token, paragraph_box)){
-                paragraph_box.byte_size = paragraph_box.FindCharLength();
-                return dbQuery.EditParagraphBox( paragraph_box );
+            if(authenticator.VerifyAdminForLeaf(admin_id, queried_paragraph_box.site_id, admin_token)){
+
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateDataPlanB(admin_id, queried_paragraph_box, paragraph_box);
+                }catch( System.ArgumentException e ){
+                    JsonFailure f = new JsonFailure(e.Message);
+                    return StatusCode(400, f);
+                }
+
+                ParagraphBox changed_tcb = dbQuery.EditParagraphBox( paragraph_box );
+                _dataLimiter.UpdateDataPlan( data_plan );
+                return paragraph_box;
+
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");
                 return StatusCode(400, f);
@@ -385,17 +455,28 @@ namespace dynamify.Controllers.ControllerMethods
 
          public ActionResult<TwoColumnBox> EditTwoColumnBoxMethod(TwoColumnBox tc_box, int admin_id, string admin_token, int site_id){
              //check available (better way to do this?)
-            TwoColumnBox queried_two_column_box;
+            TwoColumnBox queried_tc_box;
             try{
-                queried_two_column_box = dbQuery.QueryTwoColumnBoxById(tc_box.two_column_box_id);
+                queried_tc_box = dbQuery.QueryTwoColumnBoxById(tc_box.two_column_box_id);
             }catch{
                 JsonFailure f = new JsonFailure($"Two Column Box Id: {tc_box.two_column_box_id} not found.");
                 return StatusCode(400, f);
             }
 
-            if(authenticator.VerifyComponentModification(admin_id, queried_two_column_box.site_id, admin_token, tc_box)){
-                tc_box.byte_size = tc_box.FindCharLength();
-                return dbQuery.EditTwoColumnBox( tc_box );
+            if(authenticator.VerifyAdminForLeaf(admin_id, queried_tc_box.site_id, admin_token)){
+
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateDataPlanB(admin_id, queried_tc_box, tc_box);
+                }catch( System.ArgumentException e ){
+                    JsonFailure f = new JsonFailure(e.Message);
+                    return StatusCode(400, f);
+                }
+
+                TwoColumnBox changed_tcb = dbQuery.EditTwoColumnBox( tc_box );
+                _dataLimiter.UpdateDataPlan( data_plan );
+                return changed_tcb;
+
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");
                 return StatusCode(400, f);
@@ -403,7 +484,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<Image> EditImageMethod(Image image, int admin_id, string admin_token, int site_id){
-            //check available (better way to do this?)
+            //check available (better way to do this?);
             Image queried_image;
             try{
                 queried_image = dbQuery.QueryImageById(image.image_id);
@@ -413,9 +494,20 @@ namespace dynamify.Controllers.ControllerMethods
             }
 
             //verify and change
-            if(authenticator.VerifyComponentModification(admin_id, queried_image.site_id, admin_token, image)){
-                image.byte_size = image.FindCharLength();
-                return dbQuery.EditImage( image );
+            if(authenticator.VerifyAdminForLeaf(admin_id, queried_image.site_id, admin_token)){
+
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateDataPlanB(admin_id, queried_image, image);
+                }catch( System.ArgumentException e ){
+                    JsonFailure f = new JsonFailure(e.Message);
+                    return StatusCode(400, f);
+                }
+
+                Image changed_image = dbQuery.EditImage( image );
+                _dataLimiter.UpdateDataPlan( data_plan );
+                return changed_image;
+
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");
                 return StatusCode(400, f);
@@ -423,7 +515,7 @@ namespace dynamify.Controllers.ControllerMethods
         }
         
          public ActionResult<Portrait> EditPortraitMethod(Portrait portrait, int admin_id, string admin_token, int site_id){
-            //check available (better way to do this?)
+
             Portrait queried_portrait;
             try{
                 queried_portrait = dbQuery.QueryPortraitById(portrait.portrait_id);
@@ -432,11 +524,20 @@ namespace dynamify.Controllers.ControllerMethods
                 return StatusCode(400, f);
             }
 
-            //verify and change
-            dbQuery.QueryPortraitById(portrait.portrait_id); 
-            if(authenticator.VerifyComponentModification(admin_id, queried_portrait.site_id, admin_token, portrait)){
-                portrait.byte_size = portrait.FindCharLength();
-                return dbQuery.EditPortrait( portrait );
+            if(authenticator.VerifyAdminForLeaf(admin_id, queried_portrait.site_id, admin_token)){
+
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateDataPlanB(admin_id, queried_portrait, portrait);
+                }catch( System.ArgumentException e ){
+                    JsonFailure f = new JsonFailure(e.Message);
+                    return StatusCode(400, f);
+                }
+
+                Portrait changed_portrait = dbQuery.EditPortrait( portrait );
+                _dataLimiter.UpdateDataPlan( data_plan );
+                return changed_portrait;
+
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");
                 return StatusCode(400, f);
@@ -444,7 +545,6 @@ namespace dynamify.Controllers.ControllerMethods
         }
 
         public ActionResult<LinkBox> EditLinkBoxMethod(LinkBox link_box, int admin_id, string admin_token, int site_id){
-            //check available (better way to do this?)
             LinkBox queried_link_box;
             try{
                queried_link_box = dbQuery.QueryLinkBoxById(link_box.link_box_id);
@@ -454,9 +554,20 @@ namespace dynamify.Controllers.ControllerMethods
             }
 
             //verify and change
-            if(authenticator.VerifyComponentModification(admin_id, queried_link_box.site_id, admin_token, link_box)){
-                link_box.byte_size = link_box.FindCharLength();
-                return dbQuery.EditLinkBox( link_box );
+            if(authenticator.VerifyAdminForLeaf(admin_id, queried_link_box.site_id, admin_token)){
+
+                DataPlan data_plan;
+                try{
+                    data_plan = _dataLimiter.ValidateDataPlanB(admin_id, queried_link_box, link_box);
+                }catch( System.ArgumentException e ){
+                    JsonFailure f = new JsonFailure(e.Message);
+                    return StatusCode(400, f);
+                }
+
+                LinkBox changed_portrait = dbQuery.EditLinkBox( link_box );
+                _dataLimiter.UpdateDataPlan( data_plan );
+                return changed_portrait;
+
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");
                 return StatusCode(400, f);
