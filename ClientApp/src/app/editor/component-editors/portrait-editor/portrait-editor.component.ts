@@ -86,15 +86,15 @@ export class PortraitEditorComponent implements OnInit {
 
   //for use with setportraitBase64() required for async data retrieval
   B64Callback(output_string: string, this_component:PortraitEditorComponent){
-    if(output_string === "invalid_file_size"){
+    if(output_string === "invalid_file_size" || output_string === "invalid_file_type"){
+      this_component.portrait_edits.image_src = this_component.portrait.image_src;
       this_component.validator.image_src_invalid_size_flag = true;
-    }else if(output_string === "invalid_file_type"){
-      this_component.validator.image_src_invalid_flag = true;
     }else{
       this_component.portrait_edits.image_src = output_string;
       this_component.validator.image_src_invalid_flag = false;
       this_component.validator.image_src_invalid_size_flag = false;
     }
+    console.log(this_component.portrait_edits.image_src);
   }
 
 }
