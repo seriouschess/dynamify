@@ -90,7 +90,7 @@ export class DisplaySitesComponent implements OnInit {
       this.invalid_url_error_flag = true;
     }
 
-    if(this.newSiteObject.url.toLowerCase() == "base"){
+    if(this.newSiteObject.url.toLowerCase() == "app"){
       errors += 1;
       this.reserved_url_error_flag = true;
     }

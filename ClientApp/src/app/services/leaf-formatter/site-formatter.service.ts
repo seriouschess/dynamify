@@ -104,7 +104,7 @@ function returnNull(callback: (parameter:ISiteFormatted, object_which_called:any
 //Updates an angular component with an ISiteFormatted sorted by priority
 function format(data:any, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
     var s:any = data; //just for now I swear!
-    if(s.title == "base"){ //site not found, default value returned
+    if(s.title == "app"){ //site not found, default value returned
       let unfound_site:ISiteFormatted = {
         title: s.title,
         site_id: s.site_id,

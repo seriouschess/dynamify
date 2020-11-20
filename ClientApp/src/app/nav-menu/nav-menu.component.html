@@ -23,23 +23,23 @@
               [routerLinkActive]="['link-active']"
               [routerLinkActiveOptions]="{ exact: true }"
             >
-              <a *ngIf="!logged_in" class="nav-link text-light" [routerLink]="['/base/tutorial']">Tutorial</a>
+              <a *ngIf="!logged_in" class="nav-link text-light" [routerLink]="['/app/tutorial']">Tutorial</a>
             </li>
 
             <li *ngIf="logged_in" class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-light" [routerLink]="['/base/admin']">My Sites</a>
+              <a class="nav-link text-light" [routerLink]="['/app/admin']">My Sites</a>
             </li>
             <li *ngIf="!logged_in" class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-light" [routerLink]="['/base/admin']">Login/Register</a>
+              <a class="nav-link text-light" [routerLink]="['/app/admin']">Login/Register</a>
             </li>
             <li *ngIf="logged_in" class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-light" [routerLink]="['/base/account']">Account Settings</a>
+              <a class="nav-link text-light" [routerLink]="['/app/account']">Account Settings</a>
             </li>
             <li class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-light" [routerLink]="['/base/about']">About</a>
+              <a class="nav-link text-light" [routerLink]="['/app/about']">About</a>
             </li>
             <li *ngIf="logged_in" class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-light" [routerLink]="['/base/logout']">Log Out</a>
+              <a class="nav-link text-light" [routerLink]="['/app/logout']">Log Out</a>
             </li>
           </ul>
         </div>

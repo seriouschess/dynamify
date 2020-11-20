@@ -28,8 +28,8 @@ namespace dynamify.ServerClasses.Email
         public String CreateRegistrationMailBody(string email, string token){
             String new_body = "<h1>Thank you for registering to siteleaves.com</h1>" +
             "<p>You may now click the following link to activate your account:</p>" +
-            //$"<p>Get started by clicking <a href='https://siteleaves.com/base/activate/{email}/{token}'>this link</a>.</p>"+
-            $"<p>Get started by clicking <a href='http://127.0.0.1:5000/base/activate/{email}/{token}'>this link</a>.</p>"+
+            //$"<p>Get started by clicking <a href='https://siteleaves.com/app/activate/{email}/{token}'>this link</a>.</p>"+
+            $"<p>Get started by clicking <a href='http://127.0.0.1:5000/app/activate/{email}/{token}'>this link</a>.</p>"+
             $"<br> This email was sent automatically as a direct result of a registration action"+
             "<p>If you happen to have gotten this email by mistake, please send a reply to this email to give feedback the admin and we will do our best to apprehend the traitors.</p>";
             return new_body; 
@@ -39,8 +39,8 @@ namespace dynamify.ServerClasses.Email
             String new_body = "<h2>Site Leaves account password reset</h2>" +
             "<p>You've requested to reset your account password. We've got you!</p>" +
             "<p>Click the following link to reset your password:</p>" +
-            $"<p><a href='http://127.0.0.1:5000/base/password/reset/{email}/{token}'>Click Here</a></p>";
-            //$"<p><a href='https://siteleaves.com/base/password/reset/{email}/{token}'>Click Here</a></p>";
+            $"<p><a href='http://127.0.0.1:5000/app/password/reset/{email}/{token}'>Click Here</a></p>";
+            //$"<p><a href='https://siteleaves.com/app/password/reset/{email}/{token}'>Click Here</a></p>";
             return new_body;
         }
 

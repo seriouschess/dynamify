@@ -14,15 +14,15 @@ import { VerificationEmailSentConfirmationComponent } from './admin-related/veri
 
 const routes: Routes = [
     { path: '', component: HomepageComponent, pathMatch: 'full' },
-    { path: 'base/about', component: AboutComponent },
-    { path: 'base/admin', component: AdminComponent },
-    { path: 'base/account', component: AdminAccountComponent },
-    { path: 'base/tutorial', component: TutorialComponent },
-    { path: 'base/password/email/confirmation', component: VerificationEmailSentConfirmationComponent},
-    { path: 'base/password/reset/:email/:token', component: PasswordResetComponent },
-    { path: 'base/activate/:email/:token', component: ActivateAccountComponent },
-    { path: 'base/not-found', component: PageNotFoundComponent },
-    { path: 'base/logout', component: LogoutComponent },
+    { path: 'app/about', component: AboutComponent },
+    { path: 'app/admin', component: AdminComponent },
+    { path: 'app/account', component: AdminAccountComponent },
+    { path: 'app/tutorial', component: TutorialComponent },
+    { path: 'app/password/email/confirmation', component: VerificationEmailSentConfirmationComponent},
+    { path: 'app/password/reset/:email/:token', component: PasswordResetComponent },
+    { path: 'app/activate/:email/:token', component: ActivateAccountComponent },
+    { path: 'app/not-found', component: PageNotFoundComponent },
+    { path: 'app/logout', component: LogoutComponent },
     { path: ':leaf_url', component: LeafComponent },
     { path: '**', component: PageNotFoundComponent }
   ]
