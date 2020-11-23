@@ -29,10 +29,11 @@
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    padding-top: 3%;
-    padding-bottom: 3%;
-    padding-left: 5%;
-    padding-right: 5%;
+    max-width:800px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
     background-color: rgb(167, 228, 167);
     border: 2px solid rgb(160, 192, 176);
     border-radius: 5px;
@@ -89,10 +90,14 @@
     margin-right: auto;
 }
 
-.top-creation-tools{
-    background-color: rgba(0,0,0,0.2);
-    padding-top: 2px;
-    padding-bottom: 2px;
+.swap-icon{
+    background-size: cover;
+    background-image:url('../../image-files/swap-icon.jpg');
+}
+
+.button-mask{
+    border-radius:5px;
+    background-color: rgba(163, 205, 231, 0.5);
 }
 
 .end-site-mark {
@@ -128,18 +133,23 @@
     .creation-tools{
         position:sticky;
         overflow:auto;
-        height:800px;
+    }
+
+    .component-options-bar .btn{
+        width:99%;
+        font-size: 16px;
+        padding-left: 5px;
+        padding-right: 5px;
     }
 }
 
 @media (max-width:800px){
     .creation-tools{
         margin-top: 0%;
-        width: 95%;
+        width: 100%;
         display: block;
         margin-left: auto;
         margin-right: auto;
-        height: 170px;
         position:sticky;
         overflow:auto;
     }

@@ -1,0 +1,24 @@
+<div class="editor-side-menu creation-tools box-shadow">
+  <div *ngIf="main_menu">
+      <h4 ><button class="btn btn-success" (click)="toggleMainMenu()">Create New Component</button></h4>
+      <h4 *ngIf="!nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Open Nav Bar Editor </button></h4>
+      <h4 *ngIf="nav_bar_editor_open"><button class="btn btn-info" (click)="toggleNavBarEditor()"> Close Nav Bar Editor </button></h4>
+      <h4 *ngIf="preview_mode == false"> <button class="btn btn-success" (click)="togglePreview()"> Toggle Preview Mode </button></h4>
+      <h4 *ngIf="preview_mode == true"> <button class="btn btn-info" (click)="togglePreview()"> Back to Editor </button></h4>
+      <h4 ><button class="btn btn-success" (click)="leaveEditor()">Go Back to Your Leaves</button></h4>
+  </div>
+  
+  <div *ngIf="!main_menu">
+    <button class="btn btn-success" (click)=setPboxEdit()> New Paragraph Box </button>
+
+    <button class="btn btn-info" (click)="set2cBoxEdit()">New Two Column Box</button>
+
+    <button class="btn btn-success" (click)="setLinkBoxEdit()">New Link Box</button>
+    
+    <button class="btn btn-success" (click)="setPortraitEdit()">New Portrait</button>
+
+    <button class="btn btn-info" (click)="setImageEdit()">New Image</button>
+
+    <h4 ><button class="btn btn-success" (click)="toggleMainMenu()">Main Options</button></h4>
+  </div>
+</div>

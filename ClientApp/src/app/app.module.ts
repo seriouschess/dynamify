@@ -39,6 +39,7 @@ import { LinkBoxEditorComponent } from './editor/component-editors/link-box-edit
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { SiteAnalyticsComponent } from './site-analytics/site-analytics.component';
 import { DataPlanDisplayComponent } from './admin-related/data-plan-display/data-plan-display.component';
+import { EditorOptionsComponent } from './editor/editor-options/editor-options.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { DataPlanDisplayComponent } from './admin-related/data-plan-display/data
     LinkBoxEditorComponent,
     ContactFormComponent,
     SiteAnalyticsComponent,
-    DataPlanDisplayComponent
+    DataPlanDisplayComponent,
+    EditorOptionsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
