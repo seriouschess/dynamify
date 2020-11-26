@@ -25,7 +25,6 @@ export class ValidationService {
 
     link_box_url_invalid_flag:boolean;
     link_box_display_invalid_flag:boolean;
-    link_box_content_invalid_flag:boolean;
 
     nav_bar_invalid_url_flag:boolean;
     nav_bar_invalid_label_flag:boolean;
@@ -46,7 +45,6 @@ export class ValidationService {
 
     this.link_box_url_invalid_flag = false;
     this.link_box_display_invalid_flag = false;
-    this.link_box_content_invalid_flag = false;
 
     this.nav_bar_invalid_url_flag = false;
     this.nav_bar_invalid_label_flag = false;
@@ -136,11 +134,6 @@ export class ValidationService {
 
   validateLinkBox(test_link_box:LinkBox){
     let error_count = 0;
-
-    if(test_link_box.content === "" ){
-      error_count += 1;
-      this.link_box_content_invalid_flag = true;
-    }
 
     if(test_link_box.link_display === ""){
       error_count += 1;

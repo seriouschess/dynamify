@@ -162,7 +162,6 @@
       <p *ngIf="new_link_box.title == '' && add_title_option_active" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
       <p *ngIf="add_title_option_active"><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_link_box.title"></p>
       <p><label>Description: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_link_box.content"></textarea></p>
-      <p *ngIf="validator.link_box_content_invalid_flag" class="text-danger">Enter a description for your link. This will be displayed next to the link.</p>
       <p *ngIf="new_link_box.url === ''" class="text-info" > Link will go to http://(Your url here!) </p>
       <p class="text-info" *ngIf="new_link_box.url != ''" > Link will go to http://{{new_link_box.url}} </p>
       <p><label>Link URL: </label><input name="url" [(ngModel)]="new_link_box.url"></p>
