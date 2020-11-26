@@ -4,6 +4,24 @@
     padding: 4%;
 }
 
+.registration-success-border{
+    width: 90%;
+    max-width: 800px;
+    height:250px;
+    border: 2px solid rgb(241, 228, 104);
+    background-color: rgb(135, 224, 142);
+    border-radius: 5px;
+    position:relative;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
 .space{
     margin-top: 4%;
 }

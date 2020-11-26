@@ -1,6 +1,7 @@
-<h1 class="text-center">Let's get started</h1>
-
 <div *ngIf="!registered">
+
+  <h1 class="text-center">Let's get started</h1>
+
   <h3 class="space generic-element" *ngIf="open_registration == true"> Register Here: </h3>
   <form *ngIf="open_registration == true" class="form-horizontal registration-box generic-element" (submit)="postAdminToService()">
       <h3 *ngIf="general_invalid_registration_error_flag" class="text-danger"> {{login_backend_error_message}} </h3>
@@ -17,36 +18,38 @@
   </form>
 </div>
 
-<p *ngIf="registered"> You have registered sucessfully! Check your email to confirm your registration.</p>
-
-<p class="generic-element" *ngIf="open_registration == true && display_use_terms == false"> By registering, it is understood that you have read the terms of use. <button class="btn btn-warning" (click)="toggleTerms()"> Click here to read.</button></p>
-
-<div class="generic-element" *ngIf="display_use_terms == true">
-
-  <h3>Terms of use:</h3>
-  <p> By using this service, you agree that all content you create and post is not in any way protected by any privacy rights. 
-    Any person may publicly view, share, or even collect the content you create. You retain full ownership of the intellectual property of your content. 
-    You are not obligated to share private information about yourself, and any information you feel is sensitive to your privacy should not be posted on the internet.
-  </p>
+<div class="text-center generic-element registration-success-border" *ngIf="registered">
+  <h4 class="vertical-center"> You have registered successfully! Check your email to confirm your registration. </h4>
 </div>
 
+<div *ngIf="!registered">
+  <p class="generic-element" *ngIf="open_registration == true && display_use_terms == false"> By registering, it is understood that you have read the terms of use. <button class="btn btn-warning" (click)="toggleTerms()"> Click here to read.</button></p>
 
-<div class="generic-element" *ngIf="open_registration == false" >
-<h3 class="space"> Login here to begin: </h3>
-<p class="text-danger"> {{error_display}} </p>
-  <form class="form-horizontal registration-box" (submit)="loginAdmin()">
-    <label> Email: </label><input class="form-control" name="email" [(ngModel)]="entered_email">
-    <p *ngIf="login_email_validation_error_flag" class="text-danger"> Email Invalid </p>
-    <label class="space"> Password: </label><input class="form-control" name="password" type="password" [(ngModel)]="entered_password">
-    <p *ngIf="login_password_validation_error_flag" class="text-danger"> Enter a password </p>
-    <input class="btn btn-info space" type="submit" value="Login">
-  </form>
-  <h3 class="space"> <a [routerLink]="['/app/password/email/confirmation']" > Forgot Password </a> </h3>
+  <div class="generic-element" *ngIf="display_use_terms == true">
+
+    <h3>Terms of use:</h3>
+    <p> By using this service, you agree that all content you create and post is not in any way protected by any privacy rights. 
+      Any person may publicly view, share, or even collect the content you create. You retain full ownership of the intellectual property of your content. 
+      You are not obligated to share private information about yourself, and any information you feel is sensitive to your privacy should not be posted on the internet.
+    </p>
+  </div>
+
+  <div class="generic-element" *ngIf="open_registration == false" >
+  <h3 class="space"> Login here to begin: </h3>
+  <p class="text-danger"> {{error_display}} </p>
+    <form class="form-horizontal registration-box" (submit)="loginAdmin()">
+      <label> Email: </label><input class="form-control" name="email" [(ngModel)]="entered_email">
+      <p *ngIf="login_email_validation_error_flag" class="text-danger"> Email Invalid </p>
+      <label class="space"> Password: </label><input class="form-control" name="password" type="password" [(ngModel)]="entered_password">
+      <p *ngIf="login_password_validation_error_flag" class="text-danger"> Enter a password </p>
+      <input class="btn btn-info space" type="submit" value="Login">
+    </form>
+    <h3 class="space"> <a [routerLink]="['/app/password/email/confirmation']" > Forgot Password </a> </h3>
+  </div>
+
+  <h5 class="registration-button generic-element" *ngIf="open_registration == false"> If you do not have an admin account, you may register one here. <button (click)="openRegistration()" class="btn btn-info"> Register </button></h5>
+
+  <div class="background-forest generic-element bf-two"></div>
+
+  <p class="generic-element login-footer" *ngIf="open_registration == true">If you remember your admin credentials, you may login instead <button class="btn btn-info" (click)="closeRegistration()">Login</button><p></p>
 </div>
-
-<h5 class="registration-button generic-element" *ngIf="open_registration == false"> If you do not have an admin account, you may register one here. <button (click)="openRegistration()" class="btn btn-info"> Register </button></h5>
-
-<div class="background-forest generic-element bf-two"></div>
-
-<p class="generic-element login-footer" *ngIf="open_registration == true">If you remember your admin credentials, you may login instead <button class="btn btn-info" (click)="closeRegistration()">Login</button><p></p>
-
