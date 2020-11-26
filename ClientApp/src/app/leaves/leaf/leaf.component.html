@@ -1,4 +1,8 @@
-<app-page-not-found *ngIf="formatted_site.title == null"></app-page-not-found>
+<p *ngIf="formatted_site.title == null">Loading...</p>
+<app-leaf-nav-bar 
+    *ngIf="formatted_site.site_id != null"
+    [site_id]="formatted_site.site_id"
+  ></app-leaf-nav-bar>
 <app-page-generator *ngIf="formatted_site.title != null" [formatted_site]="formatted_site"></app-page-generator>
 
 <app-ana *ngIf='leaf_url != null'></app-ana>

@@ -1,0 +1,29 @@
+<nav
+    class="navbar nav-margin navbar-expand-sm navbar-toggleable-sm nav-bg navbar-light border-bottom box-shadow"
+    *ngIf="nav_bar != null"
+>
+    <div class="container">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target=".navbar-collapse"
+          aria-label="Toggle navigation"
+          [attr.aria-expanded]="isExpanded"
+          (click)="toggle()"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    <div
+        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
+        [ngClass]="{ show: isExpanded }"
+    >
+
+        <ul class="navbar-nav flex-grow">
+            <li *ngFor="let link of nav_bar.links" class="nav-item">
+                <a class="nav-link text-light" href="{{link.url}}"> {{link.label}} </a>
+            </li>
+        </ul>
+        </div>
+    </div>
+</nav>

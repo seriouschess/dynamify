@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { AppFrontendRoutesModule} from './app-frontend-routes.module';
 import { AdminComponent } from './admin-related/admin/admin.component';
-// import { EditAdminComponent } from './edit-admin/edit-admin.component'; //not currently used, perhaps later
 import { SiteEditorComponent } from './editor/site-editor/site-editor.component';
 import { DisplaySitesComponent } from './editor/display-sites/display-sites.component';
 import { LoginComponent } from './admin-related/login/login.component';
@@ -21,7 +20,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomepageComponent } from './homepage/homepage.component';
 import { LinkBoxComponent } from './leaves/leaf-components/link-box/link-box.component';
 import { LeafComponent } from './leaves/leaf/leaf.component';
-import { LeafNavBarComponent } from './leaves/leaf-components/leaf-nav-bar/leaf-nav-bar.component';
+import { LeafNavBarEditorComponent } from './editor/leaf-nav-bar-editor/leaf-nav-bar-editor.component';
 import { AnaComponent } from './ana/ana.component';
 import { LogoutComponent } from './admin-related/logout/logout.component';
 import { PopInComponent } from './pop-in/pop-in.component';
@@ -40,13 +39,13 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 import { SiteAnalyticsComponent } from './site-analytics/site-analytics.component';
 import { DataPlanDisplayComponent } from './admin-related/data-plan-display/data-plan-display.component';
 import { EditorOptionsComponent } from './editor/editor-options/editor-options.component';
+import { LeafNavBarComponent } from './leaves/leaf-nav-bar/leaf-nav-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     AdminComponent,
-    // EditAdminComponent,
     SiteEditorComponent,
     DisplaySitesComponent,
     LoginComponent,
@@ -60,7 +59,7 @@ import { EditorOptionsComponent } from './editor/editor-options/editor-options.c
     HomepageComponent,
     LinkBoxComponent,
     LeafComponent,
-    LeafNavBarComponent,
+    LeafNavBarEditorComponent,
     AnaComponent,
     LogoutComponent,
     PopInComponent,
@@ -78,7 +77,8 @@ import { EditorOptionsComponent } from './editor/editor-options/editor-options.c
     ContactFormComponent,
     SiteAnalyticsComponent,
     DataPlanDisplayComponent,
-    EditorOptionsComponent
+    EditorOptionsComponent,
+    LeafNavBarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

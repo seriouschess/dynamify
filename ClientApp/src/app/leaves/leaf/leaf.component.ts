@@ -27,7 +27,6 @@ export class LeafComponent implements OnInit {
       this.requireLeafContent();
     })
     console.log("leaf url: "+this.leaf_url);
-
     this.formatted_site = {
       title: null,
       site_id: null,

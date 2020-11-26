@@ -15,14 +15,13 @@
 
 <div *ngIf="preview_mode === false" class="editor-body">
   <div *ngIf="current_site_id != 0"></div>
-    <app-leaf-nav-bar 
-    [is_edit_mode]="true" 
+    <app-leaf-nav-bar-editor
     [site_id]="current_site_id" 
     [nav_bar_editor_open]="nav_bar_editor_open"
     [current_admin_id]="current_admin_id"
     [current_admin_token]="current_admin_token"
     [current_site_id]="current_site_id"
-  ></app-leaf-nav-bar>
+  ></app-leaf-nav-bar-editor>
 
   <h1 class="leaf-title" *ngIf="formatted_skeleton_site.title != ''"> {{formatted_skeleton_site.title}} </h1>
 

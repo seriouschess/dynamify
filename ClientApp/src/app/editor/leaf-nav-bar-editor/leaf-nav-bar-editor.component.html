@@ -21,8 +21,7 @@
 
         <ul class="navbar-nav flex-grow">
             <li *ngFor="let link of nav_bar.links" class="nav-item">
-                <a class="nav-link text-light" *ngIf="!is_edit_mode" href="{{link.url}}"> {{link.label}} </a>
-                <a class="nav-link text-light" *ngIf="is_edit_mode"> {{link.label}} </a> 
+                <a class="nav-link text-light"> {{link.label}} </a> 
             </li>
         </ul>
         </div>
