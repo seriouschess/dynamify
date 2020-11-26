@@ -28,6 +28,6 @@ export class ActivateAccountComponent implements OnInit {
   }
 
   goToLogin(){
-    this._router.navigate(['base/admin']);
+    this._router.navigate(['app/admin']);
   }
 }

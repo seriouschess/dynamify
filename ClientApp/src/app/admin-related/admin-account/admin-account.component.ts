@@ -62,7 +62,7 @@ export class AdminAccountComponent implements OnInit {
 
 
   toMySites(){
-    this._router.navigate(['base/admin']);
+    this._router.navigate(['app/admin']);
   }
 
   initiateLogin(){
@@ -70,7 +70,7 @@ export class AdminAccountComponent implements OnInit {
       let account_admin = this._clientStorage.getAdmin() as Admin;
       this.initAdmin(account_admin);
     }else{
-      this._router.navigate(['base/admin']);
+      this._router.navigate(['app/admin']);
     }
   }
 

@@ -42,7 +42,7 @@ export class LeafComponent implements OnInit {
     this._httpClient.getLeafSkeletonByUrl(this.leaf_url).subscribe(res => {
       this.formatted_site = res
     }, err => {
-      this._router.navigate(['base/not-found']);
+      this._router.navigate(['app/not-found']);
     });;
   }
 }

@@ -37,7 +37,7 @@ export class PasswordResetComponent implements OnInit {
     if(this.entered_password == this.confirm_entered_password){
       this._httpClient.changeAdminPassword(this.email, this.token, this.entered_password).subscribe((res:Admin) => {
         this._clientStorage.storeAdmin(res);
-        this._router.navigate(['base/admin']);
+        this._router.navigate(['app/admin']);
       }, err=>{
         console.log(err);
       });
