@@ -1,9 +1,3 @@
-//asp.net dependencies
-using System.Text.Json;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-
 //project dependencies
 using dynamify.Classes.Auth;
 using dynamify.ServerClasses.Auth;

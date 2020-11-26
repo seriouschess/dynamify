@@ -4,7 +4,6 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 //project dependencies
-using dynamify.Classes.Auth;
 using dynamify.Controllers.ControllerMethods;
 
 //models
@@ -19,7 +18,6 @@ namespace dynamify.Controllers
     [Route("api/[controller]")]
     public class SiteController : ControllerBase
     {
-        private Auth authenticator;
         private SiteControllerMethods methods;
 
         public SiteController(SiteQueries _SiteQueries, AdminQueries _AdminQueries)

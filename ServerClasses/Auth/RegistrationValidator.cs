@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Net.Mail;
 using System.Text.RegularExpressions;
 using dynamify.Models;
 using dynamify.ServerClasses.QueryClasses;

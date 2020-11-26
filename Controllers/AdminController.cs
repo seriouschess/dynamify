@@ -1,9 +1,5 @@
 //asp.net dependencies
-using System.Collections;
 using Microsoft.AspNetCore.Mvc;
-
-//project dependencies
-using dynamify.Classes.Auth;
 
 //models
 using dynamify.Models;
