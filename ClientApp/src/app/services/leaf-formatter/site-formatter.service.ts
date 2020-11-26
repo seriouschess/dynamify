@@ -1,12 +1,13 @@
 
 import { Injectable } from '@angular/core';
-import { HttpService } from '../http/http.service';
 import { ISiteFormatted } from '../../interfaces/dtos/tutorial_site_emulator_dtos/formatted_site_content';
 import { IGenericSiteComponent } from '../../interfaces/dtos/tutorial_site_emulator_dtos/generic_site_component';
-import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skeleton_site_dto';
 import { ITutorialSite } from 'src/app/interfaces/dtos/tutorial_site_emulator_dtos/tutorial_site';
 import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
-import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
+
+// **************************************
+//This formatter is a legacy archatecture now only used for the tutorial.
+// **************************************
 
 @Injectable({
   providedIn: 'root'
@@ -164,13 +165,5 @@ function format(data:any, callback: (parameter:ISiteFormatted, object_which_call
       callback(formatted_site, object_which_called); 
     }
 }
-
-//for use with site editor tutorial mode Removed for refreshing dom unneecessiairly
-
-// function sortFormatted(unsorted_content:ISiteFormatted, callback: (parameter:ISiteFormatted, object_which_called:any) => void, object_which_called){
-//   let sorted_site = unsorted_content;
-//   sorted_site.site_components.sort((a, b) => (a.priority > b.priority) ? 1 : -1);
-//   callback(sorted_site, object_which_called);
-// }
 
 

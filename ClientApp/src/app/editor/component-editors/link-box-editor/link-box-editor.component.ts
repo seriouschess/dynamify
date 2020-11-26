@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IComponentRequestDto } from 'src/app/interfaces/dtos/formatted_sites/component_request_dto';
 import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ValidationService } from 'src/app/services/validation/validation.service';

@@ -6,10 +6,8 @@ import{ HttpClient } from '@angular/common/http';
 import { Admin } from '../../interfaces/dtos/admin_related/admin_dto';
 import { Login } from '../../interfaces/dtos/admin_related/login_dto';
 import { INewSiteDto } from '../../interfaces/dtos/database_changers/new_site_dto';
-//import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
 import { Observable } from 'rxjs';
 import { session } from 'src/app/interfaces/dtos/analytics_session_dto';
-import { IComponentRequestDto } from 'src/app/interfaces/dtos/formatted_sites/component_request_dto';
 import { admin_request_dto } from 'src/app/interfaces/dtos/admin_related/admin_request_dto';
 import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skeleton_site_dto';
 import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
@@ -49,8 +47,6 @@ export class HttpService {
       token: token
     }
 
-    //http.request('delete', url, { body: { ... } });
-    //delete requests don't allow payloads
     return this._http.request('delete',`api/admin/delete`, { body: payload });
   }
 
@@ -218,12 +214,6 @@ export class HttpService {
   }
 
   updateSession( s:session ):Observable<object>{
-    // let s:session = {
-    //   session_id: 0,
-    //   token:token,
-    //   time_on_homepage: time,
-    //   url: window.location.href
-    // }
     return this._http.post(`api/analytics/update`, s);
   }
   

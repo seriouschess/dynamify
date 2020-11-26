@@ -11,8 +11,6 @@ import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
 import { Image } from 'src/app/interfaces/dtos/site_components/Image';
 import { ComponentReference } from 'src/app/interfaces/dtos/site_components/ComponentReference';
 
-// import { ConsoleReporter } from 'jasmine';
-
 @Component({
   selector: 'app-site-editor',
   templateUrl: './site-editor.component.html',
@@ -21,6 +19,7 @@ import { ComponentReference } from 'src/app/interfaces/dtos/site_components/Comp
 
 export class SiteEditorComponent implements OnInit, AfterViewInit {
   @Output() exitEvent = new EventEmitter<boolean>();
+  
   //route parameters
   @Input() current_site_id: number;
   @Input() current_admin_id: number;

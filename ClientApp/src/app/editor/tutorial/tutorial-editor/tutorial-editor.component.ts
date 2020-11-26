@@ -1,8 +1,5 @@
 import { Component, OnInit, Input, Inject, Output, EventEmitter, AfterViewInit } from '@angular/core';
 
-//import { ISiteRequestDto } from '../../interfaces/dtos/site_request_dto';
-
-//import { SiteFormatterService } from '../../services/leaf-formatter/site-formatter.service';
 import { DOCUMENT } from '@angular/common';
 import { SiteFormatterService } from 'src/app/services/leaf-formatter/site-formatter.service';
 import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skeleton_site_dto';
@@ -76,15 +73,6 @@ export class TutorialEditorComponent implements OnInit, AfterViewInit {
   }
 
    ngOnInit() {
-    //  this.site_request_object = {
-    //    site_id: this.current_site_id,
-    //    admin_id: this.current_admin_id,
-    //    token: this.current_admin_token
-    //  }
-
-    // this.formatted_skeleton_site = {
-
-    // }
 
     this.tutorial_site = {
       title: null,

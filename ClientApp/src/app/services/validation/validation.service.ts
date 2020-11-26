@@ -4,9 +4,6 @@ import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphB
 import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
 import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnBox';
 import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
-import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
-import { Image } from 'src/app/interfaces/dtos/site_components/Image';
-import { NavLink } from 'src/app/interfaces/dtos/site_components/NavLink';
 import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/NewNavLinKDto';
 
 @Injectable({
@@ -16,23 +13,16 @@ import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/NewNavLin
 export class ValidationService {
 
     //validation flags
-    // pbox_title_invalid_flag:boolean;
     pbox_content_invalid_flag:boolean;
   
-    // image_title_invalid_flag:boolean;
     image_src_invalid_flag:boolean; //used in portraits too
     image_src_invalid_size_flag:boolean;
   
-    // portrait_title_invalid_flag:boolean;
     portrait_content_invalid_flag:boolean;
   
-    // tcb_title_invalid_flag:boolean;
-    // tcb_head_one_invalid_flag:boolean;
-    // tcb_head_two_invalid_flag:boolean;
     tcb_content_one_invalid_flag:boolean;
     tcb_content_two_invalid_flag:boolean;
 
-    // link_box_title_invalid_flag:boolean;
     link_box_url_invalid_flag:boolean;
     link_box_display_invalid_flag:boolean;
     link_box_content_invalid_flag:boolean;
@@ -46,21 +36,14 @@ export class ValidationService {
 
    resetValidation(){
     this.pbox_content_invalid_flag = false;
-    // this.pbox_title_invalid_flag = false;
 
-    // this.image_title_invalid_flag = false;
     this.image_src_invalid_flag = false;
 
-    // this.portrait_title_invalid_flag = false;
     this.portrait_content_invalid_flag = false;
 
-    // this.tcb_title_invalid_flag = false;
-    // this.tcb_head_one_invalid_flag = false;
-    // this.tcb_head_two_invalid_flag = false;
     this.tcb_content_one_invalid_flag = false;
     this.tcb_content_two_invalid_flag = false;
 
-    // this.link_box_title_invalid_flag = false;
     this.link_box_url_invalid_flag = false;
     this.link_box_display_invalid_flag = false;
     this.link_box_content_invalid_flag = false;
@@ -71,13 +54,6 @@ export class ValidationService {
 
    validatePbox(test_box:ParagraphBox){
     let error_count = 0;
-
-    // if(test_box.title == ""){
-    //   this.pbox_title_invalid_flag = true;
-    //   error_count += 1;
-    // }else{
-    //   this.pbox_title_invalid_flag = false;
-    // }
 
     if(test_box.content == ""){
       this.pbox_content_invalid_flag = true;
@@ -96,17 +72,6 @@ export class ValidationService {
   validateImage(image_src:string){
     let error_count = 0;
 
-    // if(test_box.title == ""){
-    //   this.image_title_invalid_flag = true;
-    //   error_count += 1;
-    // }else{
-    //   this.image_title_invalid_flag = false;
-    // }
-
-    // if(this.image_src_invalid_flag == true){ ------not needed, b64converter makes this check-----
-    //   error_count += 1;
-    // }
-
     if(image_src === ""){ 
       this.image_src_invalid_flag = true;
       error_count += 1;
@@ -123,27 +88,6 @@ export class ValidationService {
 
   validateTwoColumnBox(two_c_box:TwoColumnBox){
     let error_count = 0;
-
-    // if(two_c_box.title == ""){
-    //   this.tcb_title_invalid_flag = true;
-    //   error_count += 1;
-    // }else{
-    //   this.tcb_title_invalid_flag = false;
-    //  }
-
-    // if(two_c_box.heading_one == ""){
-    //   this.tcb_head_one_invalid_flag = true;
-    //   error_count += 1;
-    // }else{
-    //  this.tcb_head_one_invalid_flag = false;
-    // }
-
-    // if(two_c_box.heading_two == ""){
-    //   this.tcb_head_two_invalid_flag = true;
-    //   error_count += 1;
-    // }else{
-    //   this.tcb_head_two_invalid_flag = false;
-    // }
 
     if(two_c_box.content_one == ""){
       this.tcb_content_one_invalid_flag = true;
@@ -169,24 +113,12 @@ export class ValidationService {
   validatePortrait(test_portrait:Portrait, image_src:string){
     let error_count = 0;
 
-    // if(test_portrait.title == ""){
-    //   this.portrait_title_invalid_flag = true;
-    //   error_count += 1;
-    // }else{
-    //   this.portrait_title_invalid_flag = true;
-    // }
-
     if(test_portrait.content == ""){
       this.portrait_content_invalid_flag = true;
       error_count += 1;
     }else{
       this.portrait_content_invalid_flag = false;
     }
-
-    // if(this.image_src_invalid_flag == true){ ------not needed, b64converter makes this check-----
-    //   error_count += 1;
-    // }
-
 
     if(image_src === ""){
       this.image_src_invalid_flag = true;
@@ -204,11 +136,6 @@ export class ValidationService {
 
   validateLinkBox(test_link_box:LinkBox){
     let error_count = 0;
-
-    // if( test_link_box.title === "" ){
-    //   error_count += 1;
-    //   this.link_box_title_invalid_flag = true;
-    // }
 
     if(test_link_box.content === "" ){
       error_count += 1;

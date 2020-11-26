@@ -25,8 +25,6 @@
   <h3 class = "text-info" *ngIf="tutorial_sequence == 8"> Consider Registering an account in the navbar at the top if you want to build a site page you can share with others and have access to more features. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
 </div>
 
-<!-- <app-page-generator *ngIf="preview_mode === true" [formatted_site]="tutorial_site"> </app-page-generator> -->
-
 <div *ngIf="preview_mode === false">
   <h1 class="leaf-title" *ngIf="tutorial_site.title != ''"> {{tutorial_site.title}} </h1>
     <div *ngFor="let site_component of tutorial_site.site_components">
