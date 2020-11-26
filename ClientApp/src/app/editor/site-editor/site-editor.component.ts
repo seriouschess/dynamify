@@ -164,7 +164,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
     this.new_link_box.priority = new_priority;
   }
 
-  swapSiteComponents(component_one_id:number, type_one:string, component_two_id:number, type_two:string){
+  swapSiteComponents(top_index:number, component_one_id:number, type_one:string, component_two_id:number, type_two:string){
     let component_one:ComponentReference = {
       component_id:component_one_id,
       component_type:type_one
@@ -174,7 +174,9 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
       component_type:type_two
     }
     this._httpService.SwapComponentPriority(component_one, component_two, this.current_admin_id, this.current_admin_token, this.current_site_id ).subscribe(res =>{
-      this.requireSite();
+      let temp = this.formatted_skeleton_site.site_components[top_index]; 
+      this.formatted_skeleton_site.site_components[top_index] = this.formatted_skeleton_site.site_components[top_index+1];
+      this.formatted_skeleton_site.site_components[top_index+1] = temp;
     });
   }
 

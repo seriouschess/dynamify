@@ -79,8 +79,8 @@
 
     <button *ngIf="i != formatted_skeleton_site.site_components.length -1
       && formatted_skeleton_site.site_components.length > 1"
-      class="btn swap-icon swap-component-button"
-      (click)="swapSiteComponents( formatted_skeleton_site.site_components[i].component_id,
+      class="btn shadow-none swap-icon swap-component-button"
+      (click)="swapSiteComponents( i, formatted_skeleton_site.site_components[i].component_id,
       formatted_skeleton_site.site_components[i].type,
         formatted_skeleton_site.site_components[i+1].component_id,
         formatted_skeleton_site.site_components[i+1].type  )">
