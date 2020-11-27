@@ -25,10 +25,8 @@ export class TutorialComponent implements OnInit {
   }
 
   checkDone($event){
-    console.log("me");
     this.display_sites_done = $event;
     this.open_editor = true;
     this.open_site_select = false;
-    console.log("Open Editor?"+this.open_editor);
   }
 }

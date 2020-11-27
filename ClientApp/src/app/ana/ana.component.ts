@@ -24,8 +24,6 @@ export class AnaComponent implements OnInit, OnDestroy {
       time_on_homepage:0,
       url:full_url
     }
-    console.log("window_location: "+window.location.href);
-    console.log(JSON.stringify(this.s));
     this.startUpdateSequence();
    
 
@@ -59,8 +57,6 @@ export class AnaComponent implements OnInit, OnDestroy {
   }
 
   update( ){
-    console.log("Update Test");
-    console.log(JSON.stringify(this.s));
     this._httpService.updateSession(this.s).subscribe(res => {
       console.log(res);
     });

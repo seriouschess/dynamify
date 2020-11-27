@@ -45,7 +45,6 @@ export class AdminAccountComponent implements OnInit {
 
   updateAdminAccount(){
     this._http.editAdmin( this.updated_admin ).subscribe((res) => {
-      console.log(res);
       this.initAdmin(res);
       this._clientStorage.storeAdmin(this.current_admin);
       this.toggleEditSelection();

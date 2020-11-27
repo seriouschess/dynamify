@@ -93,7 +93,6 @@ export class ImageEditorComponent implements OnInit {
       this_component.validator.image_src_invalid_flag = false;
       this_component.validator.image_src_invalid_size_flag = false;
     }
-    console.log(this_component.image_edits.image_src);
   }
 
 }

@@ -150,7 +150,6 @@ export class ValidationService {
     }
 
     if( test_link_box.url.indexOf('.') === -1){ //does not contain a period
-      console.log("ti");
       error_count += 1;
       this.link_box_url_invalid_flag = true;
     }

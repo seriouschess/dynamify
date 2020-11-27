@@ -34,11 +34,8 @@ export class LinkBoxComponent implements OnInit {
   formatURL(){
     let is_http = this.link_box_object.url.indexOf('http://') !== -1 //true
     let is_https = this.link_box_object.url.indexOf('https://') !== -1 //true
-    if(is_http || is_https){
-      console.log(this.link_box_object.url);
-    }else{
+    if(!is_http && !is_https){
       this.link_box_object.url = "http://"+this.link_box_object.url;
-      console.log(this.link_box_object.url);
     }
   }
 

@@ -26,7 +26,6 @@ export class LeafComponent implements OnInit {
       this.leaf_url = params['leaf_url'];
       this.requireLeafContent();
     })
-    console.log("leaf url: "+this.leaf_url);
     this.formatted_site = {
       title: null,
       site_id: null,
