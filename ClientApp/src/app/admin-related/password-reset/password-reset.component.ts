@@ -22,6 +22,7 @@ export class PasswordResetComponent implements OnInit {
     token:string;
 
     //validation flags
+    password_short_error_flag:boolean;
     password_entry_error:boolean;
 
   ngOnInit() {
@@ -34,15 +35,28 @@ export class PasswordResetComponent implements OnInit {
 
   resetPassword(){
     this.password_entry_error = false;
-    if(this.entered_password == this.confirm_entered_password){
-      this._httpClient.changeAdminPassword(this.admin_id, this.token, this.entered_password).subscribe((res:Admin) => {
-        this._clientStorage.storeAdmin(res);
-        this._router.navigate(['app/admin']);
-      }, err=>{
-        console.log(err);
-      });
+    this.password_short_error_flag = false;
+    if(this.validatePassword()){
+      if(this.entered_password == this.confirm_entered_password){
+        this._httpClient.changeAdminPassword(this.admin_id, this.token, this.entered_password).subscribe((res:Admin) => {
+          this._clientStorage.storeAdmin(res);
+          this._router.navigate(['app/admin']);
+        }, err=>{
+          console.log(err);
+        });
+      }else{
+        this.password_entry_error = true;
+      }
     }else{
-      this.password_entry_error = true;
+      this.password_short_error_flag = true;
+    }
+  }
+
+  validatePassword(){
+    if( this.entered_password.length >= 8 ){
+      return true;
+    }else{
+      return false;
     }
   }
 }

@@ -60,9 +60,9 @@ namespace dynamify.Controllers
         }
 
         [HttpPut]
-        [Route("password/reset/{admin_email}/{admin_token}/{new_password}")]
-        public ActionResult<Admin> UpdatePassword(string admin_email, string admin_token, string new_password){
-            return methods.UpdatePasswordMethod(admin_email, admin_token, new_password);
+        [Route("password/reset/{admin_id}/{admin_token}/{new_password}")]
+        public ActionResult<Admin> UpdatePassword(int admin_id, string admin_token, string new_password){
+            return methods.UpdatePasswordMethod(admin_id, admin_token, new_password);
         }
 
         //DataPlans

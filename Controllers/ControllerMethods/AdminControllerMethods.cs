@@ -110,9 +110,9 @@ namespace dynamify.Controllers.ControllerMethods
             return FoundAdmin;
         }
 
-        public Admin UpdatePasswordMethod(string admin_email, string admin_token, string new_password){
-            if( authenticator.VerifyAdminForEmailValidation(admin_email, admin_token) ){
-                Admin FoundAdmin = dbQuery.GetAdminByEmail(admin_email);
+        public Admin UpdatePasswordMethod(int admin_id, string admin_token, string new_password){
+            if( authenticator.VerifyAdminForEmailValidation(admin_id, admin_token) ){
+                Admin FoundAdmin = dbQuery.GetAdminById(admin_id);
                 string password_hash = authenticator.HashString(new_password);
                 return dbQuery.UpdateAdminPassword(FoundAdmin.admin_id, password_hash);
             }else{
