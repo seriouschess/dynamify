@@ -43,9 +43,9 @@ namespace dynamify.Controllers
         }
 
         [HttpPut]
-        [Route("activate/{admin_email}/{admin_token}")]
-        public ActionResult<Admin> ActivateValidEmail(string admin_email, string admin_token){
-            return methods.VerifyEmailForAdmin(admin_email, admin_token);
+        [Route("activate/{admin_id}/{admin_token}")]
+        public ActionResult<Admin> ActivateValidEmail(int admin_id, string admin_token){
+            return methods.VerifyEmailForAdminMethod(admin_id, admin_token);
         }
 
         [HttpDelete]

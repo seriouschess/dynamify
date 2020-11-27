@@ -62,7 +62,7 @@ namespace dynamify.Controllers.ControllerMethods
                 dbQuery.CreateNewDataPlan(RegisteredAdmin.admin_id); //create data plan for admin
 
                 //send validation email
-                mailer.SendRegistrationConfirmationEmail(RegisteredAdmin.email, RegisteredAdmin.token);
+                mailer.SendRegistrationConfirmationEmail(RegisteredAdmin.email, RegisteredAdmin.admin_id, RegisteredAdmin.token);
 
                 return RegisteredAdmin;
              }else if( verdict == "invalid credentials"){
@@ -73,9 +73,9 @@ namespace dynamify.Controllers.ControllerMethods
              }
         }
 
-        public ActionResult<Admin> VerifyEmailForAdmin(string admin_email, string admin_token){
-            if( authenticator.VerifyAdminForEmailValidation(admin_email, admin_token) ){
-                return dbQuery.SetValidEmailAdmin(admin_email, admin_token);
+        public ActionResult<Admin> VerifyEmailForAdminMethod(int admin_id, string admin_token){
+            if( authenticator.VerifyAdminByIdToken(admin_id, admin_token) ){
+                return dbQuery.SetVerifiedEmailAdmin(admin_id, admin_token);
             }else{
                 return StatusCode(400, "Invalid credentials");
             }
@@ -84,7 +84,7 @@ namespace dynamify.Controllers.ControllerMethods
         public async Task<ActionResult<JsonResponse>> SendPasswordResetEmailMethod(string requested_mail){
             try{
                 Admin FoundAdmin = dbQuery.GetAdminByEmail(requested_mail);
-                await mailer.SendPasswordResetMail(FoundAdmin.email, FoundAdmin.token);
+                await mailer.SendPasswordResetMail(FoundAdmin.email, FoundAdmin.admin_id, FoundAdmin.token);
                 return new JsonSuccess("Password verification email sent.");
             }catch{
                 return StatusCode(400, "Email not found");

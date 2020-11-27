@@ -25,21 +25,21 @@ namespace dynamify.ServerClasses.Email
             PORT = Int32.Parse(ConfSettings.Configuration["EmailConfig:PORT"]);
         }
 
-        public String CreateRegistrationMailBody(string email, string token){
+        public String CreateRegistrationMailBody(int admin_id, string token){
             String new_body = "<h1>Thank you for registering to siteleaves.com</h1>" +
             "<p>You may now click the following link to activate your account:</p>" +
             //$"<p>Get started by clicking <a href='https://siteleaves.com/app/activate/{email}/{token}'>this link</a>.</p>"+
-            $"<p>Get started by clicking <a href='http://127.0.0.1:5000/app/activate/{email}/{token}'>this link</a>.</p>"+
+            $"<p>Get started by clicking <a href='http://127.0.0.1:5000/app/activate/{admin_id}/{token}'>this link</a>.</p>"+
             $"<br> This email was sent automatically as a direct result of a registration action"+
             "<p>If you happen to have gotten this email by mistake, please send a reply to this email to give feedback to the admin and we will do our best to apprehend the traitors.</p>";
             return new_body; 
         }
 
-        public String CreatePasswordResetMailBody(string email, string token){
+        public String CreatePasswordResetMailBody(int admin_id, string token){
             String new_body = "<h2>Site Leaves account password reset</h2>" +
             "<p>You've requested to reset your account password. We've got you!</p>" +
             "<p>Click the following link to reset your password:</p>" +
-            $"<p><a href='http://127.0.0.1:5000/app/password/reset/{email}/{token}'>Click Here</a></p>";
+            $"<p><a href='http://127.0.0.1:5000/app/password/reset/{admin_id}/{token}'>Click Here</a></p>";
             //$"<p><a href='https://siteleaves.com/app/password/reset/{email}/{token}'>Click Here</a></p>";
             return new_body;
         }
@@ -86,20 +86,20 @@ namespace dynamify.ServerClasses.Email
             }
         }
 
-        public async Task<string> SendPasswordResetMail(string user_email, string new_token){
-            String mail_content = CreatePasswordResetMailBody(user_email, new_token);
+        public async Task<string> SendPasswordResetMail(string user_email, int admin_id, string new_token){
+            String mail_content = CreatePasswordResetMailBody(admin_id, new_token);
             String mail_title = "Site Leaves account password reset";
             return await SendMail(user_email, mail_title, mail_content);
         }
 
-        public void SendRegistrationConfirmationEmail(string recipient_address, string password){
-            String mail_content = CreateRegistrationMailBody(recipient_address, password);
+        public void SendRegistrationConfirmationEmail(string recipient_address, int admin_id, string password){
+            String mail_content = CreateRegistrationMailBody(admin_id, password);
             String mail_title = "Site Leaves Registration confirmation";
             Task.Run(() => SendMail(recipient_address, mail_title, mail_content )); //fire and forget async ok
         }
 
-         public async Task<string> SendRegistrationConfirmationEmailAsync(string recipient_address, string password){
-            String mail_content = CreateRegistrationMailBody(recipient_address, password);
+         public async Task<string> SendRegistrationConfirmationEmailAsync(string recipient_address, int admin_id, string password){
+            String mail_content = CreateRegistrationMailBody(admin_id, password);
             String mail_title = "Site Leaves Registration confirmation";
             return await SendMail(recipient_address, mail_title, mail_content );
         }

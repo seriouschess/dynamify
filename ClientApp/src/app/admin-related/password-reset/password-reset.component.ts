@@ -18,7 +18,7 @@ export class PasswordResetComponent implements OnInit {
 
     entered_password:string;
     confirm_entered_password:string;
-    email:string;
+    admin_id:string;
     token:string;
 
     //validation flags
@@ -27,7 +27,7 @@ export class PasswordResetComponent implements OnInit {
   ngOnInit() {
     this.password_entry_error = false;
     this._route.params.subscribe((params:Params) => {
-      this.email = params['email'];
+      this.admin_id = params['admin_id'];
       this.token = params['token'];
     });
   }
@@ -35,7 +35,7 @@ export class PasswordResetComponent implements OnInit {
   resetPassword(){
     this.password_entry_error = false;
     if(this.entered_password == this.confirm_entered_password){
-      this._httpClient.changeAdminPassword(this.email, this.token, this.entered_password).subscribe((res:Admin) => {
+      this._httpClient.changeAdminPassword(this.admin_id, this.token, this.entered_password).subscribe((res:Admin) => {
         this._clientStorage.storeAdmin(res);
         this._router.navigate(['app/admin']);
       }, err=>{

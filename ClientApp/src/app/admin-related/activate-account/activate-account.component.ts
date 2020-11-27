@@ -17,11 +17,11 @@ export class ActivateAccountComponent implements OnInit {
 
   ngOnInit() {
     this._route.params.subscribe((params:Params) => {
-      let email = params['email'];
+      let admin_id = params['admin_id'];
       let token = params['token'];
       this.activated = false;
       
-      this._httpClient.activateAccount(email, token).subscribe(( ) => {
+      this._httpClient.activateAccount(admin_id, token).subscribe(( ) => {
         this.activated = true;
       });
     });

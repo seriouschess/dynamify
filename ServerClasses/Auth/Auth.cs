@@ -85,6 +85,19 @@ namespace dynamify.Classes.Auth
                 return false;
             }
         }
+
+        public bool VerifyAdminByIdToken(int admin_id, string token){ //use to login admin
+            try{
+                Admin QueryAdmin = dbQueryA.GetAdminById(admin_id);
+                if(QueryAdmin.token == token){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch{
+                return false;
+            }
+        }
     }
 
     class SiteAuth: Auth{

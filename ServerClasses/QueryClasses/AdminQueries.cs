@@ -75,16 +75,15 @@ namespace dynamify.ServerClasses.QueryClasses
             return Test;
         }
 
-        public Admin SetValidEmailAdmin(string admin_email, string admin_token){
-            List<Admin> found_admins = GetAdminsByEmail(admin_email);
-            if( found_admins.Count == 1 ){
-                Admin found_admin = found_admins[0];
-                found_admin.email_verified = true;
-                dbContext.SaveChanges();
-                return found_admin;
+        public Admin SetVerifiedEmailAdmin(int admin_id, string admin_token){
+            List<Admin> found_admins = dbContext.Admins.Where(x => x.admin_id == admin_id).ToList();
+            if(found_admins.Count == 1){
+                found_admins[0].email_verified = true;
             }else{
-                throw new ArgumentException($"Failed to find admin email {admin_email}.");
+                throw new System.ArgumentException($"Admin ID: {admin_id} not found.");
             }
+            dbContext.SaveChanges();
+            return found_admins[0];
         }
 
         //Delete

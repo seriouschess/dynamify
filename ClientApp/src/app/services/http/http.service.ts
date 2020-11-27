@@ -54,8 +54,8 @@ export class HttpService {
     return this._http.put<Admin>('api/admin', AdminToEdit);
   }
 
-  activateAccount(admin_email:string, admin_token:string){
-    return this._http.request<Admin>('put',`api/admin/activate/${admin_email}/${admin_token}`);
+  activateAccount(admin_id:number, admin_token:string){
+    return this._http.request<Admin>('put',`api/admin/activate/${admin_id}/${admin_token}`);
   }
 
   sendPasswordResetEmail(email:string){
