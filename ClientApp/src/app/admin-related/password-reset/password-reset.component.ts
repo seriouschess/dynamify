@@ -13,8 +13,7 @@ export class PasswordResetComponent implements OnInit {
 
   constructor(private _route: ActivatedRoute,
     private _httpClient: HttpService,
-    private _router: Router,
-    private _clientStorage:ClientStorageService) { }
+    private _router: Router) { }
 
     entered_password:string;
     confirm_entered_password:string;
@@ -25,7 +24,12 @@ export class PasswordResetComponent implements OnInit {
     password_short_error_flag:boolean;
     password_entry_error:boolean;
 
+    //operation
+    password_reset_success_flag:boolean;
+    admin_username:string;
+
   ngOnInit() {
+    this.password_reset_success_flag;
     this.password_entry_error = false;
     this._route.params.subscribe((params:Params) => {
       this.admin_id = params['admin_id'];
@@ -39,8 +43,8 @@ export class PasswordResetComponent implements OnInit {
     if(this.validatePassword()){
       if(this.entered_password == this.confirm_entered_password){
         this._httpClient.changeAdminPassword(this.admin_id, this.token, this.entered_password).subscribe((res:Admin) => {
-          this._clientStorage.storeAdmin(res);
-          this._router.navigate(['app/admin']);
+          this.password_reset_success_flag = true;
+          this.admin_username = res.username;
         }, err=>{
           console.log(err);
         });
@@ -58,5 +62,9 @@ export class PasswordResetComponent implements OnInit {
     }else{
       return false;
     }
+  }
+
+  goToLogin(){
+    this._router.navigate(['app/admin']);
   }
 }
