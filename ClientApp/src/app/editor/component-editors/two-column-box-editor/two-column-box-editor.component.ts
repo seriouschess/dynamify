@@ -23,7 +23,10 @@ export class TwoColumnBoxEditorComponent implements OnInit {
   toggle_edit:boolean;
   toggle_delete:boolean;
 
+  backend_validation_error:string;
+
   ngOnInit(): void {
+    this.backend_validation_error = "";
     this.getTwoColumnBox();
   }
 
@@ -52,7 +55,7 @@ export class TwoColumnBoxEditorComponent implements OnInit {
       this.two_column_box = res;
       this.two_column_box_edits = res;
       this.toggle_edit = false;
-    });
+    }, error => this.backend_validation_error = error.error);
   }
 
   deleteSiteComponentByIdAndType(){

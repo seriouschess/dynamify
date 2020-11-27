@@ -35,6 +35,7 @@
   </table>
 
   <form class="new-leaf-box" (submit)="postSiteToService()">
+      <h4 *ngIf="backend_validation_error != ''" class="text-danger">{{backend_validation_error}}</h4>
       <h3>Create a new leaf below:</h3>
       <p *ngIf="newSiteObject.title == ''" class = "text text-info"> A title may be blank, but a blank title will not be displayed at the top of the leaf. </p>
       <label> Title: </label><input name="title" [(ngModel)]="newSiteObject.title">

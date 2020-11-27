@@ -16,6 +16,7 @@
       <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="paragraph_box_edits.title"></p>
       <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="paragraph_box_edits.content"></textarea></p>
       <p *ngIf="validator.pbox_content_invalid_flag" class="text-danger">Enter valid content text or consider a different component type.</p>
+      <p *ngIf="backend_validation_error != ''" class="text-danger">{{backend_validation_error}}</p>    
       <p><input type="submit" class="btn btn-warning" value="Edit Paragraph Box"></p>
     </form>
   </div>

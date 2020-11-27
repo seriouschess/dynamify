@@ -27,7 +27,10 @@ export class PortraitEditorComponent implements OnInit {
   toggle_edit:boolean;
   toggle_delete:boolean;
 
+  backend_validation_error:string;
+
   ngOnInit(): void {
+    this.backend_validation_error = "";
     this.getportrait();
   }
 
@@ -60,7 +63,7 @@ export class PortraitEditorComponent implements OnInit {
       };
       this.portrait_edits = res;
       this.toggle_edit = false;
-    });
+    }, error => this.backend_validation_error = error.error);
   }
 
   deleteSiteComponentByIdAndType(){

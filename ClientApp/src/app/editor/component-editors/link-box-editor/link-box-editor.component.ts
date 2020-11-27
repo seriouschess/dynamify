@@ -24,7 +24,10 @@ export class LinkBoxEditorComponent implements OnInit {
   toggle_delete:boolean;
   link_display:boolean;
 
+  backend_validation_error:string;
+
   ngOnInit(): void {
+    this.backend_validation_error = "";
     this.getLinkBox();
   }
 
@@ -57,10 +60,7 @@ export class LinkBoxEditorComponent implements OnInit {
         this.link_box_edits = res;
         this.toggle_edit = false;
         this.link_display = true;
-      }, err =>{
-        console.log(err);
-        this.link_display = true;
-      });
+      }, error => this.backend_validation_error = error.error);
     }
   }
 

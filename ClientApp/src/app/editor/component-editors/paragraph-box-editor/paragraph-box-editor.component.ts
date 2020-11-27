@@ -23,7 +23,10 @@ export class ParagraphBoxEditorComponent implements OnInit {
   toggle_edit:boolean;
   toggle_delete:boolean;
 
+  backend_validation_error:string;
+
   ngOnInit(): void {
+    this.backend_validation_error = "";
     this.getParagraphBox();
   }
 
@@ -51,7 +54,7 @@ export class ParagraphBoxEditorComponent implements OnInit {
         this.paragraph_box = res;
         this.paragraph_box_edits = res;
         this.toggle_edit = false;
-      });
+      }, error => this.backend_validation_error = error.error);
     }
   }
 

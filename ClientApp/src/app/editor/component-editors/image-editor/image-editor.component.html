@@ -12,13 +12,14 @@
         <button *ngIf="toggle_edit" class="btn btn-info" (click)="toggleEdit()"> Cancel Edit </button>
         <h3> Edit image </h3>
         <form (submit)=editImage()>
-        <p *ngIf="image_edits.title === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
-        <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="image_edits.title"></p>
-        <p *ngIf="validator.image_src_invalid_flag" class="text-danger">File must be a valid .png or .jpg</p>
-        <p *ngIf="validator.image_src_invalid_size_flag" class="text-danger">File size must be less than 500 Kilobytes. Try resizing to a smaller image.</p>
-        <p><label>Add a .png or .jpg image file: </label><input type="file" (change)="fileConversionListener($event)"></p>
-        <p class="text-danger" *ngIf="validator.image_src_invalid_size_flag || validator.image_src_invalid_flag">If left unchanged, previous image will be used.</p> 
-        <p><input type="submit" class="btn btn-warning" value="Edit Image"></p>
+            <p *ngIf="image_edits.title === ''" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
+            <p><label>Title: </label><input class="title_box" name="title" [(ngModel)]="image_edits.title"></p>
+            <p *ngIf="validator.image_src_invalid_flag" class="text-danger">File must be a valid .png or .jpg</p>
+            <p *ngIf="validator.image_src_invalid_size_flag" class="text-danger">File size must be less than 500 Kilobytes. Try resizing to a smaller image.</p>
+            <p><label>Add a .png or .jpg image file: </label><input type="file" (change)="fileConversionListener($event)"></p>
+            <p class="text-danger" *ngIf="validator.image_src_invalid_size_flag || validator.image_src_invalid_flag">If left unchanged, previous image will be used.</p> 
+            <p *ngIf="backend_validation_error != ''" class="text-danger">{{backend_validation_error}}</p>    
+            <p><input type="submit" class="btn btn-warning" value="Edit Image"></p>
         </form>
     </div>
 </div>

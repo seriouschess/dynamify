@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using dynamify.Models;
 
+//To assign max bytes
+using dynamify.ServerClasses.DataLimiter;
+
 namespace dynamify.ServerClasses.QueryClasses
 {
     public class AdminQueries
@@ -132,7 +135,7 @@ namespace dynamify.ServerClasses.QueryClasses
                 DataPlan new_data_plan = new DataPlan();
                 new_data_plan.admin_id = admin_id;
                 new_data_plan.total_bytes = 0;
-                new_data_plan.max_bytes = 1000000*10; //10MB
+                new_data_plan.max_bytes = (int)DataPlanTiers.Free;
                 new_data_plan.premium_tier = 0;
                 dbContext.Add(new_data_plan);
                 dbContext.SaveChanges();
@@ -145,7 +148,6 @@ namespace dynamify.ServerClasses.QueryClasses
         public DataPlan UpdateDataPlan( DataPlan updated_data_plan ){
             DataPlan data_plan = GetDataPlanByAdminId(updated_data_plan.admin_id);
             data_plan.total_bytes = updated_data_plan.total_bytes;
-            data_plan.max_bytes = updated_data_plan.max_bytes;
             dbContext.SaveChanges();
             return data_plan;
         }

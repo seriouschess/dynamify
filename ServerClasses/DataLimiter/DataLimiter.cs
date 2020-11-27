@@ -7,7 +7,7 @@ namespace dynamify.ServerClasses.DataLimiter
     public class DataLimiter
     {
         AdminQueries _dbQuery;
-        private int _site_container_size = 5000; //arbitraty number
+        private int _site_container_size = 5;//5000; //arbitraty number
         public DataLimiter(AdminQueries dbQuery){
             _dbQuery = dbQuery;
         }
@@ -26,7 +26,7 @@ namespace dynamify.ServerClasses.DataLimiter
             if( data_plan.total_bytes <= data_plan.max_bytes ){
                 return data_plan;
             }else{
-                throw new System.ArgumentException("New site exceeds data plan limits.");
+                throw new System.ArgumentException("New site exceeds data plan limits. Reduce data use by deleting sites and or components.");
             }
         }
 
@@ -37,6 +37,17 @@ namespace dynamify.ServerClasses.DataLimiter
         }
 
         //site components
+         public DataPlan ValidateComponentAdditionForDataPlan(int admin_id, SiteComponent site_component){
+
+            DataPlan data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
+            data_plan.total_bytes += site_component.FindCharLength();
+            
+            if( data_plan.total_bytes <= data_plan.max_bytes ){
+                return data_plan;
+            }else{
+                throw new System.ArgumentException($"New {site_component.GetType().Name.ToString()} exceeds data plan limits. Reduce data use by deleting sites and or components.");
+            }
+        }
 
         //does not remove component itself.
         public void RemoveFromDataPlan(SiteComponent site_component, int admin_id){

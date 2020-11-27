@@ -31,7 +31,7 @@ namespace dynamify.ServerClasses.Email
             //$"<p>Get started by clicking <a href='https://siteleaves.com/app/activate/{email}/{token}'>this link</a>.</p>"+
             $"<p>Get started by clicking <a href='http://127.0.0.1:5000/app/activate/{email}/{token}'>this link</a>.</p>"+
             $"<br> This email was sent automatically as a direct result of a registration action"+
-            "<p>If you happen to have gotten this email by mistake, please send a reply to this email to give feedback the admin and we will do our best to apprehend the traitors.</p>";
+            "<p>If you happen to have gotten this email by mistake, please send a reply to this email to give feedback to the admin and we will do our best to apprehend the traitors.</p>";
             return new_body; 
         }
 

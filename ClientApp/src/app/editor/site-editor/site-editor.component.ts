@@ -45,6 +45,9 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   tcb_heading_one_option_active:boolean;
   tcb_heading_two_option_active:boolean;
 
+  //backend validation
+  backend_validation_error:string;
+
   //dtos
   formatted_skeleton_site:ISkeletonSiteDto;
 
@@ -73,10 +76,10 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
       title: null,
       site_id: null,
       site_components: null
-     }
+    }
 
-     this.initializeComponents();
-     this.validator.resetValidation();
+    this.initializeComponents();
+    this.initializeValidation();
 
     //image converter async flag
     this.image_converter_working = false;
@@ -136,8 +139,11 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
 
   }
 
+  initializeValidation(){
+    this.backend_validation_error = "";
+    this.validator.resetValidation();
+  }
 
-  //used to get site content from the backend
   requireSite(){
     this._apiClient.getSkeletonSiteById(this.current_site_id).subscribe((res) =>{
       this.formatted_skeleton_site = res;
@@ -183,34 +189,34 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   //set editors
   setPboxEdit(){
     this.initializeComponents();
-    this.validator.resetValidation();
+    this.initializeValidation();
     this.open_next_component="p_box";
     this.viewEditorBottom();
   }
 
   set2cBoxEdit(){
-    this.validator.resetValidation();
+    this.initializeValidation();
     this.initializeComponents();
     this.open_next_component="2c_box";
     this.viewEditorBottom();
   }
 
   setPortraitEdit(){
-    this.validator.resetValidation();
+    this.initializeValidation();
     this.initializeComponents();
     this.open_next_component="portrait";
     this.viewEditorBottom();
   }
 
   setImageEdit(){
-    this.validator.resetValidation();
+    this.initializeValidation();
     this.initializeComponents();
     this.open_next_component="image";
     this.viewEditorBottom();
   }
 
   setLinkBoxEdit(){
-      this.validator.resetValidation();
+      this.initializeValidation();
       this.initializeComponents();
       this.open_next_component= "link_box";
       this.viewEditorBottom();
@@ -251,59 +257,58 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
   }
 
   postParagraphBoxToService(){
-    this.validator.resetValidation();
+    this.initializeValidation();
     if(this.validator.validatePbox(this.new_paragraph_box)){
       this.setPriority();
         this._httpService.postParagraphBox(this.new_paragraph_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           this.requireSite();
           this.open_next_component=""; //reset editing tool options
-        }, error => console.log(error));
+        }, error => this.backend_validation_error = error.error);
     }
   }
 
   postTwoColumnBoxToService(){
-    this.validator.resetValidation();
+    this.initializeValidation();
     if(this.validator.validateTwoColumnBox(this.new_2c_box)){
       this.setPriority();
         this._httpService.postTwoColumnBox(this.new_2c_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           this.requireSite();
           this.open_next_component="";
-        }, error => console.log(error));
+        }, error => this.backend_validation_error = error.error);
     }
   }
 
   postImageToService(){
-     //this.validator.resetValidation();
+    this.initializeValidation();
     if(this.validator.validateImage(this.new_image.image_src)){ //validate this.new_image?
       this.setPriority();
-          //this.new_image.image_src = this.temp_file.data;
           this._httpService.postImage(this.new_image, this.current_admin_id, this.current_admin_token).subscribe(results =>{
             this.requireSite();
             this.open_next_component="";
-          }, error => console.log(error));
+          }, error => this.backend_validation_error = error.error);
     }
   }
 
   postPortraitToService(){
-    this.validator.resetValidation();
+    this.initializeValidation();
     if(this.validator.validatePortrait(this.new_portrait, this.new_portrait.image_src)){
       this.setPriority();
       this._httpService.postPortrait(this.new_portrait, this.current_admin_id, this.current_admin_token).subscribe(results =>{
         this.requireSite();
         this.open_next_component="";
-      }, error => console.log(error));
+      }, error => this.backend_validation_error = error.error);
     }
   }
 
   postLinkBoxToService(){
-    this.validator.resetValidation();
+    this.initializeValidation();
     if(this.validator.validateLinkBox(this.new_link_box)){
       this.setPriority();
       if(this.validator.validateLinkBox(this.new_link_box)){
         this._httpService.postLinkBox(this.new_link_box, this.current_admin_id, this.current_admin_token).subscribe(results =>{
           this.requireSite();
           this.open_next_component="";
-        }, error => console.log(error));
+        }, error => this.backend_validation_error = error.error);
       }
     }
   }

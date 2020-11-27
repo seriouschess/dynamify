@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IComponentRequestDto } from 'src/app/interfaces/dtos/formatted_sites/component_request_dto';
 import { Image } from 'src/app/interfaces/dtos/site_components/Image';
 import { BSfourConverterService } from 'src/app/services/b-sfour-converter/b-sfour-converter.service';
 import { HttpService } from 'src/app/services/http/http.service';
@@ -26,7 +25,10 @@ export class ImageEditorComponent implements OnInit {
   toggle_edit:boolean;
   toggle_delete:boolean;
 
+  backend_validation_error:string;
+
   ngOnInit(): void {
+    this.backend_validation_error = "";
     this.getImage();
   }
 
@@ -44,7 +46,7 @@ export class ImageEditorComponent implements OnInit {
         image_src:res.image_src
       };
       this.image_edits = res;
-    });
+    }, error => this.backend_validation_error = error.error);
   }
 
   editImage(){
@@ -57,13 +59,13 @@ export class ImageEditorComponent implements OnInit {
       };
       this.image_edits = res;
       this.toggle_edit = false;
-    }, err => console.log(err));
+    }, error => this.backend_validation_error = error.error);
   }
 
   deleteSiteComponentByIdAndType(){
     this._httpService.deleteSiteComponent(this.image_id, "image", this.admin_id, this.admin_token, this.site_id).subscribe(result =>{
       this.deleteEvent.emit(true);
-    });  
+    }, error => this.backend_validation_error = error.error);  
   }
 
   toggleEdit(){

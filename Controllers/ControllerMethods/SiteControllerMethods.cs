@@ -54,8 +54,7 @@ namespace dynamify.Controllers.ControllerMethods
                         try{
                             data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(NewSite.admin_id);
                         }catch{
-                            JsonFailure f = new JsonFailure("Data plan exceeds limit. Check Data limits for this account.");
-                            return StatusCode(400, f);
+                            return StatusCode(400, "Creating this leaf would exceed the data limits for this account. Delete sites or components to free data.");
                         }
                         
                         Site SoonToAddSite = new Site();
@@ -72,8 +71,7 @@ namespace dynamify.Controllers.ControllerMethods
                     return StatusCode(400, f);
                 }
             }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid Token. Stranger Danger.");
             }
         }
 
@@ -91,7 +89,7 @@ namespace dynamify.Controllers.ControllerMethods
             if(authenticator.VerifyAdminForLeaf(admin_id, NewBox.site_id, admin_token)){
                 DataPlan data_plan;
                 try{
-                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                    data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewBox);
                 }catch(System.ArgumentException e){
                     return StatusCode(400, e.Message);
                 }
@@ -111,7 +109,7 @@ namespace dynamify.Controllers.ControllerMethods
              if(authenticator.VerifyAdminForLeaf(admin_id, NewImage.site_id, admin_token)){
                 DataPlan data_plan;
                 try{
-                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                    data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewImage);
                 }catch(System.ArgumentException e){
                     return StatusCode(400, e.Message);
                 }
@@ -131,7 +129,7 @@ namespace dynamify.Controllers.ControllerMethods
              if(authenticator.VerifyAdminForLeaf(admin_id, NewTwoColumnBox.site_id, admin_token)){
                 DataPlan data_plan;
                 try{
-                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                    data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewTwoColumnBox);
                 }catch(System.ArgumentException e){
                     return StatusCode(400, e.Message);
                 }
@@ -153,7 +151,7 @@ namespace dynamify.Controllers.ControllerMethods
 
                 DataPlan data_plan;
                 try{
-                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                    data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewPortrait);
                 }catch(System.ArgumentException e){
                     return StatusCode(400, e.Message);
                 }
@@ -188,7 +186,7 @@ namespace dynamify.Controllers.ControllerMethods
 
                 DataPlan data_plan;
                 try{
-                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
+                    data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewLinkBox);
                 }catch(System.ArgumentException e){
                     return StatusCode(400, e.Message);
                 }
@@ -203,17 +201,10 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
         
+        //data plan currently not involved with nav bars
         public ActionResult<JsonResponse> PostNavBarMethod(int admin_id, string admin_token, int site_id){
              if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
-                DataPlan data_plan;
-                try{
-                    data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(admin_id);
-                }catch(System.ArgumentException e){
-                    return StatusCode(400, e.Message);
-                }
-
                 dbQuery.AddNavBarToSite( site_id );
-                _dataLimiter.UpdateDataPlan(data_plan);
                 JsonResponse r = new JsonSuccess("Nav Bar posted sucessfully!");
                 return r;
             }else{
@@ -398,8 +389,7 @@ namespace dynamify.Controllers.ControllerMethods
                     return StatusCode(400, f);
                 }
         }
-        
-
+    
         public ActionResult<JsonResponse> DeleteNavBarMethod(int admin_id, string admin_token, int site_id){
             if(authenticator.VerifyAdminForLeaf( admin_id, site_id, admin_token )){
                 dbQuery.DeleteNavBarBySiteId(site_id);
@@ -439,8 +429,7 @@ namespace dynamify.Controllers.ControllerMethods
                 try{
                     data_plan = _dataLimiter.ValidateDataPlanB(admin_id, queried_paragraph_box, paragraph_box);
                 }catch( System.ArgumentException e ){
-                    JsonFailure f = new JsonFailure(e.Message);
-                    return StatusCode(400, f);
+                    return StatusCode(400, e.Message);
                 }
 
                 ParagraphBox changed_tcb = dbQuery.EditParagraphBox( paragraph_box );
@@ -469,8 +458,7 @@ namespace dynamify.Controllers.ControllerMethods
                 try{
                     data_plan = _dataLimiter.ValidateDataPlanB(admin_id, queried_tc_box, tc_box);
                 }catch( System.ArgumentException e ){
-                    JsonFailure f = new JsonFailure(e.Message);
-                    return StatusCode(400, f);
+                    return StatusCode(400, e.Message);
                 }
 
                 TwoColumnBox changed_tcb = dbQuery.EditTwoColumnBox( tc_box );
@@ -500,8 +488,7 @@ namespace dynamify.Controllers.ControllerMethods
                 try{
                     data_plan = _dataLimiter.ValidateDataPlanB(admin_id, queried_image, image);
                 }catch( System.ArgumentException e ){
-                    JsonFailure f = new JsonFailure(e.Message);
-                    return StatusCode(400, f);
+                    return StatusCode(400, e.Message);
                 }
 
                 Image changed_image = dbQuery.EditImage( image );
@@ -530,8 +517,7 @@ namespace dynamify.Controllers.ControllerMethods
                 try{
                     data_plan = _dataLimiter.ValidateDataPlanB(admin_id, queried_portrait, portrait);
                 }catch( System.ArgumentException e ){
-                    JsonFailure f = new JsonFailure(e.Message);
-                    return StatusCode(400, f);
+                    return StatusCode(400, e.Message);
                 }
 
                 Portrait changed_portrait = dbQuery.EditPortrait( portrait );
@@ -560,8 +546,7 @@ namespace dynamify.Controllers.ControllerMethods
                 try{
                     data_plan = _dataLimiter.ValidateDataPlanB(admin_id, queried_link_box, link_box);
                 }catch( System.ArgumentException e ){
-                    JsonFailure f = new JsonFailure(e.Message);
-                    return StatusCode(400, f);
+                    return StatusCode(400, e.Message);
                 }
 
                 LinkBox changed_portrait = dbQuery.EditLinkBox( link_box );

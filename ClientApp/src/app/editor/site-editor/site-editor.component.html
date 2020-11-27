@@ -109,6 +109,7 @@
       <p><label>Column Two Heading: </label><input class="title_box" name="heading_two" [(ngModel)]="new_2c_box.heading_two"></p>
       <p *ngIf="validator.tcb_content_two_invalid_flag" class="text-danger"> Enter valid content or consider using a different component type. </p>
       <p><label>Column Two Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_two" [(ngModel)]="new_2c_box.content_two"></textarea></p>
+      <p class="text-danger" *ngIf="backend_validation_error != ''">{{backend_validation_error}}</p>
       <p><input type="submit" class="btn btn-warning" value="Add Two Column Box"></p>
     </form>
   </div>
@@ -123,6 +124,7 @@
       <p *ngIf="validator.image_src_invalid_size_flag" class="text-danger">File size must be less than 500 Kilobytes. Try resizing to a smaller image.</p>
       <p><label>Add a .png or .jpg image file: </label><input type="file" (change)="fileConversionListener($event)"></p> 
       <p *ngIf="image_converter_working"> Loading... </p>
+      <p class="text-danger" *ngIf="backend_validation_error != ''">{{backend_validation_error}}</p>
       <p><input *ngIf="!image_converter_working && !validator.image_src_invalid_flag && !validator.image_src_invalid_size_flag" type="submit" class="btn btn-warning" value="Add Image"></p>
     </form>
   </div>
@@ -139,6 +141,7 @@
       <p *ngIf="validator.portrait_content_invalid_flag" class="text-danger">Save a valid file or consider using a different component.</p>
       <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_portrait.content"></textarea></p>
       <p *ngIf="image_converter_working"> Loading... </p>
+      <p class="text-danger" *ngIf="backend_validation_error != ''">{{backend_validation_error}}</p>
       <p><input *ngIf="!image_converter_working && !validator.image_src_invalid_flag && !validator.image_src_invalid_size_flag" type="submit" class="btn btn-warning" value="Add Portrait"></p>
     </form>
   </div>
@@ -151,6 +154,7 @@
       <p *ngIf="add_title_option_active"><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_paragraph_box.title"></p>
       <p><label>Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content" [(ngModel)]="new_paragraph_box.content"></textarea></p>
       <p *ngIf="validator.pbox_content_invalid_flag" class="text-danger">Enter valid content text or consider a different component type.</p>
+      <p class="text-danger" *ngIf="backend_validation_error != ''">{{backend_validation_error}}</p>
       <p><input type="submit" class="btn btn-warning" value="Add Paragraph Box"></p>
     </form>
   </div>
@@ -168,6 +172,7 @@
       <p *ngIf="validator.link_box_url_invalid_flag" class="text-danger">URL must be of the form www.example.com/...</p>
       <p><label>Label: </label><input name="link_display" [(ngModel)]="new_link_box.link_display"> (this is what the user sees when they click the link)</p>
       <p *ngIf="validator.link_box_display_invalid_flag" class="text-danger">A link must have a label.</p>
+      <p class="text-danger" *ngIf="backend_validation_error != ''">{{backend_validation_error}}</p>
       <p><input type="submit" class="btn btn-warning" value="Add Link Box"></p>
     </form>
   </div>

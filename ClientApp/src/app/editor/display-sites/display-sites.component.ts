@@ -34,12 +34,12 @@ export class DisplaySitesComponent implements OnInit {
   blank_url_error_flag: boolean;
   url_exists_error_flag: boolean;
 
-  test: string;
+  //backend validation
+  backend_validation_error:string;
 
   constructor(private _httpService:HttpService) { }
 
   ngOnInit() {
-    this.test = "test string";
     this.current_site_id = 0; //non SQL id default value
     this.all_sites = [];
 
@@ -72,6 +72,8 @@ export class DisplaySitesComponent implements OnInit {
   }
 
   resetValidators(){
+    this.backend_validation_error = "";
+    
     this.blank_url_error_flag = false;
     this.reserved_url_error_flag = false;
     this.invalid_url_error_flag = false;
@@ -124,15 +126,12 @@ export class DisplaySitesComponent implements OnInit {
         this.all_sites.push(this.newSiteObject);
         this.iterateTutorial();
       }else if(!this.is_tutorial){
-        //this.newSiteObject.admin_id = 0; //will be changed on the backend
 
         this.newSiteObject.url = this.newSiteObject.url.toLowerCase();
         this._httpService.postSite(this.newSiteObject).subscribe(
         result => {
           let _server_response:any = result; //wow
           let server_response:JsonResponseDto = _server_response;
-
-          console.log(server_response.response);
 
           //check backend for duplicate URL
           if(server_response.response.includes("success")){ 
@@ -141,7 +140,7 @@ export class DisplaySitesComponent implements OnInit {
             this.url_exists_error_flag = true;
           }
           this.getSitesByAdminFromService();
-        });
+        }, error => this.backend_validation_error = error.error);
       }else{
         //innert tutorial button
       }
@@ -156,14 +155,14 @@ export class DisplaySitesComponent implements OnInit {
     this._httpService.getSitesByAdmin(this.current_admin_id, this.current_admin_token).subscribe(results => 
     {
       this.all_sites = results;
-    }, error => console.log(error));
+    }, error => this.backend_validation_error = error.error);
   }
 
   deleteSiteById(site_id:number,){
     if(!this.is_tutorial){
       this._httpService.deleteSite(site_id, this.current_admin_id, this.current_admin_token).subscribe(result =>{
         this.getSitesByAdminFromService();
-      });
+      }, error => this.backend_validation_error = error.error);
     }
   }
 
