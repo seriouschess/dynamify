@@ -29,6 +29,7 @@ namespace dynamify.Classes.Auth
                 QueryAdmin = QueryAdmins[0];
                 if(QueryAdmin.email_verified == false){
                     errors += 1;
+                    err_msg = "Account email has not yet been validated. Check email inbox for activation email.";
                 }
                 if(!VerifyHash(password, QueryAdmin.password)){
                     errors += 1;
