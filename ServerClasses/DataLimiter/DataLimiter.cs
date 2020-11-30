@@ -18,7 +18,7 @@ namespace dynamify.ServerClasses.DataLimiter
 
             int total_site_count = _dbQuery.GetSiteCountForAdminId(admin_id);
             if(!(total_site_count < _free_tier_site_limit)){ //must be strictly less than. Will add a site.
-                throw new System.ArgumentException($"New site adddition exceeds maximum site count of {total_site_count}.");
+                throw new System.ArgumentException($"New site adddition exceeds maximum site count of {total_site_count} for this account.");
             }
             
             DataPlan data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
@@ -27,7 +27,7 @@ namespace dynamify.ServerClasses.DataLimiter
             if( data_plan.total_bytes <= data_plan.max_bytes ){
                 return data_plan;
             }else{
-                throw new System.ArgumentException("New site exceeds data plan limits. Reduce data use by deleting sites and or components.");
+                throw new System.ArgumentException("Creating this leaf would exceed the data limits for this account. Delete sites or components to free data.");
             }
         }
 

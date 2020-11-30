@@ -53,8 +53,8 @@ namespace dynamify.Controllers.ControllerMethods
                         DataPlan data_plan;
                         try{
                             data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(NewSite.admin_id);
-                        }catch{
-                            return StatusCode(400, "Creating this leaf would exceed the data limits for this account. Delete sites or components to free data.");
+                        }catch(System.ArgumentException e){
+                            return StatusCode(400, e.Message);
                         }
                         
                         Site SoonToAddSite = new Site();
