@@ -43,6 +43,9 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<Admin> RegisterMethod(AdminRegistrationDto _NewAdmin){
 
+            //Garbage collect invalid admins. Here until a timed action is set on the hosted server.
+            dbQuery.DeleteOutOfDateInvalidAdmins();
+
             Admin NewAdmin = new Admin(){
                 username = _NewAdmin.username,
                 email = _NewAdmin.email,

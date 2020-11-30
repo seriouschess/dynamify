@@ -100,6 +100,14 @@ namespace dynamify.ServerClasses.QueryClasses
             return Subject;
         }
 
+        public void DeleteOutOfDateInvalidAdmins(){
+            List<Admin> invalid_admins = dbContext.Admins.Where(x => x.email_verified == false).Where(x => x.CreatedAt.AddDays(1) < DateTime.Now).ToList();
+            foreach(Admin admin in invalid_admins){
+                dbContext.Remove(admin);
+            }
+            dbContext.SaveChanges();
+        }
+
         //Update
         public Admin UpdateAdmin(Admin TargetAdmin){
             Admin SubjectAdmin = QueryAdminById(TargetAdmin.admin_id);
