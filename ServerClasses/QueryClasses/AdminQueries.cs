@@ -156,5 +156,10 @@ namespace dynamify.ServerClasses.QueryClasses
             dbContext.SaveChanges();
             return data_plan;
         }
+
+        public int GetSiteCountForAdminId( int admin_id ){
+            int site_count = dbContext.Sites.Where(x => x.admin_id == admin_id).Count();
+            return site_count;
+        }
     }
 }

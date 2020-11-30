@@ -7,22 +7,23 @@ namespace dynamify.ServerClasses.DataLimiter
     public class DataLimiter
     {
         AdminQueries _dbQuery;
-        private int _site_container_size = 5;//5000; //arbitraty number
+        private int _site_container_size = 0; //may be increased
+        private int _free_tier_site_limit = 5;
         public DataLimiter(AdminQueries dbQuery){
             _dbQuery = dbQuery;
-        }
-
-        //this method is kinda trash right now
-        public int ConvertCharLengthToBytes(int character_sum){
-            return character_sum;
         }
 
         //site
         public DataPlan ValidateSiteAdditionForDataPlan(int admin_id){
 
+            int total_site_count = _dbQuery.GetSiteCountForAdminId(admin_id);
+            if(!(total_site_count < _free_tier_site_limit)){ //must be strictly less than. Will add a site.
+                throw new System.ArgumentException($"New site adddition exceeds maximum site count of {total_site_count}.");
+            }
+            
             DataPlan data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
             data_plan.total_bytes += this._site_container_size;
-            
+
             if( data_plan.total_bytes <= data_plan.max_bytes ){
                 return data_plan;
             }else{
