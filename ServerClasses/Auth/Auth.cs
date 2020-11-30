@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using dynamify.Configuration;
 using dynamify.Models;
 using dynamify.Models.SiteModels;
+using dynamify.ServerClasses.Auth;
 using dynamify.ServerClasses.DataLimiter;
 using dynamify.ServerClasses.QueryClasses;
 
@@ -102,13 +103,15 @@ namespace dynamify.Classes.Auth
 
     class SiteAuth: Auth{
         private SiteQueries dbQueryS;
-        private DataLimiter _dataLimiter; 
+        private DataLimiter _dataLimiter;
+
+        private FieldAuthenticationSuite _fieldValidator = new FieldAuthenticationSuite(); 
         public SiteAuth(AdminQueries _dbQueryA, SiteQueries _dbQueryS, DataLimiter dataLimiter):base(_dbQueryA){
             dbQueryS = _dbQueryS;
             _dataLimiter = dataLimiter;
         }
 
-         public bool VerifyAdminForLeaf(int admin_id, int site_id, string token){ //use when modifying a leaf
+        public bool VerifyAdminForLeaf(int admin_id, int site_id, string token){ //use when modifying a leaf
 
             if(VerifyAdmin(admin_id, token) == false){
                 return false;
@@ -121,6 +124,11 @@ namespace dynamify.Classes.Auth
             }else{
                 return false;
             }
+        }
+
+        public List<string> ValidateIncomingComponent(SiteComponent sc){
+            List<string> errors = sc.GetFieldErrors(_fieldValidator);
+            return errors;
         }
     } 
 }
