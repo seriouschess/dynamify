@@ -56,29 +56,43 @@ namespace dynamify.ServerClasses.Auth
             }
         }
 
+        public bool CheckUniqueUsername(string username_bogie){
+            List<Admin> QueriedAdmins = dbQuery.GetAdminsByUsername(username_bogie);
+            if(QueriedAdmins.Count == 0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
         public string ValidateAdmin(Admin NewAdmin){
             int errors = 0;
+            string invalid_message = "";
 
             if( NewAdmin.username == "" ){
                 errors += 1;
+                invalid_message = "Please add a username to identify the account.";
             }
 
-            if( !ValidateEmail(NewAdmin.email) ){
+            if(!CheckUniqueUsername(NewAdmin.username)){
                 errors += 1;
+                invalid_message = "That user name already exists. Try adding a different user name.";
+            }
+
+            if(!CheckUniqueEmail(NewAdmin.email) ){
+                errors += 1;
+                invalid_message = "That email is being used by another account. Try contacting support or using a different email.";
             }
 
             if(NewAdmin.password.Length < 8){
                 errors += 1;
+                invalid_message = "Password must be 8 characters long.";
             }
 
             if(errors == 0){
-                if(CheckUniqueEmail(NewAdmin.email)){
-                    return "pass";
-                }else{
-                    return "duplicate email";
-                }
+                return "pass";
             }else{
-                return "invalid credentials";
+                return invalid_message;
             }
 
         }

@@ -43,33 +43,34 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<Admin> RegisterMethod(AdminRegistrationDto _NewAdmin){
 
-                Admin NewAdmin = new Admin(){
-                    username = _NewAdmin.username,
-                    email = _NewAdmin.email,
-                    password = _NewAdmin.password,
-                    token = _tGen.GenerateToken()
-                };
-                
-                string verdict = validator.ValidateAdmin(NewAdmin);
-                //authenticator.ValidateAdmin(NewAdmin.email, unhashed_password); not used
+            Admin NewAdmin = new Admin(){
+                username = _NewAdmin.username,
+                email = _NewAdmin.email,
+                password = _NewAdmin.password,
+                token = _tGen.GenerateToken()
+            };
+            
+            string verdict = validator.ValidateAdmin(NewAdmin);
 
              if(verdict == "pass"){
 
-                //hash password
-                string unhashed_password = _NewAdmin.password; //for the first login 
+                string unhashed_password = _NewAdmin.password;
                 NewAdmin.password = authenticator.HashString(_NewAdmin.password);
-                Admin RegisteredAdmin = dbQuery.SaveNewAdmin(NewAdmin); //create admin
-                dbQuery.CreateNewDataPlan(RegisteredAdmin.admin_id); //create data plan for admin
+                Admin RegisteredAdmin;
 
-                //send validation email
+                try{
+                    RegisteredAdmin = dbQuery.SaveNewAdmin(NewAdmin);
+                }catch(System.ArgumentException e){
+                    return StatusCode(400, e.Message);
+                }
+                
+                dbQuery.CreateNewDataPlan(RegisteredAdmin.admin_id);
+
                 mailer.SendRegistrationConfirmationEmail(RegisteredAdmin.email, RegisteredAdmin.admin_id, RegisteredAdmin.token);
 
                 return RegisteredAdmin;
-             }else if( verdict == "invalid credentials"){
-                return StatusCode(400, "Invalid Registration" );
-
              }else{
-                return StatusCode(400, "Duplicate Email, use an Email that has not been taken.");
+                return StatusCode(400, verdict );
              }
         }
 

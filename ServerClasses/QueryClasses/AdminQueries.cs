@@ -46,6 +46,11 @@ namespace dynamify.ServerClasses.QueryClasses
             }
         }
 
+        public List<Admin> GetAdminsByUsername(string username){
+            List<Admin> FoundAdmins = dbContext.Admins.Where(x => x.username == username).ToList();
+            return FoundAdmins;
+        }
+
         public List<Admin> GetAdminsByEmail(string email){
             List<Admin> FoundAdmins = dbContext.Admins.Where(x => x.email == email).ToList();
             return FoundAdmins;
@@ -57,19 +62,20 @@ namespace dynamify.ServerClasses.QueryClasses
 
         //Create
         public Admin SaveNewAdmin(Admin NewAdmin){
-            List<Admin> FoundAdmin = dbContext.Admins.Where(x => x.email == NewAdmin.email).ToList();
+            List<Admin> FoundAdmin = GetAdminsByEmail(NewAdmin.email);
             
-            if(FoundAdmin.Count == 0){ //NewAdmin is unique
-                dbContext.Add(NewAdmin);
-                dbContext.SaveChanges();
-            }else{
-                Admin ErrorAdmin = new Admin();
-                string error_msg = "<Error: email exists!, May not create more than one admin with existing email!>";
-                ErrorAdmin.username = error_msg;
-                ErrorAdmin.email = error_msg;
-                ErrorAdmin.password = error_msg;
-                return ErrorAdmin; 
+            if(FoundAdmin.Count != 0){ //NewAdmin is unique
+                throw new System.ArgumentException("Email exists! May not create more than one admin with existing email!"); 
             }
+
+            FoundAdmin = GetAdminsByUsername(NewAdmin.username);
+
+            if(FoundAdmin.Count != 0){
+                throw new System.ArgumentException("Username exists! May not create more than one admin with existing username!");
+            }
+
+            dbContext.Add(NewAdmin);
+            dbContext.SaveChanges();
 
             Admin Test = NewAdmin = dbContext.Admins.FirstOrDefault(x => x.email == NewAdmin.email);
             return Test;
