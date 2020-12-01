@@ -14,15 +14,15 @@ namespace dynamify.Models.SiteModels
         public override List<string> GetFieldErrors(ServerClasses.Auth.FieldAuthenticationSuite s){
             List<string> errors = new List<string>();
             
-            if(s.ValidateTitleLength(this.title)){
+            if(!s.ValidateTitleLength(this.title)){
                 errors.Add(s.TitleFieldTooLongMessage("Title", this.title.Length));
             }
 
-            if(s.ValidateImageBase64Length(this.image_src)){
+            if(!s.ValidateImageBase64Length(this.image_src)){
                 errors.Add(s.ImageBase64FileTooLargeMessage("Image", this.image_src.Length));
             }
 
-            if(s.ValidateImageBase64FileType(this.image_src)){
+            if(!s.ValidateImageBase64FileType(this.image_src)){
                 errors.Add(s.ImageInvalidFileTypeMessage("Image"));
             }
 

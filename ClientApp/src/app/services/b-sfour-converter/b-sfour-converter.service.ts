@@ -29,7 +29,7 @@ export class BSfourConverterService {
       reader.onload = function() {
         let file_base_64:string = reader.result+"";
 
-        if(file_base_64.length > 753483){ //b64 string length of a 
+        if(file_base_64.length > 2000000){ //b64 string length of a 
           file_too_big_flag = true;
         }
   
@@ -37,8 +37,14 @@ export class BSfourConverterService {
         for(var x=0; x<100 ;x++){
   
           //validate file type
-          if(file_base_64[x] == "j"){ //check jpg
+          if(file_base_64[x] == "j"){ //check jpeg
             if(file_base_64[x+1] == "p" && file_base_64[x+2] == "e" && file_base_64[x+3] == "g" ){
+              valid = true;
+            }
+          }
+
+          if(file_base_64[x] == "j"){ //check jpg
+            if(file_base_64[x+1] == "p" && file_base_64[x+2] == "g" ){
               valid = true;
             }
           }
