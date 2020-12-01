@@ -16,20 +16,20 @@ namespace dynamify.Models.SiteModels
 
         public override List<string> GetFieldErrors(ServerClasses.Auth.FieldAuthenticationSuite s){
             List<string> errors = new List<string>();
-            if(s.ValidateTitleLength(this.title)){
+            if(!s.ValidateTitleLength(this.title)){
                 errors.Add(s.TitleFieldTooLongMessage("Title", this.title.Length));
             }
             
-            if(s.ValidateTitleLength(this.heading_one)){
+            if(!s.ValidateTitleLength(this.heading_one)){
                 errors.Add(s.TitleFieldTooLongMessage("Left Heading", this.heading_one.Length));
             }
-            if(s.ValidateTitleLength(this.heading_two)){
+            if(!s.ValidateTitleLength(this.heading_two)){
                 errors.Add(s.TitleFieldTooLongMessage("Right Heading", this.heading_two.Length));
             }
-            if(s.ValidateParagraphContentLength(this.content_one)){
-                errors.Add(s.ContentFieldTooLongMessage("Left Content Field", this.content_two.Length));
+            if(!s.ValidateParagraphContentLength(this.content_one)){
+                errors.Add(s.ContentFieldTooLongMessage("Left Content Field", this.content_one.Length));
             }
-            if(s.ValidateParagraphContentLength(this.content_two)){
+            if(!s.ValidateParagraphContentLength(this.content_two)){
                 errors.Add(s.ContentFieldTooLongMessage("Right Content Field", this.content_two.Length));
             }
             return errors;

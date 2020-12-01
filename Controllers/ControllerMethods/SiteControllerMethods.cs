@@ -85,20 +85,32 @@ namespace dynamify.Controllers.ControllerMethods
             } 
         }
 
+        //*************************************************************************
+        //modified
+        //*************************************************************************
         public ActionResult<JsonResponse> PostBoxMethod(ParagraphBox NewBox, int admin_id, string admin_token){
             if(authenticator.VerifyAdminForLeaf(admin_id, NewBox.site_id, admin_token)){
-                DataPlan data_plan;
-                try{
-                    data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewBox);
-                }catch(System.ArgumentException e){
-                    return StatusCode(400, e.Message);
+
+                List<string> errors = authenticator.ValidateIncomingComponent(NewBox);
+                if(errors.Count == 0){
+
+                    DataPlan data_plan;
+                    try{
+                        data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewBox);
+                    }catch(System.ArgumentException e){
+                        return StatusCode(400, e.Message);
+                    }
+
+                    NewBox.byte_size =  NewBox.FindCharLength();
+                    dbQuery.AddParagraphBox(NewBox);
+                    _dataLimiter.UpdateDataPlan(data_plan);
+                    JsonResponse r = new JsonSuccess("Paragraph box posted sucessfully!");
+                    return r;
+
+                }else{
+                    return StatusCode(400, errors);
                 }
 
-                NewBox.byte_size =  NewBox.FindCharLength();
-                dbQuery.AddParagraphBox(NewBox);
-                _dataLimiter.UpdateDataPlan(data_plan);
-                JsonResponse r = new JsonSuccess("Paragraph box posted sucessfully!");
-                return r;
             }else{
                 JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
                 return StatusCode(400, f);
@@ -107,18 +119,27 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<JsonResponse> PostImageMethod(Image NewImage, int admin_id, string admin_token){
              if(authenticator.VerifyAdminForLeaf(admin_id, NewImage.site_id, admin_token)){
-                DataPlan data_plan;
-                try{
-                    data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewImage);
-                }catch(System.ArgumentException e){
-                    return StatusCode(400, e.Message);
-                }
-                NewImage.byte_size = NewImage.FindCharLength();
-                dbQuery.AddImage(NewImage);
-                _dataLimiter.UpdateDataPlan(data_plan);
 
-                JsonResponse r = new JsonSuccess("Image posted sucessfully!");
-                return r;
+                List<string> errors = authenticator.ValidateIncomingComponent(NewImage);
+                if(errors.Count == 0){
+
+                    DataPlan data_plan;
+                    try{
+                        data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewImage);
+                    }catch(System.ArgumentException e){
+                        return StatusCode(400, e.Message);
+                    }
+                    NewImage.byte_size = NewImage.FindCharLength();
+                    dbQuery.AddImage(NewImage);
+                    _dataLimiter.UpdateDataPlan(data_plan);
+
+                    JsonResponse r = new JsonSuccess("Image posted sucessfully!");
+                    return r;
+
+                }else{
+                    return StatusCode(400, errors);
+                }
+
             }else{
                 JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
                 return StatusCode(400, f);
@@ -127,19 +148,27 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<JsonResponse> PostTwoColumnBoxMethod(TwoColumnBox NewTwoColumnBox, int admin_id, string admin_token){
              if(authenticator.VerifyAdminForLeaf(admin_id, NewTwoColumnBox.site_id, admin_token)){
-                DataPlan data_plan;
-                try{
-                    data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewTwoColumnBox);
-                }catch(System.ArgumentException e){
-                    return StatusCode(400, e.Message);
+
+                List<string> errors = authenticator.ValidateIncomingComponent(NewTwoColumnBox);
+                if(errors.Count == 0){
+
+                    DataPlan data_plan;
+                    try{
+                        data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewTwoColumnBox);
+                    }catch(System.ArgumentException e){
+                        return StatusCode(400, e.Message);
+                    }
+
+                    NewTwoColumnBox.byte_size = NewTwoColumnBox.FindCharLength();
+                    dbQuery.AddTwoColumnBox(NewTwoColumnBox);
+                    _dataLimiter.UpdateDataPlan(data_plan);
+                    JsonResponse r = new JsonSuccess("Two column box posted sucessfully!");
+                    return r;
+
+                }else{
+                    return StatusCode(400, errors);
                 }
 
-                NewTwoColumnBox.byte_size = NewTwoColumnBox.FindCharLength();
-                dbQuery.AddTwoColumnBox(NewTwoColumnBox);
-                _dataLimiter.UpdateDataPlan(data_plan);
-
-                JsonResponse r = new JsonSuccess("Two column box posted sucessfully!");
-                return r;
             }else{
                 JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
                 return StatusCode(400, f);
@@ -149,19 +178,27 @@ namespace dynamify.Controllers.ControllerMethods
         public ActionResult<JsonResponse> PostPortraitMethod(Portrait NewPortrait, int admin_id, string admin_token){
              if(authenticator.VerifyAdminForLeaf(admin_id, NewPortrait.site_id, admin_token)){
 
-                DataPlan data_plan;
-                try{
-                    data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewPortrait);
-                }catch(System.ArgumentException e){
-                    return StatusCode(400, e.Message);
+                List<string> errors = authenticator.ValidateIncomingComponent(NewPortrait);
+                if(errors.Count == 0){
+
+                    DataPlan data_plan;
+                    try{
+                        data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewPortrait);
+                    }catch(System.ArgumentException e){
+                        return StatusCode(400, e.Message);
+                    }
+
+                    NewPortrait.byte_size = NewPortrait.FindCharLength();
+                    dbQuery.AddPortrait(NewPortrait);
+                    _dataLimiter.UpdateDataPlan(data_plan);
+
+                    JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
+                    return r;
+
+                }else{
+                    return StatusCode(400, errors);
                 }
 
-                NewPortrait.byte_size = NewPortrait.FindCharLength();
-                dbQuery.AddPortrait(NewPortrait);
-                _dataLimiter.UpdateDataPlan(data_plan);
-
-                JsonResponse r = new JsonSuccess("Portrait posted sucessfully!");
-                return r;
             }else{
                 JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
                 return StatusCode(400, f);
@@ -182,19 +219,25 @@ namespace dynamify.Controllers.ControllerMethods
                 NewLinkBox.site_id = _NewLinkBox.site_id;
                 NewLinkBox.byte_size = NewLinkBox.FindCharLength();
 
-             if(authenticator.VerifyAdminForLeaf(admin_id, NewLinkBox.site_id, admin_token)){
+            if(authenticator.VerifyAdminForLeaf(admin_id, NewLinkBox.site_id, admin_token)){
 
-                DataPlan data_plan;
-                try{
-                    data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewLinkBox);
-                }catch(System.ArgumentException e){
-                    return StatusCode(400, e.Message);
+                List<string> errors = authenticator.ValidateIncomingComponent(NewLinkBox);
+                if(errors.Count == 0){
+
+                    DataPlan data_plan;
+                    try{
+                        data_plan = _dataLimiter.ValidateComponentAdditionForDataPlan(admin_id, NewLinkBox);
+                    }catch(System.ArgumentException e){
+                        return StatusCode(400, e.Message);
+                    }
+
+                    dbQuery.AddLinkBox(NewLinkBox);
+                    _dataLimiter.UpdateDataPlan(data_plan);
+                    JsonResponse r = new JsonSuccess("Link Box posted sucessfully!");
+                    return r;
+                }else{
+                    return StatusCode(400, errors);
                 }
-
-                dbQuery.AddLinkBox(NewLinkBox);
-                _dataLimiter.UpdateDataPlan(data_plan);
-                JsonResponse r = new JsonSuccess("Link Box posted sucessfully!");
-                return r;
             }else{
                 JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
                 return StatusCode(400, f);

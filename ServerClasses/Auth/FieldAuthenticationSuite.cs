@@ -2,10 +2,10 @@ namespace dynamify.ServerClasses.Auth
 {
     public class FieldAuthenticationSuite
     {
-        private int _paragraph_content_max_length = 10000;
+        private int _paragraph_content_max_length = 10;
         private int _title_max_length = 50;
 
-        private int _image_base_sixty_four_max = 753483; //half a meg and change
+        private int _image_base_sixty_four_max = 100;//753483; //half a meg and change
         
         //validators
         public bool ValidateTitleLength(string str){

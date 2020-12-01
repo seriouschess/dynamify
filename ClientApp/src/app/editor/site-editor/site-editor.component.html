@@ -102,13 +102,13 @@
       <p *ngIf="new_2c_box.title === '' && add_title_option_active" class="text-info"> You may leave a title blank. A blank title will not appear in your leaf. </p>
       <p *ngIf="add_title_option_active"><label>Title: </label><input class="title_box" name="title" [(ngModel)]="new_2c_box.title"></p>
       <p *ngIf="new_2c_box.heading_one === ''" class="text-info"> You may leave the heading blank. A blank heading will not appear in your leaf. </p>
-      <p><label>Column One Heading: </label><input class="title_box" name="heading_one" [(ngModel)]="new_2c_box.heading_one"></p>
+      <p><label>Left Column Heading: </label><input class="title_box" name="heading_one" [(ngModel)]="new_2c_box.heading_one"></p>
       <p *ngIf="validator.tcb_content_one_invalid_flag" class="text-danger">Enter valid content or consider using a different component type.</p>
-      <p><label>Column One Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_one" [(ngModel)]="new_2c_box.content_one"></textarea></p>
+      <p><label>Left Column Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_one" [(ngModel)]="new_2c_box.content_one"></textarea></p>
       <p *ngIf="new_2c_box.heading_two === ''" class="text-info"> You may leave the heading blank. A blank heading will not appear in your leaf. </p>
-      <p><label>Column Two Heading: </label><input class="title_box" name="heading_two" [(ngModel)]="new_2c_box.heading_two"></p>
+      <p><label>Right Column Heading: </label><input class="title_box" name="heading_two" [(ngModel)]="new_2c_box.heading_two"></p>
       <p *ngIf="validator.tcb_content_two_invalid_flag" class="text-danger"> Enter valid content or consider using a different component type. </p>
-      <p><label>Column Two Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_two" [(ngModel)]="new_2c_box.content_two"></textarea></p>
+      <p><label>Right Column Content: </label><textarea rows="5" cols="200" style="width:80%;" name="content_two" [(ngModel)]="new_2c_box.content_two"></textarea></p>
       <p class="text-danger" *ngIf="backend_validation_error != ''">{{backend_validation_error}}</p>
       <p><input type="submit" class="btn btn-warning" value="Add Two Column Box"></p>
     </form>

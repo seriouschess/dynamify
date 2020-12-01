@@ -14,19 +14,19 @@ namespace dynamify.Models.SiteModels
         }
       public override List<string> GetFieldErrors(ServerClasses.Auth.FieldAuthenticationSuite s){
             List<string> errors = new List<string>();
-            if(s.ValidateTitleLength(this.title)){
+            if(!s.ValidateTitleLength(this.title)){
                 errors.Add(s.TitleFieldTooLongMessage("Title", this.title.Length));
             }
             
-            if(s.ValidateTitleLength(this.link_display)){
+            if(!s.ValidateTitleLength(this.link_display)){
                 errors.Add(s.TitleFieldTooLongMessage("Link Display Text", this.link_display.Length));
             }
 
-            if(s.ValidateParagraphContentLength(this.url)){
+            if(!s.ValidateParagraphContentLength(this.url)){
                 errors.Add(s.ContentFieldTooLongMessage("Link URL", this.url.Length));
             }
 
-            if(s.ValidateParagraphContentLength(this.content)){
+            if(!s.ValidateParagraphContentLength(this.content)){
                 errors.Add(s.ContentFieldTooLongMessage("Link Box Content", this.content.Length));
             }
             return errors;
