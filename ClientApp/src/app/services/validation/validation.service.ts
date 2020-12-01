@@ -73,8 +73,6 @@ export class ValidationService {
     if(image_src === ""){ 
       this.image_src_invalid_flag = true;
       error_count += 1;
-    }else{
-      this.image_src_invalid_flag = true;
     }
     
     if(error_count > 0){
