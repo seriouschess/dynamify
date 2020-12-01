@@ -2,6 +2,9 @@ namespace dynamify.ServerClasses.DataLimiter
 {
     public enum DataPlanTiers
     {
-        Free = 50//10000000,     //1000000*10 - 10MB
+        Free = 10000000, //10MB
+        Premium = 1000000000, //1GB
+        JohnHammond = 999999999 //< 10GB Would you really need more?
+
     }
 }

@@ -2,6 +2,7 @@ using System; //for datetime
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using dynamify.Models.DataPlans;
 using dynamify.Models.SiteModels;
 
 namespace dynamify.Models

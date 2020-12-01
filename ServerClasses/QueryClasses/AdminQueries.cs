@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using dynamify.Models;
+using dynamify.Models.DataPlans;
 
 //To assign max bytes
 using dynamify.ServerClasses.DataLimiter;
@@ -145,11 +146,9 @@ namespace dynamify.ServerClasses.QueryClasses
 
         public DataPlan CreateNewDataPlan(int admin_id){
             if(GetDataPlanByAdminId(admin_id) == null){
-                DataPlan new_data_plan = new DataPlan();
+                DataPlan new_data_plan = new FreeDataPlan();
                 new_data_plan.admin_id = admin_id;
                 new_data_plan.total_bytes = 0;
-                new_data_plan.max_bytes = (int)DataPlanTiers.Free;
-                new_data_plan.premium_tier = 0;
                 dbContext.Add(new_data_plan);
                 dbContext.SaveChanges();
                 return new_data_plan;

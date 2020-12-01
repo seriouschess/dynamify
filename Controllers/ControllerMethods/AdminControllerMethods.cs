@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using dynamify.ServerClasses.QueryClasses;
 using dynamify.ServerClasses.Email;
 using Microsoft.AspNetCore.Mvc;
+using dynamify.Models.DataPlans;
 
 namespace dynamify.Controllers.ControllerMethods
 {

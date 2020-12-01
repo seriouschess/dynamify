@@ -1,4 +1,5 @@
 using dynamify.Models.AnalyticsModels;
+using dynamify.Models.DataPlans;
 using dynamify.Models.SiteModels;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,5 @@
 using dynamify.Models;
+using dynamify.Models.DataPlans;
 using dynamify.Models.SiteModels;
 using dynamify.ServerClasses.QueryClasses;
 

@@ -9,6 +9,7 @@ using dynamify.Controllers.ControllerMethods;
 using System.Threading.Tasks;
 using dynamify.ServerClasses.QueryClasses;
 using dynamify.ServerClasses.Email;
+using dynamify.Models.DataPlans;
 
 namespace dynamify.Controllers
 {

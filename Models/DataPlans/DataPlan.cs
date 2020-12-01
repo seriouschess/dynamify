@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace dynamify.Models
+namespace dynamify.Models.DataPlans
 {
     public class DataPlan
     {
@@ -9,7 +9,7 @@ namespace dynamify.Models
         public int data_plan_id {get;set;}
         public int total_bytes {get;set;}
         public int max_bytes {get;set;} 
-        public int premium_tier {get;set;} //0 means free tier
+        public string premium_tier {get;set;}
 
         [ForeignKey("admin")]
         public int admin_id {get;set;}
