@@ -6,7 +6,7 @@
   <h3 *ngIf="tutorial_sequence == 4" class="text-info"> Well Done! You've made a leaf. Now click Edit to start adding content.</h3>
 </div>
 
-<button class="btn btn-info back-button"[routerLink]="['/app/account']">Settings</button>
+<button class="btn btn-info back-button"[routerLink]="['/app/account']" *ngIf="!is_tutorial">Settings</button>
 
 <div class="container">
   <h2 *ngIf="all_sites.length == 0"> Create a new leaf by filling out the information below. </h2>

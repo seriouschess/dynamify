@@ -29,19 +29,23 @@
 ></app-tutorial-editor>
 
 <div *ngIf="open_editor == false && open_site_select == false">
+    <h4 class="generic-element push-me-down">You can also watch a number of tutorial videos to get you started.</h4>
     <div class="bottom-information-container">
-        <div class="text-center">
-            <h2 class="push-me-down"> General guide video: </h2>
-            <div class="h-video generic-element">
-                <iframe
-                    src="https://www.youtube.com/embed/TeixVm1TFQY">
-                </iframe>
-            </div>
-            <h2> How to link multipage sites: </h2>
-            <div class="h-video generic-element">
-                <iframe
-                    src="https://www.youtube.com/embed/EAAiXQCHs8c">
-                </iframe>
+        <div class="generic-element">
+            <div *ngFor="let current_video of video_list">
+                <h2> {{current_video.video_title}}: 
+                    <button class="btn btn-info" 
+                        *ngIf="current_video.selected == false" 
+                        (click)="toggleVideoSelection(current_video)">
+                        Open Video
+                    </button>
+                </h2>
+                
+                <div class="h-video generic-element" *ngIf="current_video.selected == true">
+                    <iframe 
+                        [src]="current_video.source_url" allowfullscreen>
+                    </iframe >
+                </div>
             </div>
         </div>
     </div>
