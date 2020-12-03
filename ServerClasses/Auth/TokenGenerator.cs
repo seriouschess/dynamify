@@ -12,10 +12,10 @@ namespace dynamify.ServerClasses.Auth
 
         public TokenGenerator(){ }
 
-        public string GenerateToken(){ //produces a random string of length 15 using charset
+        public string GenerateToken(){ //produces a random string of length 45 using charset
             Random rand = new Random();
             string auth_token = "";
-            for(int x=0; x<15 ;x++){
+            for(int x=0; x<45 ;x++){
                 auth_token += charset[rand.Next(0, charset.Length)];
             }
             return auth_token;
