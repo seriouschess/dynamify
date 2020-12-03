@@ -3,11 +3,11 @@
 
 <div class="container" *ngIf="open_editor == false && open_site_select == false" >
     <h2 class="text-info tutorial-header">Hello and welcome to the Site Leaves tutorial!</h2>
-    <div class="container tutorial-box">
-        <p>You will see how easy it can be to get your site content on the web by using these tools.</p>
-        <p>Don't worry, nothing you do will be saved. A demo site will be created just to get you familiar with using the app, so feel free to explore!</p>
-    </div>
-    <div class="text-center">
+    <div class="container">
+        <div class="tutorial-box">
+            <p>You will see how easy it can be to get your site content on the web by using these tools.</p>
+            <p>Don't worry, nothing you do will be saved. A demo site will be created just to get you familiar with using the app, so feel free to explore!</p>
+        </div>
         <button class="btn highlight start-button" (click)="beginTutorial()">Click here to begin the tutorial.</button>
     </div>
 </div>
@@ -29,25 +29,33 @@
 ></app-tutorial-editor>
 
 <div *ngIf="open_editor == false && open_site_select == false">
-    <h4 class="generic-element push-me-down">You can also watch a number of tutorial videos to get you started.</h4>
-    <div class="bottom-information-container">
-        <div class="generic-element">
+    <h3 class="push-me-down tutorial-video-title  generic-element">You can also watch a number of tutorial videos to get you started.</h3>
+    <div class="video-container">
+    <div class="tutorial-video-box">
+        <h2 class="text-center">{{selected_video.video_title}}:</h2>
+        <div class="h-video" *ngIf="selected_video != null">
+            <iframe 
+                [src]="selected_video.source_url" allowfullscreen>
+            </iframe >
+        </div>
+    </div>
+    <div class="video-scroller-box">
+        <h5>Other video options:</h5>
+        <div class="video-scroller">
             <div *ngFor="let current_video of video_list">
-                <h2> {{current_video.video_title}}: 
-                    <button class="btn btn-info" 
-                        *ngIf="current_video.selected == false" 
+                <p class="text-center video-description" *ngIf="current_video.selected == false" >{{current_video.video_title}}: 
+                    <button class="btn btn-info"
                         (click)="toggleVideoSelection(current_video)">
                         Open Video
                     </button>
-                </h2>
-                
-                <div class="h-video generic-element" *ngIf="current_video.selected == true">
-                    <iframe 
-                        [src]="current_video.source_url" allowfullscreen>
-                    </iframe >
-                </div>
+                </p>
             </div>
         </div>
+    </div>
+    </div>
+    <div class="generic-element push-me-down">
+        <h3>Additional questions and or comments?</h3>
+        <p>Consider using the <a href="/app/about">contact form</a> on our About page.</p>
     </div>
     <div class="footer"></div>
 </div>

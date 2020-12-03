@@ -4,6 +4,12 @@
     display: block;
 }
 
+.footer{
+    height: 50px;
+    background-color: rgb(121, 159, 165);
+    border-top: 3px solid rgb(0, 92, 128);
+}
+
 .tutorial-header{
     margin-top: 5%;
     margin-bottom: 5%;
@@ -18,6 +24,37 @@
     padding-right: 4%;
 }
 
+.video-container{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    max-width: 1681px;
+}
+
+.video-description{
+    display: block;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.video-scroller{
+    display:block;
+    width:100%;
+    max-height: 1000px;
+    overflow-y: scroll;
+}
+
+.video-scroller-box{
+    display:block;
+    padding: 1%;
+    width:500px;
+    max-height: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
 .start-button{
     margin-top: 3%;
 }
@@ -26,8 +63,29 @@
     margin-top: 200px;
 }
 
+.tutorial-video-box{
+    background-color: rgb(203, 232, 233);
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    width:90%;
+    max-width: 1150px;
+    border-radius:5px;
+    padding-top:5%;
+    padding-bottom:5%;
+}
+
+.tutorial-video-title{
+    border-top: 2px solid green;
+    border-bottom: 2px solid green;
+    border-radius: 5px;
+    padding-top:2%;
+    padding-bottom:2%;
+}
+
 .h-video {
     position: relative;
+    display:block;
     height: 0;
     padding-bottom: 51%;
     margin-left: auto;
@@ -47,6 +105,15 @@
     .tutorial-box{
         visibility: true;
     }
+
+    .tutorial-box{
+        display: inline-block;
+        width: 70%;
+    }
+    .start-button{
+        width:28%;
+        margin-left: 2%;
+    }
 }
 
 @media (min-width: 1350px){
@@ -55,5 +122,14 @@
         height: 810px;
         padding-bottom: 0px;
         position: relative;
+    }
+}
+
+@media (min-width: 1680px){
+    .video-scroller-box{
+        display:inline-block;
+    }
+    .tutorial-video-box{
+        display:inline-block;
     }
 }

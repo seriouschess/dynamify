@@ -15,6 +15,7 @@ export class TutorialComponent implements OnInit {
   display_sites_done: boolean;
   open_guide_videos:boolean
   video_list:TutorialVideo[];
+  selected_video:TutorialVideo;
 
   ngOnInit() {
     this.open_site_select = false;
@@ -32,24 +33,29 @@ export class TutorialComponent implements OnInit {
   }
 
   addVideos(){
+    this.selected_video = null;
     this.video_list = [];
-    let video_one:TutorialVideo = {
+    let current_video:TutorialVideo = {
       video_title: "General guide video",
       source_url: this.dodgeTheBus("https://www.youtube.com/embed/TeixVm1TFQY"),
       selected: false,
       description: ""
     }
 
-    this.video_list.push(video_one);
+    current_video.selected = true;
+    this.selected_video = current_video;
+    this.video_list.push(current_video);
 
-    let video_two:TutorialVideo = {
+    //unselected videos
+    current_video = {
       video_title: "How to link multipage sites",
       source_url: this.dodgeTheBus("https://www.youtube.com/embed/EAAiXQCHs8c"),
       selected: false,
       description: ""
     }
 
-    this.video_list.push(video_two);
+    this.video_list.push(current_video);
+
   }
 
   dodgeTheBus(str:string):SafeResourceUrl{
@@ -61,6 +67,7 @@ export class TutorialComponent implements OnInit {
       current_video => current_video.selected = false
     );
     inc_video.selected = true;
+    this.selected_video = inc_video;
   }
 
   checkDone($event){
