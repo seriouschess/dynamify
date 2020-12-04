@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace dynamify.Models.SiteModels
 {
-    public class NavLink
+    public partial class NavLink
     {
         [Key]
         public int link_id {get;set;}

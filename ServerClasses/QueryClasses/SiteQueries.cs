@@ -1,5 +1,4 @@
 using System.Linq;
-using dynamify.ServerClasses.QueryClasses;
 using System.Collections.Generic;
 using dynamify.dtos;
 using System;
@@ -240,6 +239,11 @@ namespace dynamify.ServerClasses.QueryClasses
             }else{
                 throw new System.ArgumentException($"Site id {site_id} has {QueriedBars.Count} NavBars and may not exceed 1.");
             }
+        }
+
+        public List<NavLink> QueryNavBarLinksBySiteId(int site_id){
+            NavBar found_nav_bar = QueryNavBarBySiteId(site_id);
+            return dbContext.NavLinks.Where(x => x.nav_bar_id == found_nav_bar.nav_bar_id ).ToList();
         }
 
         public ParagraphBox QueryParagraphBoxById(int paragraph_box_id ){

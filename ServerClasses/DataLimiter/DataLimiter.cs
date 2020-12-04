@@ -1,3 +1,4 @@
+using dynamify.dtos;
 using dynamify.Models;
 using dynamify.Models.DataPlans;
 using dynamify.Models.SiteModels;
@@ -51,10 +52,30 @@ namespace dynamify.ServerClasses.DataLimiter
             }
         }
 
+        public DataPlan ValidateNavLinkAdditionForDataPlan(int admin_id, NewNavLinkDto new_nav_link){ //Nav Links are not a SiteComponent
+            NavLink nav_link = new NavLink();
+            nav_link.label = new_nav_link.label;
+            nav_link.url = new_nav_link.url;
+
+            DataPlan data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
+            data_plan.total_bytes += nav_link.FindCharLength();
+            if( data_plan.total_bytes <= data_plan.max_bytes ){
+                return data_plan;
+            }else{
+                throw new System.ArgumentException($"New {nav_link.GetType().Name.ToString()} exceeds data plan limits. Reduce data use by deleting sites and or components.");
+            }
+        }
+
         //does not remove component itself.
         public void RemoveFromDataPlan(SiteComponent site_component, int admin_id){
             DataPlan admin_data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
             admin_data_plan.total_bytes -= site_component.FindCharLength();
+            _dbQuery.UpdateDataPlan( admin_data_plan );
+        }
+
+        public void RemoveNavLinkFromDataPlan(NavLink nav_link, int admin_id){ //not a component!
+            DataPlan admin_data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
+            admin_data_plan.total_bytes -= nav_link.FindCharLength();
             _dbQuery.UpdateDataPlan( admin_data_plan );
         }
 

@@ -86,9 +86,6 @@ namespace dynamify.Controllers.ControllerMethods
             } 
         }
 
-        //*************************************************************************
-        //modified
-        //*************************************************************************
         public ActionResult<JsonResponse> PostBoxMethod(ParagraphBox NewBox, int admin_id, string admin_token){
             if(authenticator.VerifyAdminForLeaf(admin_id, NewBox.site_id, admin_token)){
 
@@ -259,7 +256,15 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<NavLinkDto> PostNavLinkMethod( NewNavLinkDto new_link, int admin_id, string admin_token, int site_id ){
              if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
-                return dbQuery.AddNavBarLinkToSite(new_link, site_id);
+                DataPlan data_plan;
+                    try{
+                        data_plan = _dataLimiter.ValidateNavLinkAdditionForDataPlan(admin_id, new_link);
+                    }catch(System.ArgumentException e){
+                        return StatusCode(400, e.Message);
+                    } 
+                NavLinkDto added_link = dbQuery.AddNavBarLinkToSite(new_link, site_id);
+                _dataLimiter.UpdateDataPlan(data_plan);
+                return added_link;
             }else{
                 JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
                 return StatusCode(400, f);
@@ -278,6 +283,20 @@ namespace dynamify.Controllers.ControllerMethods
                     };
                     DeleteAuthenticatedSiteComponentMethod(component_reference);
                 }
+
+                //manually remove nav link data from data plan
+                List<NavLink> found_nav_links;
+                try{
+                    found_nav_links = dbQuery.QueryNavBarLinksBySiteId(site_id);
+                }catch{
+                    found_nav_links = null;
+                }
+                if(found_nav_links != null){
+                    foreach(NavLink nav_link in found_nav_links){
+                        _dataLimiter.RemoveNavLinkFromDataPlan(nav_link, admin_id);
+                    }
+                }
+
                 _dataLimiter.RemoveSiteFromDataPlan(admin_id);
                 Site DeletedSite = dbQuery.DeleteSiteById(site_id);
                 JsonResponse r = new JsonSuccess($"Site {DeletedSite.title} deleted sucessfully!");
@@ -436,7 +455,20 @@ namespace dynamify.Controllers.ControllerMethods
     
         public ActionResult<JsonResponse> DeleteNavBarMethod(int admin_id, string admin_token, int site_id){
             if(authenticator.VerifyAdminForLeaf( admin_id, site_id, admin_token )){
+
+                List<NavLink> found_nav_links;
+                try{
+                    found_nav_links = dbQuery.QueryNavBarLinksBySiteId(site_id);
+                }catch{
+                    found_nav_links = null;
+                }
+                if(found_nav_links != null){
+                    foreach(NavLink nav_link in found_nav_links){
+                        _dataLimiter.RemoveNavLinkFromDataPlan(nav_link, admin_id);
+                    }
+                }
                 dbQuery.DeleteNavBarBySiteId(site_id);
+                
                 return new JsonSuccess($"NavBar Deleted for site id: {site_id}");
             }else{
                 JsonFailure f = new JsonFailure("Invalid credentials.");
@@ -446,6 +478,23 @@ namespace dynamify.Controllers.ControllerMethods
 
         public ActionResult<JsonResponse> DeleteNavLinkMethod(int admin_id, string admin_token, int site_id, int link_id){
             if(authenticator.VerifyAdminForLeaf( admin_id, site_id, admin_token )){
+                List<NavLink> found_nav_links;
+                try{
+                    found_nav_links = dbQuery.QueryNavBarLinksBySiteId(site_id);
+                }catch{
+                    return StatusCode(400, $"Link ID {link_id} not found on site id {site_id}'s Nav Bar");
+                }
+                NavLink found_link = null;
+                foreach(NavLink link in found_nav_links){
+                    if(link.link_id == link_id){
+                        found_link = link;
+                    }
+                }
+                if(found_link == null){
+                    return StatusCode(400, $"Link ID {link_id} not found on site id {site_id}'s Nav Bar");
+                }
+                _dataLimiter.RemoveNavLinkFromDataPlan(found_link, admin_id);
+
                 dbQuery.DeleteNavLinkById(link_id);
                 return new JsonSuccess($"NavLink Deleted for link id: {link_id}");
             }else{

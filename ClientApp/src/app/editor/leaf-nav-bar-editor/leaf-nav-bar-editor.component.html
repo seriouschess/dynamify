@@ -44,6 +44,7 @@
     <p><label> Add A link URL: </label><input class="title_box" name="url" [(ngModel)]="new_nav_link.url"></p>
     <p *ngIf="validator.nav_bar_invalid_url_flag" class="text-danger"> A url must be of the form www.example.com/... </p>
     <p class="text-danger"> May not contain curley brackets e.g. {{curlies}} </p>
+    <p class="text-danger" *ngIf="backend_error_message != ''">{{backend_error_message}}</p>
     <button class="btn btn-info nav-edit-button" (click)="addLinkToBar()"> Add link to nav bar </button>
     <button *ngIf = "nav_bar != null" class="btn btn-danger nav-edit-button" (click)="deleteNavBar()"> Remove all links </button>
   </div>

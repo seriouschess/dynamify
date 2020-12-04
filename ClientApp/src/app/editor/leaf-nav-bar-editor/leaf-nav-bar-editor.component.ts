@@ -20,6 +20,7 @@ export class LeafNavBarEditorComponent implements OnInit {
   //editor related
   new_nav_bar: NavBar;
   new_nav_link:NewNavLinkDto;
+  backend_error_message:string;
 
   @Input() nav_bar_editor_open:boolean;
 
@@ -35,6 +36,7 @@ export class LeafNavBarEditorComponent implements OnInit {
     public validator:ValidationService) { }
 
   ngOnInit() {
+    this.backend_error_message = "";
     this.curlies = "{ or }";
     this.nav_bar = null;
     this.resetNewNavLink();
@@ -58,35 +60,39 @@ export class LeafNavBarEditorComponent implements OnInit {
   }
 
   addLinkToBar(){
+    this.backend_error_message = "";
     if(this.validator.validateNavBarLink(this.new_nav_link)){
       this._httpService.postNavLink(this.new_nav_link, this.current_admin_id, this.current_admin_token, this.current_site_id).subscribe( res =>{
         this.requestNavBar();
         this.resetNewNavLink();
-      });
+      }, error => this.backend_error_message = error.error);
     }
   }
 
   deleteNavBar(){
+    this.backend_error_message = "";
     this._httpService.deleteNavBar( this.current_admin_id, this.current_admin_token, this.current_site_id ).subscribe( res =>{
       this.requestNavBar();
     }, err =>{
-      console.log(err);
+      this.backend_error_message = err.error
       this.requestNavBar();
     });
   }
 
   deleteNavBarLink(link_id: number){
+    this.backend_error_message = "";
     this._httpService.deleteNavLink( this.current_admin_id, this.current_admin_token, this.current_site_id, link_id ).subscribe( res =>{
       this.requestNavBar();
-    });
+    }, error => this.backend_error_message = error.error);
   }
 
   createNavBar(){
+    this.backend_error_message = "";
     if(true){ //additional validators required?
       this._httpService.postNavBar(this.current_admin_id, this.current_admin_token, this.site_id).subscribe(results =>{
         this.requestNavBar();
         this.nav_bar_editor_open;
-      }, error => console.log(error)); 
+      }, error => this.backend_error_message = error.error); 
     }
   }
 
