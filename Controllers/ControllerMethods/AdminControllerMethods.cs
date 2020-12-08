@@ -11,6 +11,7 @@ using dynamify.ServerClasses.QueryClasses;
 using dynamify.ServerClasses.Email;
 using Microsoft.AspNetCore.Mvc;
 using dynamify.Models.DataPlans;
+using Microsoft.AspNetCore.Http;
 
 namespace dynamify.Controllers.ControllerMethods
 {
@@ -26,7 +27,13 @@ namespace dynamify.Controllers.ControllerMethods
 
         private Mailer mailer;
 
-        public AdminControllerMethods(AdminQueries _dbQuery, Mailer _mailer){
+        private IHttpContextAccessor _httpContextAccesssor;
+
+        private string _currentDomain;
+
+        public AdminControllerMethods(AdminQueries _dbQuery, Mailer _mailer, IHttpContextAccessor httpContextAccesssor){
+            _httpContextAccesssor = httpContextAccesssor;
+            _currentDomain = _httpContextAccesssor.HttpContext.Request.Host.Value;
             dbQuery = _dbQuery;
             mailer = _mailer;
             authenticator = new Auth(_dbQuery);
@@ -70,7 +77,7 @@ namespace dynamify.Controllers.ControllerMethods
                 
                 dbQuery.CreateNewDataPlan(RegisteredAdmin.admin_id);
 
-                mailer.SendRegistrationConfirmationEmail(RegisteredAdmin.email, RegisteredAdmin.admin_id, RegisteredAdmin.token);
+                mailer.SendRegistrationConfirmationEmail(RegisteredAdmin.email, RegisteredAdmin.admin_id, RegisteredAdmin.token, _currentDomain);
 
                 return RegisteredAdmin;
              }else{
@@ -89,7 +96,7 @@ namespace dynamify.Controllers.ControllerMethods
         public async Task<ActionResult<JsonResponse>> SendPasswordResetEmailMethod(string requested_mail){
             try{
                 Admin FoundAdmin = dbQuery.GetAdminByEmail(requested_mail);
-                await mailer.SendPasswordResetMail(FoundAdmin.email, FoundAdmin.admin_id, FoundAdmin.token);
+                await mailer.SendPasswordResetMail(FoundAdmin.email, FoundAdmin.admin_id, FoundAdmin.token, _currentDomain);
                 return new JsonSuccess("Password verification email sent.");
             }catch{
                 return StatusCode(400, "Email not found");

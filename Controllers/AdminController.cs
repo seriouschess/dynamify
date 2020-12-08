@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using dynamify.ServerClasses.QueryClasses;
 using dynamify.ServerClasses.Email;
 using dynamify.Models.DataPlans;
+using Microsoft.AspNetCore.Http;
 
 namespace dynamify.Controllers
 {
@@ -19,10 +20,10 @@ namespace dynamify.Controllers
     {
         private AdminQueries adminQueries;
         private AdminControllerMethods methods;
-        public AdminController(AdminQueries _adminQueries, Mailer _mailer )
+        public AdminController(AdminQueries _adminQueries, Mailer _mailer, IHttpContextAccessor httpContextAccesssor )
         {
             adminQueries = _adminQueries;
-            methods = new AdminControllerMethods(adminQueries, _mailer);
+            methods = new AdminControllerMethods(adminQueries, _mailer, httpContextAccesssor);
         }
 
         [HttpGet]

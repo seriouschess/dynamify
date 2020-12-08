@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using dynamify.ServerClasses.QueryClasses;
 using dynamify.Configuration;
 using dynamify.ServerClasses.Email;
+using Microsoft.AspNetCore.Http;
 
 namespace dynamify
 {
@@ -42,6 +43,7 @@ namespace dynamify
             string mySqlConnection = Configuration["ConnectionString"];
             System.Console.WriteLine(mySqlConnection);
             services.AddDbContext<DatabaseContext>(options => options.UseMySql(mySqlConnection));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<AdminQueries>();
             services.AddScoped<SiteQueries>();
             services.AddScoped<AnalyticsQueries>();
