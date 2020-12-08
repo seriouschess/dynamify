@@ -56,7 +56,12 @@ namespace dynamify.Classes.Auth
         }
 
         public bool VerifyAdmin(int admin_id, string token){ //use to login admin
-            Admin QueryAdmin = dbQueryA.GetAdminById(admin_id);
+            Admin QueryAdmin;
+            try{
+                QueryAdmin = dbQueryA.GetAdminById(admin_id);
+            }catch{
+                return false;
+            }
             if(QueryAdmin.token == token && QueryAdmin.email_verified){
                 return true;
             }else{

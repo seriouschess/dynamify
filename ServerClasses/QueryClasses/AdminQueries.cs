@@ -4,9 +4,6 @@ using System.Linq;
 using dynamify.Models;
 using dynamify.Models.DataPlans;
 
-//To assign max bytes
-using dynamify.ServerClasses.DataLimiter;
-
 namespace dynamify.ServerClasses.QueryClasses
 {
     public class AdminQueries
@@ -19,13 +16,19 @@ namespace dynamify.ServerClasses.QueryClasses
 
         //Read & Get
         public Admin GetAdminById(int admin_id){
-            return dbContext.Admins.Where(x => x.admin_id == admin_id).Select(a => new Admin(){
+            List<Admin> FoundAdmins = dbContext.Admins.Where(x => x.admin_id == admin_id).Select(a => new Admin(){
                 admin_id = a.admin_id,
                 email = a.email,
                 token = a.token,
                 password = a.password,
                 email_verified = a.email_verified
-            }).SingleOrDefault();
+            }).ToList();
+
+            if(FoundAdmins.Count == 1){
+                return FoundAdmins[0];
+            }else{
+                throw new System.ArgumentException($"Admin ID: {admin_id} not found");
+            }
         }
 
         //must be used when changing admin properties

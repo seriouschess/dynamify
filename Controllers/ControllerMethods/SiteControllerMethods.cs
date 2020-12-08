@@ -40,8 +40,7 @@ namespace dynamify.Controllers.ControllerMethods
                 SkeletonSiteDto FoundSite = dbQuery.QuerySkeletonContentByUrl( url );
                 return FoundSite;
             }catch{
-                JsonFailure err = new JsonFailure("url not found");
-                return StatusCode(404, err);
+                return StatusCode(404, "url not found");
             }
         }
 
@@ -83,8 +82,7 @@ namespace dynamify.Controllers.ControllerMethods
                 List<Site> OwnedSites = dbQuery.QuerySitesByAdmin(admin_id);
                 return OwnedSites;
             }else{
-                JsonFailure f = new JsonFailure("Admin credentials refused.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Admin credentials refused.");
             } 
         }
 
@@ -112,8 +110,7 @@ namespace dynamify.Controllers.ControllerMethods
                 }
 
             }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid Token. Stranger Danger.");
             }
         }
 
@@ -141,8 +138,7 @@ namespace dynamify.Controllers.ControllerMethods
                 }
 
             }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid Token. Stranger Danger.");
             }
         }
 
@@ -170,8 +166,7 @@ namespace dynamify.Controllers.ControllerMethods
                 }
 
             }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid Token. Stranger Danger.");
             }
         }
 
@@ -200,8 +195,7 @@ namespace dynamify.Controllers.ControllerMethods
                 }
 
             }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid Token. Stranger Danger.");
             }
         }
 
@@ -239,8 +233,7 @@ namespace dynamify.Controllers.ControllerMethods
                     return StatusCode(400, errors);
                 }
             }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid Token. Stranger Danger.");
             }
         }
         
@@ -251,8 +244,7 @@ namespace dynamify.Controllers.ControllerMethods
                 JsonResponse r = new JsonSuccess("Nav Bar posted sucessfully!");
                 return r;
             }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid Token. Stranger Danger.");
             }
         }
 
@@ -268,8 +260,7 @@ namespace dynamify.Controllers.ControllerMethods
                 _dataLimiter.UpdateDataPlan(data_plan);
                 return added_link;
             }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid Token. Stranger Danger.");
             }
         }
 
@@ -304,8 +295,7 @@ namespace dynamify.Controllers.ControllerMethods
                 JsonResponse r = new JsonSuccess($"Site {DeletedSite.title} deleted sucessfully!");
                 return r;
             }else{
-                JsonFailure f = new JsonFailure("Invalid Token. Stranger Danger.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid Token. Stranger Danger.");
             }
         }
 
@@ -331,8 +321,7 @@ namespace dynamify.Controllers.ControllerMethods
             try{
                 return dbQuery.QueryNavBarDtoBySiteId(site_id);
             }catch{
-                JsonFailure f = new JsonFailure($"Nav Bar for site id {site_id} not found.");
-                return StatusCode(400, f);
+                return StatusCode(400, $"Nav Bar for site id {site_id} not found.");
             }
             
         }
@@ -342,8 +331,7 @@ namespace dynamify.Controllers.ControllerMethods
                 ParagraphBox paragraph_box = dbQuery.QueryParagraphBoxById( p_box_id );
                 return paragraph_box;
             }catch{
-                JsonFailure f = new JsonFailure("Component Not Found");
-                return StatusCode(400, f);
+                return StatusCode(400, "Component Not Found");
             }
         }
 
@@ -352,8 +340,7 @@ namespace dynamify.Controllers.ControllerMethods
                 Portrait portrait = dbQuery.QueryPortraitById( portrait_id );
                 return portrait;
             }catch{
-                JsonFailure f = new JsonFailure("Component Not Found");
-                return StatusCode(400, f);
+                return StatusCode(400, "Component Not Found");
             }
         }
 
@@ -362,8 +349,7 @@ namespace dynamify.Controllers.ControllerMethods
                 TwoColumnBox two_column_box = dbQuery.QueryTwoColumnBoxById( two_column_box_id );
                 return two_column_box;
             }catch{
-                JsonFailure f = new JsonFailure("Component Not Found");
-                return StatusCode(400, f);
+                return StatusCode(400, "Component Not Found");
             }
         }
 
@@ -372,8 +358,7 @@ namespace dynamify.Controllers.ControllerMethods
                 LinkBox link_box = dbQuery.QueryLinkBoxById( link_box_id );
                 return link_box;
             }catch{
-                JsonFailure f = new JsonFailure("Component Not Found");
-                return StatusCode(400, f);
+                return StatusCode(400, "Component Not Found");
             } 
         }
 
@@ -382,8 +367,7 @@ namespace dynamify.Controllers.ControllerMethods
                 Image image = dbQuery.QueryImageById(image_id);
                 return image;
             }catch{
-                JsonFailure f = new JsonFailure("Component Not Found");
-                return StatusCode(400, f);
+                return StatusCode(400, "Component Not Found");
             }      
         }
 
@@ -393,8 +377,7 @@ namespace dynamify.Controllers.ControllerMethods
                 return new JsonSuccess(
                     $"Component id {Components.component_one.component_id} type {Components.component_one.component_type} sucessfully swapped with Component id {Components.component_two.component_id} type {Components.component_two.component_type}");
             }else{
-                JsonFailure f = new JsonFailure("Invalid credentials.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid credentials.");
             }
         }
 
@@ -403,8 +386,7 @@ namespace dynamify.Controllers.ControllerMethods
             if(authenticator.VerifyAdminForLeaf(admin_id, site_id, admin_token)){
                 return DeleteAuthenticatedSiteComponentMethod(Component);
             }else{
-                JsonFailure f = new JsonFailure("Invalid credentials.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid credentials.");
             }
         }
 
@@ -489,8 +471,7 @@ namespace dynamify.Controllers.ControllerMethods
                 
                 return new JsonSuccess($"NavBar Deleted for site id: {site_id}");
             }else{
-                JsonFailure f = new JsonFailure("Invalid credentials.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid credentials.");
             }
         }
 
@@ -548,8 +529,7 @@ namespace dynamify.Controllers.ControllerMethods
                 return paragraph_box;
 
             }else{
-                JsonFailure f = new JsonFailure("Invalid credentials.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid credentials.");
             }
         }
 
@@ -577,8 +557,7 @@ namespace dynamify.Controllers.ControllerMethods
                 return changed_tcb;
 
             }else{
-                JsonFailure f = new JsonFailure("Invalid credentials.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid credentials.");
             }
         }
 
@@ -607,8 +586,7 @@ namespace dynamify.Controllers.ControllerMethods
                 return changed_image;
 
             }else{
-                JsonFailure f = new JsonFailure("Invalid credentials.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid credentials.");
             }
         }
         
@@ -636,8 +614,7 @@ namespace dynamify.Controllers.ControllerMethods
                 return changed_portrait;
 
             }else{
-                JsonFailure f = new JsonFailure("Invalid credentials.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid credentials.");
             }
         }
 
@@ -665,8 +642,7 @@ namespace dynamify.Controllers.ControllerMethods
                 return changed_portrait;
 
             }else{
-                JsonFailure f = new JsonFailure("Invalid credentials.");
-                return StatusCode(400, f);
+                return StatusCode(400, "Invalid credentials.");
             }
         }
     }
