@@ -314,6 +314,12 @@ namespace dynamify.Controllers.ControllerMethods
             Site found_site = dbQuery.QueryFeaturelessSiteById(updated_site.site_id);
             if(authenticator.VerifyAdminForLeaf(found_site.admin_id, found_site.site_id, admin_token )){
                 found_site.title = updated_site.title;
+                
+                List<string> format_errors = authenticator.ValidateIncomingSite(found_site);
+                if( format_errors.Count != 0){
+                    return StatusCode(400, format_errors[0] );
+                }
+
                 return dbQuery.EditSiteTitle(found_site);
             }else{
                 return StatusCode(400, "Invalid credentials.");
