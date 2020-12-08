@@ -12,7 +12,6 @@ using dynamify.ServerClasses.QueryClasses;
 //for StatusCode
 using Microsoft.AspNetCore.Mvc;
 using dynamify.ServerClasses.DataLimiter;
-using dynamify.Models;
 using dynamify.Models.DataPlans;
 
 namespace dynamify.Controllers.ControllerMethods
@@ -50,7 +49,6 @@ namespace dynamify.Controllers.ControllerMethods
             if(authenticator.VerifyAdmin(NewSite.admin_id, NewSite.token)){
                 string verdict = validator.ValidateSiteUrl(NewSite.url);
                 if(verdict == "pass"){
-
                         DataPlan data_plan;
                         try{
                             data_plan = _dataLimiter.ValidateSiteAdditionForDataPlan(NewSite.admin_id);
@@ -62,6 +60,10 @@ namespace dynamify.Controllers.ControllerMethods
                         SoonToAddSite.title = NewSite.title;
                         SoonToAddSite.admin_id = NewSite.admin_id;
                         SoonToAddSite.url = NewSite.url.ToLower();
+                        List<string> format_errors = authenticator.ValidateIncomingSite(SoonToAddSite);
+                        if( format_errors.Count != 0){
+                            return StatusCode(400, format_errors[0] );
+                        }
                         dbQuery.AddSite(SoonToAddSite);
                         _dataLimiter.UpdateDataPlan(data_plan);
                         JsonResponse r = new JsonSuccess($"Site created with title: ${NewSite.title}");
@@ -307,6 +309,16 @@ namespace dynamify.Controllers.ControllerMethods
             }
         }
 
+        //Site edit methods
+        public ActionResult<Site> EditSiteTitleMethod(SiteTitleUpdateDto updated_site, string admin_token){
+            Site found_site = dbQuery.QueryFeaturelessSiteById(updated_site.site_id);
+            if(authenticator.VerifyAdminForLeaf(found_site.admin_id, found_site.site_id, admin_token )){
+                found_site.title = updated_site.title;
+                return dbQuery.EditSiteTitle(found_site);
+            }else{
+                return StatusCode(400, "Invalid credentials.");
+            }
+        }
 
         //------         COMPONENT QUERY METHODS        -----
         public ActionResult<NavBarDto> GetNavBarMethod(int site_id){

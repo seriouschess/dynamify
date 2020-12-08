@@ -23,7 +23,14 @@
     [current_site_id]="current_site_id"
   ></app-leaf-nav-bar-editor>
 
-  <h1 class="leaf-title" *ngIf="formatted_skeleton_site.title != ''"> {{formatted_skeleton_site.title}} </h1>
+  <!-- <h1 class="leaf-title" *ngIf="formatted_skeleton_site.title != ''"> {{formatted_skeleton_site.title}} </h1> -->
+  <app-site-title-editor
+  [current_site_id]="current_site_id"
+  [current_admin_id]="current_admin_id"
+  [current_admin_token]="current_admin_token"
+  [current_site_title]="formatted_skeleton_site.title" 
+  (output_title)="recieveNewTitle($event)"
+  ></app-site-title-editor>
 
 
   <div *ngFor="let site_component of formatted_skeleton_site.site_components;let i = index;">

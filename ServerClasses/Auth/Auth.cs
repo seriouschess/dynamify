@@ -52,7 +52,6 @@ namespace dynamify.Classes.Auth
         }
 
         public bool VerifyHash( string comparison, string hash ){
-            //string hashed_comparison = HashString(comparison);
             return BCrypt.Net.BCrypt.Verify(comparison, hash);
         }
 
@@ -128,6 +127,14 @@ namespace dynamify.Classes.Auth
 
         public List<string> ValidateIncomingComponent(SiteComponent sc){
             List<string> errors = sc.GetFieldErrors(_fieldValidator);
+            return errors;
+        }
+
+        public List<string> ValidateIncomingSite(Site site){
+            List<string> errors = new List<string>();
+            if(!_fieldValidator.ValidateTitleLength(site.title)){
+                errors.Add(_fieldValidator.TitleFieldTooLongMessage("Site Title", site.title.Length));
+            }
             return errors;
         }
     } 

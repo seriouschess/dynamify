@@ -22,6 +22,7 @@ import { ComponentReference } from 'src/app/interfaces/dtos/site_components/Comp
 import { ContactForm } from 'src/app/interfaces/dtos/reports_related/ContactForm';
 import { ISiteViewDto } from 'src/app/interfaces/dtos/analytics_dtos/SiteViewDto';
 import { DataPlan } from 'src/app/interfaces/dtos/admin_related/data_plan';
+import { IUpdatedSiteDto } from 'src/app/interfaces/dtos/formatted_sites/update_site_dto';
 
 @Injectable({
   providedIn: 'root'
@@ -92,6 +93,10 @@ export class HttpService {
 
   postSite(input_site: INewSiteDto){
     return this._http.post(`api/site/create_site`, input_site);
+  }
+
+  editSiteTitle(updated_site:IUpdatedSiteDto, admin_token:string){
+    return this._http.put<IUpdatedSiteDto>(`api/site/edit/title/${admin_token}`, updated_site);
   }
 
   //component retrieval services

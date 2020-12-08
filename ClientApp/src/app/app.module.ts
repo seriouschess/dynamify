@@ -40,6 +40,7 @@ import { SiteAnalyticsComponent } from './site-analytics/site-analytics.componen
 import { DataPlanDisplayComponent } from './admin-related/data-plan-display/data-plan-display.component';
 import { EditorOptionsComponent } from './editor/editor-options/editor-options.component';
 import { LeafNavBarComponent } from './leaves/leaf-nav-bar/leaf-nav-bar.component';
+import { SiteTitleEditorComponent } from './editor/site-title-editor/site-title-editor.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { LeafNavBarComponent } from './leaves/leaf-nav-bar/leaf-nav-bar.componen
     SiteAnalyticsComponent,
     DataPlanDisplayComponent,
     EditorOptionsComponent,
-    LeafNavBarComponent
+    LeafNavBarComponent,
+    SiteTitleEditorComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

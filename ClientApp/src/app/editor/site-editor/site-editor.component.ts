@@ -47,6 +47,7 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
 
   //backend validation
   backend_validation_error:string;
+  backend_site_edit_error:string;
 
   //dtos
   formatted_skeleton_site:ISkeletonSiteDto;
@@ -311,6 +312,11 @@ export class SiteEditorComponent implements OnInit, AfterViewInit {
         }, error => this.backend_validation_error = error.error);
       }
     }
+  }
+
+  //Edits
+  recieveNewTitle($event){
+    this.formatted_skeleton_site.title = $event;
   }
 
   //refresh editor data

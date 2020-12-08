@@ -477,6 +477,17 @@ namespace dynamify.ServerClasses.QueryClasses
 
 
         //edit queries
+        public Site EditSiteTitle(Site updated_site){
+            List<Site> found_sites = dbContext.Sites.Where(x => x.site_id == updated_site.site_id).ToList();
+            if(found_sites.Count != 1){
+                throw new System.ArgumentException($"Site ID {updated_site.site_id} not found.");
+            }
+
+            Site found_site = found_sites[0];
+            found_site.title = updated_site.title;
+            dbContext.SaveChanges();
+            return found_site;
+        }
         public ParagraphBox EditParagraphBox(ParagraphBox updated_box){
             if(updated_box.byte_size == 0){
                 throw new System.ArgumentException("Paragraph box must have byte size greater than 0. Is it being calculated?");

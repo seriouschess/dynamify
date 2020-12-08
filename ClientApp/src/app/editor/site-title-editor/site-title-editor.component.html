@@ -1,0 +1,19 @@
+
+<div *ngIf="open_editor == false">
+    <h2 class="leaf-title editor-component" *ngIf="current_site_title != ''">{{current_site_title}}</h2>
+    <div class="text-center component-options-bar" *ngIf="current_site_title != ''">
+        <button class="btn btn-danger" (click)="editBlankTitle()">Delete</button>
+        <button class="btn btn-info component-options-bottom-button" (click)="toggleEditor()">Edit</button>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-info component-options-bottom-button" *ngIf="current_site_title == ''" (click)="toggleEditor()">Add Title</button>
+    </div>
+</div>
+
+<form class="editor-form" (submit)=editSiteTitle() *ngIf="open_editor == true">
+    <button class="btn btn-info" (click)="toggleEditor()">Close Title Editor</button> 
+    <p *ngIf="backend_site_edit_error != ''">{{backend_site_edit_error}}</p>
+    <p><label>New Site Title: </label><input class="title_box" name="heading_one" [(ngModel)]="updated_title"></p>
+    <p *ngIf="current_site_title == ''"><input type="submit" class="btn btn-warning" value="Add Title"></p>
+    <p *ngIf="current_site_title != ''"><input type="submit" class="btn btn-warning" value="Edit Title"></p>
+</form>

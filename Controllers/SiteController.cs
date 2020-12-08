@@ -178,8 +178,14 @@ namespace dynamify.Controllers
             return methods.DeleteNavBarMethod(admin_id, admin_token, site_id);
         }
 
-        //edit site components
+        //Edit 
+        [HttpPut]
+        [Route("edit/title/{admin_token}")]
+        public ActionResult<Site> EditSiteTitle([FromBody] SiteTitleUpdateDto updated_site, string admin_token){
+            return methods.EditSiteTitleMethod(updated_site, admin_token);
+        }
 
+        //Edit Site Components
         [HttpPut]
         [Route("edit/paragraph_box/{admin_id}/{admin_token}/{site_id}")]
         [Produces("application/json")]
