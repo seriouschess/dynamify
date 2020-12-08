@@ -27,6 +27,7 @@ export class DisplaySitesComponent implements OnInit {
   all_sites: any;
   newSiteObject: INewSiteDto;
   current_site_id: number;
+  open_new_site_form:boolean;
 
   //validation messages
   reserved_url_error_flag: boolean;
@@ -163,6 +164,14 @@ export class DisplaySitesComponent implements OnInit {
       this._httpService.deleteSite(site_id, this.current_admin_id, this.current_admin_token).subscribe(result =>{
         this.getSitesByAdminFromService();
       }, error => this.backend_validation_error = error.error);
+    }
+  }
+
+  //operational
+  toggleNewSiteForm(){
+    this.open_new_site_form = ! this.open_new_site_form;
+    if(this.is_tutorial && this.tutorial_sequence == 2){
+      this.iterateTutorial();
     }
   }
 

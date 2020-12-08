@@ -1,7 +1,7 @@
 
 <div *ngIf="is_tutorial" class="container tutorial-box">
   <h3 *ngIf="tutorial_sequence == 1" class="text-info"> Welcome to the leaf creation page! Click ok to continue. <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
-  <h3 *ngIf="tutorial_sequence == 2" class="text-info"> This is where you create leaves using your account. You will see that there are none becuse you need to create one! <button class="btn highlight" (click)="iterateTutorial()"> OK </button></h3>
+  <h3 *ngIf="tutorial_sequence == 2" class="text-info"> This is where you create leaves using your account. You will see that there are none becuse you need to create one! Click 'Create New Leaf' below.</h3>
   <h3 *ngIf="tutorial_sequence == 3" class="text-info"> Enter a title to be displayed at the top of your leaf as well as a valid url extension so people can find it. All leaf urls must be unique and must be all letters. </h3>
   <h3 *ngIf="tutorial_sequence == 4" class="text-info"> Well Done! You've made a leaf. Now click Edit to start adding content.</h3>
 </div>
@@ -34,7 +34,14 @@
       </tbody>
   </table>
 
-  <form class="new-leaf-box" (submit)="postSiteToService()">
+  <div class="text-center" *ngIf="!open_new_site_form">
+    <h4 *ngIf="backend_validation_error != ''" class="text-danger">{{backend_validation_error}}</h4>
+    <button class="btn btn-info" *ngIf="!(tutorial_sequence == 2)" (click)="toggleNewSiteForm()">Create New Leaf</button>
+    <button class="btn btn-info highlight" *ngIf="tutorial_sequence == 2" (click)="toggleNewSiteForm()">Create New Leaf</button>
+  </div>
+
+  <form class="new-leaf-box" (submit)="postSiteToService()" *ngIf="open_new_site_form">
+      <button class="btn btn-info" (click)="toggleNewSiteForm()"> Cancel </button>
       <h4 *ngIf="backend_validation_error != ''" class="text-danger">{{backend_validation_error}}</h4>
       <h3>Create a new leaf below:</h3>
       <p *ngIf="newSiteObject.title == ''" class = "text text-info"> A title may be blank, but a blank title will not be displayed at the top of the leaf. </p>
@@ -47,7 +54,7 @@
       <p *ngIf="invalid_url_error_flag" class="text-danger"> "nospaces" <- valid URL example --- "$p@ce$ n' Ch@rs123!" <- invalid URL example </p>
       <p *ngIf="blank_url_error_flag" class="text-danger"> A URL may not be blank. </p>
       <label> URL: </label><input name="url" [(ngModel)]="newSiteObject.url">
-      <input *ngIf="!is_tutorial || tutorial_sequence != 3" class="btn btn-info" type="submit" value="Post new Site">
-      <input *ngIf="is_tutorial && tutorial_sequence == 3" type="submit" class="btn highlight" value="Post new Site">
+      <input *ngIf="!is_tutorial || tutorial_sequence != 3" class="btn btn-info" type="submit" value="Create Leaf">
+      <input *ngIf="is_tutorial && tutorial_sequence == 3" type="submit" class="btn highlight" value="Create Leaf">
   </form>
 </div>
