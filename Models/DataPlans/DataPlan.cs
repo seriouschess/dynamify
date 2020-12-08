@@ -8,7 +8,8 @@ namespace dynamify.Models.DataPlans
         [Key]
         public int data_plan_id {get;set;}
         public int total_bytes {get;set;}
-        public int max_bytes {get;set;} 
+        public int max_bytes {get;set;}
+        public int max_sites {get;set;} 
         public string premium_tier {get;set;}
 
         [ForeignKey("admin")]

@@ -6,6 +6,7 @@ namespace dynamify.Models.DataPlans
     {
         PremiumDataPlan(){
             this.max_bytes = (int)DataPlanTiers.Premium; //1 gig
+            this.max_sites = 50;
             this.premium_tier = "Premium";
         }
     }

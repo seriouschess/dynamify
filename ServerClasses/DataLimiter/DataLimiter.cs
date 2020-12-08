@@ -1,5 +1,4 @@
 using dynamify.dtos;
-using dynamify.Models;
 using dynamify.Models.DataPlans;
 using dynamify.Models.SiteModels;
 using dynamify.ServerClasses.QueryClasses;
@@ -10,7 +9,6 @@ namespace dynamify.ServerClasses.DataLimiter
     {
         AdminQueries _dbQuery;
         private int _site_container_size = 0; //may be increased
-        private int _free_tier_site_limit = 5;
         public DataLimiter(AdminQueries dbQuery){
             _dbQuery = dbQuery;
         }
@@ -19,11 +17,11 @@ namespace dynamify.ServerClasses.DataLimiter
         public DataPlan ValidateSiteAdditionForDataPlan(int admin_id){
 
             int total_site_count = _dbQuery.GetSiteCountForAdminId(admin_id);
-            if(!(total_site_count < _free_tier_site_limit)){ //must be strictly less than. Will add a site.
+            DataPlan data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
+            if(!(total_site_count < data_plan.max_sites)){ //must be strictly less than. Will add a site.
                 throw new System.ArgumentException($"New site adddition exceeds maximum site count of {total_site_count} for this account.");
             }
             
-            DataPlan data_plan =_dbQuery.GetDataPlanByAdminId(admin_id);
             data_plan.total_bytes += this._site_container_size;
 
             if( data_plan.total_bytes <= data_plan.max_bytes ){
