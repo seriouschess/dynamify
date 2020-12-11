@@ -40,9 +40,9 @@ namespace dynamify
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            string mySqlConnection = Configuration["ConnectionString"];
-            System.Console.WriteLine(mySqlConnection);
-            services.AddDbContext<DatabaseContext>(options => options.UseMySql(mySqlConnection));
+            string psqlConnection = Configuration["ConnectionString"];
+            System.Console.WriteLine(psqlConnection);
+            services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(psqlConnection));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<AdminQueries>();
             services.AddScoped<SiteQueries>();
