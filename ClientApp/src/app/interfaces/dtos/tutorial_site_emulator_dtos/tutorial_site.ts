@@ -1,8 +1,8 @@
-import { ParagraphBox } from "../site_components/ParagraphBox";
-import { Image } from "../site_components/Image";
-import { TwoColumnBox } from "../site_components/TwoColumnBox";
-import { Portrait } from "../site_components/Portrait";
-import { LinkBox } from "../site_components/LinkBox";
+import { ParagraphBox } from "../site_components/paragraph_box";
+import { Image } from "../site_components/image";
+import { TwoColumnBox } from "../site_components/two_column_box";
+import { Portrait } from "../site_components/portrait";
+import { LinkBox } from "../site_components/link_box";
 
 export interface ITutorialSite{
     title:string;

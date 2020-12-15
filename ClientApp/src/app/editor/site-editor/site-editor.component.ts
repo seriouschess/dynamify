@@ -4,12 +4,12 @@ import { ValidationService } from '../../services/validation/validation.service'
 import { BSfourConverterService } from '../../services/b-sfour-converter/b-sfour-converter.service';
 import { DOCUMENT } from '@angular/common';
 import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skeleton_site_dto';
-import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
-import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnBox';
-import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
-import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
-import { Image } from 'src/app/interfaces/dtos/site_components/Image';
-import { ComponentReference } from 'src/app/interfaces/dtos/site_components/ComponentReference';
+import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/paragraph_box';
+import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/two_column_box';
+import { LinkBox } from 'src/app/interfaces/dtos/site_components/link_box';
+import { Portrait } from 'src/app/interfaces/dtos/site_components/portrait';
+import { Image } from 'src/app/interfaces/dtos/site_components/image';
+import { ComponentReference } from 'src/app/interfaces/dtos/site_components/component_reference';
 
 @Component({
   selector: 'app-site-editor',

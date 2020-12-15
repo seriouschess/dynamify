@@ -7,12 +7,12 @@ import { ISiteFormatted } from 'src/app/interfaces/dtos/tutorial_site_emulator_d
 import { HttpService } from 'src/app/services/http/http.service';
 import { ValidationService } from 'src/app/services/validation/validation.service';
 import { BSfourConverterService } from 'src/app/services/b-sfour-converter/b-sfour-converter.service';
-import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
-import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnBox';
-import { Image } from 'src/app/interfaces/dtos/site_components/Image';
-import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
-import { NavLink } from 'src/app/interfaces/dtos/site_components/NavLink';
-import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
+import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/paragraph_box';
+import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/two_column_box';
+import { Image } from 'src/app/interfaces/dtos/site_components/image';
+import { LinkBox } from 'src/app/interfaces/dtos/site_components/link_box';
+import { NavLink } from 'src/app/interfaces/dtos/site_components/nav_link';
+import { Portrait } from 'src/app/interfaces/dtos/site_components/portrait';
 
 @Component({
   selector: 'app-tutorial-editor',

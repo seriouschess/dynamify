@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ISiteFormatted } from '../../interfaces/dtos/tutorial_site_emulator_dtos/formatted_site_content';
 import { IGenericSiteComponent } from '../../interfaces/dtos/tutorial_site_emulator_dtos/generic_site_component';
 import { ITutorialSite } from 'src/app/interfaces/dtos/tutorial_site_emulator_dtos/tutorial_site';
-import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
+import { NavBar } from 'src/app/interfaces/dtos/site_components/nav_bar';
 
 // **************************************
 //This formatter is a legacy archatecture now only used for the tutorial.

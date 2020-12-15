@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
+import { NavBar } from 'src/app/interfaces/dtos/site_components/nav_bar';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ValidationService } from 'src/app/services/validation/validation.service';
 

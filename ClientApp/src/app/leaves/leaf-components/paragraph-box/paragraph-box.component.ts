@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import{ HttpService } from '../../../services/http/http.service';
-import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
+import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/paragraph_box';
 
 @Component({
   selector: 'app-paragraph-box',

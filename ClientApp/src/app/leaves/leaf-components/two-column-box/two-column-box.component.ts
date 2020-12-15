@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import{ HttpService } from '../../../services/http/http.service';
-import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnBox';
+import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/two_column_box';
 
 @Component({
   selector: 'app-two-column-box',

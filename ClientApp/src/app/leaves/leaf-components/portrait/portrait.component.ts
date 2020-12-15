@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import{ HttpService } from '../../../services/http/http.service';
-import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
+import { Portrait } from 'src/app/interfaces/dtos/site_components/portrait';
 
 @Component({
   selector: 'app-portrait',

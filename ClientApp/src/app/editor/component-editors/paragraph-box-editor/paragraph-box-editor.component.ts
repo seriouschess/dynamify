@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
+import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/paragraph_box';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ValidationService } from 'src/app/services/validation/validation.service';
 

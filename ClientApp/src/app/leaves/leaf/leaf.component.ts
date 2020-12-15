@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skeleton_site_dto';
 import { HttpService } from 'src/app/services/http/http.service';
-import { NavBar } from 'src/app/interfaces/dtos/site_components/NavBar';
+import { NavBar } from 'src/app/interfaces/dtos/site_components/nav_bar';
 
 @Component({
   selector: 'app-leaf',

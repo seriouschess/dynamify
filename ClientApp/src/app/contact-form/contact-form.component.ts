@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ContactForm } from '../interfaces/dtos/reports_related/ContactForm';
+import { ContactForm } from '../interfaces/dtos/reports_related/contact_form';
 import { HttpService } from '../services/http/http.service';
 
 

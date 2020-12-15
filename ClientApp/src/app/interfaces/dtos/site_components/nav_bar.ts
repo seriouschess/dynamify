@@ -1,4 +1,4 @@
-import { NavLink } from "./NavLink";
+import { NavLink } from "./nav_link";
 
 export interface NavBar{
     links: NavLink[],

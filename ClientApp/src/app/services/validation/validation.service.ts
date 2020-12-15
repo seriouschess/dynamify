@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/ParagraphBox';
-import { Portrait } from 'src/app/interfaces/dtos/site_components/Portrait';
-import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/TwoColumnBox';
-import { LinkBox } from 'src/app/interfaces/dtos/site_components/LinkBox';
-import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/NewNavLinKDto';
+import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/paragraph_box';
+import { Portrait } from 'src/app/interfaces/dtos/site_components/portrait';
+import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/two_column_box';
+import { LinkBox } from 'src/app/interfaces/dtos/site_components/link_box';
+import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/new_nav_link_dto';
 
 @Injectable({
   providedIn: 'root'
