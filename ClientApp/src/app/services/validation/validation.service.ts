@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/paragraph_box';
-import { Portrait } from 'src/app/interfaces/dtos/site_components/portrait';
+import { Portrait } from 'src/app/interfaces/dtos/site_components/portrait_dto';
 import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/two_column_box';
 import { LinkBox } from 'src/app/interfaces/dtos/site_components/link_box';
 import { NewNavLinkDto } from 'src/app/interfaces/dtos/site_components/new_nav_link_dto';

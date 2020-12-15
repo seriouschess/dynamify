@@ -7,8 +7,8 @@ import { ISkeletonSiteDto } from 'src/app/interfaces/dtos/formatted_sites/skelet
 import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/paragraph_box';
 import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/two_column_box';
 import { LinkBox } from 'src/app/interfaces/dtos/site_components/link_box';
-import { Portrait } from 'src/app/interfaces/dtos/site_components/portrait';
-import { Image } from 'src/app/interfaces/dtos/site_components/image';
+import { Portrait } from 'src/app/interfaces/dtos/site_components/portrait_dto';
+import { Image } from 'src/app/interfaces/dtos/site_components/image_dto';
 import { ComponentReference } from 'src/app/interfaces/dtos/site_components/component_reference';
 
 @Component({

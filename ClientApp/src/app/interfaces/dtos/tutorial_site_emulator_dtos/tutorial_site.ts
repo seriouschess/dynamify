@@ -1,7 +1,7 @@
 import { ParagraphBox } from "../site_components/paragraph_box";
-import { Image } from "../site_components/image";
+import { Image } from "../site_components/image_dto";
 import { TwoColumnBox } from "../site_components/two_column_box";
-import { Portrait } from "../site_components/portrait";
+import { Portrait } from "../site_components/portrait_dto";
 import { LinkBox } from "../site_components/link_box";
 
 export interface ITutorialSite{

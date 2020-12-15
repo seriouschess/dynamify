@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Image } from 'src/app/interfaces/dtos/site_components/image';
+import { Image } from 'src/app/interfaces/dtos/site_components/image_dto';
 import { BSfourConverterService } from 'src/app/services/b-sfour-converter/b-sfour-converter.service';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ValidationService } from 'src/app/services/validation/validation.service';

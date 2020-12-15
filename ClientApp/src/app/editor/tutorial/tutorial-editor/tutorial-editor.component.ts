@@ -9,10 +9,10 @@ import { ValidationService } from 'src/app/services/validation/validation.servic
 import { BSfourConverterService } from 'src/app/services/b-sfour-converter/b-sfour-converter.service';
 import { ParagraphBox } from 'src/app/interfaces/dtos/site_components/paragraph_box';
 import { TwoColumnBox } from 'src/app/interfaces/dtos/site_components/two_column_box';
-import { Image } from 'src/app/interfaces/dtos/site_components/image';
+import { Image } from 'src/app/interfaces/dtos/site_components/image_dto';
 import { LinkBox } from 'src/app/interfaces/dtos/site_components/link_box';
 import { NavLink } from 'src/app/interfaces/dtos/site_components/nav_link';
-import { Portrait } from 'src/app/interfaces/dtos/site_components/portrait';
+import { Portrait } from 'src/app/interfaces/dtos/site_components/portrait_dto';
 
 @Component({
   selector: 'app-tutorial-editor',

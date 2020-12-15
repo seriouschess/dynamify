@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Image } from 'src/app/interfaces/dtos/site_components/image';
+import { Image } from 'src/app/interfaces/dtos/site_components/image_dto';
 import{ HttpService } from '../../../services/http/http.service';
 
 @Component({
