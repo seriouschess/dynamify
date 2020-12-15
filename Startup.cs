@@ -16,11 +16,13 @@ namespace dynamify
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment _env { get; }
         
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
             ConfSettings.Configuration = Configuration;
+            _env = environment;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -40,7 +42,13 @@ namespace dynamify
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            string psqlConnection = Configuration["ConnectionString"];
+            string psqlConnection;
+            if(_env.IsDevelopment()){
+                psqlConnection = Configuration["LocalConnectionString"];
+            }else{
+                psqlConnection = Configuration["ProductionConnectionString"];
+            }
+
             System.Console.WriteLine(psqlConnection);
             services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(psqlConnection));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
