@@ -10,6 +10,8 @@
 }
 
 .site-component-container{
+  margin-top: 55px;
+  margin-bottom: 55px;
   width: 80%;
   display: block;
   margin-left: auto;
