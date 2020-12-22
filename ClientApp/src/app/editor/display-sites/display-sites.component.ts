@@ -48,12 +48,7 @@ export class DisplaySitesComponent implements OnInit {
       this.getSitesByAdminFromService();
     }
 
-    this.newSiteObject = {
-      title : "",
-      url: "",
-      admin_id: this.current_admin_id,
-      token: this.current_admin_token
-    };
+    this.initialiseNewSite();
 
     //tutorial related
     if(this.is_tutorial){
@@ -64,6 +59,17 @@ export class DisplaySitesComponent implements OnInit {
 
     //validation error flags
     this.resetValidators();
+  }
+
+  initialiseNewSite(){
+    this.open_new_site_form = false;
+    
+    this.newSiteObject = {
+      title : "",
+      url: "",
+      admin_id: this.current_admin_id,
+      token: this.current_admin_token
+    };
   }
 
   
@@ -137,6 +143,7 @@ export class DisplaySitesComponent implements OnInit {
           //check backend for duplicate URL
           if(server_response.response.includes("success")){ 
             this.resetValidators();
+            this.initialiseNewSite();
           }else{
             this.url_exists_error_flag = true;
           }
