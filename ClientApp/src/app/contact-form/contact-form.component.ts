@@ -21,6 +21,7 @@ export class ContactFormComponent implements OnInit {
   constructor(private _httpService:HttpService) { }
 
   ngOnInit(): void {
+    this.feedback_sent = false;
     this.invalid_feedback_flag = false;
     this.contact_form = {
       email:"",

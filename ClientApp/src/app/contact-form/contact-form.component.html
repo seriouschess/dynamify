@@ -2,7 +2,7 @@
     <p *ngIf="!feedback_sent"> 
         Send feedback or information about any technical issues you have with using siteleaves through the contact form. Positive or negative, it's all wanted.
     </p>
-    <div class="text-center">
+    <div class="text-center" *ngIf="!feedback_sent">
         <button *ngIf="!open_contact" class="btn btn-success" (click)="toggleContact()">Open Contact Form</button>
         <button *ngIf="open_contact" class="btn btn-info" (click)="toggleContact()">Close Contact Form</button>
     </div>
