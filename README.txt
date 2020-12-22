@@ -12,7 +12,9 @@
 - collects analytics data
 - every site edit action reversible/changable
 - admin account page
+- tutorial video menu
 - contact form
+
 
 1.01 version complete:
 - Page loads asynchronously
