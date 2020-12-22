@@ -5,6 +5,15 @@
  - Web Application where users can register and create their own websites using in app tools.
  - Intended to enable non-technical people to be able to easily create their own websites.
 
+2.0 version complete (Dec 2020):
+- email validation
+- forgot password validation 
+- user data limits
+- collects analytics data
+- every site edit action reversible/changable
+- admin account page
+- contact form
+
 1.01 version complete:
 - Page loads asynchronously
 - UI editor improvements
@@ -14,7 +23,6 @@
 - Admins create sites with custom url extensions
 - 6 different site component types
 - built in tutorial module
-
 
 Installation Notes (May 2020): 
     - Depending on the version of angular CLI you use, you may need to remove some entries from the browserslist file.
