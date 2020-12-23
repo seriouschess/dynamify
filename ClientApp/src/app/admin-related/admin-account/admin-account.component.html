@@ -5,7 +5,6 @@
 </div>
 
 <div class="option-display">
-    <h3> Data plan </h3>
     <app-data-plan-display [admin_id]="current_admin.admin_id"></app-data-plan-display>
 </div>
 
@@ -29,7 +28,7 @@
 
 <div *ngIf="!edit_selected" class="option-display">
     <h4> Change Password </h4>
-    <p> Change your password using email verification. Be ready to check your email after selecting this option. It is recommended you change your password every so often to ensure your account remains secure from attackers. </p>
+    <p> Change your password using email verification. Be ready to check your email after selecting this option. You may wish to change your password every so often for security reasons. </p>
     <button class="btn btn-success option-button" [routerLink]="['/app/password/email/confirmation']"> Change Password </button>
 </div>
 
