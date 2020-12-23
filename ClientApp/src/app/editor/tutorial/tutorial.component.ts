@@ -37,7 +37,7 @@ export class TutorialComponent implements OnInit {
     this.video_list = [];
     let current_video:TutorialVideo = {
       video_title: "General guide video",
-      source_url: this.dodgeTheBus("https://www.youtube.com/embed/TeixVm1TFQY"),
+      source_url: this.dodgeTheBus("https://youtube.com/embed/aLTwNneKSSo"),
       selected: false,
       description: ""
     }
@@ -47,6 +47,24 @@ export class TutorialComponent implements OnInit {
     this.video_list.push(current_video);
 
     //unselected videos
+    current_video = {
+      video_title: "Tutorial Walkthrough",
+      source_url: this.dodgeTheBus("https://youtube.com/embed/yWvyYhSPLqU"),
+      selected: false,
+      description: ""
+    }
+
+    this.video_list.push(current_video);
+    
+    current_video = {
+      video_title: "Account Management",
+      source_url: this.dodgeTheBus("https://youtube.com/embed/7I-SSNHByvY"),
+      selected: false,
+      description: ""
+    }
+
+    this.video_list.push(current_video);
+
     current_video = {
       video_title: "How to link multipage sites",
       source_url: this.dodgeTheBus("https://www.youtube.com/embed/EAAiXQCHs8c"),
