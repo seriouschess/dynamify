@@ -24,7 +24,7 @@
 
 <div *ngIf="!registered">
   <p class="generic-element" *ngIf="open_registration == true && display_use_terms == false"> By registering, it is understood that you have read the terms of use. <button class="btn btn-warning" (click)="toggleTerms()"> Click here to read.</button></p>
-
+  
   <div class="generic-element" *ngIf="display_use_terms == true">
 
     <h3>Terms of use:</h3>
@@ -33,6 +33,9 @@
       You are not obligated to share private information about yourself, and any information you feel is sensitive to your privacy should not be posted on the internet.
     </p>
   </div>
+
+  <p class="generic-element" *ngIf="open_registration == true"> You may also wish to review our <a href="/app/privacy" target="_blank">privacy policy</a>.</p>
+
 
   <div class="generic-element" *ngIf="open_registration == false" >
   <h3 class="space"> Login here to begin: </h3>

@@ -41,6 +41,7 @@ import { DataPlanDisplayComponent } from './admin-related/data-plan-display/data
 import { EditorOptionsComponent } from './editor/editor-options/editor-options.component';
 import { LeafNavBarComponent } from './leaves/leaf-nav-bar/leaf-nav-bar.component';
 import { SiteTitleEditorComponent } from './editor/site-title-editor/site-title-editor.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { SiteTitleEditorComponent } from './editor/site-title-editor/site-title-
     DataPlanDisplayComponent,
     EditorOptionsComponent,
     LeafNavBarComponent,
-    SiteTitleEditorComponent
+    SiteTitleEditorComponent,
+    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

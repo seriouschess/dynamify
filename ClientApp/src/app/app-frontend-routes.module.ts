@@ -11,6 +11,7 @@ import { AdminAccountComponent } from './admin-related/admin-account/admin-accou
 import { ActivateAccountComponent } from './admin-related/activate-account/activate-account.component';
 import { PasswordResetComponent } from './admin-related/password-reset/password-reset.component';
 import { VerificationEmailSentConfirmationComponent } from './admin-related/verification-email-sent-confirmation/verification-email-sent-confirmation.component';
+import{ PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 const routes: Routes = [
     { path: '', component: HomepageComponent, pathMatch: 'full' },
@@ -18,6 +19,7 @@ const routes: Routes = [
     { path: 'app/admin', component: AdminComponent },
     { path: 'app/account', component: AdminAccountComponent },
     { path: 'app/tutorial', component: TutorialComponent },
+    { path: 'app/privacy', component: PrivacyPolicyComponent },
     { path: 'app/password/email/confirmation', component: VerificationEmailSentConfirmationComponent},
     { path: 'app/password/reset/:admin_id/:token', component: PasswordResetComponent },
     { path: 'app/activate/:admin_id/:token', component: ActivateAccountComponent },
