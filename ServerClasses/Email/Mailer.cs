@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 
 using dynamify.Configuration;
+using dynamify.dtos;
 
 namespace dynamify.ServerClasses.Email
 {
@@ -51,6 +52,17 @@ namespace dynamify.ServerClasses.Email
             }else{
                 new_body += "<p>They did not leave an email.</p>";
             }
+            return new_body;
+        }
+
+        public String CreateSummaryReportEmailBody(SummaryReportDto report_data){
+            double rounded_total_megabytes = Math.Round(report_data.total_storage_megabytes, 2);
+            String new_body = $"<h2> SiteLeaves Summary Data for { DateTime.Now.ToLongDateString() } </h2>" +
+            $"<p>Total Admins Registered: {report_data.total_admins}</p>" +
+            $"<p>Total New Admins This month: {report_data.total_new_admins_this_month}</p>" +
+            $"<p>Total Sites Created: {report_data.total_sites} </p>" +
+            $"<p>Total New Sites Created This month: {report_data.total_new_sites_this_month}</p>" +
+            $"<p> Total megabytes used across all users: { rounded_total_megabytes }  </p>";
             return new_body;
         }
 
@@ -105,6 +117,12 @@ namespace dynamify.ServerClasses.Email
         public void SendFeedbackEmail(string return_email, string feedback){
             String mail_body = CreateFeedbackMailBody(return_email, feedback);
             String mail_title = "Siteleaves Feedback";
+            Task.Run(() => SendMail(ConfSettings.Configuration["AppAdminEmail"],mail_title,mail_body));
+        }
+
+        public void SendSummaryReportEmail(SummaryReportDto report_data){
+            String mail_body = CreateSummaryReportEmailBody( report_data  );
+            String mail_title = "Siteleaves Summary Report";
             Task.Run(() => SendMail(ConfSettings.Configuration["AppAdminEmail"],mail_title,mail_body));
         }
     }

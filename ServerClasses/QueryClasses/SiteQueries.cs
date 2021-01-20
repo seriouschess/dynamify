@@ -15,6 +15,14 @@ namespace dynamify.ServerClasses.QueryClasses
             dbContext = _context;
         }
 
+        public int GetSiteCount(){
+            return dbContext.Sites.Count();
+        }
+
+        public int GetNewSitesThisMonth(){
+            return dbContext.Sites.Where(x => x.CreatedAt.Month == DateTime.Now.Month).Count();
+        }
+
         public List<Site> QuerySitesByAdmin(int admin_id){
             return dbContext.Sites.Where(x => x.admin_id == admin_id).ToList();
         }

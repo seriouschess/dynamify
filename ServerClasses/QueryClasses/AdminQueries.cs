@@ -14,6 +14,15 @@ namespace dynamify.ServerClasses.QueryClasses
             dbContext = _context;
         }
 
+        //overview
+        public int GetAdminCount(){
+            return dbContext.Admins.Where(x => x.email_verified == true).Count();
+        }
+
+        public int GetNewAdminsThisMonth(){
+            return dbContext.Admins.Where(x => x.CreatedAt.Month == DateTime.Now.Month).Where(x => x.email_verified == true).Count();
+        }
+
         //Read & Get
         public Admin GetAdminById(int admin_id){
             List<Admin> FoundAdmins = dbContext.Admins.Where(x => x.admin_id == admin_id).Select(a => new Admin(){
@@ -136,6 +145,16 @@ namespace dynamify.ServerClasses.QueryClasses
         }
 
         //DataPlans
+        public double GetTotalMegabytesFromAllDataPlans(){
+            double total_storage_megabytes = 0;
+            List<DataPlan> all_plans = dbContext.DataPlans.Select( plan => new DataPlan(){
+                total_bytes = plan.total_bytes
+            }).ToList();
+            foreach( DataPlan plan in all_plans ){
+                total_storage_megabytes += plan.total_bytes/1000000;
+            }
+            return total_storage_megabytes;
+        }
         public DataPlan GetDataPlanByAdminId(int admin_id){
             List<DataPlan> found_plans = dbContext.DataPlans.Where(x => x.admin_id == admin_id).ToList();
             if(found_plans.Count == 0){
